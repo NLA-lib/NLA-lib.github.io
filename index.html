@@ -3,7 +3,8 @@
 <head>
   <meta charset="utf-8">
   <title>NLA-lib</title>
-  <meta name="description" content="NLA-lib, a community library for numerical linear algebra.">
+  <meta name="description" content="NLA-lib: a lean 4 library for numerical linear algebra">
+  <meta name="keywords" content="NLA-lib,  lean, lean4, formal verification">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="css/landing.css">
@@ -14,12 +15,23 @@
 
 
 <h1>NLA-lib</h1>
-<p>NLA-lib is a community library for numerical linear algebra. This site is a home for the project: what it is, how to use it, and how to contribute.</p>
-<p>If this is something that resonates with you and you’re interested in contributing, please feel free to reach out! The project lives on GitHub at <a href="https://github.com/NLA-lib"><code>github.com/NLA-lib</code></a>.</p>
-<h2 id="posts">Posts</h2>
-<ul class="posts">
-<li><a href="hello-world/" class="post-title">hello, world</a><span class="post-meta">Tyler Chen, October 12, 2026</span><p class="post-tldr">A first post, and a template for the ones that follow.</p></li>
+<p>We are building NLA-lib, a Lean 4 library covering core results from numerical linear algebra. The aim of this library is to serve as a bridge between mathlib and the higher-level numerical linear algebra theorems that are often imported in written proofs.</p>
+<p>We aim to have a first release available soon. Until then, you can track our progress here: <a href="https://research.chen.pw/NLAlib/">https://research.chen.pw/NLAlib/</a></p>
+<h2 id="contributing">Contributing</h2>
+<p>We eventually hope that this will become a community project and we will provide more details on contributing soon. In the meantime, if you are interested in getting involved, please send an email to: <a href="mailto:tyler.chen@nyu.edu">tyler.chen@nyu.edu</a>.</p>
+<h2 id="scope">Scope</h2>
+<p>The current scope includes topics such as:</p>
+<ul>
+<li><strong>Matrix Analysis:</strong> SVD, pseudoinverses, spectral theory, perturbation bounds, and conditioning.</li>
+<li><strong>Probability &amp; Concentration:</strong> Gaussian and sub-Gaussian distributions, scalar and matrix concentration inequalities.</li>
+<li><strong>Random Matrix Theory:</strong> Spectral bounds, singular values, and random matrix embeddings.</li>
+<li><strong>Randomized Sketching:</strong> Johnson–Lindenstrauss, Gaussian sketches, SRHT, CountSketch, sparse embeddings, and leverage-score sampling.</li>
+<li><strong>Low-Rank Approximation:</strong> Randomized SVD, Nyström methods, and randomized Cholesky.</li>
+<li><strong>Spectral Estimation:</strong> Hutchinson, Hutch++, stochastic Lanczos quadrature, and trace estimation.</li>
+<li><strong>Iterative Solvers:</strong> Krylov methods, conjugate gradients, GMRES, randomized Kaczmarz, and sketch-and-project.</li>
+<li><strong>Matrix Functions:</strong> Polynomial approximation, matrix exponentials, and spectral function approximation.</li>
 </ul>
+<p>We eventually will plan to expand to more topics, including finite precision analysis.</p>
 
 </div>
 </body>

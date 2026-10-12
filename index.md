@@ -1,16 +1,32 @@
 ---
 title: NLA-lib
-description: NLA-lib, a community library for numerical linear algebra.
+description: NLA-lib: a lean 4 library for numerical linear algebra
+keywords: NLA-lib,  lean, lean4, formal verification
 ---
 
-NLA-lib is a community library for numerical linear algebra.
-This site is a home for the project: what it is, how to use it, and how to contribute.
+We are building NLA-lib, a Lean 4 library covering core results from numerical linear algebra.
+The aim of this library is to serve as a bridge between mathlib and the higher-level numerical linear algebra theorems that are often imported in written proofs.
 
-If this is something that resonates with you and you're interested in contributing, please feel free to reach out!
-The project lives on GitHub at [`github.com/NLA-lib`](https://github.com/NLA-lib).
+We aim to have a first release available soon. Until then, you can track our progress here: [https://research.chen.pw/NLAlib/](https://research.chen.pw/NLAlib/)
 
-## Posts
+## Contributing
 
-::: posts
-- hello-world
-:::
+We eventually hope that this will become a community project and we will provide more details on contributing soon.
+In the meantime, if you are interested in getting involved, please send an email to: [tyler.chen@nyu.edu](mailto:tyler.chen@nyu.edu).
+
+## Scope
+
+The current scope includes topics such as:
+
+- **Matrix Analysis:** SVD, pseudoinverses, spectral theory, perturbation bounds, and conditioning.
+- **Probability & Concentration:** Gaussian and sub-Gaussian distributions, scalar and matrix concentration inequalities.
+- **Random Matrix Theory:** Spectral bounds, singular values, and random matrix embeddings.
+- **Randomized Sketching:** Johnson–Lindenstrauss, Gaussian sketches, SRHT, CountSketch, sparse embeddings, and leverage-score sampling.
+- **Low-Rank Approximation:** Randomized SVD, Nyström methods, and randomized Cholesky.
+- **Spectral Estimation:** Hutchinson, Hutch++, stochastic Lanczos quadrature, and trace estimation.
+- **Iterative Solvers:** Krylov methods, conjugate gradients, GMRES, randomized Kaczmarz, and sketch-and-project.
+- **Matrix Functions:** Polynomial approximation, matrix exponentials, and spectral function approximation.
+
+We eventually will plan to expand to more topics, including finite precision analysis.
+
+
