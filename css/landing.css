@@ -70,7 +70,7 @@ h1, h2, .byline, code {
 #contentContainer {
     margin: 0 auto;
     width: 90%;
-    max-width: 650px;
+    max-width: 720px;
     padding: 10px 2% 5rem;
 }
 
@@ -169,7 +169,7 @@ body {
 
 /* narrow screens: tapping a number opens its note in a box over the text,
    just below the line the number is on; tapping again closes it */
-@media (max-width: 1199.98px) {
+@media (max-width: 1279.98px) {
     p {
         position: relative;
     }
@@ -219,7 +219,7 @@ body {
 }
 
 /* wide screens: notes always show, out in the right margin */
-@media (min-width: 1200px) {
+@media (min-width: 1280px) {
     .sidenote-ref {
         cursor: auto;
     }

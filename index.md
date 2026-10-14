@@ -7,12 +7,13 @@ keywords: NLA-lib,  lean, lean4, formal verification
 We are building NLA-lib, a Lean 4 library covering core results from numerical linear algebra.
 The aim of this library is to serve as a bridge between mathlib and the higher-level numerical linear algebra theorems that are often imported in written proofs.
 
-We aim to have a first release available soon. Until then, you can track our progress here: [https://research.chen.pw/NLAlib/](https://research.chen.pw/NLAlib/)
+The project is hosted on [Github](https://github.com/NLA-lib/nlalib) and you can view the results through our [online explorer](./explore).
+This is a work in progress.
 
 ## Contributing
 
 We eventually hope that this will become a community project and we will provide more details on contributing soon.
-In the meantime, if you are interested in getting involved, please send an email to: [tyler.chen@nyu.edu](mailto:tyler.chen@nyu.edu).
+In the meantime, if you are interested in getting involved, please send an email to: [tyler.chen@nyu.edu](mailto:tyler.chen@nyu.edu) or open an issue on Github.
 
 ## Scope
 
