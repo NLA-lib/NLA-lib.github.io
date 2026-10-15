@@ -317,13 +317,11 @@ a:hover {
     margin: 0.4rem 0 1.4rem;
 }
 
+/* menu links invert on hover like every link; a change of style would change their width and
+   shift the menu */
 .menu a {
     text-decoration: none;
     line-height: 1.2;
-}
-
-.menu a:hover {
-    font-style: italic;
 }
 
 .menu a.here {
