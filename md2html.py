@@ -23,8 +23,15 @@ A file starts with a YAML header giving the page's details:
 
 Only title is needed. Under the title the page shows the author, with the
 date on the line below; the institution and email are not shown. Every field except title,
-email and lang also becomes a <meta> tag. lang sets the page language
+email, lang and menu also becomes a <meta> tag. lang sets the page language
 (default en).
+
+A menu of links under the title is a block list of `Label: address` items; an
+item whose address is the page itself (`./`) is marked as the current page:
+
+    menu:
+      - Home: ./
+      - Explorer: ./explore/
 
 The markdown itself is read by pandoc, which must be installed, so all of
 standard markdown works. Footnotes ([^1] ... [^1]: text) become sidenotes.
@@ -275,7 +282,7 @@ def main():
         fields.setdefault('description', text('tldr') or title)
         meta = ['  <meta name="%s" content="%s">' % (key, html.escape(text(key)))
                 for key in fields
-                if key not in ('title', 'email', 'lang', 'tldr') and text(key)]
+                if key not in ('title', 'email', 'lang', 'tldr', 'menu') and text(key)]
 
         header = '<h1>%s</h1>' % title
         # the byline: the author, then the date below
@@ -283,6 +290,16 @@ def main():
                  for key in ('author', 'date') if text(key)]
         if lines:
             header += '\n<p class="byline">%s</p>' % ' '.join(lines)
+        menu = fields.get('menu') or []
+        if isinstance(menu, str) or not all(': ' in item for item in menu):
+            sys.exit('error: menu is a block list of `Label: address` items')
+        if menu:
+            links = []
+            for item in menu:
+                label, href = (x.strip() for x in item.split(': ', 1))
+                here = ' class="here"' if href in ('./', '.', 'index.html') else ''
+                links.append('  <a href="%s"%s>%s</a>' % (html.escape(href), here, html.escape(label)))
+            header += '\n<nav class="menu">\n%s\n</nav>' % '\n'.join(links)
 
         output = source.with_suffix('.html')
         # print.css, if there is one beside the stylesheet, is used for printing

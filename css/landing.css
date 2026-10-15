@@ -311,18 +311,23 @@ a:hover {
 }
 
 .menu {
-    padding-bottom: 5px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em 1.2em;
+    margin: 0.4rem 0 1.4rem;
 }
 
 .menu a {
-    display: block;
-    width: fit-content;
     text-decoration: none;
     line-height: 1.2;
 }
 
 .menu a:hover {
     font-style: italic;
+}
+
+.menu a.here {
+    font-weight: 600;
 }
 
 img {
