@@ -35,11 +35,12 @@ The current scope includes topics such as:
 
 We eventually will plan to expand to more topics, including finite precision analysis.
 
+
 We also cover results from a number of key books such as:
 
 - Roger A. Horn and Charles R. Johnson, [*Matrix Analysis*](./explore/books/#b-HornJohnson2013), second edition, 2013.
 - Joel A. Tropp, [*An Introduction to Matrix Concentration Inequalities*](./explore/books/#b-Tropp2015), 2015.
 - Roman Vershynin, [*High-Dimensional Probability*](./explore/books/#b-Vershynin2018), 2018.
 
-The [book explorer](./explore/books/) goes through each of these chapter by chapter and shows which of its numbered results the library has, with links to them.
+Use the [book explorer](./explore/books/) to view our coverage.
 
