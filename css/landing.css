@@ -93,8 +93,8 @@ h2 {
     font-size: 24px;
 }
 
-/* the byline tucks under the title's rule, at the size of the sidenotes */
-h1:has(+ .byline) {
+/* the byline and the menu tuck under the title's rule */
+h1:has(+ .byline), h1:has(+ .menu) {
     margin-bottom: 0;
 }
 

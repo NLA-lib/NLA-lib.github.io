@@ -35,6 +35,7 @@ The current scope includes topics such as:
 
 We eventually will plan to expand to more topics, including finite precision analysis.
 
+## Book Coverage
 
 We also cover results from a number of key books such as:
 
