@@ -84,6 +84,9 @@ SIDENOTE = ('<input type="checkbox" id="sn-{n}" class="sidenote-toggle">'
 
 STYLESHEET = Path(__file__).resolve().parent / 'css' / 'landing.css'
 ICON = Path(__file__).resolve().parent / 'icon.ico'
+# the faces seen at first paint, fetched before the stylesheet asks for them
+FONTS = [Path(__file__).resolve().parent / 'font' / 'source-sans' / ('SourceSans3-%s.woff2' % face)
+         for face in ('Regular', 'It', 'Semibold')]
 NOTE_DEF = re.compile(r'^\[\^([^\]]+)\]:', re.M)
 NOTE_REF = re.compile(r'\[\^([^\]]+)\](?!:)')
 
@@ -308,6 +311,10 @@ def main():
             '  <link rel="stylesheet" href="%s"%s>'
             % (Path(os.path.relpath(sheet.resolve(), output.resolve().parent)).as_posix(), media)
             for sheet, media in sheets if sheet == args.css or sheet.exists())
+        css = ''.join(
+            '  <link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>\n'
+            % Path(os.path.relpath(font, output.resolve().parent)).as_posix()
+            for font in FONTS if font.exists()) + css
         if ICON.exists():
             css = '  <link rel="icon" href="%s">\n%s' % (
                 Path(os.path.relpath(ICON, output.resolve().parent)).as_posix(), css)
