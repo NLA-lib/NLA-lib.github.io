@@ -5,6 +5,7 @@ keywords: NLA-lib,  lean, lean4, formal verification
 menu:
   - Home: ./
   - Explorer: ./explore/
+  - Rates: ./explore/rates/
   - Books: ./explore/books/
   - GitHub: https://github.com/NLA-lib/nlalib
 ---
