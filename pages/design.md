@@ -18,7 +18,7 @@ The conjugate gradient iterate after $q$ steps is the Galerkin solution on the K
 
 **Constants.** Bounds carry explicit constants. When the literature says that $O(k/\varepsilon)$ samples suffice, the library proves the explicit bound and derives a corollary of the form
 
-$$\exists\, C, \varepsilon_0 > 0 \;\; \forall\, m, n, \mathbf{A}, \mathbf{\Omega}, \varepsilon \in (0, \varepsilon_0] : \quad \ell \ge C k/\varepsilon \implies \text{bound}.$$
+$$\exists\, C, \varepsilon_0 > 0 \;\; \forall\, m, n, k, \mathbf{A}, \mathbf{\Omega}, \varepsilon \in (0, \varepsilon_0] : \quad \ell \ge C k/\varepsilon \implies \text{bound}.$$
 
 The constant comes before every dimension ($m$ and $n$ here), so it is genuinely absolute; a factor such as $\log n$ appears in the threshold, never inside $C$. These corollaries are the rows of the [Rates page](../rates/).
 
@@ -36,13 +36,13 @@ Statements about cost, such as "the randomized SVD needs two passes over $\mathb
 
 ## How NLAlib handles it
 
-The results in the library today are about the mathematical objects that algorithms compute, not the cost of computing them; the resources on the Rates page (sketch size, block size, depth) are parameters of these objects. A program layer for cost statements was designed and approved by the maintainer on 2026-10-23. Its implementation is starting and is not yet in the library. The plan:
+The results in the library today are about the mathematical objects that algorithms compute, not the cost of computing them; the resources on the Rates page (sketch size, block size, depth) are parameters of these objects. A program layer for cost statements was designed in October 2026. Its implementation is starting and is not yet in the library. The plan:
 
 - **The mathematical definitions stay the specifications.** Nothing that exists changes; a program is connected to its definition by a realisation theorem.
-- **Algorithms become programs in a small language over allocated memory**, written as BLAS code is: they allocate buffers, overwrite them in place, call kernels such as dot products and axpy, and draw random numbers. A program holds no number outside its counted memory and cannot call arbitrary Lean functions, so there is nowhere to do uncounted work.
+- **Algorithms become programs in a small language over allocated memory**, written as BLAS code is: they allocate buffers, overwrite them in place, call kernels such as dot products and axpy, and draw random numbers. A program holds no number outside its counted memory and cannot call arbitrary Lean functions, so every operation on the data is counted.
 - **An exact interpretation comes first.** Running a program gives its output and a separate count for each kind of operation: additions, multiplications, divisions and square roots each on their own, comparisons (the only way to branch on a value), loads and matvecs, random draws, and current and peak memory. Flops and weighted costs are computed from these counts. Division by zero makes the run fail in exact arithmetic too, so theorems must rule out breakdown.
 - **The program sees the matrix only through products.** One composition theorem, proved once, says that replacing the product by an implementation (dense, or sparse in coordinate form) gives the same output, with each matvec charged at that implementation's cost. Dense and sparse costs are then corollaries of the matvec count.
-- **Later stages** add floating-point formats through error contracts, such as a relative error per operation, stated separately from the formats, and reduce costs to bit-level operations by the same kind of substitution.
+- **Later stages** add floating-point formats through error contracts, such as a relative error per operation, stated separately from the formats, and connect those error models to bit-level implementations of each operation by the same kind of substitution, so that costs can also be counted in bit operations.
 - **Programs print as NumPy** for testing against standard implementations. This translation is not verified.
 
 The first targets are Hutch++ and Lanczos. For Hutch++ the statement is to read: the exact run of the program returns `hutchpp` of the test matrices it drew, with two loads and stated numbers of matvecs, draws, other operations and memory cells. The existing error bounds for `hutchpp` then carry over to the program with no new probability.
