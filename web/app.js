@@ -556,9 +556,10 @@
     const why = { tight: 'The lower bound matches the upper bound', gap: 'A gap: the lower bound is below the upper bound' }[l.tightness];
     return why ? `<span class="tightness-tag ${esc(l.tightness)}" title="${esc(why)}">${esc(l.tightness)}</span> ` : '';
   }
-  function rateResourcesHtml(e) {
+  // `extra`: html after the resources and before the notes (the stated range of ε)
+  function rateResourcesHtml(e, extra = '') {
     const notes = Array.isArray(e.notes) ? e.notes.join(' ') : e.notes;
-    return (e.resources || []).map(r => `<div class="rate-resource"><span class="rate-res-label">${md(r.label, { inline: true })}:</span> ${md(r.bound, { inline: true })}</div>`).join('') +
+    return (e.resources || []).map(r => `<div class="rate-resource"><span class="rate-res-label">${md(r.label, { inline: true })}:</span> ${md(r.bound, { inline: true })}</div>`).join('') + extra +
       (notes ? `<p class="rate-caveat"><strong>${e.kind ? 'Hypotheses' : 'Parameters'}:</strong> ${md(notes, { inline: true })}</p>` : '');
   }
   function rateSourceHtml(e) { return e.c?.source ? md(e.c.source, { inline: true }) : ''; }
@@ -574,11 +575,13 @@
       return `<a href="${BASE}${rateRoute(e)}" title="${esc((long ? long + ': ' : '') + 'open this statement on its result page')}">${esc(name)}</a>`;
     }
     if (k === 'resources') {
+      // the ε₀ that the docstring states for "0 < ε ≤ ε₀"; nothing where it states no value
+      const eps0 = c.eps0 ? `<p class="rate-caveat rate-eps0"><strong>Range:</strong> ${md('$\\varepsilon \\le ' + c.eps0 + '$', { inline: true })}</p>` : '';
       if (e.status === 'pending') {
-        return '<span class="pending-tag">pending review</span>' +
+        return '<span class="pending-tag">pending review</span>' + eps0 +
           `<div class="rate-pending-statement">${statementHtml(null, e.overview)}</div>`;
       }
-      return rateResourcesHtml(e);
+      return rateResourcesHtml(e, eps0);
     }
     if (k === 'source') return rateSourceHtml(e);
     // the paired lower bounds, beside the upper bound, with how they compare
@@ -1126,6 +1129,7 @@
       `<button class="tog" title="Switch between the statement as written and as Lean elaborates it">elaborated</button>` +
       `<a class="srclink" href="${sourceUrl(i)}" target="_blank" rel="noopener">source ↗</a></span></div>`);
     sec.append(head);
+    if (d.sc) sec.insertAdjacentHTML('afterbegin', `<p class="statement-changed">Statement changed in ${d.sc.map(m => `<code>${esc(m)}</code>`).join(', ')}.</p>`);
     const lean = leanBlock(i);
     sec.append(lean);
     const tog = head.querySelector('.tog');
@@ -1294,8 +1298,17 @@
     }
   }
 
+  // an old name from a rename map: the address becomes the declaration that now carries it,
+  // with a note on the page (a deleted declaration says where its content went)
+  let renameNote = null;
   function showDecl(name) {
-    const i = byName.get(name);
+    let i = byName.get(name);
+    if (i === undefined && D.renamed?.[name]) {
+      const [now, removed, map] = D.renamed[name];
+      renameNote = { old: name, removed, map };
+      history.replaceState(null, '', location.pathname + location.search + '#d/' + encodeURIComponent(now));
+      i = byName.get(now);
+    }
     if (i === undefined) return showMissing();
     const d = decls[i];
     if (d.r.length) return showResult(d.r[0], i);
@@ -1543,10 +1556,16 @@
     const arg = decodeURIComponent(m[2]);
     // `#r/<id>?s=<declaration>`: the result with that statement selected
     const picked = new URLSearchParams(m[3] || '').get('s');
-    if (m[1] === 'r') showResult(arg, picked !== null ? byName.get(picked) : undefined);
+    if (m[1] === 'r') showResult(arg, picked !== null ? byName.get(picked) ?? byName.get(D.renamed?.[picked]?.[0]) : undefined);
     else if (m[1] === 'a') showAlgorithm(arg, picked);
     else if (m[1] === 'd') showDecl(arg);
     else showModule(arg);
+    if (renameNote) {
+      const { old, removed, map } = renameNote;
+      renameNote = null;
+      $('#panelbody').insertAdjacentHTML('afterbegin', `<p class="rename-note">${removed ? 'Removed' : 'Renamed'}: <code>${esc(old)}</code> ` +
+        `${removed ? 'was removed; this declaration carries its content' : 'is now this declaration'} (rename map <code>${esc(map)}</code>).</p>`);
+    }
   }
   window.addEventListener('hashchange', route);
   route();

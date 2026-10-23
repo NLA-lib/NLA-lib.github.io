@@ -246,6 +246,20 @@ def infer_property(name):
             'law': law, 'regime': None, 'details': [], 'property': True}
 
 
+EPS0 = re.compile(r'(?:\\(?:var)?epsilon|ε|ϵ)(?:_0|₀)\s*=\s*(\d+(?:\.\d+)?(?:\s*/\s*\d+)?)(?!\w|\.\d)')
+
+
+def eps0_value(*docs):
+    """The value of epsilon_0 that the first of the docstrings states ("$\varepsilon_0 = 1/2$",
+    "ε₀ = 1"), as text like "1/2"; None where none does ("absolute constants C, epsilon_0 > 0"
+    states no value)."""
+    for doc in docs:
+        m = EPS0.search(doc or '')
+        if m:
+            return re.sub(r'\s+', '', m.group(1))
+    return None
+
+
 def statistic_key(f):
     """The statistic without its norm, as the Rates filter offers it."""
     stat = (f or {}).get('statistic')

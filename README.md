@@ -166,6 +166,23 @@ and delimiter sizing. Plain matrix `P`, prose/code, and unrecognized or malforme
 left unchanged. Raw extracted documentation and Lean source remain untouched. The library's
 CONTRIBUTING §6 records the convention for future docstrings.
 
+### The range of $\varepsilon$ and rename maps
+
+Every asymptotic form quantifies `∃ C ε₀ …, ∀ ε ≤ ε₀`. Where the asymptotic form's docstring
+(else the explicit theorem's) states the value (`$\varepsilon_0 = 1/2$`, `ε₀ = 1`),
+`facets.eps0_value` reads it and the row's resources cell shows "Range: $\varepsilon \le 1/2$"
+(`c.eps0` in the data); where it states none, nothing is shown. The family notes keep saying "an
+absolute $\varepsilon_0$".
+
+`build.py --renames DIR` (default `data/renames` when it exists; the deploy workflow downloads the
+library's `docs/renames/` at the data's commit) reads every `*.json` rename map there
+(CONTRIBUTING N12), in file-name order. An old `#d/<name>` that is no longer a declaration
+redirects to the declaration that now carries it (followed through later maps; `"removed": true`
+entries say the content moved), with a note "Renamed: ... (rename map ...)"; an entry whose target
+the data lacks is skipped, so a map ahead of the published library is harmless. A declaration in a
+map's `statementChanged` shows "Statement changed in <map>." above its Lean. Tests use copies of
+the maps in `tests/fixtures/renames/`.
+
 ## Algorithm pages
 
 An algorithm page (`#a/<id>`, in the panel of every page of the app) gathers what the library has

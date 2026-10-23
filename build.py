@@ -671,7 +671,8 @@ def rates_page(cfg, decls, index, targets, facets_for=None, results=None, cites=
     def cells(f, i, j, label=None, resources=(), exact=False):
         f = f or {}
         short, long = sources(i, j)
-        c = {'algorithm': f.get('algorithm'), 'measure': facets.measure_label(f.get('measure')),
+        eps0 = None if exact else facets.eps0_value(decls[i].get('doc'), decls[j].get('doc'))
+        c = {'eps0': eps0, 'algorithm': f.get('algorithm'), 'measure': facets.measure_label(f.get('measure')),
              'stat': facets.statistic_tex(f), 'stat_key': facets.statistic_key(f), 'law': f.get('law'),
              'output': facets.OUTPUTS.get(f.get('output')) if f.get('output') else None,
              'regime': f.get('regime'),
@@ -933,7 +934,65 @@ def collections_page(cfg, results, decls, index, modules, aliases):
     return out
 
 
-def build(data, bib, out, registry=None, ladder=False):
+def load_rename_maps(directory):
+    """Read every `<YYYY-MM>-<topic>.json` rename map of NLAlib's docs/renames/ (CONTRIBUTING N12):
+    `{"renames": [{"old", "new", "rule", "removed"?}], "statementChanged": [names]}`, in file-name
+    (date) order. Returns `[(map name, renames, statementChanged)]`; no directory is no maps."""
+    if not directory:
+        return []
+    directory = Path(directory)
+    if not directory.is_dir():
+        raise SystemExit(f'rename-map directory {directory} does not exist')
+    maps = []
+    for path in sorted(directory.glob('*.json')):
+        raw = json.loads(path.read_text())
+        renames, changed = raw.get('renames', []), raw.get('statementChanged', [])
+        if not isinstance(raw, dict) or not isinstance(renames, list) or not isinstance(changed, list):
+            raise ValueError(f'{path.name}: not a rename map')
+        for r in renames:
+            if not isinstance(r, dict) or not all(isinstance(r.get(k), str) and r[k] for k in ('old', 'new')):
+                raise ValueError(f'{path.name}: a rename needs "old" and "new"')
+        if not all(isinstance(n, str) for n in changed):
+            raise ValueError(f'{path.name}: statementChanged lists names')
+        maps.append((path.stem, renames, changed))
+    return maps
+
+
+def rename_tables(maps, names):
+    """`(renamed, changed)` for the declarations in `names`. `renamed[old]` is `[new, removed, map]`
+    with `new` followed through later maps to a declaration that exists (an old name that is still a
+    declaration is not redirected, and an entry whose target is not in the data is skipped: the map
+    may be ahead of the published library); `changed[name]` lists the maps that changed its
+    statement, and a name that was renamed afterwards carries them over."""
+    step = {}
+    for stem, renames, _ in maps:
+        for r in renames:
+            step[r['old']] = (r['new'], bool(r.get('removed')), stem)
+    renamed = {}
+    for old, (new, removed, stem) in step.items():
+        if old in names:
+            continue
+        seen = {old}
+        while new not in names and new in step and new not in seen:
+            seen.add(new)
+            new, more, _ = step[new]
+            removed = removed or more
+        if new in names:
+            renamed[old] = [new, removed, stem]
+    changed = defaultdict(list)
+    for stem, _, listed in maps:
+        for n in listed:
+            changed[n].append(stem)
+    for old, (new, _, _) in step.items():
+        # statementChanged lists new names; keep the note on a name that a later map renamed
+        if old in changed and renamed.get(old):
+            for stem in changed[old]:
+                if stem not in changed[renamed[old][0]]:
+                    changed[renamed[old][0]].append(stem)
+    return renamed, {n: v for n, v in changed.items() if n in names}
+
+
+def build(data, bib, out, registry=None, ladder=False, renames_dir=None):
     """`registry`: NLAlib's docs/targets.toml, parsed (from `--src`), for the cost targets of the
     algorithm pages; without it they have no Cost section."""
     topics_cfg = load_toml('topics.toml')
@@ -1257,6 +1316,7 @@ def build(data, bib, out, registry=None, ladder=False):
             if j != i:
                 rdirect[j].add(i)
 
+    renamed, statement_changed = rename_tables(load_rename_maps(renames_dir), set(index))
     out_decls = []
     for i, d in enumerate(decls):
         td = [index[n] for n in d.get('typeDeps', []) if n in index]
@@ -1280,6 +1340,8 @@ def build(data, bib, out, registry=None, ladder=False):
             out_decls[-1]['fc'] = facet_of[i]
         if d['kind'] == 'theorem' and (i in facet_of or precision(i) != algorithms.EXACT):
             out_decls[-1].setdefault('fc', {})['precision'] = precision(i)
+        if d['name'] in statement_changed:
+            out_decls[-1]['sc'] = statement_changed[d['name']]
 
     nodes = {n: {'u': sorted(uses.get(n, ())), 'b': sorted(used_by.get(n, ()))}
              for n in set(uses) | set(used_by)}
@@ -1338,7 +1400,7 @@ def build(data, bib, out, registry=None, ladder=False):
         'commit': data.get('commit'), 'date': data.get('date'), 'repo': REPO,
         'ref': data.get('commit') or topics_cfg.get('ref', 'scaffold'),
         'topics': topics, 'shelves': shelves, 'modules': modules, 'results': out_results, 'decls': out_decls,
-        'resultAlias': alias, 'aliasFocus': merged_focus,
+        'renamed': renamed, 'resultAlias': alias, 'aliasFocus': merged_focus,
         'nodes': nodes, 'bib': {k: v for k, v in bib.items() if k in cited},
         'synonyms': synonyms,
         'rates': rates,
@@ -1558,6 +1620,9 @@ def main():
                     help="an NLAlib checkout at the data's commit, for the bodies of definitions "
                          "and the target registry docs/targets.toml")
     ap.add_argument('--ladder', action='store_true', help='print the status ladder of every algorithm')
+    ap.add_argument('--renames', default=None,
+                    help="a directory of NLAlib rename maps (docs/renames/*.json): old #d/ links redirect "
+                         "and changed statements are noted; default data/renames when it exists")
     a = ap.parse_args()
     data = json.loads(Path(a.data).read_text())
     if data.get('schema') != 1:
@@ -1567,7 +1632,8 @@ def main():
         print(f"{whole_definitions(data['decls'], a.src)} definitions given whole from {a.src}")
         reg = Path(a.src) / 'docs' / 'targets.toml'
         registry = tomllib.loads(reg.read_text()) if reg.exists() else None
-    build(data, parse_bib(a.bib), a.out, registry, a.ladder)
+    renames = a.renames or (ROOT / 'data' / 'renames' if (ROOT / 'data' / 'renames').is_dir() else None)
+    build(data, parse_bib(a.bib), a.out, registry, a.ladder, renames)
 
 
 if __name__ == '__main__':

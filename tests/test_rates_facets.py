@@ -54,6 +54,18 @@ class RatesFromFacets(unittest.TestCase):
                 b.build(dict(decls=copy.deepcopy(ds), modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, out)
             return json.loads((out / 'data.json').read_text())['rates']
 
+    def test_eps0_is_the_value_the_docstring_states(self):
+        ds = self.decls()
+        ds[1]['doc'] = ds[1]['doc'].replace('suffices.', 'suffices; the proof takes $C = 3$ and $\\varepsilon_0 = 1/2$.')
+        by = {e['theorem']: e for e in self.render(self.config(ds), ds)['entries']}
+        self.assertEqual(by[ASYM]['c']['eps0'], '1/2')       # a reviewed row
+        self.assertNotIn('eps0', by[TAIL]['c'])              # "absolute constants": no value stated, nothing shown
+        ds[1]['doc'] = ds[1]['doc'].replace('1/2', '1')
+        ds[0]['doc'] = 'Explicit with $\\varepsilon_0 = 9$.\nResult: rsvd-expected'  # the asymptotic form's own docstring comes first
+        self.assertEqual({e['theorem']: e for e in self.render(self.config(ds), ds)['entries']}[ASYM]['c']['eps0'], '1')
+        ds[1]['doc'] = '$O(k)$ suffices.\nAsymptotic: ' + EXP    # only the explicit theorem states it
+        self.assertEqual({e['theorem']: e for e in self.render(self.config(ds), ds)['entries']}[ASYM]['c']['eps0'], '9')
+
     def test_every_pair_is_a_row_with_generated_cells(self):
         ds = self.decls()
         rates = self.render(self.config(ds), ds)
@@ -247,5 +259,21 @@ class Inference(unittest.TestCase):
         self.assertEqual(list(facets.STATISTIC_LABELS), ['expectation-2', 'expectation-1', 'tail', 'variance'])
 
 
+class Eps0Tests(unittest.TestCase):
+    def test_value_stated_in_a_docstring(self):
+        from facets import eps0_value
+        self.assertEqual(eps0_value('the proof takes $C = 3$ and $\\varepsilon_0 = 1/2$. [X]'), '1/2')
+        self.assertEqual(eps0_value('with $C=16$, $\\varepsilon_0=1$.'), '1')
+        self.assertEqual(eps0_value('so ε₀ = 1. Next'), '1')
+        self.assertEqual(eps0_value('', 'then $\\varepsilon_0 = 1$'), '1')    # the next docstring
+        self.assertEqual(eps0_value('first $\\varepsilon_0 = 1/2$', 'second $\\varepsilon_0 = 1$'), '1/2')
+
+    def test_no_value_stated(self):
+        from facets import eps0_value
+        self.assertIsNone(eps0_value('absolute constants $C, \\varepsilon_0 > 0$ and $0<\\varepsilon\\le\\varepsilon_0$'))
+        self.assertIsNone(eps0_value(None, ''))
+
+
 if __name__ == '__main__':
     unittest.main()
+

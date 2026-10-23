@@ -48,8 +48,19 @@ jobs:
           mkdir -p data/src
           curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
             tar xz -C data/src --strip-components=1 --wildcards '*/NLAlib/*' '*/NLAlib.lean'
+      - name: Fetch the rename maps
+        # docs/renames/*.json (CONTRIBUTING N12): old #d/ links redirect, changed statements are noted;
+        # a commit without the directory builds without maps
+        run: |
+          sha=$(python3 -c "import json; print(json.load(open('data/explore-data.json'))['commit'] or 'scaffold')")
+          mkdir -p data/renames-src
+          curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
+            tar xz -C data/renames-src --strip-components=1 --wildcards '*/docs/renames/*' || true
       - name: Build
-        run: python3 build.py --data data/explore-data.json --bib data/references.bib --src data/src --out site
+        run: |
+          renames=""
+          if [ -d data/renames-src/docs/renames ]; then renames="--renames data/renames-src/docs/renames"; fi
+          python3 build.py --data data/explore-data.json --bib data/references.bib --src data/src --out site $renames
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

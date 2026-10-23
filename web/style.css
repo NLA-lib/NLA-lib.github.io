@@ -1072,3 +1072,7 @@ body[data-page="algorithms"] #contentContainer { max-width: 1120px; }
 #content.prose li { margin: 0.4em 0; }
 #content.prose ul { padding-left: 1.2em; }
 #content.prose .math.display { display: block; overflow-x: auto; overflow-y: hidden; }
+
+/* rename maps: a redirected old link, and a statement that changed */
+.rename-note, .statement-changed { font-size: 92%; margin: 0.4em 0; color: var(--faint); }
+.rename-note { border-left: 3px solid var(--rule, currentColor); padding-left: 0.6em; }
