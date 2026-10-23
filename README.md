@@ -212,6 +212,19 @@ table per family. Design and decisions: [docs/design/algorithm-pages.md](docs/de
   twice or two families listing one, a variant without its reverse entry, a facet that no Rates
   row has, an unknown result or declaration, and a bootstrap definition that is tagged.
 
+## Prose pages
+
+Each `pages/<name>.md` is a page at `<name>/`, the app one directory down like the Books page,
+with a nav link in `web/index.html`. Today there is one, **Design** (`pages/design.md`, at
+[nla-lib.org/explore/design/](https://nla-lib.org/explore/design/)): how the library states
+results and defines algorithms, why a model of computation is subtle, and the planned program
+layer, for readers from numerical linear algebra. `build.py` (`prose_html`) renders the text into
+the HTML: `#` and `##` headings, paragraphs, `-` lists, bold, italic, links and backticks; a
+backticked library name links to its declaration (`#d/<name>`, opened in the panel), and one that
+resolves to nothing is listed in a build note. Maths in `$…$` and `$$…$$` stays escaped TeX in
+`.math` spans, which `web/app.js` typesets with KaTeX before the data loads. Edit the Markdown;
+nothing else needs to change.
+
 ## Result pages: the statements table
 
 A result page lists every member of the result in a **statements table**: one row per
@@ -322,6 +335,7 @@ rejects them.
 | `books.toml` | key books for the Books page: chapters, sections, numbered results (numbers and short names only) |
 | `algorithms.toml` | algorithm pages: families, titles, aliases, variants, Rates facets, result-id prefixes, curated exceptions |
 | `algorithms.py` | algorithm pages: members, attachment of results, cost targets, the ladder |
+| `pages/*.md` | prose pages (Design), rendered by `build.py` into `<name>/index.html` |
 
 ## Local build
 

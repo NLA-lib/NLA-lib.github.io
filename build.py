@@ -20,6 +20,8 @@ Inputs:
   algorithms.toml         algorithm pages: titles, families, variants, Rates facets, result-id
                           prefixes and curated exceptions (algorithms.py; the members are the
                           library's `Algorithm:` tags)
+  pages/<name>.md         prose pages, each served at <name>/ (pages/design.md: how the library
+                          defines things); Markdown with $…$ maths, see prose_html
 
 Output: <out>/index.html, <out>/data.json, the static assets in web/, the Books, Rates and
 Algorithms pages one directory down, and <out>/algorithms/ladder.json (the status ladder of every
@@ -30,6 +32,7 @@ what the Lean source does not say, and the build works with all three empty.
 """
 
 import argparse
+import html
 import json
 import hashlib
 import sys
@@ -38,6 +41,7 @@ import shutil
 import tomllib
 from collections import Counter, defaultdict
 from pathlib import Path
+from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
@@ -1437,9 +1441,102 @@ def build(data, bib, out, registry=None, ladder=False):
     (out / 'algorithms' / 'attachment.json').write_text(json.dumps(alg['report'], ensure_ascii=False, indent=1) + '\n')
     if ladder:
         print(algorithms.ladder_table(alg, {a: p['title'] for a, p in alg['algorithms'].items()}))
+    prose_pages(page, {d['name'] for d in decls}, out)
     n_def = sum(1 for d in decls if d['kind'] in DEF_KINDS)
     print(f'{len(modules)} modules, {len(decls)} declarations, {len(out_results)} results, '
           f'{n_def} definitions -> {out}/ ({(out / "data.json").stat().st_size // 1024} KB data)')
+
+
+PROSE_SPAN = re.compile(r'(`+)(.+?)\1|\$\$(.+?)\$\$|\$([^$\n]+?)\$', re.S)
+LEAN_NAME = re.compile(r"^[A-Za-z_][\w'.]*$")
+
+
+def prose_html(text, names=(), missing=None):
+    """A prose page (`pages/<name>.md`) as HTML, for readers without the library's docstrings.
+
+    The Markdown is the subset the app's `md` reads: `#` headings (`#` is the page's h2, `##` an h3),
+    paragraphs, `-` lists, **bold**, *italic*, [links](url) and `code`. A backticked library name
+    (`rsvd` or `NLAlib.rsvd`) links to its declaration, `#d/<name>`, which opens in the panel; other
+    backticked words that look like names are appended to `missing`, so a rename shows in the build
+    log. Maths in `$…$` and `$$…$$` stays TeX, escaped, in `.math` spans (`.math.display` for
+    displays) that `web/app.js` typesets with KaTeX."""
+    def inline(src):
+        slots = []
+
+        def keep(markup):
+            slots.append(markup)
+            return f'\x00{len(slots) - 1}\x00'
+
+        def lift(m):
+            if m[2] is not None:
+                code = m[2].strip()
+                full = code if code in names else 'NLAlib.' + code if 'NLAlib.' + code in names else None
+                if full:
+                    return keep(f'<a href="#d/{quote(full)}"><code>{html.escape(code)}</code></a>')
+                if missing is not None and LEAN_NAME.match(code):
+                    missing.append(code)
+                return keep(f'<code>{html.escape(code)}</code>')
+            if m[3] is not None:
+                return keep(f'<span class="math display">{html.escape(m[3].strip(), quote=False)}</span>')
+            return keep(f'<span class="math">{html.escape(m[4], quote=False)}</span>')
+
+        s = html.escape(PROSE_SPAN.sub(lift, src), quote=False)
+        s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
+        s = re.sub(r'(?<![*\w])\*([^*\s](?:[^*]*[^*\s])?)\*(?!\*)', r'<em>\1</em>', s)
+        s = re.sub(r'\[([^\]]+)\]\(([^)\s]+)\)',
+                   lambda m: f'<a href="{m[2].replace(chr(34), "&quot;")}">{m[1]}</a>', s)
+        return re.sub(r'\x00(\d+)\x00', lambda m: slots[int(m[1])], s)
+
+    out = []
+    for block in re.split(r'\n[ \t]*\n', text.replace('\r', '').strip()):
+        lines = block.split('\n')
+        head = re.match(r'(#{1,4})\s+(.*)$', lines[0])
+        if head:
+            tag = f'h{len(head[1]) + 1}'
+            out.append(f'<{tag}>{inline(head[2])}</{tag}>')
+            lines = lines[1:]
+            if not lines:
+                continue
+        if re.match(r'\s*-\s+', lines[0]):
+            items = []
+            for line in lines:
+                if re.match(r'\s*-\s+', line):
+                    items.append(re.sub(r'^\s*-\s+', '', line))
+                else:
+                    items[-1] += ' ' + line.strip()
+            out.append('<ul>' + ''.join(f'<li>{inline(t)}</li>' for t in items) + '</ul>')
+            continue
+        para = ' '.join(line.strip() for line in lines)
+        display = re.fullmatch(r'\$\$((?:(?!\$\$).)+)\$\$', para, re.S)
+        if display:
+            out.append(f'<div class="math display">{html.escape(display[1].strip(), quote=False)}</div>')
+        else:
+            out.append(f'<p>{inline(para)}</p>')
+    return '\n'.join(out)
+
+
+def prose_pages(page, names, out):
+    """Write each `pages/<name>.md` as `<name>/index.html`: the app one directory down (`page`, as
+    for the Books page) with the rendered prose in `#content`, its first heading as the title, and
+    no search bar. Its nav link is in `web/index.html`."""
+    for src in sorted((ROOT / 'pages').glob('*.md')):
+        name = src.stem
+        if (out / name).exists() or not re.fullmatch(r'[a-z][a-z0-9-]*', name):
+            raise ValueError(f'prose page name clashes or is not a URL segment: pages/{src.name}')
+        text = src.read_text()
+        missing = []
+        body = prose_html(text, names, missing)
+        if missing:
+            print(f'note: pages/{src.name} names no library declaration: ' + ', '.join(sorted(set(missing))))
+        head = re.search(r'^#\s+(.+)$', text, re.M)
+        title = re.sub(r'[`*$]', '', head[1]).strip() if head else name.title()
+        doc = page.replace('data-page="books"', f'data-page="{name}"', 1)
+        doc = re.sub(r'<title>.*?</title>', lambda m: f'<title>{html.escape(title)} · NLAlib explorer</title>',
+                     doc, count=1, flags=re.S)
+        doc = doc.replace('<div id="searchbar">', '<div id="searchbar" hidden>', 1)
+        doc = doc.replace('<div id="content"></div>', f'<div id="content" class="prose">\n{body}\n</div>', 1)
+        (out / name).mkdir()
+        (out / name / 'index.html').write_text(doc)
 
 
 def cache_busted(page, out):
