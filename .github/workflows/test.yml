@@ -16,6 +16,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+      - name: Documentation MCP test dependencies
+        run: python3 -m pip install -r search/requirements-docs.txt
       - name: Build metadata regressions
         run: python3 -m unittest discover -s tests -v
       - name: Browser script syntax

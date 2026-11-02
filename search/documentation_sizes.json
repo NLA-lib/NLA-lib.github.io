@@ -1,0 +1,25 @@
+{
+  "commit": "79f8cc2f74523a30d1d53316542b826018e245a4",
+  "data_sha256": "d0ec297afce0c1153bd1766aa284b7623f3ba626270008ff1cb610c9123fb7be",
+  "counts_are_characters_not_tokens": true,
+  "modules": [
+    {
+      "module": "NLAlib.Matrix.Norms.Spectral",
+      "source_chars": 17811,
+      "prose_chars": 6634,
+      "api_chars": 14025
+    },
+    {
+      "module": "NLAlib.Matrix.Pseudoinverse.Penrose",
+      "source_chars": 15160,
+      "prose_chars": 5811,
+      "api_chars": 10797
+    },
+    {
+      "module": "NLAlib.Matrix.Spectral.BestRankApprox",
+      "source_chars": 53002,
+      "prose_chars": 17231,
+      "api_chars": 25020
+    }
+  ]
+}
