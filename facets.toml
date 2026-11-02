@@ -35,6 +35,8 @@
 'NLAlib.Computation.MatrixFreeRounded' = 'standard model, unit roundoff $u$'
 'NLAlib.Computation.IsMatvecErr' = 'standard model, unit roundoff $u$'
 'NLAlib.LanczosRun' = 'local-error model, $\varepsilon$'
+'NLAlib.CGRun' = 'local-error model, $\varepsilon$'
+'NLAlib.PCGRun' = 'local arithmetic errors, $\varepsilon$, and a preconditioner oracle'
 
 [overrides."NLAlib.HasSubspaceInjection.measureReal_frobNorm_sub_mul_sq_gt_le"]
 algorithm = "RSVD"

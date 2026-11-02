@@ -49,6 +49,12 @@ definitions = ["NLAlib.cgIterate", "NLAlib.galerkinInverse", "NLAlib.cgState", "
 results = ["cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
 
 [[collections.groups]]
+id = "cg-finite-precision"
+title = "CG in finite precision"
+definitions = ["NLAlib.CGRun", "NLAlib.CGBackwardCertificate", "NLAlib.PCGRun"]
+results = ["cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap", "cg-finite-precision-accuracy"]
+
+[[collections.groups]]
 id = "minres"
 title = "MINRES and preconditioned MINRES"
 definitions = ["NLAlib.gmresIterate", "NLAlib.pminresIterate", "NLAlib.minresState", "NLAlib.MINRESState", "NLAlib.minresStep", "NLAlib.chebyshevExtremaMatrix", "NLAlib.chebyshevWeightVector", "NLAlib.chebyshevTwoIntervalMatrix", "NLAlib.chebyshevTwoIntervalVector"]
@@ -283,7 +289,7 @@ results = ["lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "pr
 id = "lanczos-finite-precision"
 title = "Lanczos in finite precision"
 definitions = ["NLAlib.LanczosRun", "NLAlib.LanczosData"]
-results = ["lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator", "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment", "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model", "lanczos-spectral-measure-wasserstein"]
+results = ["lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator", "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment", "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model", "lanczos-backward-model", "lanczos-backward-model-small-roundoff", "lanczos-spectral-measure-wasserstein"]
 
 [[collections.groups]]
 id = "arnoldi"
