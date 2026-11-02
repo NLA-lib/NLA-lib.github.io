@@ -67,7 +67,7 @@ Processes.title = "Lanczos and Arnoldi processes"
 LinearSystems.title = "Linear systems: CG, MINRES and GMRES"
 Functions.title = "Matrix functions: Lanczos-FA"
 FinitePrecision.title = "Finite precision"
-FinitePrecision.blurb = "The Lanczos process in finite precision: runs with bounded local errors, Paige's loss of orthogonality and Ritz values, Greenbaum's backward model."
+FinitePrecision.blurb = "Lanczos, CG and PCG run models with bounded local errors; Paige's loss of orthogonality and Ritz values; backward models and scalar certificates; computed residual bounds, residual gaps and attainable accuracy for CG."
 
 [Computation]
 title = "Computation model"
