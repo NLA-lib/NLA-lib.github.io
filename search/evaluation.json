@@ -1,0 +1,823 @@
+{
+  "commit": "79f8cc2f74523a30d1d53316542b826018e245a4",
+  "source_sha256": "d0ec297afce0c1153bd1766aa284b7623f3ba626270008ff1cb610c9123fb7be",
+  "index_format": "matrix-search-v1",
+  "model": "BAAI/bge-small-en-v1.5",
+  "declarations": 2394,
+  "queries": 22,
+  "modes": {
+    "lexical": {
+      "hit_at_5": 0.5454545454545454,
+      "hit_at_10": 0.6818181818181818,
+      "mrr_at_100": 0.49054371316843803,
+      "results": [
+        {
+          "id": "rank-zero",
+          "rank": 1,
+          "query": "A matrix has rank zero exactly when every entry is zero.",
+          "top": [
+            "Matrix.rank_eq_zero",
+            "NLAlib.givensCoeffs_snd_zero",
+            "NLAlib.forall_givensHessenbergR_apply_self_ne_zero_iff",
+            "NLAlib.gramSchmidtQ_col_eq_zero_iff",
+            "NLAlib.forall_gramSchmidtR_apply_self_ne_zero_iff"
+          ]
+        },
+        {
+          "id": "positive-definite-spectrum",
+          "rank": 14,
+          "query": "For a Hermitian matrix, strict positivity of every eigenvalue is equivalent to positive definiteness.",
+          "top": [
+            "Matrix.IsHermitian.lt_eigenvalue_of_posDef_conjTranspose_mul_mul_sub",
+            "NLAlib.det_cauchyMatrix_pos",
+            "Matrix.IsHermitian.posDef_iff_eliminationStep",
+            "NLAlib.strictConvexOn_re_trace_inv",
+            "NLAlib.strictConcaveOn_log_re_det"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-spectrum",
+          "rank": 1,
+          "query": "A Hermitian matrix is positive semidefinite if and only if all its eigenvalues are nonnegative; zero eigenvalues are allowed.",
+          "top": [
+            "Matrix.IsHermitian.posSemidef_iff_eigenvalue_nonneg",
+            "Matrix.PosSemidef.eigenvalue_nonneg",
+            "Matrix.IsHermitian.posSemidef_iff_trace_mul_nonneg",
+            "NLAlib.HasOrthonormalCols.eigenvalue_mul_mul_conjTranspose",
+            "NLAlib.posSemidef_iff_quadForm_nonneg"
+          ]
+        },
+        {
+          "id": "positive-definite-energy",
+          "rank": 14,
+          "query": "Characterize a positive definite matrix by its Hermitian symmetry and strictly positive energy on every nonzero vector.",
+          "top": [
+            "Matrix.IsHermitian.posDef_of_forall_sum_lt_re",
+            "Matrix.IsHermitian.posDef_of_isIrreducible_of_forall_sum_le",
+            "NLAlib.strictConvexOn_re_trace_inv",
+            "NLAlib.strictConcaveOn_log_re_det",
+            "Matrix.PosDef.det_ne_zero_of_hermitianPart"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-energy",
+          "rank": 1,
+          "query": "Characterize a positive semidefinite matrix by Hermitian symmetry and a nonnegative quadratic form on every vector.",
+          "top": [
+            "NLAlib.posSemidef_iff_quadForm_nonneg",
+            "Matrix.PosSemidef.quadForm_nonneg",
+            "Matrix.PosSemidef.re_quadForm_nonneg",
+            "Matrix.PosDef.det_ne_zero_of_hermitianPart",
+            "Matrix.PosSemidef.isLeast_re_quadForm_fromBlocks"
+          ]
+        },
+        {
+          "id": "pseudoinverse-least-squares",
+          "rank": 3,
+          "query": "Multiplying the right hand side by the Moore Penrose inverse gives a least squares solution, even if the matrix is rank deficient.",
+          "top": [
+            "NLAlib.existsUnique_isLeastSquaresSolution_iff",
+            "NLAlib.isLeastSquaresSolution_iff_eq_pinv_mulVec",
+            "NLAlib.isLeastSquaresSolution_pinv_mulVec",
+            "NLAlib.IsLeastSquaresSolution.norm_pinv_mulVec_le",
+            "NLAlib.sketchAndSolve"
+          ]
+        },
+        {
+          "id": "minimum-norm-solution",
+          "rank": 1,
+          "query": "Among all vectors minimizing the residual, the solution computed by the pseudoinverse has the smallest Euclidean length.",
+          "top": [
+            "NLAlib.IsLeastSquaresSolution.norm_pinv_mulVec_le",
+            "NLAlib.IsLeastSquaresSolution",
+            "NLAlib.IsLeastSquaresSolution.norm_sub_mulVec_eq",
+            "NLAlib.IsLeastSquaresSolution.pinv_mulVec_mulVec",
+            "NLAlib.IsLeastSquaresSolution.eq_pinv_mulVec_of_norm_le"
+          ]
+        },
+        {
+          "id": "pseudoinverse-involution",
+          "rank": 28,
+          "query": "Taking the generalized inverse twice recovers the original matrix.",
+          "top": [
+            "NLAlib.rayleighQuotient",
+            "NLAlib.generalizedNystrom_one",
+            "NLAlib.sub_generalizedNystrom",
+            "NLAlib.range_generalizedNystrom_le",
+            "NLAlib.rank_earlyTruncatedGeneralizedNystrom_le"
+          ]
+        },
+        {
+          "id": "operator-norm-product",
+          "rank": 47,
+          "query": "The operator two norm of a product of rectangular matrices is at most the product of their operator two norms.",
+          "top": [
+            "Matrix.mul_pow_mul",
+            "Matrix.instL2OpNormedSpaceReal",
+            "NLAlib.OperatorConvexOn",
+            "Matrix.conjTranspose_smul_mul_mul_smul",
+            "NLAlib.specNorm_hadamard_le"
+          ]
+        },
+        {
+          "id": "frobenius-product-left",
+          "rank": 29,
+          "query": "Bound the Frobenius norm of A times B using the spectral norm of A and the Frobenius norm of B.",
+          "top": [
+            "NLAlib.abs_frobInner_mul_le",
+            "NLAlib.frobNorm_sq_le_rank_mul_specNorm_sq",
+            "NLAlib.frobNorm_sq_le_card_mul_specNorm_sq",
+            "NLAlib.frobNorm_le_sqrt_rank_mul_specNorm",
+            "NLAlib.frobNorm_le_sqrt_card_mul_specNorm"
+          ]
+        },
+        {
+          "id": "frobenius-product-right",
+          "rank": 27,
+          "query": "Bound the Frobenius norm of A times B using the Frobenius norm of A and the spectral norm of B.",
+          "top": [
+            "NLAlib.abs_frobInner_mul_le",
+            "NLAlib.frobNorm_sq_le_rank_mul_specNorm_sq",
+            "NLAlib.frobNorm_sq_le_card_mul_specNorm_sq",
+            "NLAlib.frobNorm_le_sqrt_rank_mul_specNorm",
+            "NLAlib.frobNorm_le_sqrt_card_mul_specNorm"
+          ]
+        },
+        {
+          "id": "nuclear-trace-square-root",
+          "rank": 29,
+          "query": "The trace norm of a rectangular matrix is the real trace of the positive square root of its adjoint times itself.",
+          "top": [
+            "Matrix.mul_pow_mul",
+            "NLAlib.trace_eq_nuclearNorm_iff_posSemidef",
+            "Matrix.PosSemidef.frobNorm_le_re_trace",
+            "Matrix.PosSemidef.specNorm_le_re_trace",
+            "Matrix.PosDef.isUnit_sqrt"
+          ]
+        },
+        {
+          "id": "schatten-two-frobenius",
+          "rank": 1,
+          "query": "The Schatten norm with exponent two agrees with the Frobenius norm.",
+          "top": [
+            "NLAlib.schattenNorm_two",
+            "NLAlib.schattenNorm_anti",
+            "NLAlib.schattenNorm_eq_zero_iff",
+            "NLAlib.schattenNorm_natCast_pow",
+            "Matrix.IsHermitian.schattenNorm_two_mul_natCast_pow"
+          ]
+        },
+        {
+          "id": "weyl-sum",
+          "rank": 1,
+          "query": "Weyl's inequality bounds an ordered eigenvalue of the sum of two Hermitian matrices by the sum of two ordered eigenvalues of the summands.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_add_le",
+            "Matrix.IsHermitian.le_eigenvalue_add",
+            "Matrix.IsHermitian.re_trace_mul_le_sum_eigenvalue_mul",
+            "Matrix.IsHermitian.sum_eigenvalue_mul_rev_le_re_trace_mul",
+            "Matrix.IsHermitian.eigenvalue_add_le_add_eigenvalue_zero"
+          ]
+        },
+        {
+          "id": "eigenvalue-perturbation",
+          "rank": 6,
+          "query": "Changing a Hermitian matrix by a small operator norm perturbation moves each ordered eigenvalue by at most that amount.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_add_of_inertiaNeg",
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_sub_vecMulVec_star",
+            "Matrix.IsHermitian.eigenvalue_add_le_of_inertiaPos",
+            "Matrix.IsHermitian.abs_eigenvalue_add_smul_sub_mul_le",
+            "Matrix.IsHermitian.eigenvalue_add_vecMulVec_star_le"
+          ]
+        },
+        {
+          "id": "projector-basis-independent",
+          "rank": 8,
+          "query": "Two matrices have the same orthogonal projector exactly when their column spaces agree, even if they have different numbers of columns.",
+          "top": [
+            "NLAlib.SymmetricGauge.matrixNorm_mul_conjTranspose_self",
+            "NLAlib.principalAngle",
+            "NLAlib.rangeProjector_mul_polarFactor",
+            "NLAlib.tangentMatrix",
+            "IsStarNormal.exists_eq_mul_mul_conjTranspose_iff_charpoly_eq"
+          ]
+        },
+        {
+          "id": "pseudoinverse-row-projector",
+          "rank": 4,
+          "query": "The Moore Penrose inverse multiplied on the right by the original matrix is the orthogonal projector onto the row space.",
+          "top": [
+            "NLAlib.mul_pinv",
+            "NLAlib.IsPinv.mul_eq_rangeProjector",
+            "NLAlib.IsPinv.isStarProjection_right",
+            "NLAlib.pinv_mul",
+            "NLAlib.leverageScore"
+          ]
+        },
+        {
+          "id": "best-low-rank-frobenius",
+          "rank": 9,
+          "query": "Keeping the leading singular components gives a Frobenius error no worse than any other matrix of rank at most k.",
+          "top": [
+            "NLAlib.IsBestRankApprox",
+            "NLAlib.isBestRankApprox_iff_singularValues_sub",
+            "NLAlib.truncatedSVD_of_singularValues_eq_zero",
+            "NLAlib.specNorm_sub_sq_add_frobNorm_sub_truncatedSVD_sq_le_of_rank_le",
+            "NLAlib.truncatedSVD"
+          ]
+        },
+        {
+          "id": "low-rank-spectral-error",
+          "rank": 1,
+          "query": "The spectral norm error after retaining k singular values equals the first discarded singular value.",
+          "top": [
+            "NLAlib.specNorm_sub_truncatedSVD",
+            "NLAlib.specNorm",
+            "NLAlib.singularValues_le_specNorm",
+            "NLAlib.singularValues_zero_eq_specNorm",
+            "NLAlib.singularValues_add_le_add_specNorm"
+          ]
+        },
+        {
+          "id": "low-rank-frobenius-tail",
+          "rank": 2,
+          "query": "The squared Frobenius error of singular value truncation is the sum of the squares of the discarded singular values.",
+          "top": [
+            "NLAlib.truncatedSVD_of_singularValues_eq_zero",
+            "NLAlib.frobNorm_sub_truncatedSVD_sq",
+            "NLAlib.frobNorm_sq_eq_sum_range_singularValues_sq",
+            "NLAlib.frobNorm_sq_eq_sum_singularValues_sq",
+            "NLAlib.singularValues_sub_truncatedSVD"
+          ]
+        },
+        {
+          "id": "principal-angles-cosines",
+          "rank": 1,
+          "query": "For two orthonormal bases of subspaces, the singular values of their cross Gram matrix are the cosines of the principal angles.",
+          "top": [
+            "NLAlib.HasOrthonormalCols.cos_principalAngle",
+            "NLAlib.cos_principalAngle",
+            "NLAlib.principalAngle_comm",
+            "NLAlib.HasOrthonormalCols.singularValues_tangentMatrix",
+            "NLAlib.HasOrthonormalCols.cos_principalAngle_left"
+          ]
+        },
+        {
+          "id": "subspace-distance-angle",
+          "rank": 1,
+          "query": "For two subspaces of equal positive dimension, the operator norm distance between their orthogonal projectors equals the sine of their largest principal angle.",
+          "top": [
+            "NLAlib.specNorm_rangeProjector_sub_rangeProjector",
+            "NLAlib.frobNorm_rangeProjector_sub_rangeProjector_sq",
+            "NLAlib.specNorm_one_sub_rangeProjector_mul_rangeProjector",
+            "NLAlib.principalAngle",
+            "NLAlib.principalAngle_comm"
+          ]
+        }
+      ]
+    },
+    "semantic": {
+      "hit_at_5": 0.6363636363636364,
+      "hit_at_10": 0.6363636363636364,
+      "mrr_at_100": 0.49225847460437944,
+      "results": [
+        {
+          "id": "rank-zero",
+          "rank": 3,
+          "query": "A matrix has rank zero exactly when every entry is zero.",
+          "top": [
+            "Matrix.PosSemidef.row_eq_zero_of_apply_self_eq_zero",
+            "Matrix.PosSemidef.col_eq_zero_of_apply_self_eq_zero",
+            "Matrix.rank_eq_zero",
+            "NLAlib.forall_gramSchmidtR_apply_self_ne_zero_iff",
+            "NLAlib.frobPseudoConditionNumber_zero"
+          ]
+        },
+        {
+          "id": "positive-definite-spectrum",
+          "rank": 1,
+          "query": "For a Hermitian matrix, strict positivity of every eigenvalue is equivalent to positive definiteness.",
+          "top": [
+            "Matrix.IsHermitian.posDef_iff_eigenvalue_pos",
+            "Matrix.IsHermitian.posDef_iff_inertiaPos_eq_card",
+            "Matrix.IsHermitian.posDef_iff_forall_re_principalMinor_Ici_pos",
+            "Matrix.IsHermitian.posDef_of_forall_sum_lt_re",
+            "Matrix.IsHermitian.posDef_iff_eliminationStep"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-spectrum",
+          "rank": 1,
+          "query": "A Hermitian matrix is positive semidefinite if and only if all its eigenvalues are nonnegative; zero eigenvalues are allowed.",
+          "top": [
+            "Matrix.IsHermitian.posSemidef_iff_eigenvalue_nonneg",
+            "Matrix.IsHermitian.posSemidef_iff_forall_re_principalMinor_nonneg",
+            "Matrix.IsHermitian.posSemidef_of_forall_re_principalMinor_Iio_pos",
+            "Matrix.IsHermitian.posSemidef_iff_forall_re_charpoly_coeff_nonneg",
+            "Matrix.PosSemidef.eigenvalue_nonneg"
+          ]
+        },
+        {
+          "id": "positive-definite-energy",
+          "rank": 34,
+          "query": "Characterize a positive definite matrix by its Hermitian symmetry and strictly positive energy on every nonzero vector.",
+          "top": [
+            "Matrix.IsHermitian.posDef_iff_forall_re_principalMinor_Ici_pos",
+            "Matrix.IsHermitian.posDef_iff_eigenvalue_pos",
+            "Matrix.IsHermitian.posDef_iff_forall_re_principalMinor_Iic_pos",
+            "Matrix.IsHermitian.posDef_of_forall_sum_lt_re",
+            "Matrix.PosDef.sq_le_sq_iff_specNorm_mul_inv_le_one"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-energy",
+          "rank": 1,
+          "query": "Characterize a positive semidefinite matrix by Hermitian symmetry and a nonnegative quadratic form on every vector.",
+          "top": [
+            "NLAlib.posSemidef_iff_quadForm_nonneg",
+            "Matrix.IsHermitian.posSemidef_of_forall_re_principalMinor_Iio_pos",
+            "Matrix.IsHermitian.posSemidef_iff_forall_re_charpoly_coeff_nonneg",
+            "NLAlib.quadForm_hermitianPart",
+            "Matrix.PosSemidef.re_quadForm_nonneg"
+          ]
+        },
+        {
+          "id": "pseudoinverse-least-squares",
+          "rank": 11,
+          "query": "Multiplying the right hand side by the Moore Penrose inverse gives a least squares solution, even if the matrix is rank deficient.",
+          "top": [
+            "NLAlib.existsUnique_isLeastSquaresSolution_iff",
+            "NLAlib.HasOrthonormalCols.isLeastSquaresSolution_mul_iff",
+            "NLAlib.IsLeastSquaresSolution.norm_le_specNorm_pinv_mul",
+            "NLAlib.IsQR.isLeastSquaresSolution_of_mulVec_eq",
+            "NLAlib.pinv"
+          ]
+        },
+        {
+          "id": "minimum-norm-solution",
+          "rank": 1,
+          "query": "Among all vectors minimizing the residual, the solution computed by the pseudoinverse has the smallest Euclidean length.",
+          "top": [
+            "NLAlib.IsLeastSquaresSolution.norm_pinv_mulVec_le",
+            "NLAlib.isLeastSquaresSolution_pinv_mulVec",
+            "NLAlib.IsLeastSquaresSolution",
+            "NLAlib.isLeastSquaresSolution_iff_eq_pinv_mulVec",
+            "NLAlib.IsLeastSquaresSolution.eq_pinv_mulVec_of_norm_le"
+          ]
+        },
+        {
+          "id": "pseudoinverse-involution",
+          "rank": null,
+          "query": "Taking the generalized inverse twice recovers the original matrix.",
+          "top": [
+            "Matrix.PosDef.inv_le_inv_of_le",
+            "NLAlib.inv_add_sub_inv",
+            "Matrix.det_submatrix_equiv_equiv",
+            "NLAlib.inv_le_inv_smul_one_of_smul_one_le",
+            "Matrix.PosDef.inv_conjTranspose_mul_mul_le"
+          ]
+        },
+        {
+          "id": "operator-norm-product",
+          "rank": 5,
+          "query": "The operator two norm of a product of rectangular matrices is at most the product of their operator two norms.",
+          "top": [
+            "NLAlib.IsBestRankApprox.matrixNorm_sub_le_add_two_mul",
+            "NLAlib.frobNorm_mul_sq_le_of_conjTranspose_mul_self_le",
+            "NLAlib.specNorm_sq_le_iff_conjTranspose_mul_self_le",
+            "NLAlib.frobInner_le_sqrt_mul_frobNorm_mul_specNorm_of_rank_le",
+            "NLAlib.specNorm_mul_le"
+          ]
+        },
+        {
+          "id": "frobenius-product-left",
+          "rank": 4,
+          "query": "Bound the Frobenius norm of A times B using the spectral norm of A and the Frobenius norm of B.",
+          "top": [
+            "NLAlib.abs_specNorm_sub_specNorm_le_frobNorm",
+            "NLAlib.specNorm_le_frobNorm",
+            "NLAlib.abs_le_specNorm_smul_one",
+            "NLAlib.frobNorm_mul_le_specNorm_mul_frobNorm",
+            "NLAlib.frobNorm_mul_le_frobNorm_mul_specNorm"
+          ]
+        },
+        {
+          "id": "frobenius-product-right",
+          "rank": 5,
+          "query": "Bound the Frobenius norm of A times B using the Frobenius norm of A and the spectral norm of B.",
+          "top": [
+            "NLAlib.abs_specNorm_sub_specNorm_le_frobNorm",
+            "NLAlib.specNorm_le_frobNorm",
+            "NLAlib.abs_le_specNorm_smul_one",
+            "NLAlib.frobNorm_mul_le_specNorm_mul_frobNorm",
+            "NLAlib.frobNorm_mul_le_frobNorm_mul_specNorm"
+          ]
+        },
+        {
+          "id": "nuclear-trace-square-root",
+          "rank": 19,
+          "query": "The trace norm of a rectangular matrix is the real trace of the positive square root of its adjoint times itself.",
+          "top": [
+            "Matrix.PosSemidef.specNorm_le_re_trace",
+            "Matrix.PosSemidef.frobNorm_le_re_trace",
+            "NLAlib.frobNorm_sq_eq_re_trace",
+            "NLAlib.norm_trace_le_nuclearNorm",
+            "NLAlib.trace_eq_nuclearNorm_iff_posSemidef"
+          ]
+        },
+        {
+          "id": "schatten-two-frobenius",
+          "rank": 1,
+          "query": "The Schatten norm with exponent two agrees with the Frobenius norm.",
+          "top": [
+            "NLAlib.schattenNorm_two",
+            "NLAlib.schattenNorm_mul_le",
+            "NLAlib.abs_frobInner_le_schattenNorm_mul",
+            "NLAlib.exists_schattenNorm_le_one_frobInner_eq",
+            "NLAlib.schattenNorm_anti"
+          ]
+        },
+        {
+          "id": "weyl-sum",
+          "rank": 1,
+          "query": "Weyl's inequality bounds an ordered eigenvalue of the sum of two Hermitian matrices by the sum of two ordered eigenvalues of the summands.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_add_le",
+            "Matrix.IsHermitian.le_eigenvalue_add",
+            "Matrix.IsHermitian.eigenvalue_add_le_add_eigenvalue_zero",
+            "Matrix.IsHermitian.eigenvalue_add_eigenvalue_last_le",
+            "Matrix.IsHermitian.re_trace_mul_le_sum_eigenvalue_mul"
+          ]
+        },
+        {
+          "id": "eigenvalue-perturbation",
+          "rank": 27,
+          "query": "Changing a Hermitian matrix by a small operator norm perturbation moves each ordered eigenvalue by at most that amount.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_add_of_inertiaNeg",
+            "Matrix.IsHermitian.eigenvalue_add_smul_one",
+            "Matrix.IsHermitian.eigenvalue_add_le_of_inertiaPos",
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_add_of_rank_le",
+            "Matrix.IsHermitian.eigenvalue_add_le_of_rank_le"
+          ]
+        },
+        {
+          "id": "projector-basis-independent",
+          "rank": null,
+          "query": "Two matrices have the same orthogonal projector exactly when their column spaces agree, even if they have different numbers of columns.",
+          "top": [
+            "NLAlib.HasOrthonormalCols.mul_conjTranspose_add_mul_conjTranspose",
+            "NLAlib.HasOrthonormalCols.pinv_conjTranspose_mul_self_eq_mul_conjTranspose",
+            "NLAlib.HasOrthonormalCols.exists_mul_eq_of_range_eq",
+            "NLAlib.mul_pinv_conjTranspose_mul_self_mul_conjTranspose",
+            "NLAlib.IsPinv.mul_eq_rangeProjector_conjTranspose"
+          ]
+        },
+        {
+          "id": "pseudoinverse-row-projector",
+          "rank": 1,
+          "query": "The Moore Penrose inverse multiplied on the right by the original matrix is the orthogonal projector onto the row space.",
+          "top": [
+            "NLAlib.pinv_mul",
+            "NLAlib.mul_pinv_conjTranspose_mul_self_mul_conjTranspose",
+            "NLAlib.pinv",
+            "NLAlib.IsPinv.mul_eq_rangeProjector",
+            "IsStarProjection.matrixNorm_one_sub_mul_le_of_le"
+          ]
+        },
+        {
+          "id": "best-low-rank-frobenius",
+          "rank": 22,
+          "query": "Keeping the leading singular components gives a Frobenius error no worse than any other matrix of rank at most k.",
+          "top": [
+            "NLAlib.isBestRankApprox_iff_singularValues_sub",
+            "NLAlib.specNorm_sub_sq_add_frobNorm_sub_truncatedSVD_sq_le_of_rank_le",
+            "NLAlib.IsBestRankApprox",
+            "NLAlib.abs_frobNorm_sub_truncatedSVD_sub_le",
+            "NLAlib.frobNorm_sub_generalizedNystrom_sq"
+          ]
+        },
+        {
+          "id": "low-rank-spectral-error",
+          "rank": 11,
+          "query": "The spectral norm error after retaining k singular values equals the first discarded singular value.",
+          "top": [
+            "NLAlib.singularValues_conjTranspose_mul_self_sub_nystrom",
+            "NLAlib.natCast_mul_singularValues_add_sq_le_frobNorm_sub_truncatedSVD_sq",
+            "NLAlib.specNorm_conjTranspose_mul_self_sub_one_le_iff",
+            "IsStarProjection.specNorm_one_sub_mul_sq",
+            "NLAlib.one_sub_smul_one_le_conjTranspose_mul_self_of_specNorm_le"
+          ]
+        },
+        {
+          "id": "low-rank-frobenius-tail",
+          "rank": 2,
+          "query": "The squared Frobenius error of singular value truncation is the sum of the squares of the discarded singular values.",
+          "top": [
+            "NLAlib.singularValues_sub_truncatedSVD",
+            "NLAlib.frobNorm_sub_truncatedSVD_sq",
+            "NLAlib.truncatedSVD_of_singularValues_eq_zero",
+            "NLAlib.natCast_mul_singularValues_add_sq_le_frobNorm_sub_truncatedSVD_sq",
+            "NLAlib.IsBestRankApprox.matrixNorm_sub_le_add_of_singularValues_le"
+          ]
+        },
+        {
+          "id": "principal-angles-cosines",
+          "rank": 1,
+          "query": "For two orthonormal bases of subspaces, the singular values of their cross Gram matrix are the cosines of the principal angles.",
+          "top": [
+            "NLAlib.HasOrthonormalCols.cos_principalAngle",
+            "NLAlib.HasOrthonormalCols.cos_principalAngle_left",
+            "IsStarProjection.singularValues_one_sub_mul_sq",
+            "NLAlib.cos_principalAngle",
+            "NLAlib.HasOrthonormalCols.singularValues_mul_conjTranspose_right"
+          ]
+        },
+        {
+          "id": "subspace-distance-angle",
+          "rank": 1,
+          "query": "For two subspaces of equal positive dimension, the operator norm distance between their orthogonal projectors equals the sine of their largest principal angle.",
+          "top": [
+            "NLAlib.specNorm_rangeProjector_sub_rangeProjector",
+            "NLAlib.frobNorm_rangeProjector_sub_rangeProjector_sq",
+            "IsStarProjection.matrixNorm_one_sub_mul_le_of_le",
+            "IsStarProjection.abs_frobInner_le_sqrt_mul_frobNorm",
+            "NLAlib.specNorm_one_sub_rangeProjector_mul_rangeProjector"
+          ]
+        }
+      ]
+    },
+    "hybrid": {
+      "hit_at_5": 0.5909090909090909,
+      "hit_at_10": 0.6818181818181818,
+      "mrr_at_100": 0.5023524010155026,
+      "results": [
+        {
+          "id": "rank-zero",
+          "rank": 1,
+          "query": "A matrix has rank zero exactly when every entry is zero.",
+          "top": [
+            "Matrix.rank_eq_zero",
+            "NLAlib.forall_gramSchmidtR_apply_self_ne_zero_iff",
+            "NLAlib.forall_givensHessenbergR_apply_self_ne_zero_iff",
+            "Matrix.PosSemidef.row_eq_zero_of_apply_self_eq_zero",
+            "Matrix.PosSemidef.col_eq_zero_of_apply_self_eq_zero"
+          ]
+        },
+        {
+          "id": "positive-definite-spectrum",
+          "rank": 3,
+          "query": "For a Hermitian matrix, strict positivity of every eigenvalue is equivalent to positive definiteness.",
+          "top": [
+            "Matrix.IsHermitian.posDef_iff_eliminationStep",
+            "Matrix.IsHermitian.lt_eigenvalue_of_posDef_conjTranspose_mul_mul_sub",
+            "Matrix.IsHermitian.posDef_iff_eigenvalue_pos",
+            "Matrix.IsHermitian.posSemidef_iff_eigenvalue_nonneg",
+            "Matrix.PosDef.exists_isEigenvalueListing_mul"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-spectrum",
+          "rank": 1,
+          "query": "A Hermitian matrix is positive semidefinite if and only if all its eigenvalues are nonnegative; zero eigenvalues are allowed.",
+          "top": [
+            "Matrix.IsHermitian.posSemidef_iff_eigenvalue_nonneg",
+            "Matrix.PosSemidef.eigenvalue_nonneg",
+            "NLAlib.posSemidef_iff_quadForm_nonneg",
+            "Matrix.IsHermitian.posSemidef_of_forall_re_principalMinor_Iio_pos",
+            "Matrix.IsHermitian.posSemidef_iff_inertiaNeg_eq_zero"
+          ]
+        },
+        {
+          "id": "positive-definite-energy",
+          "rank": 15,
+          "query": "Characterize a positive definite matrix by its Hermitian symmetry and strictly positive energy on every nonzero vector.",
+          "top": [
+            "Matrix.IsHermitian.posDef_of_forall_sum_lt_re",
+            "Matrix.IsHermitian.posDef_iff_eigenvalue_pos",
+            "Matrix.IsHermitian.posDef_of_isIrreducible_of_forall_sum_le",
+            "Matrix.IsHermitian.posDef_iff_inertiaPos_eq_card",
+            "Matrix.IsHermitian.posDef_iff_forall_re_principalMinor_Ici_pos"
+          ]
+        },
+        {
+          "id": "positive-semidefinite-energy",
+          "rank": 1,
+          "query": "Characterize a positive semidefinite matrix by Hermitian symmetry and a nonnegative quadratic form on every vector.",
+          "top": [
+            "NLAlib.posSemidef_iff_quadForm_nonneg",
+            "Matrix.PosSemidef.re_quadForm_nonneg",
+            "Matrix.PosSemidef.quadForm_nonneg",
+            "Matrix.IsHermitian.posSemidef_of_forall_re_principalMinor_Iio_pos",
+            "Matrix.IsHermitian.posSemidef_iff_eigenvalue_nonneg"
+          ]
+        },
+        {
+          "id": "pseudoinverse-least-squares",
+          "rank": 5,
+          "query": "Multiplying the right hand side by the Moore Penrose inverse gives a least squares solution, even if the matrix is rank deficient.",
+          "top": [
+            "NLAlib.existsUnique_isLeastSquaresSolution_iff",
+            "NLAlib.HasOrthonormalCols.isLeastSquaresSolution_mul_iff",
+            "NLAlib.IsQR.isLeastSquaresSolution_of_mulVec_eq",
+            "NLAlib.IsLeastSquaresSolution.norm_le_specNorm_pinv_mul",
+            "NLAlib.isLeastSquaresSolution_pinv_mulVec"
+          ]
+        },
+        {
+          "id": "minimum-norm-solution",
+          "rank": 1,
+          "query": "Among all vectors minimizing the residual, the solution computed by the pseudoinverse has the smallest Euclidean length.",
+          "top": [
+            "NLAlib.IsLeastSquaresSolution.norm_pinv_mulVec_le",
+            "NLAlib.IsLeastSquaresSolution",
+            "NLAlib.isLeastSquaresSolution_pinv_mulVec",
+            "NLAlib.IsLeastSquaresSolution.eq_pinv_mulVec_of_norm_le",
+            "NLAlib.IsLeastSquaresSolution.pinv_mulVec_mulVec"
+          ]
+        },
+        {
+          "id": "pseudoinverse-involution",
+          "rank": 63,
+          "query": "Taking the generalized inverse twice recovers the original matrix.",
+          "top": [
+            "Matrix.PosDef.inv_le_inv_of_le",
+            "Matrix.PosDef.inv_conjTranspose_mul_mul_le",
+            "NLAlib.specNorm_inv_add_sub_inv_le",
+            "NLAlib.dotProduct_mul_conjTranspose_inv_mulVec_nonneg",
+            "NLAlib.inv_le_inv_smul_one_of_smul_one_le"
+          ]
+        },
+        {
+          "id": "operator-norm-product",
+          "rank": 7,
+          "query": "The operator two norm of a product of rectangular matrices is at most the product of their operator two norms.",
+          "top": [
+            "NLAlib.specNorm_hadamard_le",
+            "Matrix.mul_pow_mul",
+            "NLAlib.IsBestRankApprox.matrixNorm_sub_le_add_two_mul",
+            "Matrix.conjTranspose_smul_mul_mul_smul",
+            "NLAlib.OperatorConvexOn.cfc_smul_add_smul_le"
+          ]
+        },
+        {
+          "id": "frobenius-product-left",
+          "rank": 10,
+          "query": "Bound the Frobenius norm of A times B using the spectral norm of A and the Frobenius norm of B.",
+          "top": [
+            "NLAlib.frobNorm_sq_le_rank_mul_specNorm_sq",
+            "NLAlib.abs_frobInner_mul_le",
+            "NLAlib.frobNorm_sq_le_card_mul_specNorm_sq",
+            "NLAlib.abs_frobInner_mul_le_frobNorm_mul_specNorm",
+            "NLAlib.frobNorm_le_sqrt_rank_mul_specNorm"
+          ]
+        },
+        {
+          "id": "frobenius-product-right",
+          "rank": 11,
+          "query": "Bound the Frobenius norm of A times B using the Frobenius norm of A and the spectral norm of B.",
+          "top": [
+            "NLAlib.frobNorm_sq_le_rank_mul_specNorm_sq",
+            "NLAlib.abs_frobInner_mul_le",
+            "NLAlib.frobNorm_sq_le_card_mul_specNorm_sq",
+            "NLAlib.abs_frobInner_mul_le_frobNorm_mul_specNorm",
+            "NLAlib.frobNorm_le_sqrt_rank_mul_specNorm"
+          ]
+        },
+        {
+          "id": "nuclear-trace-square-root",
+          "rank": 17,
+          "query": "The trace norm of a rectangular matrix is the real trace of the positive square root of its adjoint times itself.",
+          "top": [
+            "Matrix.PosSemidef.specNorm_le_re_trace",
+            "Matrix.PosSemidef.frobNorm_le_re_trace",
+            "NLAlib.trace_eq_nuclearNorm_iff_posSemidef",
+            "NLAlib.norm_trace_le_nuclearNorm",
+            "NLAlib.frobNorm_sq_eq_re_trace"
+          ]
+        },
+        {
+          "id": "schatten-two-frobenius",
+          "rank": 1,
+          "query": "The Schatten norm with exponent two agrees with the Frobenius norm.",
+          "top": [
+            "NLAlib.schattenNorm_two",
+            "NLAlib.schattenNorm_anti",
+            "NLAlib.schattenNorm_eq_zero_iff",
+            "NLAlib.abs_frobInner_le_schattenNorm_mul",
+            "NLAlib.isGreatest_frobInner_schattenNorm"
+          ]
+        },
+        {
+          "id": "weyl-sum",
+          "rank": 1,
+          "query": "Weyl's inequality bounds an ordered eigenvalue of the sum of two Hermitian matrices by the sum of two ordered eigenvalues of the summands.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_add_le",
+            "Matrix.IsHermitian.le_eigenvalue_add",
+            "Matrix.IsHermitian.eigenvalue_add_le_add_eigenvalue_zero",
+            "Matrix.IsHermitian.re_trace_mul_le_sum_eigenvalue_mul",
+            "Matrix.IsHermitian.eigenvalue_add_eigenvalue_last_le"
+          ]
+        },
+        {
+          "id": "eigenvalue-perturbation",
+          "rank": 11,
+          "query": "Changing a Hermitian matrix by a small operator norm perturbation moves each ordered eigenvalue by at most that amount.",
+          "top": [
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_add_of_inertiaNeg",
+            "Matrix.IsHermitian.eigenvalue_add_le_of_inertiaPos",
+            "Matrix.IsHermitian.eigenvalue_le_eigenvalue_sub_vecMulVec_star",
+            "Matrix.IsHermitian.eigenvalue_add_vecMulVec_star_le",
+            "Matrix.IsHermitian.sum_abs_eigenvalue_sub_le_kyFanNorm_sub"
+          ]
+        },
+        {
+          "id": "projector-basis-independent",
+          "rank": 28,
+          "query": "Two matrices have the same orthogonal projector exactly when their column spaces agree, even if they have different numbers of columns.",
+          "top": [
+            "NLAlib.HasOrthonormalCols.exists_mul_eq_of_range_eq",
+            "NLAlib.SymmetricGauge.matrixNorm_mul_conjTranspose_self",
+            "IsStarProjection.singularValues_one_sub_mul_eq_of_rank_eq",
+            "NLAlib.IsPinv.mul_eq_rangeProjector_conjTranspose",
+            "NLAlib.HasOrthonormalCols.exists_mul_eq"
+          ]
+        },
+        {
+          "id": "pseudoinverse-row-projector",
+          "rank": 1,
+          "query": "The Moore Penrose inverse multiplied on the right by the original matrix is the orthogonal projector onto the row space.",
+          "top": [
+            "NLAlib.pinv_mul",
+            "NLAlib.IsPinv.mul_eq_rangeProjector",
+            "NLAlib.IsPinv.mul_eq_rangeProjector_conjTranspose",
+            "NLAlib.IsPinv.isStarProjection_right",
+            "NLAlib.pinv"
+          ]
+        },
+        {
+          "id": "best-low-rank-frobenius",
+          "rank": 12,
+          "query": "Keeping the leading singular components gives a Frobenius error no worse than any other matrix of rank at most k.",
+          "top": [
+            "NLAlib.isBestRankApprox_iff_singularValues_sub",
+            "NLAlib.IsBestRankApprox",
+            "NLAlib.specNorm_sub_sq_add_frobNorm_sub_truncatedSVD_sq_le_of_rank_le",
+            "NLAlib.frobNorm_sub_generalizedNystrom_sq",
+            "NLAlib.frobInner_le_frobNorm_mul_frobNorm_truncatedSVD_of_rank_le"
+          ]
+        },
+        {
+          "id": "low-rank-spectral-error",
+          "rank": 3,
+          "query": "The spectral norm error after retaining k singular values equals the first discarded singular value.",
+          "top": [
+            "NLAlib.singularValues_conjTranspose_mul_self_sub_nystrom",
+            "NLAlib.singularValues_le_specNorm",
+            "NLAlib.specNorm_sub_truncatedSVD",
+            "IsStarProjection.specNorm_one_sub_mul_sq",
+            "NLAlib.specNorm_conjTranspose_mul_self_sub_one_le_iff"
+          ]
+        },
+        {
+          "id": "low-rank-frobenius-tail",
+          "rank": 2,
+          "query": "The squared Frobenius error of singular value truncation is the sum of the squares of the discarded singular values.",
+          "top": [
+            "NLAlib.truncatedSVD_of_singularValues_eq_zero",
+            "NLAlib.frobNorm_sub_truncatedSVD_sq",
+            "NLAlib.singularValues_sub_truncatedSVD",
+            "NLAlib.frobNorm_sq_eq_sum_range_singularValues_sq",
+            "NLAlib.frobNorm_sq_eq_sum_singularValues_sq"
+          ]
+        },
+        {
+          "id": "principal-angles-cosines",
+          "rank": 1,
+          "query": "For two orthonormal bases of subspaces, the singular values of their cross Gram matrix are the cosines of the principal angles.",
+          "top": [
+            "NLAlib.HasOrthonormalCols.cos_principalAngle",
+            "NLAlib.cos_principalAngle",
+            "NLAlib.HasOrthonormalCols.cos_principalAngle_left",
+            "IsStarProjection.singularValues_one_sub_mul_sq",
+            "NLAlib.HasOrthonormalCols.singularValues_tangentMatrix"
+          ]
+        },
+        {
+          "id": "subspace-distance-angle",
+          "rank": 1,
+          "query": "For two subspaces of equal positive dimension, the operator norm distance between their orthogonal projectors equals the sine of their largest principal angle.",
+          "top": [
+            "NLAlib.specNorm_rangeProjector_sub_rangeProjector",
+            "NLAlib.frobNorm_rangeProjector_sub_rangeProjector_sq",
+            "NLAlib.specNorm_one_sub_rangeProjector_mul_rangeProjector",
+            "IsStarProjection.rank_eq_of_specNorm_sub_lt_one",
+            "Matrix.IsHermitian.mul_norm_conjTranspose_mulVec_le"
+          ]
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Matrix lemma search · NLAlib prototype</title>
+<style>
+body{font:17px/1.55 system-ui,sans-serif;max-width:960px;margin:3rem auto;padding:0 1.2rem;color:#182633;background:#f5f7fa}
+h1{font-size:2rem;letter-spacing:-.04em}p{max-width:75ch}form{display:flex;gap:.6rem;flex-wrap:wrap;margin:2rem 0}input{flex:1;min-width:240px}input,button,select{font:inherit;padding:.7rem;border:1px solid #bbc7d1;border-radius:6px}button{background:#174d68;color:white;cursor:pointer}article{background:white;border:1px solid #d9e1e6;padding:1.3rem;margin:1rem 0;border-radius:8px}h2{font:600 1rem ui-monospace,monospace;overflow-wrap:anywhere}pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:.85rem;background:#f2f5f7;padding:1rem}small{color:#506271}.examples button{font-size:.85rem;background:white;color:#174d68;margin:.2rem}.error{color:#9d2222}a{color:#174d68}
+</style>
+<h1>Find a matrix lemma</h1>
+<p>Describe the mathematics, paste a Lean expression, or enter a declaration name. Search covers the Matrix layer and matrix-related ForMathlib helpers in one pinned library snapshot.</p>
+<form id="search"><input id="q" aria-label="Search query" placeholder="When does a matrix have rank zero?" required><select id="mode" aria-label="Retrieval method"><option value="hybrid">Hybrid</option><option value="semantic">Semantic</option><option value="lexical">Keywords</option></select><button>Search</button></form>
+<div class="examples"><button>Taking the generalized inverse twice recovers the matrix</button><button>specNorm (X * Y) ≤ specNorm X * specNorm Y</button><button>Perturbing a Hermitian matrix moves each eigenvalue by at most the operator norm</button></div>
+<p><small>Retrieval identifies candidates. It does not prove applicability or equivalence. Renamed-variable text matches are heuristics; optional Lean checking is available through the local CLI.</small></p>
+<p id="status" role="status"></p><main id="results"></main>
+<script>
+const q=document.querySelector('#q'),mode=document.querySelector('#mode'),status=document.querySelector('#status'),results=document.querySelector('#results');
+let generation=0;
+function node(tag,text){const x=document.createElement(tag);x.textContent=text;return x;}
+async function search(){const current=++generation;status.textContent='Searching…';results.replaceChildren();try{const response=await fetch('/api/search?'+new URLSearchParams({q:q.value,mode:mode.value}));if(!response.ok)throw Error('Search failed: '+response.status);const data=await response.json();if(current!==generation)return;status.textContent=data.hits.length+' candidates · snapshot '+data.commit.slice(0,8);for(const h of data.hits){const a=document.createElement('article');a.append(node('h2',h.name),node('small',h.reasons.join(' · ')+' · applicability not checked'),node('p',h.doc||'No description available.'),node('pre',h.signature||h.statement));const link=node('a','View source at this snapshot ↗');link.href=h.source;link.target='_blank';link.rel='noopener';a.append(link);results.append(a);}history.replaceState(null,'','?'+new URLSearchParams({q:q.value,mode:mode.value}));}catch(e){if(current===generation)status.textContent=e.message;}}
+document.querySelector('#search').addEventListener('submit',e=>{e.preventDefault();search();});
+document.querySelectorAll('.examples button').forEach(b=>b.onclick=()=>{q.value=b.textContent;search();});
+const initial=new URLSearchParams(location.search);q.value=initial.get('q')||'';mode.value=initial.get('mode')||'hybrid';if(q.value)search();
+</script>
+</html>

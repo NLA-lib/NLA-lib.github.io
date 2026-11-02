@@ -8,6 +8,14 @@ within the library.
 Statements, source links and the Rates rows are generated from the library. Explorer collections
 and the reviewed Rates summaries are curated here and checked against the extracted declarations.
 
+An experimental [Matrix lemma search](search/README.md) combines local semantic embeddings,
+keyword retrieval and optional Lean applicability checks. It has its own local interface and
+benchmark and does not change the deployed explorer.
+
+The [mathematical documentation MCP](search/DOCUMENTATION_MCP.md) lets agents browse original
+module documentation, read proof-free APIs, inspect definitions and usages, and resume saved
+reading sessions. It works without the embedding model and complements existing Lean MCP tools.
+
 ## How it updates
 
 1. On every push, NLAlib's `explore` workflow builds the library, runs

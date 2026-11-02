@@ -1,0 +1,2 @@
+# Documentation MCP only; no embedding model, NumPy, Lean process or LLM credentials required.
+mcp==1.30.0
