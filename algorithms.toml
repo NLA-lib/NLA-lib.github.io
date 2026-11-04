@@ -62,7 +62,8 @@ algorithms = ['gram-schmidt']
 
 [cg]
 title = 'Conjugate gradient (CG)'
-aliases = ['Hestenes–Stiefel', 'HSCG', 'conjugate gradients']
+aliases = ['Hestenes–Stiefel', 'HSCG', 'conjugate gradients', 'matrix-free CG',
+           'finite precision CG']
 variants = ['pcg']
 
 [pcg]
@@ -73,7 +74,7 @@ variant_of = 'cg'
 [lanczos]
 title = 'Lanczos process'
 aliases = ['Lanczos recurrence', 'Lanczos tridiagonalization', 'Lanczos-FA',
-           'Lanczos matrix functions', 'finite precision Lanczos']
+           'Lanczos matrix functions', 'finite precision Lanczos', 'matrix-free Lanczos']
 
 # The computed recurrence bound belongs here despite the unpaged exact Lanczos-FA prefix.
 results = ['lanczos-fa-finite-precision']
