@@ -219,3 +219,12 @@ primary = "NLAlib.storedEntriesConjugateGradient"
 title = "Lanczos: exact stored-entry implementation"
 aliases = ["Paige-order Lanczos program", "Lanczos operation counts", "Lanczos memory bound"]
 primary = "NLAlib.storedEntriesLanczos"
+
+[lanczos-quadrature-finite-precision]
+title = "Lanczos quadrature in finite precision"
+primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of_continuousOn"
+
+[lanczos-fa-finite-precision]
+title = "Lanczos matrix functions: Chebyshev recurrence bound"
+aliases = ["Druskin–Knizhnerman", "finite precision Lanczos-FA"]
+primary = "NLAlib.LanczosRun.norm_cfc_mulVec_sub_basis_mulVec_le_of_continuousOn"

@@ -237,13 +237,14 @@ results = [
   "lanczos-finite-precision-function-vector",
   "lanczos-finite-precision-computed-function-vector",
   "lanczos-finite-precision-bounded-functions",
+  "lanczos-fa-finite-precision",
 ]
 
 [[collections.groups]]
 id = "quadrature"
 title = "Lanczos and Gauss quadrature"
 definitions = ["NLAlib.lanczosQuadrature", "NLAlib.gaussQuadrature", "NLAlib.jacobiMatrix"]
-results = ["lanczos-gauss-quadrature", "golub-welsch", "gauss-quadrature", "gauss-quadrature-uniqueness", "lanczos-jacobi-matrix", "stochastic-lanczos-quadrature-error"]
+results = ["lanczos-gauss-quadrature", "golub-welsch", "gauss-quadrature", "gauss-quadrature-uniqueness", "lanczos-jacobi-matrix", "stochastic-lanczos-quadrature-error", "lanczos-quadrature-finite-precision"]
 
 [[collections]]
 id = "polynomial"
@@ -313,6 +314,8 @@ results = [
   "lanczos-spectral-measure-wasserstein", "lanczos-finite-precision-function-vector",
   "lanczos-finite-precision-computed-function-vector",
   "lanczos-finite-precision-bounded-functions",
+  "lanczos-fa-finite-precision",
+  "lanczos-quadrature-finite-precision",
 ]
 
 [[collections.groups]]

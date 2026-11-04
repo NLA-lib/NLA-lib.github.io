@@ -75,6 +75,9 @@ title = 'Lanczos process'
 aliases = ['Lanczos recurrence', 'Lanczos tridiagonalization', 'Lanczos-FA',
            'Lanczos matrix functions', 'finite precision Lanczos']
 
+# The computed recurrence bound belongs here despite the unpaged exact Lanczos-FA prefix.
+results = ['lanczos-fa-finite-precision']
+
 [randomized-svd]
 title = 'Randomized SVD (RSVD)'
 aliases = ['randomized range finder', 'RSVD', 'early-truncated RSVD']
