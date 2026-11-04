@@ -172,6 +172,13 @@ An algorithm page (`#a/<id>`, in the panel of every page of the app) gathers wha
 about one algorithm; the [index](https://nla-lib.org/explore/algorithms/) (`algorithms/`) has one
 table per family. Design and decisions: [docs/design/algorithm-pages.md](docs/design/algorithm-pages.md).
 
+The **CG in finite precision** shelf includes physical energy convergence, clustered-spectrum
+polynomial and minimax bounds, delayed energy reliability and stopping certificates. Computed
+Lanczos matrix-function bounds appear on both the **Matrix functions and quadrature** and
+**Eigenvalues and Krylov processes** shelves, and in the Lanczos algorithm's finite-precision
+section. Their statements specify the local arithmetic model and the exact postprocessing or
+supplied postprocessing-error bound; the algorithm page makes no implementation or runtime claim.
+
 - **Members** are the library's: a docstring line `Algorithm: <id>`, optionally
   `Algorithm: <id> (specification)` or `(run model)`, on a definition or program (NLAlib
   CONTRIBUTING §6 item 4b, checked by its `scripts/check_refs.py`). A constant whose type is a

@@ -52,7 +52,13 @@ results = ["cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality"
 id = "cg-finite-precision"
 title = "CG in finite precision"
 definitions = ["NLAlib.CGRun", "NLAlib.CGBackwardCertificate", "NLAlib.PCGRun"]
-results = ["cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap", "cg-finite-precision-accuracy"]
+results = [
+  "cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap",
+  "cg-finite-precision-accuracy", "cg-physical-energy-decrements",
+  "cg-physical-energy-convergence", "cg-tiny-interval-polynomial-convergence",
+  "cg-tiny-interval-minimax-convergence", "cg-tiny-interval-computed-residual",
+  "cg-delayed-physical-energy-reliability", "cg-delayed-energy-stopping",
+]
 
 [[collections.groups]]
 id = "minres"
@@ -224,6 +230,16 @@ definitions = ["NLAlib.lanczosFA", "NLAlib.compressedCfc", "NLAlib.IsStieltjes",
 results = ["lanczos-fa-formula", "lanczos-fa-interpolation", "lanczos-fa-exactness", "lanczos-fa-uniform-bound", "lanczos-fa-recurrence", "lanczos-fa-cg", "lanczos-fa-near-optimality", "lanczos-fa-kernel-near-optimality", "lanczos-fa-near-optimality-lower-bound"]
 
 [[collections.groups]]
+id = "lanczos-fa-finite-precision"
+title = "Lanczos matrix functions in finite precision"
+definitions = ["NLAlib.LanczosRun", "NLAlib.LanczosRun.normalizedFunctionApprox", "NLAlib.LanczosRun.functionApprox"]
+results = [
+  "lanczos-finite-precision-function-vector",
+  "lanczos-finite-precision-computed-function-vector",
+  "lanczos-finite-precision-bounded-functions",
+]
+
+[[collections.groups]]
 id = "quadrature"
 title = "Lanczos and Gauss quadrature"
 definitions = ["NLAlib.lanczosQuadrature", "NLAlib.gaussQuadrature", "NLAlib.jacobiMatrix"]
@@ -289,7 +305,15 @@ results = ["lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "pr
 id = "lanczos-finite-precision"
 title = "Lanczos in finite precision"
 definitions = ["NLAlib.LanczosRun", "NLAlib.LanczosData"]
-results = ["lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator", "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment", "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model", "lanczos-backward-model", "lanczos-backward-model-small-roundoff", "lanczos-spectral-measure-wasserstein"]
+results = [
+  "lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator",
+  "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment",
+  "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model",
+  "lanczos-backward-model", "lanczos-backward-model-small-roundoff",
+  "lanczos-spectral-measure-wasserstein", "lanczos-finite-precision-function-vector",
+  "lanczos-finite-precision-computed-function-vector",
+  "lanczos-finite-precision-bounded-functions",
+]
 
 [[collections.groups]]
 id = "arnoldi"

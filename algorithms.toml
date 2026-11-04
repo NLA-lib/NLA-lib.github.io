@@ -72,7 +72,8 @@ variant_of = 'cg'
 
 [lanczos]
 title = 'Lanczos process'
-aliases = ['Lanczos recurrence', 'Lanczos tridiagonalization']
+aliases = ['Lanczos recurrence', 'Lanczos tridiagonalization', 'Lanczos-FA',
+           'Lanczos matrix functions', 'finite precision Lanczos']
 
 [randomized-svd]
 title = 'Randomized SVD (RSVD)'
