@@ -209,3 +209,13 @@ title = "Filtered range finder: expected error"
 
 [reverse-eckart-young]
 title = "Reverse Eckart–Young for late-truncated Nyström"
+
+[cg-program]
+title = "CG: exact stored-entry implementation"
+aliases = ["square-root-free CG program", "CG operation counts", "CG memory bound"]
+primary = "NLAlib.storedEntriesConjugateGradient"
+
+[lanczos-program]
+title = "Lanczos: exact stored-entry implementation"
+aliases = ["Paige-order Lanczos program", "Lanczos operation counts", "Lanczos memory bound"]
+primary = "NLAlib.storedEntriesLanczos"

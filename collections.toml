@@ -46,7 +46,7 @@ results = ["randomized-kaczmarz", "kaczmarz-inconsistent", "kaczmarz-rank-defici
 id = "cg"
 title = "CG and PCG"
 definitions = ["NLAlib.cgIterate", "NLAlib.galerkinInverse", "NLAlib.cgState", "NLAlib.CGState", "NLAlib.cgStep", "NLAlib.pcgIterate", "NLAlib.pcgState", "NLAlib.PCGState", "NLAlib.pcgStep", "NLAlib.chebyshevExtremaMatrix", "NLAlib.chebyshevErrorVector"]
-results = ["cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
+results = ["cg-program", "cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
 
 [[collections.groups]]
 id = "cg-finite-precision"
@@ -299,7 +299,7 @@ results = ["krylov-space-dimension", "krylov-space-polynomial"]
 id = "lanczos"
 title = "Lanczos"
 definitions = ["NLAlib.lanczosState", "NLAlib.lanczosMatrix", "NLAlib.lanczosTridiagonal", "NLAlib.LanczosState", "NLAlib.lanczosStep", "NLAlib.lanczosAlpha", "NLAlib.preconditionedLanczosState", "NLAlib.preconditionedLanczosMatrix", "NLAlib.preconditionedLanczosTridiagonal", "NLAlib.PreconditionedLanczosState", "NLAlib.preconditionedLanczosStep", "NLAlib.preconditionedLanczosAlpha"]
-results = ["lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "preconditioned-lanczos-recurrence", "lanczos-jacobi-matrix", "lanczos-orthogonal-polynomials"]
+results = ["lanczos-program", "lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "preconditioned-lanczos-recurrence", "lanczos-jacobi-matrix", "lanczos-orthogonal-polynomials"]
 
 [[collections.groups]]
 id = "lanczos-finite-precision"

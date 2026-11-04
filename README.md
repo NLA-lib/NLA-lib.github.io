@@ -177,7 +177,9 @@ polynomial and minimax bounds, delayed energy reliability and stopping certifica
 Lanczos matrix-function bounds appear on both the **Matrix functions and quadrature** and
 **Eigenvalues and Krylov processes** shelves, and in the Lanczos algorithm's finite-precision
 section. Their statements specify the local arithmetic model and the exact postprocessing or
-supplied postprocessing-error bound; the algorithm page makes no implementation or runtime claim.
+supplied postprocessing-error bound. Separately, the CG and Lanczos pages expose the approved
+stored-entry programs, exact output proofs, operation budgets and memory bounds under **Cost
+and output**. These exact program proofs do not certify a complete rounded solver execution.
 
 - **Members** are the library's: a docstring line `Algorithm: <id>`, optionally
   `Algorithm: <id> (specification)` or `(run model)`, on a definition or program (NLAlib
