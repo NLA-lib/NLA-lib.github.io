@@ -1082,3 +1082,9 @@ details.topic, details.sub { scroll-margin-top: 4rem; }
 .algo-filter select { font: inherit; color: inherit; background: #fff; }
 body[data-page="algorithms"] #contentContainer { max-width: 1120px; }
 .algo-model { font-size: 75%; color: var(--faint); margin-left: 0.4em; }
+/* prose pages (pages/<name>.md, rendered by build.py; maths typeset by app.js) */
+#content.prose { line-height: 1.45; }
+#content.prose h2 { margin-bottom: 0.5em; }
+#content.prose li { margin: 0.4em 0; }
+#content.prose ul { padding-left: 1.2em; }
+#content.prose .math.display { display: block; overflow-x: auto; overflow-y: hidden; }

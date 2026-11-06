@@ -158,6 +158,48 @@ class BuildTests(unittest.TestCase):
                 # the menu marks this page only: no other link takes its data-page
                 self.assertEqual(page.count(f'data-page="{sub}"'), 2)
 
+    def test_prose_html(self):
+        missing = []
+        out = b.prose_html('# Title\n\nThe map `rsvd` and `Matrix m n 𝕜`, `gone`; **bold** and *it* with $a < b$.\n\n'
+                           '$$\\mathbf{P}_{A} > 0$$\n\n## Part\n\n- one [link](../rates/)\n  continued\n- two',
+                           {'NLAlib.rsvd'}, missing)
+        self.assertIn('<h2>Title</h2>', out)
+        self.assertIn('<h3>Part</h3>', out)
+        self.assertIn('<a href="#d/NLAlib.rsvd"><code>rsvd</code></a>', out)
+        self.assertIn('<code>Matrix m n 𝕜</code>', out)
+        self.assertEqual(missing, ['gone'])
+        self.assertIn('<strong>bold</strong> and <em>it</em>', out)
+        self.assertIn('<span class="math">a &lt; b</span>', out)
+        self.assertIn('<div class="math display">\\mathbf{P}_{A} &gt; 0</div>', out)
+        self.assertIn('<ul><li>one <a href="../rates/">link</a> continued</li><li>two</li></ul>', out)
+
+    def test_prose_html_code_and_ordered_lists(self):
+        missing = []
+        out = b.prose_html('Text.\n\n```lean\ndef f := 1 -- $x$ `g`\n\ndef h := a < b\n```\n\n'
+                           '1. **One** item\n   continued\n2. Two', set(), missing)
+        self.assertIn('<pre class="lean">def f := 1 -- $x$ `g`\n\ndef h := a &lt; b</pre>', out)
+        self.assertIn('<ol><li><strong>One</strong> item continued</li><li>Two</li></ol>', out)
+        self.assertEqual(missing, [])
+
+    def test_design_page_built_with_nav_link(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'site'
+            with patch.object(b, 'load_toml', side_effect=lambda name: {}):
+                b.build(dict(decls=[decl('NLAlib.rsvd', 'X.', kind='def')],
+                             modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, out)
+            page = (out / 'design' / 'index.html').read_text()
+            self.assertIn('<body data-page="design" data-base="../"', page)
+            self.assertIn('<div id="searchbar" hidden>', page)
+            self.assertIn('<div id="content" class="prose">', page)
+            content = page.split('<div id="content"')[1]
+            self.assertIn('<h2>', content)
+            self.assertIn('class="math', content)
+            self.assertNotIn('```', content)
+            self.assertNotIn('$', content)
+            self.assertIn('<a href="../design/" data-page="design">Design</a>', page)
+            self.assertIn('<a href="design/" data-page="design">Design</a>', (out / 'index.html').read_text())
+            self.assertRegex(page, r'<title>[^<]+ · NLAlib explorer</title>')
+
 
 if __name__ == '__main__':
     unittest.main()

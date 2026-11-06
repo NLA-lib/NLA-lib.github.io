@@ -15,6 +15,15 @@
 
   $(`.menu a[data-page="${PAGE}"]`)?.classList.add('here');
 
+  // a prose page (pages/<name>.md, rendered by build.py) has its text in the HTML already; only its
+  // maths is typeset here, before the data loads, so the page reads even if the data does not come
+  const PROSE = $('#content.prose');
+  if (PROSE) {
+    for (const el of PROSE.querySelectorAll('.math')) {
+      el.innerHTML = tex(el.textContent, el.classList.contains('display'));
+    }
+  }
+
   let D;
   try {
     D = await (await fetch(BASE + 'data.json' + (document.body.dataset.version ? '?v=' + document.body.dataset.version : ''))).json();
@@ -367,6 +376,8 @@
     renderBooks();
   } else if (PAGE === 'algorithms') {
     renderAlgorithms();
+  } else if (PROSE) {
+    $('#byline').innerHTML = `Names link to their statements in NLAlib at ${commit}${D.date ? ', ' + esc(D.date.slice(0, 10)) : ''}.`;
   } else {
     $('#byline').innerHTML = `${nResults} named results, ${nDefs} definitions and ${decls.length} declarations, ` +
       `from NLAlib at ${commit}${D.date ? ', ' + esc(D.date.slice(0, 10)) : ''}.`;
