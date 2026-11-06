@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>How NLA-lib defines things</title>
+  <meta name="description" content="The choices NLA-lib makes in formalizing numerical linear algebra, from quantifiers and constants to programs, counted operations and arithmetic models.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preload" href="../font/source-sans/SourceSans3-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../font/source-sans/SourceSans3-It.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../font/source-sans/SourceSans3-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="../css/site.css">
+  <link rel="stylesheet" href="../css/landing.css">
+  <link rel="stylesheet" href="../css/print.css" media="print">
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css">
+  <script defer src="../vendor/katex/katex.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      for (const el of document.querySelectorAll('.math')) {
+        katex.render(el.textContent, el, { displayMode: el.classList.contains('display'), throwOnError: false });
+      }
+    });
+  </script>
+</head>
+<body>
+<div id="contentContainer">
+
+
+<h1>How NLA-lib defines things</h1>
+<nav class="menu">
+  <a href="../">Home</a>
+  <a href="../explore/">Explorer</a>
+  <a href="../explore/rates/">Rates</a>
+  <a href="../explore/algorithms/">Algorithms</a>
+  <a href="./" class="here">Design</a>
+  <a href="https://github.com/NLA-lib/nlalib">GitHub</a>
+</nav>
+<p>This page provides an overview of several choices NLA-lib makes in formalizing numerical linear algebra. More precise rules are in the repository.</p>
+<h2 id="why-formalizing-nla-is-hard">Why formalizing NLA is hard</h2>
+<p>The challenges of formalizing NLA are in many ways different from those in certain parts of theoretical math. For instance, the Lean statement of Fermat’s last theorem is extremely simple and easy for a human to check, even though the formal proof itself is incredibly long. In contrast, natural language results in NLA are often stated with implicit definitions, quantification (e.g. when using big-<span class="math inline">O</span>), integrability assumptions (e.g. when using Markov’s inequality), and models of computation. Moreover, there are many formal statements that are all slight variants of one another (for example, with slightly different bounds on parameters). This adds a number of subtleties to formalizing NLA not encountered in certain areas of pure math.</p>
+<h3 id="quantification-and-constants">Quantification and constants</h3>
+<p>Results in NLA are often stated asymptotically: with <span class="math inline">s = O(k/\varepsilon)</span> columns, the error is at most <span class="math inline">(1+\varepsilon)</span> times optimal with high probability. Such a statement leaves implicit what the hidden constant may depend on, and in what order the quantifiers come. One advantage of formalization is making this kind of thing precise. The cost is that such statements are more verbose. For reference, we have also included “simpler” versions of many statements of the form “there exist <span class="math inline">C, \varepsilon_0 &gt; 0</span> such that for all <span class="math inline">k</span> and all <span class="math inline">\varepsilon \in (0, \varepsilon_0]</span>, <span class="math inline">s \ge Ck/\varepsilon</span> columns suffice”. In such statements, the hidden constant may trade off very poorly with the range of validity in parameters, so the constants used may be extremely large, even when the more precise bound is better.</p>
+<h3 id="algorithms">Algorithms</h3>
+<p>Much of NLA is concerned with algorithms. In NLA-lib, algorithms (and theorems about algorithms) can roughly be broken into two categories:</p>
+<ul>
+<li><strong>Mathematical quantities.</strong> The first kind are theorems about algorithms as mathematical objects. For instance, the mathematical object: <code>rsvd A Ω</code> is the projection <span class="math inline">\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}\mathbf{A}</span>, and a theorem bounds its error. Such theorems are typically simpler to state and read, and typically reflect literature results well.</li>
+<li><strong>Programs.</strong> The second kind is about a particular implementation of a mathematical algorithm; i.e. a sequence of operations that, in principle, outputs the mathematical object. The rounding model is not part of the program: the same program can run with exact arithmetic, or with any arithmetic that meets an error contract such as the standard model. A theorem about rounding holds for every arithmetic that meets its contract, and specific formats, such as IEEE double, are proved to meet it. We <a href="#programs">expand on the implementation of programs below</a>.</li>
+</ul>
+<h2 id="programs">Programs</h2>
+<p>A program is a particular sequence of operations that computes a mathematical object. This lets us keep track of things like how many operations or matrix-vector products the program uses, how much memory it needs, and how accurate it is in finite precision. These are properties of a particular way of computing the object, not of the object, so the program itself must be something a theorem can talk about.</p>
+<h3 id="example-summing-numbers">Example: summing numbers</h3>
+<p>Suppose we want to sum <span class="math inline">n</span> real numbers in floating point, and count the additions. To reason about rounding, make the rounded addition a parameter <code>fl_add</code> that satisfies the standard model: <span class="math inline">\mathrm{fl}(a+b) = (a+b)(1+\delta)</span> with <span class="math inline">\lvert\delta\rvert \le u</span>. To count, use a counter that every addition increments, as one would in Python with a class that holds a count. Lean has no hidden mutable state, but the state monad passes a counter along:</p>
+<pre class="lean"><code>def addC (fl_add : ℝ → ℝ → ℝ) (a b : ℝ) : StateM ℕ ℝ := do
+  modify (· + 1)          -- counter += 1
+  pure (fl_add a b)
+
+def recSum (fl_add : ℝ → ℝ → ℝ) (x : Fin n → ℝ) : StateM ℕ ℝ :=
+  Fin.foldlM n (fun s i =&gt; addC fl_add s (x i)) 0</code></pre>
+<p>The increment lives inside the counted addition, so whoever writes <code>recSum</code> places no ticks. Two theorems follow by induction on the loop: the counter ends at <span class="math inline">n</span>, and the computed sum is within <span class="math inline">\gamma_{n-1}\sum_i \lvert x_i \rvert</span> of the true one, where <span class="math inline">\gamma_k = (1-u)^{-k} - 1</span> (Higham, §4.2). For an algorithm designer who only adds through <code>addC</code>, this is the right cost and the right error.</p>
+<p>The trouble is that nothing makes a designer do so. The counter counts only the additions that go through it:</p>
+<pre class="lean"><code>def cheatSum (fl_add : ℝ → ℝ → ℝ) (x : Fin n → ℝ) : StateM ℕ ℝ :=
+  addC fl_add 0 (∑ i, x i)       -- count: 1</code></pre>
+<p>The counter ends at <span class="math inline">1</span>, and the standard model gives, in one line, an error of at most <span class="math inline">u \lvert \sum_i x_i \rvert</span>. Both the accuracy and cost claims beat every real summation algorithm. The theorems are correct; what is wrong is that <code>∑ i, x i</code> did <span class="math inline">n-1</span> additions exactly, in an arithmetic no computer has, without passing the counter. The same is true of the Python class: <code>self.add(0, sum(x))</code> reports one addition. And the trick works anywhere: to solve <span class="math inline">\mathbf{A}\mathbf{x} = \mathbf{b}</span>, compute <span class="math inline">\mathbf{A}^{-1}\mathbf{b}</span> exactly and round each entry, for <span class="math inline">n</span> counted operations and componentwise relative error <span class="math inline">u</span>.</p>
+<p>Attempts to forbid the bypass fail too. For example, making the code generic in the number type, so that it has no <code>∑</code> to call, does not work: Lean’s logic is classical, so generic code can ask which type it was given and cheat only on <code>ℝ</code>.</p>
+<p>A trustworthy designer never bypasses the counter. A library that accepts proofs from anyone, including automated provers, cannot rely on that: “uses only the allowed operations” has to be guaranteed by the statement itself.</p>
+<h3 id="how-nla-lib-rules-it-out">How NLA-lib rules it out</h3>
+<p>NLA-lib keeps the counter, and moves it into the interpreter. A program is a tree built from a fixed set of instructions, with no Lean function inside it, so the allowed operations are a definition: there is no <code>∑</code> to call and no way to ask which type a value has. The library defines how a tree runs: the state of a run has a count, and the run adds to it for every instruction it executes, however the result is used. The only way a program can add is an addition instruction, and the only thing that executes instructions is the run. So <code>cheatSum</code> cannot be written, and the count is a property of the run, not of how the author wrote the code.</p>
+<p>Recursive summation as a program is a loop of additions into one cell:</p>
+<pre class="lean"><code>def sum (p : P) (dst : Cell VB VI) (x : VB) (n : IExp VI) : Builder P ι VB VI Unit := do
+  ins (.lit p dst 0)                                           -- dst ← 0
+  forRange n fun i =&gt; ins (.bin p .add dst dst ⟨x, .var i⟩)   -- dst ← dst + x[i]</code></pre>
+<p>It has two theorems, each proved by induction on the loop.</p>
+<ol type="1">
+<li><strong>Exact arithmetic.</strong> If the cells of <code>x</code> hold <span class="math inline">x_0, \ldots, x_{n-1}</span>, the run succeeds, writes <span class="math inline">\sum_i x_i</span> into <code>dst</code>, and counts <span class="math inline">n</span> additions and one literal. The invariant: after <span class="math inline">i</span> iterations, <code>dst</code> holds <span class="math inline">\sum_{j&lt;i} x_j</span>, and the counts are <span class="math inline">i</span> additions and one literal.</li>
+<li><strong>Rounded arithmetic.</strong> Under the contract <code>IsRelErrSem</code> with unit roundoff <span class="math inline">u</span>, every addition stays in range and returns <span class="math inline">(a+b)(1+\delta)</span> with <span class="math inline">\lvert\delta\rvert \le u</span>. The invariant: <code>dst</code> holds <span class="math inline">\sum_{j&lt;i} x_j(1+\eta_j)</span> with <span class="math inline">\lvert\eta_j\rvert \le \gamma_{i-1}</span>, using that adding to zero is exact. At the end, the computed <span class="math inline">w</span> satisfies <span class="math inline">\lvert \sum_i x_i - w \rvert \le \gamma_{n-1} \sum_i \lvert x_i \rvert</span>.</li>
+</ol>
+<p>The cost in the first theorem and the error in the second are about the same tree, so together they say what <code>cheatSum</code> could not: this accuracy, at this cost. IEEE double is proved to meet the contract, so the bound holds for it too. The library’s <code>dot</code> kernel is this program with a multiplication in the loop; its theorems are <code>exec_dot</code> and <code>IsRelErrSem.exec_dot_abs_sum_mul_sub_le</code>.</p>
+<p>Every kind of operation is counted separately: arithmetic, comparisons, literals and copies, reads of stored entries, matrix-vector products, random draws, and memory. Index arithmetic and loop control are not counted; they depend only on the sizes.</p>
+<p>A published cost result is a proof of a target: a statement written and registered by the library, about a registered program, that fixes the program before the sizes, the matrix and the random draws. The prover supplies only the proof, and a hash of everything the statement reaches stops it from being weakened.</p>
+<h3 id="arithmetic-models">Arithmetic models</h3>
+<p>A program does not fix its arithmetic. A run is given a value semantics, which says what each operation returns or that it fails, and each theorem names the one it assumes.</p>
+<ul>
+<li><strong>Exact arithmetic.</strong> Operations on real or complex numbers, with no rounding. This is where counts are proved, and where a program is shown to compute its mathematical object.</li>
+<li><strong>Error contracts.</strong> A contract is a condition on the semantics. For example, the standard model of floating point arithmetic, <code>IsRelErrSem</code>, requires every operation to return its exact result times <span class="math inline">(1+\delta)</span> with <span class="math inline">\lvert\delta\rvert \le u</span>. Variants of this model that have a bounded exponent range (so that numbers might overflow or underflow) require, in addition, that the exact result of every operation lies in the representable range, so a program must prove that it never overflows; with gradual underflow, the error gains an absolute term, <span class="math inline">\lvert a - z \rvert \le u\lvert a \rvert + \eta</span>.</li>
+</ul>
+<p>To apply a result to a particular arithmetic, such as IEEE 754 double precision, one proves that the arithmetic meets the contract.</p>
+<h3 id="matrix-vector-products">Matrix-vector products</h3>
+<p>Many NLA algorithms, such as Krylov methods and sketching, touch the matrix only through products <span class="math inline">\mathbf{x} \mapsto \mathbf{A}\mathbf{x}</span>, and their cost is counted in products. The counter problem appears again. Give a Lean function a product <code>mv</code> and count the calls through a wrapper, and it can still recover <span class="math inline">\mathbf{A}</span> without a single counted call:</p>
+<pre class="lean"><code>noncomputable def recover (mv : (Fin n → ℝ) → (Fin n → ℝ)) : Matrix (Fin n) (Fin n) ℝ :=
+  if h : ∃ A : Matrix (Fin n) (Fin n) ℝ, ∀ x, mv x = A *ᵥ x then h.choose else 0</code></pre>
+<p>In NLA-lib the product is an instruction, <code>apply</code>, counted like arithmetic, and a program fixed before the matrix sees it only through these counted calls.</p>
+<p>A program can instead read stored entries of the matrix, each read counted, and a matrix-free result gives the dense and sparse results by substitution.</p>
+<p>As for arithmetic, the product has error contracts of its own (<code>IsMatvecErr</code>), and a result under rounding holds for every oracle that meets its contract.</p>
+<h2 id="some-design-decisions-we-made">Some design decisions we made</h2>
+<ul>
+<li><strong>Definitions are total</strong>, as in Mathlib (<a href="https://xenaproject.wordpress.com/2020/07/05/division-by-zero-in-type-theory-a-faq/">why this is fine</a>): the inverse of a singular matrix is defined to be <span class="math inline">0</span>, and each such value is documented. So we can prove “the inverse of a non-invertible matrix is zero”, but this is a fact about the convention, not about inverses. Anything that actually uses invertibility, such as <span class="math inline">\mathbf{A}^{-1}\mathbf{A} = \mathbf{I}</span>, fails for singular <span class="math inline">\mathbf{A}</span> (it gives <span class="math inline">\mathbf{0} = \mathbf{I}</span>), so it can only be proved with the hypothesis that <span class="math inline">\mathbf{A}</span> is invertible. A theorem that needs nondegeneracy states it as a hypothesis.</li>
+<li><strong>Randomness is explicit.</strong> A test matrix is a random variable <span class="math inline">\mathbf{\Omega}</span> on an arbitrary probability space, with a hypothesis on its law (Gaussian, Haar, a sparse sign sketch). Statements do not build the matrix from random entries on a space of its own.</li>
+<li><strong>Expectations come with integrability.</strong> An expectation is an integral, and totality applies here too: the integral of a non-integrable function is defined to be <span class="math inline">0</span>. So a bound like <span class="math inline">\mathbb{E}\|\mathbf{A} - \mathsf{rsvd}(\mathbf{A},\mathbf{\Omega})\|_{\mathsf{F}} \le B</span> would hold trivially if the error were not integrable, and every such bound comes with a separate theorem that it is.</li>
+</ul>
+<h2 id="where-to-read-more">Where to read more</h2>
+<ul>
+<li><a href="https://github.com/NLA-lib/nlalib/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a> is the library’s contract: representation, total definitions, statement shapes, randomness, constants and asymptotic forms (§5), and the checks that enforce them.</li>
+<li><a href="https://github.com/NLA-lib/nlalib/blob/main/docs/design/Computation.md">docs/design/Computation.md</a> is the design of the program layer: the syntax, the run, the access models, the error contracts, and what is proved and what is trusted.</li>
+<li>The <a href="../explore/">explorer</a> has the definitions and theorems named on this page, with their statements and sources.</li>
+</ul>
+
+</div>
+</body>
+</html>

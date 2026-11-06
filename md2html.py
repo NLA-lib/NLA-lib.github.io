@@ -4,8 +4,8 @@
     python3 md2html.py call/index.md [more.md ...]
 
 Each page is written next to its markdown file, with the same name and a
-.html extension, and links to the stylesheets (css/landing.css, and
-css/print.css for printing) and the icon (icon.ico) by paths relative to the
+.html extension, and links to the stylesheets (css/site.css, shared with the
+explorer, css/landing.css, and css/print.css for printing) and the icon (icon.ico) by paths relative to the
 page.
 
 A file starts with a YAML header giving the page's details:
@@ -83,6 +83,18 @@ SIDENOTE = ('<input type="checkbox" id="sn-{n}" class="sidenote-toggle">'
             '<label for="sn-{n}" class="sidenote-ref"></label>')
 
 STYLESHEET = Path(__file__).resolve().parent / 'css' / 'landing.css'
+# the fonts, links, column, title and menu, shared with the explorer (explore/web/index.html)
+SHARED_CSS = Path(__file__).resolve().parent / 'css' / 'site.css'
+# KaTeX, shared with the explorer; a page with mathematics typesets it when it loads
+KATEX = Path(__file__).resolve().parent / 'vendor' / 'katex'
+KATEX_RENDER = '''  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      for (const el of document.querySelectorAll('.math')) {
+        katex.render(el.textContent, el, { displayMode: el.classList.contains('display'), throwOnError: false });
+      }
+    });
+  </script>
+'''
 ICON = Path(__file__).resolve().parent / 'icon.ico'
 # the faces seen at first paint, fetched before the stylesheet asks for them
 FONTS = [Path(__file__).resolve().parent / 'font' / 'source-sans' / ('SourceSans3-%s.woff2' % face)
@@ -251,7 +263,7 @@ def convert(markdown, title=None, base=Path('.')):
     doc['blocks'] = Sidenotes().walk(blocks)
     doc['meta'] = {}
 
-    body = pandoc(json.dumps(doc), '--from=json', '--to=html', '--wrap=none')
+    body = pandoc(json.dumps(doc), '--from=json', '--to=html', '--wrap=none', '--katex')
     return title, body.strip()
 
 
@@ -306,11 +318,15 @@ def main():
 
         output = source.with_suffix('.html')
         # print.css, if there is one beside the stylesheet, is used for printing
-        sheets = [(args.css, ''), (args.css.with_name('print.css'), ' media="print"')]
+        sheets = [(SHARED_CSS, ''), (args.css, ''), (args.css.with_name('print.css'), ' media="print"')]
         css = '\n'.join(
             '  <link rel="stylesheet" href="%s"%s>'
             % (Path(os.path.relpath(sheet.resolve(), output.resolve().parent)).as_posix(), media)
             for sheet, media in sheets if sheet == args.css or sheet.exists())
+        if 'class="math' in body:
+            rel = lambda f: Path(os.path.relpath(KATEX / f, output.resolve().parent)).as_posix()
+            css += ('\n  <link rel="stylesheet" href="%s">\n  <script defer src="%s"></script>\n%s'
+                    % (rel('katex.min.css'), rel('katex.min.js'), KATEX_RENDER.rstrip('\n')))
         css = ''.join(
             '  <link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>\n'
             % Path(os.path.relpath(font, output.resolve().parent)).as_posix()

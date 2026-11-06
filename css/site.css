@@ -1,0 +1,125 @@
+@charset "utf-8";
+
+/* What every page of nla-lib.org shares: the fonts, the text colour, links, the reading column,
+   the title with its rule and the menu under it. The homepage and the design page link this file;
+   the explorer's build copies it (with font/ and vendor/) into its output, so there is one source.
+
+   The title and the menu are sized in px, not rem: the explorer sets a smaller base size for its
+   long pages, and the header must not move when a reader goes from one half of the site to the
+   other. */
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../font/source-sans/SourceSans3-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../font/source-sans/SourceSans3-It.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../font/source-sans/SourceSans3-Semibold.woff2') format('woff2');
+    font-weight: 600;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../font/source-sans/SourceSans3-Bold.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: block;
+}
+
+@font-face {
+    font-family: 'Source Sans 3';
+    src: url('../font/source-sans/SourceSans3-BoldIt.woff2') format('woff2');
+    font-weight: 700;
+    font-style: italic;
+    font-display: block;
+}
+
+/* a page with a scrollbar and one without keep the column in the same place */
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    margin: 0;
+    font-family: 'Source Sans 3', sans-serif;
+    font-variant-numeric: lining-nums;
+    font-feature-settings: "lnum";
+    font-weight: 400;
+    color: #1d1d1d;
+}
+
+a {
+    color: inherit;
+    text-underline-offset: 2px;
+}
+
+a:hover {
+    background: #1d1d1d;
+    color: #fff;
+}
+
+#contentContainer {
+    margin: 0 auto;
+    width: 90%;
+    max-width: 720px;
+    padding: 20px 2% 5rem;
+}
+
+h1 {
+    font-size: 44px;
+    line-height: .9em;
+    margin: 0.67em 0 0;
+    padding: 1em 0 0;
+    border-bottom: 1.7px solid #1d1d1d;
+    hyphens: manual;
+}
+
+/* menu links invert on hover like every link; a change of style would change their width and
+   shift the menu */
+.menu {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.2em 1.2em;
+    margin: 0.4em 0 1.4em;
+    font-size: 20px;
+    line-height: 1.2;
+}
+
+.menu a {
+    text-decoration: none;
+}
+
+.menu a.here {
+    font-weight: 600;
+}
+
+/* phones: smaller title and menu, no gap above the title */
+@media (max-width: 500px) {
+    #contentContainer {
+        padding-top: 10px;
+    }
+
+    h1 {
+        margin-top: 0;
+        padding-top: 0;
+        font-size: 34px;
+    }
+
+    .menu {
+        font-size: 17px;
+    }
+}

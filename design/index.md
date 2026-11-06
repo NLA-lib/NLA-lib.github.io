@@ -1,4 +1,14 @@
-# How NLAlib defines things
+---
+title: How NLA-lib defines things
+description: The choices NLA-lib makes in formalizing numerical linear algebra, from quantifiers and constants to programs, counted operations and arithmetic models.
+menu:
+  - Home: ../
+  - Explorer: ../explore/
+  - Rates: ../explore/rates/
+  - Algorithms: ../explore/algorithms/
+  - Design: ./
+  - GitHub: https://github.com/NLA-lib/nlalib
+---
 
 This page provides an overview of several choices NLA-lib makes in formalizing numerical linear algebra. More precise rules are in the repository.
 
@@ -49,9 +59,9 @@ Attempts to forbid the bypass fail too. For example, making the code generic in 
 
 A trustworthy designer never bypasses the counter. A library that accepts proofs from anyone, including automated provers, cannot rely on that: "uses only the allowed operations" has to be guaranteed by the statement itself.
 
-### How NLAlib rules it out
+### How NLA-lib rules it out
 
-NLAlib keeps the counter, and moves it into the interpreter. A program is a tree built from a fixed set of instructions, with no Lean function inside it, so the allowed operations are a definition: there is no `∑` to call and no way to ask which type a value has. The library defines how a tree runs: the state of a run has a count, and the run adds to it for every instruction it executes, however the result is used. The only way a program can add is an addition instruction, and the only thing that executes instructions is the run. So `cheatSum` cannot be written, and the count is a property of the run, not of how the author wrote the code.
+NLA-lib keeps the counter, and moves it into the interpreter. A program is a tree built from a fixed set of instructions, with no Lean function inside it, so the allowed operations are a definition: there is no `∑` to call and no way to ask which type a value has. The library defines how a tree runs: the state of a run has a count, and the run adds to it for every instruction it executes, however the result is used. The only way a program can add is an addition instruction, and the only thing that executes instructions is the run. So `cheatSum` cannot be written, and the count is a property of the run, not of how the author wrote the code.
 
 Recursive summation as a program is a loop of additions into one cell:
 
@@ -90,7 +100,7 @@ noncomputable def recover (mv : (Fin n → ℝ) → (Fin n → ℝ)) : Matrix (F
   if h : ∃ A : Matrix (Fin n) (Fin n) ℝ, ∀ x, mv x = A *ᵥ x then h.choose else 0
 ```
 
-In NLAlib the product is an instruction, `apply`, counted like arithmetic, and a program fixed before the matrix sees it only through these counted calls.
+In NLA-lib the product is an instruction, `apply`, counted like arithmetic, and a program fixed before the matrix sees it only through these counted calls.
 
 A program can instead read stored entries of the matrix, each read counted, and a matrix-free result gives the dense and sparse results by substitution.
 
@@ -106,4 +116,4 @@ As for arithmetic, the product has error contracts of its own (`IsMatvecErr`), a
 
 - [CONTRIBUTING.md](https://github.com/NLA-lib/nlalib/blob/main/CONTRIBUTING.md) is the library's contract: representation, total definitions, statement shapes, randomness, constants and asymptotic forms (§5), and the checks that enforce them.
 - [docs/design/Computation.md](https://github.com/NLA-lib/nlalib/blob/main/docs/design/Computation.md) is the design of the program layer: the syntax, the run, the access models, the error contracts, and what is proved and what is trusted.
-- The explorer has the definitions and theorems named on this page, with their statements and sources.
+- The [explorer](../explore/) has the definitions and theorems named on this page, with their statements and sources.

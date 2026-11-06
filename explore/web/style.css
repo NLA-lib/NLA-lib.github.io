@@ -1,47 +1,8 @@
 @charset "utf-8";
 
-/* The explorer follows nla-lib.org's stylesheet (css/landing.css): Source Sans 3, one ink colour,
-   an italic h2, a ruled h1, dash lists, and links that invert on hover. */
-
-@font-face {
-    font-family: 'Source Sans 3';
-    src: url('font/source-sans/SourceSans3-Regular.woff2') format('woff2');
-    font-weight: 400;
-    font-style: normal;
-    font-display: block;
-}
-
-@font-face {
-    font-family: 'Source Sans 3';
-    src: url('font/source-sans/SourceSans3-It.woff2') format('woff2');
-    font-weight: 400;
-    font-style: italic;
-    font-display: block;
-}
-
-@font-face {
-    font-family: 'Source Sans 3';
-    src: url('font/source-sans/SourceSans3-Semibold.woff2') format('woff2');
-    font-weight: 600;
-    font-style: normal;
-    font-display: block;
-}
-
-@font-face {
-    font-family: 'Source Sans 3';
-    src: url('font/source-sans/SourceSans3-Bold.woff2') format('woff2');
-    font-weight: 700;
-    font-style: normal;
-    font-display: block;
-}
-
-@font-face {
-    font-family: 'Source Sans 3';
-    src: url('font/source-sans/SourceSans3-BoldIt.woff2') format('woff2');
-    font-weight: 700;
-    font-style: italic;
-    font-display: block;
-}
+/* The explorer's own styles. The fonts, ink colour, links, column, ruled title and menu come from
+   nla-lib.org's shared css/site.css, loaded first; this file follows the homepage's
+   css/landing.css in the rest: an italic h2, dash lists. */
 
 :root {
     --ink: #1d1d1d;
@@ -52,41 +13,18 @@
     --gap: #9a5b00;
 }
 
+/* the fonts, colours, links, column, title and menu are in ../css/site.css (copied into the
+   build's css/), shared with the rest of nla-lib.org */
 html {
     font-size: 19px;
-    /* Keep the same reading-column position as the long main page, even when the
-       catalogue is collapsed and has no scrollbar. Overlay scrollbars take no space. */
-    scrollbar-gutter: stable;
 }
 
 body {
-    margin: 0;
-    font-family: 'Source Sans 3', sans-serif;
-    font-variant-numeric: lining-nums;
-    font-feature-settings: "lnum";
-    color: var(--ink);
     hyphens: manual;
 }
 
-#contentContainer {
-    margin: 0 auto;
-    width: 90%;
-    max-width: 720px;
-    padding: 20px 2% 5rem;
-}
-
-h1, h2 {
-    padding-top: 1em;
-}
-
-h1 {
-    font-size: 44px;
-    line-height: .9em;
-    margin-bottom: 0;
-    border-bottom: 1.7px solid var(--ink);
-}
-
 h2 {
+    padding-top: 1em;
     font-size: 24px;
     font-style: italic;
 }
@@ -95,23 +33,6 @@ h3 {
     font-size: 19px;
     font-weight: 600;
     margin: 1.4em 0 0.3em;
-}
-
-/* the site menu under the title, as on nla-lib.org: plain links that invert on hover like every
-   link (a change of style on hover would change their width and shift the menu) */
-.menu {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.2em 1.2em;
-    margin: 0.4rem 0 1.4rem;
-}
-
-.menu a {
-    text-decoration: none;
-}
-
-.menu a.here {
-    font-weight: 600;
 }
 
 .intro {
@@ -127,16 +48,6 @@ h3 {
     font-size: 70%;
     line-height: 1.35;
     color: var(--faint);
-}
-
-a {
-    color: inherit;
-    text-underline-offset: 2px;
-}
-
-a:hover {
-    background: var(--ink);
-    color: #fff;
 }
 
 a:hover .katex,
@@ -706,11 +617,6 @@ ul.declist li {
         font-size: 17px;
     }
 
-    h1 {
-        font-size: 34px;
-        padding-top: 0;
-    }
-
     h2 {
         font-size: 20px;
     }
@@ -1065,135 +971,16 @@ details.topic, details.sub { scroll-margin-top: 4rem; }
 .algo-index td:first-child { white-space: normal; }
 .algo-filter select { font: inherit; color: inherit; background: #fff; }
 body[data-page="algorithms"] #contentContainer { max-width: 1120px; }
+/* the wide pages keep the title and menu where every other page of nla-lib.org has them: on the
+   720px column of css/site.css, centred over the wider tables */
+body[data-page="rates"] #contentContainer > h1, body[data-page="rates"] #contentContainer > .menu,
+body[data-page="algorithms"] #contentContainer > h1, body[data-page="algorithms"] #contentContainer > .menu {
+    max-width: 720px;
+    margin-left: auto;
+    margin-right: auto;
+}
 .algo-model { font-size: 75%; color: var(--faint); margin-left: 0.4em; }
-/* prose pages (pages/<name>.md, rendered by build.py; maths typeset by app.js) */
-#content.prose { line-height: 1.45; }
-#content.prose h2 { margin-bottom: 0.5em; }
-#content.prose li { margin: 0.4em 0; }
-#content.prose ul { padding-left: 1.2em; }
-#content.prose .math.display { display: block; overflow-x: auto; overflow-y: hidden; }
 
 /* rename maps: a redirected old link, and a statement that changed */
 .rename-note, .statement-changed { font-size: 92%; margin: 0.4em 0; color: var(--faint); }
 .rename-note { border-left: 3px solid var(--rule, currentColor); padding-left: 0.6em; }
-
-/* ---------- reports ---------- */
-
-.report-kind {
-    font-size: 70%;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--faint);
-    margin: 1.4em 0 -1.2em;
-}
-
-.report-kind a {
-    text-decoration: none;
-}
-
-.report-status {
-    color: var(--gap);
-}
-
-.report-title {
-    margin-bottom: 0.2em;
-}
-
-.report-byline {
-    font-size: 85%;
-    color: var(--faint);
-    margin-top: 0;
-}
-
-.report .abstract {
-    font-size: 90%;
-    border-left: 2px solid var(--rule);
-    padding-left: 0.8em;
-    margin: 1.2em 0;
-}
-
-.report .abstract .label, .report-covers .label {
-    display: block;
-    margin: 0 0 0.2em;
-}
-
-.report .abstract p {
-    margin: 0;
-}
-
-.report-covers {
-    font-size: 82%;
-    line-height: 1.5;
-}
-
-.report-body {
-    line-height: 1.5;
-}
-
-.report-body h3 {
-    font-size: 21px;
-    margin-top: 1.8em;
-}
-
-.report-body h4 {
-    font-size: 19px;
-    font-style: italic;
-    font-weight: 400;
-    margin: 1.4em 0 0.3em;
-}
-
-.report-body .katex-display {
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-/* a cited statement: the library's own, under its result and declaration */
-figure.report-stmt {
-    margin: 1.1em 0;
-}
-
-figure.report-stmt .label {
-    margin: 0 0 0.3em;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 80%;
-}
-
-figure.report-stmt .label a {
-    text-decoration: none;
-}
-
-figure.report-stmt .formname {
-    font-weight: 400;
-    font-style: italic;
-}
-
-figure.report-stmt.stale .statement {
-    border-color: var(--gap);
-}
-
-.stale-note {
-    font-size: 78%;
-    color: var(--gap);
-    margin: 0.3em 0 0;
-}
-
-figure.report-diagram {
-    margin: 1.1em 0;
-}
-
-.broken {
-    color: var(--gap);
-    text-decoration: underline wavy;
-}
-
-/* "Discussed in: <report>" on a result or declaration */
-.discussed {
-    font-size: 80%;
-    margin: -0.4em 0 1em;
-}
-
-/* library names in a report's prose can be long: they break anywhere rather than overflow */
-.report code {
-    overflow-wrap: anywhere;
-}

@@ -19,10 +19,6 @@ Inputs:
   algorithms.toml         algorithm pages: titles, families, variants, Rates facets, result-id
                           prefixes and curated exceptions (algorithms.py; the members are the
                           library's `Algorithm:` tags)
-  pages/<name>.md         prose pages, each served at <name>/ (pages/design.md: how the library
-                          defines things); Markdown with $…$ maths, see prose_html
-  reports/*.md            reports: short papers on how groups of results are proved, Markdown
-                          with TOML front matter; their links and citations are checked here
 
 Output: <out>/index.html, <out>/data.json, the static assets in web/, the Rates and
 Algorithms pages one directory down, and <out>/algorithms/ladder.json (the status ladder of every
@@ -36,7 +32,6 @@ import argparse
 import html
 import json
 import hashlib
-import html
 import sys
 import re
 import shutil
@@ -46,6 +41,8 @@ from pathlib import Path
 from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parent
+# the top of the nla-lib.org repository: the stylesheet, fonts and KaTeX the explorer shares with it
+SHARED = ROOT.parent
 sys.path.insert(0, str(ROOT))
 import facets  # noqa: E402  (the module beside this script)
 import algorithms  # noqa: E402
@@ -995,229 +992,9 @@ def rename_tables(maps, names):
     return renamed, {n: v for n, v in changed.items() if n in names}
 
 
-# --- reports: short expository papers (reports/*.md) on how groups of results are proved
-
-REPORT_FRONT = re.compile(r'\A\+\+\+[ \t]*\n(.*?)\n\+\+\+[ \t]*(?:\n|\Z)', re.S)
-# `[[NLAlib.foo]]`, `[[NLAlib.foo|text]]`, `[[result:id]]`, `[[report:id|text]]`
-REPORT_LINK = re.compile(r'\[\[([^\[\]|\n]+?)(?:\|([^\[\]\n]+))?\]\]')
-# a paragraph of its own: `{{statement NLAlib.foo}}`, `{{diagram}}`
-REPORT_BLOCK = re.compile(r'\{\{\s*(\w+)(?:\s+([^{}\s]+))?\s*\}\}')
-REPORT_FIELDS = {'title': str, 'abstract': str, 'authors': list, 'date': str, 'status': str,
-                 'results': list, 'declarations': list, 'related': list, 'statements': dict}
-REPORT_ID = re.compile(r'[a-z0-9]+(?:-[a-z0-9]+)*')
-
-
-def load_reports():
-    """The report sources, id (file stem) -> text, from reports/*.md."""
-    d = ROOT / 'reports'
-    return {p.stem: p.read_text() for p in sorted(d.glob('*.md'))} if d.is_dir() else {}
-
-
-def statement_hash(d):
-    """SHA-256 of a declaration's signature, a newline and its docstring, HTML comments removed:
-    the change detector of Rates and of the statements a report cites."""
-    return hashlib.sha256((HTML_COMMENT.sub('', d.get('signature') or '') + '\n' +
-                           HTML_COMMENT.sub('', d.get('doc') or '')).encode('utf-8')).hexdigest()
-
-
-def parse_report(rid, text):
-    """A report's TOML front matter (between `+++` lines) and its Markdown body."""
-    if not REPORT_ID.fullmatch(rid):
-        raise ValueError(f'report {rid}: unsafe file name (use lower-case words and hyphens)')
-    m = REPORT_FRONT.match(text)
-    if not m:
-        raise ValueError(f'report {rid}: missing +++ TOML front matter')
-    try:
-        front = tomllib.loads(m.group(1))
-    except tomllib.TOMLDecodeError as e:
-        raise ValueError(f'report {rid}: front matter: {e}') from None
-    for key, value in front.items():
-        if key not in REPORT_FIELDS:
-            raise ValueError(f'report {rid}: unknown front-matter field {key}')
-        if not isinstance(value, REPORT_FIELDS[key]):
-            raise ValueError(f'report {rid}: {key} must be a {REPORT_FIELDS[key].__name__}')
-    required_text(front, ['title', 'abstract'], f'report {rid}')
-    for key in ('authors', 'results', 'declarations', 'related'):
-        if not all(isinstance(x, str) and x.strip() for x in front.get(key, [])):
-            raise ValueError(f'report {rid}: {key} must list nonempty strings')
-    if not all(isinstance(v, str) for v in front.get('statements', {}).values()):
-        raise ValueError(f'report {rid}: statements maps declaration names to hashes')
-    return front, text[m.end():].strip('\n')
-
-
-def report_targets(body):
-    """What a report body points at: links (kind, target), statement embeds and citation keys,
-    with the problems of its syntax. Code spans and maths are not looked into."""
-    prose = re.sub(r'(`+)[\s\S]*?\1|\$\$[\s\S]+?\$\$|\$[^$\n]+?\$', ' ', body)
-    links, embeds, problems = [], [], []
-    for m in REPORT_LINK.finditer(prose):
-        target = m.group(1).strip()
-        kind, _, rest = target.partition(':')
-        if rest and kind in ('result', 'report'):
-            links.append((kind, rest.strip()))
-        elif rest and re.fullmatch(r'[a-z]+', kind):
-            problems.append(f'unknown link kind {kind}: [[{target}]]')
-        else:
-            links.append(('decl', target))
-    left = REPORT_LINK.sub('', prose)
-    if '[[' in left or ']]' in left:
-        problems.append('unmatched [[ or ]]')
-    for para in re.split(r'\n\s*\n', prose):
-        for m in REPORT_BLOCK.finditer(para):
-            if m.group(0) != para.strip():
-                problems.append(f'{m.group(0)} must be a paragraph of its own')
-            elif m.group(1) == 'statement' and m.group(2):
-                embeds.append(m.group(2))
-            elif m.group(1) != 'diagram' or m.group(2):
-                problems.append(f'unknown directive {m.group(0)}')
-        if re.sub(REPORT_BLOCK, '', para).count('{{'):
-            problems.append('malformed {{ directive')
-    cites = list(dict.fromkeys(k for k, _ in CITE.findall(prose)))
-    return links, embeds, cites, problems
-
-
-def reports_page(sources, decls, index, results, alias, direct, bib):
-    """The reports: each one's front matter checked against the data (unknown results,
-    declarations, related reports, links and citation keys fail the build, all listed together),
-    the statements it cites compared with their recorded hashes (a change flags the statement on
-    the report page), and the dependency picture among the results and declarations it covers."""
-    parsed = {rid: parse_report(rid, text) for rid, text in sources.items()}
-    problems = []
-    out = []
-    canon = lambda rid: alias.get(rid, rid)
-
-    def decl_index(name):
-        return index.get(name, index.get('NLAlib.' + name))
-
-    for rid, (front, body) in parsed.items():
-        bad = lambda msg: problems.append(f'report {rid}: {msg}')
-        covered = []
-        for x in front.get('results', []):
-            if canon(x) not in results:
-                bad(f'unknown result {x}')
-            elif canon(x) not in covered:
-                covered.append(canon(x))
-        cdecls = []
-        for name in front.get('declarations', []):
-            i = decl_index(name)
-            if i is None:
-                bad(f'unknown declaration {name}')
-            elif i not in cdecls:
-                cdecls.append(i)
-        for other in front.get('related', []):
-            if other not in parsed or other == rid:
-                bad(f'related names an unknown report {other}')
-        links, embeds, cites, syntax = report_targets(body)
-        for msg in syntax:
-            bad(msg)
-        for kind, target in links:
-            if kind == 'result' and canon(target) not in results:
-                bad(f'link to unknown result {target}')
-            elif kind == 'report' and target not in parsed:
-                bad(f'link to unknown report {target}')
-            elif kind == 'decl' and decl_index(target) is None:
-                bad(f'link to unknown declaration {target}')
-        for key in cites:
-            if bib and key not in bib:
-                bad(f'citation key {key} is not in references.bib')
-        if cites and not bib:
-            print(f'warning: report {rid}: no references.bib given, citations unchecked', file=sys.stderr)
-        # cited statements: rendered from the data, so they never drift; the hash flags a change
-        hashes = front.get('statements', {})
-        stale = {}
-        for name in embeds:
-            i = decl_index(name)
-            if i is None:
-                bad(f'statement of unknown declaration {name}')
-                continue
-            if decls[i].get('sorry'):
-                bad(f'statement of unproved declaration {name}')
-            now = statement_hash(decls[i])
-            if hashes.get(decls[i]['name']) != now:
-                stale[decls[i]['name']] = now
-        for name in hashes:
-            if name not in {decls[decl_index(e)]['name'] for e in embeds if decl_index(e) is not None}:
-                bad(f'statements records a hash for {name}, which the body does not cite')
-        for name, now in stale.items():
-            print(f'warning: report {rid}: cited statement {name} '
-                  f'{"changed" if name in hashes else "has no recorded hash"}; review the report, '
-                  f'then record "{name}" = "{now}" under [statements]', file=sys.stderr)
-        out.append({'id': rid, 'title': front['title'], 'abstract': front['abstract'],
-                    'authors': front.get('authors', []), 'date': front.get('date'),
-                    'status': front.get('status'), 'related': front.get('related', []),
-                    'results': covered, 'declarations': [decls[i]['name'] for i in cdecls],
-                    'body': body, 'cites': cites, 'stale': sorted(stale),
-                    'unrecorded': sorted(n for n in stale if n not in hashes),
-                    'graph': report_graph(covered, cdecls, results, decls, direct)})
-    if problems:
-        raise ValueError('\n'.join(problems))
-    return sorted(out, key=lambda r: (r.get('date') or '', r['title']), reverse=True)
-
-
-def report_graph(covered, cdecls, results, decls, direct):
-    """The dependency picture of a report: its results and declarations, an arrow from X to Y
-    when Y's statements or proofs reach X through declarations the report does not cover, less the
-    arrows a longer chain implies. Each node's layer is the length of the longest chain into it."""
-    owner = {}
-    keys = []
-    for rid in covered:
-        keys.append('r:' + rid)
-        for j in results[rid]['decls']:
-            owner.setdefault(j, 'r:' + rid)
-    for i in cdecls:
-        if i not in owner:
-            keys.append('d:' + decls[i]['name'])
-            owner[i] = 'd:' + decls[i]['name']
-    members = defaultdict(list)
-    for j, k in owner.items():
-        members[k].append(j)
-    edges = set()
-    for k in keys:
-        seen, stack = set(members[k]), list(members[k])
-        while stack:
-            for j in direct[stack.pop()]:
-                if j in seen:
-                    continue
-                seen.add(j)
-                if j in owner:
-                    if owner[j] != k:
-                        edges.add((owner[j], k))
-                else:
-                    stack.append(j)
-    # keep the picture readable: an arrow implied by a longer chain of arrows is left out
-    succ = defaultdict(set)
-    for a, b in edges:
-        succ[a].add(b)
-
-    def reaches(a, b, skip):
-        seen, stack = set(), [x for x in succ[a] if (a, x) != skip]
-        while stack:
-            x = stack.pop()
-            if x == b:
-                return True
-            if x not in seen:
-                seen.add(x)
-                stack.extend(succ[x])
-        return False
-
-    edges = {e for e in edges if not reaches(e[0], e[1], e)}
-    layer = {}
-
-    def depth(k, stack=()):
-        if k not in layer:
-            ins = [a for a, b in edges if b == k and a not in stack]
-            layer[k] = 1 + max((depth(a, stack + (k,)) for a in ins), default=-1)
-        return layer[k]
-
-    for k in keys:
-        depth(k)
-    return {'nodes': [{'k': k, 'l': layer[k]} for k in keys], 'edges': sorted(map(list, edges))}
-
-
-def build(data, bib, out, registry=None, ladder=False, renames_dir=None, reports=None):
+def build(data, bib, out, registry=None, ladder=False, renames_dir=None):
     """`registry`: NLAlib's docs/targets.toml, parsed (from `--src`), for the cost targets of the
-    algorithm pages; without it they have no Cost section.
-    `reports`: report id -> Markdown source (`load_reports()`; none by default)."""
+    algorithm pages; without it they have no Cost section."""
     topics_cfg = load_toml('topics.toml')
     results_cfg = load_toml('results.toml')
     synonyms = load_toml('synonyms.toml').get('synonyms', {})
@@ -1575,10 +1352,6 @@ def build(data, bib, out, registry=None, ladder=False, renames_dir=None, reports
     for m in data['modules']:
         cited |= set(re.findall(r'\[([A-Z][A-Za-z]+\d{4}[a-z]?)[\],]', m.get('doc') or ''))
 
-    reports = reports_page(reports or {}, decls, index, out_results, alias, direct, bib)
-    for report in reports:
-        cited |= set(report['cites'])
-
     collections = collections_page(load_toml('collections.toml'), out_results, decls, index, modules, alias)
     for collection in collections:
         if not any(t['id'] == collection['topic'] for t in topics):
@@ -1636,17 +1409,22 @@ def build(data, bib, out, registry=None, ladder=False, renames_dir=None, reports
                        'aliases': alg['aliases'], 'placed': alg['placed'],
                        'rungs': [[k, t, sec] for k, t, sec in algorithms.RUNGS],
                        'measures': {key: label for _, key, label, _ in facets.MEASURES}},
-        'reports': reports,
     }
 
     out = Path(out)
     if out.exists():
         shutil.rmtree(out)
     shutil.copytree(ROOT / 'web', out)
+    # what the explorer shares with the rest of nla-lib.org, from the top of the repository: the
+    # header and fonts stylesheet, the fonts and KaTeX, at the same paths below the explorer
+    shutil.copytree(SHARED / 'font', out / 'font')
+    shutil.copytree(SHARED / 'vendor', out / 'vendor')
+    (out / 'css').mkdir()
+    shutil.copy2(SHARED / 'css' / 'site.css', out / 'css' / 'site.css')
     (out / 'data.json').write_text(json.dumps(site, ensure_ascii=False, separators=(',', ':')))
     page = cache_busted((ROOT / 'web' / 'index.html').read_text(), out)
     (out / 'index.html').write_text(page)
-    # the Rates, Algorithms and prose pages are the same app one directory down, at <name>/
+    # the Rates and Algorithms pages are the same app one directory down, at <name>/
     page = re.sub(r'(href|src)="(?!data:|https?:|#)([^"]+)"', r'\1="../\2"', page)
     page = page.replace('".././"', '"../"')
     page = page.replace('<body ', '<body data-page="sub" data-base="../" ', 1)
@@ -1666,133 +1444,9 @@ def build(data, bib, out, registry=None, ladder=False, renames_dir=None, reports
     (out / 'algorithms' / 'attachment.json').write_text(json.dumps(alg['report'], ensure_ascii=False, indent=1) + '\n')
     if ladder:
         print(algorithms.ladder_table(alg, {a: p['title'] for a, p in alg['algorithms'].items()}))
-    prose_pages(page, {d['name'] for d in decls}, out)
-    # the reports: an index at reports/, each report at reports/<id>/ (the panel keeps the hash)
-    reports_html = page.replace('<body data-page="sub"', '<body data-page="reports"', 1)
-    reports_html = re.sub(r'<title>.*?</title>', '<title>Reports · NLAlib explorer</title>', reports_html, flags=re.S)
-    (out / 'reports').mkdir()
-    (out / 'reports' / 'index.html').write_text(reports_html)
-    deeper = re.sub(r'(href|src)="\.\./', r'\1="../../', reports_html).replace(
-        'data-base="../"', 'data-base="../../"', 1)
-    for report in reports:
-        title = html.escape(f"{re.sub(r'[$`]', '', report['title'])} · NLAlib explorer")
-        one = deeper.replace('data-page="reports" data-base="../../"',
-                             f'data-page="report" data-report="{report["id"]}" data-base="../../"', 1)
-        one = re.sub(r'<title>.*?</title>', lambda m: f'<title>{title}</title>', one, flags=re.S)
-        one = re.sub(r'(<meta name="description" content=")[^"]*', lambda m: m.group(1) + html.escape(
-            ' '.join(report['abstract'].split())[:300], quote=True), one, count=1)
-        (out / 'reports' / report['id']).mkdir()
-        (out / 'reports' / report['id'] / 'index.html').write_text(one)
     n_def = sum(1 for d in decls if d['kind'] in DEF_KINDS)
     print(f'{len(modules)} modules, {len(decls)} declarations, {len(out_results)} results, '
           f'{n_def} definitions -> {out}/ ({(out / "data.json").stat().st_size // 1024} KB data)')
-
-
-PROSE_SPAN = re.compile(r'(`+)(.+?)\1|\$\$(.+?)\$\$|\$([^$\n]+?)\$', re.S)
-LEAN_NAME = re.compile(r"^[A-Za-z_][\w'.]*$")
-
-
-def prose_html(text, names=(), missing=None):
-    """A prose page (`pages/<name>.md`) as HTML, for readers without the library's docstrings.
-
-    The Markdown is the subset the app's `md` reads: `#` headings (`#` is the page's h2, `##` an h3),
-    paragraphs, `-` and `1.` lists, fenced code blocks (shown as `pre.lean`), **bold**, *italic*, [links](url) and `code`. A backticked library name
-    (`rsvd` or `NLAlib.rsvd`) links to its declaration, `#d/<name>`, which opens in the panel; other
-    backticked words that look like names are appended to `missing`, so a rename shows in the build
-    log. Maths in `$…$` and `$$…$$` stays TeX, escaped, in `.math` spans (`.math.display` for
-    displays) that `web/app.js` typesets with KaTeX."""
-    def inline(src):
-        slots = []
-
-        def keep(markup):
-            slots.append(markup)
-            return f'\x00{len(slots) - 1}\x00'
-
-        def lift(m):
-            if m[2] is not None:
-                code = m[2].strip()
-                full = code if code in names else 'NLAlib.' + code if 'NLAlib.' + code in names else None
-                if full:
-                    return keep(f'<a href="#d/{quote(full)}"><code>{html.escape(code)}</code></a>')
-                if missing is not None and LEAN_NAME.match(code):
-                    missing.append(code)
-                return keep(f'<code>{html.escape(code)}</code>')
-            if m[3] is not None:
-                return keep(f'<span class="math display">{html.escape(m[3].strip(), quote=False)}</span>')
-            return keep(f'<span class="math">{html.escape(m[4], quote=False)}</span>')
-
-        s = html.escape(PROSE_SPAN.sub(lift, src), quote=False)
-        s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
-        s = re.sub(r'(?<![*\w])\*([^*\s](?:[^*]*[^*\s])?)\*(?!\*)', r'<em>\1</em>', s)
-        s = re.sub(r'\[([^\]]+)\]\(([^)\s]+)\)',
-                   lambda m: f'<a href="{m[2].replace(chr(34), "&quot;")}">{m[1]}</a>', s)
-        return re.sub(r'\x00(\d+)\x00', lambda m: slots[int(m[1])], s)
-
-    fences = []
-
-    def fence(m):
-        fences.append(m[1])
-        return f'\n\n\x01{len(fences) - 1}\x01\n\n'
-
-    text = re.sub(r'^```[^\n]*\n(.*?)\n?^```[ \t]*$', fence, text.replace('\r', ''), flags=re.S | re.M)
-    out = []
-    for block in re.split(r'\n[ \t]*\n', text.strip()):
-        if not block.strip():
-            continue
-        code = re.fullmatch(r'\s*\x01(\d+)\x01\s*', block)
-        if code:
-            out.append(f'<pre class="lean">{html.escape(fences[int(code[1])], quote=False)}</pre>')
-            continue
-        lines = block.split('\n')
-        head = re.match(r'(#{1,4})\s+(.*)$', lines[0])
-        if head:
-            tag = f'h{len(head[1]) + 1}'
-            out.append(f'<{tag}>{inline(head[2])}</{tag}>')
-            lines = lines[1:]
-            if not lines:
-                continue
-        bullet = r'\s*-\s+' if re.match(r'\s*-\s+', lines[0]) else r'\s*\d+\.\s+'
-        if re.match(bullet, lines[0]):
-            items = []
-            for line in lines:
-                if re.match(bullet, line):
-                    items.append(re.sub('^' + bullet, '', line))
-                else:
-                    items[-1] += ' ' + line.strip()
-            tag = 'ul' if '-' in bullet else 'ol'
-            out.append(f'<{tag}>' + ''.join(f'<li>{inline(t)}</li>' for t in items) + f'</{tag}>')
-            continue
-        para = ' '.join(line.strip() for line in lines)
-        display = re.fullmatch(r'\$\$((?:(?!\$\$).)+)\$\$', para, re.S)
-        if display:
-            out.append(f'<div class="math display">{html.escape(display[1].strip(), quote=False)}</div>')
-        else:
-            out.append(f'<p>{inline(para)}</p>')
-    return '\n'.join(out)
-
-
-def prose_pages(page, names, out):
-    """Write each `pages/<name>.md` as `<name>/index.html`: the app one directory down (`page`, as
-    for the Rates page) with the rendered prose in `#content`, its first heading as the title, and
-    no search bar. Its nav link is in `web/index.html`."""
-    for src in sorted((ROOT / 'pages').glob('*.md')):
-        name = src.stem
-        if (out / name).exists() or not re.fullmatch(r'[a-z][a-z0-9-]*', name):
-            raise ValueError(f'prose page name clashes or is not a URL segment: pages/{src.name}')
-        text = src.read_text()
-        missing = []
-        body = prose_html(text, names, missing)
-        if missing:
-            print(f'note: pages/{src.name} names no library declaration: ' + ', '.join(sorted(set(missing))))
-        head = re.search(r'^#\s+(.+)$', text, re.M)
-        title = re.sub(r'[`*$]', '', head[1]).strip() if head else name.title()
-        doc = page.replace('<body data-page="sub"', f'<body data-page="{name}"', 1)
-        doc = re.sub(r'<title>.*?</title>', lambda m: f'<title>{html.escape(title)} · NLAlib explorer</title>',
-                     doc, count=1, flags=re.S)
-        doc = doc.replace('<div id="searchbar">', '<div id="searchbar" hidden>', 1)
-        doc = doc.replace('<div id="content"></div>', f'<div id="content" class="prose">\n{body}\n</div>', 1)
-        (out / name).mkdir()
-        (out / name / 'index.html').write_text(doc)
 
 
 def cache_busted(page, out):
@@ -1801,7 +1455,7 @@ def cache_busted(page, out):
     Browsers keep the previous deploy's app.js or data.json otherwise, and show stale text."""
     def version(name):
         return hashlib.sha256((out / name).read_bytes()).hexdigest()[:10]
-    page = re.sub(r'(href|src)="((?:app|math)\.js|style\.css)"',
+    page = re.sub(r'(href|src)="((?:app|math)\.js|style\.css|css/site\.css)"',
                   lambda m: f'{m[1]}="{m[2]}?v={version(m[2])}"', page)
     return page.replace('<body>', f'<body data-version="{version("data.json")}">', 1)
 
@@ -1877,7 +1531,7 @@ def main():
         reg = Path(a.src) / 'docs' / 'targets.toml'
         registry = tomllib.loads(reg.read_text()) if reg.exists() else None
     renames = a.renames or (ROOT / 'data' / 'renames' if (ROOT / 'data' / 'renames').is_dir() else None)
-    build(data, parse_bib(a.bib), a.out, registry, a.ladder, renames, load_reports())
+    build(data, parse_bib(a.bib), a.out, registry, a.ladder, renames)
 
 
 if __name__ == '__main__':
