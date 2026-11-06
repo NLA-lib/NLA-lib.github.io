@@ -1455,7 +1455,7 @@ def prose_html(text, names=(), missing=None):
     """A prose page (`pages/<name>.md`) as HTML, for readers without the library's docstrings.
 
     The Markdown is the subset the app's `md` reads: `#` headings (`#` is the page's h2, `##` an h3),
-    paragraphs, `-` lists, **bold**, *italic*, [links](url) and `code`. A backticked library name
+    paragraphs, `-` and `1.` lists, fenced code blocks (shown as `pre.lean`), **bold**, *italic*, [links](url) and `code`. A backticked library name
     (`rsvd` or `NLAlib.rsvd`) links to its declaration, `#d/<name>`, which opens in the panel; other
     backticked words that look like names are appended to `missing`, so a rename shows in the build
     log. Maths in `$…$` and `$$…$$` stays TeX, escaped, in `.math` spans (`.math.display` for
@@ -1487,8 +1487,21 @@ def prose_html(text, names=(), missing=None):
                    lambda m: f'<a href="{m[2].replace(chr(34), "&quot;")}">{m[1]}</a>', s)
         return re.sub(r'\x00(\d+)\x00', lambda m: slots[int(m[1])], s)
 
+    fences = []
+
+    def fence(m):
+        fences.append(m[1])
+        return f'\n\n\x01{len(fences) - 1}\x01\n\n'
+
+    text = re.sub(r'^```[^\n]*\n(.*?)\n?^```[ \t]*$', fence, text.replace('\r', ''), flags=re.S | re.M)
     out = []
-    for block in re.split(r'\n[ \t]*\n', text.replace('\r', '').strip()):
+    for block in re.split(r'\n[ \t]*\n', text.strip()):
+        if not block.strip():
+            continue
+        code = re.fullmatch(r'\s*\x01(\d+)\x01\s*', block)
+        if code:
+            out.append(f'<pre class="lean">{html.escape(fences[int(code[1])], quote=False)}</pre>')
+            continue
         lines = block.split('\n')
         head = re.match(r'(#{1,4})\s+(.*)$', lines[0])
         if head:
@@ -1497,14 +1510,16 @@ def prose_html(text, names=(), missing=None):
             lines = lines[1:]
             if not lines:
                 continue
-        if re.match(r'\s*-\s+', lines[0]):
+        bullet = r'\s*-\s+' if re.match(r'\s*-\s+', lines[0]) else r'\s*\d+\.\s+'
+        if re.match(bullet, lines[0]):
             items = []
             for line in lines:
-                if re.match(r'\s*-\s+', line):
-                    items.append(re.sub(r'^\s*-\s+', '', line))
+                if re.match(bullet, line):
+                    items.append(re.sub('^' + bullet, '', line))
                 else:
                     items[-1] += ' ' + line.strip()
-            out.append('<ul>' + ''.join(f'<li>{inline(t)}</li>' for t in items) + '</ul>')
+            tag = 'ul' if '-' in bullet else 'ol'
+            out.append(f'<{tag}>' + ''.join(f'<li>{inline(t)}</li>' for t in items) + f'</{tag}>')
             continue
         para = ' '.join(line.strip() for line in lines)
         display = re.fullmatch(r'\$\$((?:(?!\$\$).)+)\$\$', para, re.S)

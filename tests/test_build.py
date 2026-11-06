@@ -173,6 +173,14 @@ class BuildTests(unittest.TestCase):
         self.assertIn('<div class="math display">\\mathbf{P}_{A} &gt; 0</div>', out)
         self.assertIn('<ul><li>one <a href="../rates/">link</a> continued</li><li>two</li></ul>', out)
 
+    def test_prose_html_code_and_ordered_lists(self):
+        missing = []
+        out = b.prose_html('Text.\n\n```lean\ndef f := 1 -- $x$ `g`\n\ndef h := a < b\n```\n\n'
+                           '1. **One** item\n   continued\n2. Two', set(), missing)
+        self.assertIn('<pre class="lean">def f := 1 -- $x$ `g`\n\ndef h := a &lt; b</pre>', out)
+        self.assertIn('<ol><li><strong>One</strong> item continued</li><li>Two</li></ol>', out)
+        self.assertEqual(missing, [])
+
     def test_design_page_built_with_nav_link(self):
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp) / 'site'
@@ -183,9 +191,11 @@ class BuildTests(unittest.TestCase):
             self.assertIn('<body data-page="design" data-base="../"', page)
             self.assertIn('<div id="searchbar" hidden>', page)
             self.assertIn('<div id="content" class="prose">', page)
-            self.assertIn('<a href="#d/NLAlib.rsvd"><code>rsvd</code></a>', page)
-            self.assertIn('class="math display"', page)
-            self.assertNotIn('$', page.split('<div id="content"')[1])
+            content = page.split('<div id="content"')[1]
+            self.assertIn('<h2>', content)
+            self.assertIn('class="math', content)
+            self.assertNotIn('```', content)
+            self.assertNotIn('$', content)
             self.assertIn('<a href="../design/" data-page="design">Design</a>', page)
             self.assertIn('<a href="design/" data-page="design">Design</a>', (out / 'index.html').read_text())
             self.assertRegex(page, r'<title>[^<]+ · NLAlib explorer</title>')
