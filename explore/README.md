@@ -23,9 +23,16 @@ reading sessions. It works without the embedding model and complements existing 
    statement, line range, presentation role, source hashes, and the library declarations its
    statement and proof use), and
    publishes the result as `explore-data.json` on NLAlib's rolling `explore-data` release.
-2. It then sends a `nlalib-updated` dispatch to this repository (needs the secret below), whose
-   `deploy` workflow downloads the data and `references.bib`, runs `build.py`, and deploys
-   `site/` to GitHub Pages. A daily scheduled run catches anything missed.
+2. It then sends a `nlalib-updated` dispatch to `NLA-lib/NLA-lib.github.io` (needs the secret
+   below), whose `deploy` workflow (`.github/workflows/deploy.yml` at the top of that repository)
+   downloads the data and `references.bib`, runs `build.py` into `_site/explore`, adds the
+   homepage, and deploys the whole of nla-lib.org to GitHub Pages. A daily scheduled run catches
+   anything missed.
+
+The explorer lives in `explore/` of the organisation site's repository since 2026-11-06; it was
+the repository `NLA-lib/explore` before (archived, history kept here). The homepage menu
+(`../index.md`) and the explorer menu (`web/index.html`) must list the same pages:
+`tests/test_menu.py` checks it.
 
 ## Rates and algorithm browsing
 
@@ -458,8 +465,9 @@ syntax with `node --check web/app.js`. Run probability-rendering regressions wit
 
 - **Serving at nla-lib.org/explore.** The organisation site is the repository
   `NLA-lib/NLA-lib.github.io` (renamed from `nla-lib.org` on 2026-10-14), whose custom domain
-  is `nla-lib.org`, so every other repository's Pages site appears under it. Enable Pages for
-  this repository with source "GitHub Actions"; it is served at `nla-lib.org/explore/`.
+  is `nla-lib.org` and whose Pages source is "GitHub Actions". The explorer is built into the
+  `explore/` directory of that site.
 - **Prompt updates.** Create a fine-grained token with *Contents: read and write* on
-  `NLA-lib/explore` only and save it in NLAlib as the Actions secret `EXPLORE_DISPATCH_TOKEN`.
+  `NLA-lib/NLA-lib.github.io` only and save it in NLAlib as the Actions secret
+  `EXPLORE_DISPATCH_TOKEN`; NLAlib's `explore` workflow must dispatch to that repository.
   Without it the site still updates once a day.

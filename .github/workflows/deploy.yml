@@ -1,10 +1,11 @@
-# Build the explorer from NLAlib's latest extracted data and deploy it to GitHub Pages.
+# Build and deploy nla-lib.org: the homepage (the files at the top of this repository) and the
+# explorer (explore/, built from NLAlib's latest extracted data), as one GitHub Pages site.
 #
 # NLAlib's `explore` workflow publishes explore-data.json on its rolling `explore-data` release
 # after every push, then sends a `nlalib-updated` repository_dispatch here (when the
 # EXPLORE_DISPATCH_TOKEN secret is set in NLAlib). The daily schedule is a fallback in case a
 # dispatch is missed.
-name: Deploy the explorer
+name: Deploy nla-lib.org
 
 on:
   push:
@@ -36,6 +37,7 @@ jobs:
         with:
           python-version: '3.12'
       - name: Fetch the library data
+        working-directory: explore
         run: |
           mkdir -p data
           curl -fsSL -o data/explore-data.json \
@@ -51,19 +53,25 @@ jobs:
       - name: Fetch the rename maps
         # docs/renames/*.json (CONTRIBUTING N12): old #d/ links redirect, changed statements are noted;
         # a commit without the directory builds without maps
+        working-directory: explore
         run: |
           sha=$(python3 -c "import json; print(json.load(open('data/explore-data.json'))['commit'] or 'scaffold')")
           mkdir -p data/renames-src
           curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
             tar xz -C data/renames-src --strip-components=1 --wildcards '*/docs/renames/*' || true
-      - name: Build
+      - name: Build the explorer into _site/explore
+        working-directory: explore
         run: |
           renames=""
           if [ -d data/renames-src/docs/renames ]; then renames="--renames data/renames-src/docs/renames"; fi
-          python3 build.py --data data/explore-data.json --bib data/references.bib --src data/src --out site $renames
+          python3 build.py --data data/explore-data.json --bib data/references.bib --src data/src \
+            --out ../_site/explore $renames
+      - name: Add the homepage
+        # everything at the top of the repository except the explorer's source, as before the move
+        run: rsync -a --exclude .git --exclude .github --exclude explore --exclude _site ./ _site/
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: _site
       - id: deployment
         uses: actions/deploy-pages@v4
