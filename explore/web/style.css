@@ -16,7 +16,7 @@
 /* the fonts, colours, links, column, title and menu are in ../css/site.css (copied into the
    build's css/), shared with the rest of nla-lib.org */
 html {
-    font-size: 19px;
+    font-size: 17px;
 }
 
 body {
@@ -64,22 +64,11 @@ code {
     overflow-wrap: anywhere;
 }
 
-ul {
-    padding-left: 1em;
-    list-style: none;
-}
-
 li {
     position: relative;
     margin: 0.4em 0;
 }
 
-ul > li::before {
-    content: "-";
-    position: absolute;
-    right: 100%;
-    padding-right: 0.3em;
-}
 
 button {
     font: inherit;
@@ -614,7 +603,7 @@ ul.declist li {
 
 @media (max-width: 500px) {
     html {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     h2 {

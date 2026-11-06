@@ -1,7 +1,7 @@
 @charset "utf-8";
 
 html {
-    font-size: 20px;
+    font-size: 18px;
 }
 
 /* the fonts, colours, links, column, title and menu are in site.css, shared with the explorer */
@@ -141,7 +141,7 @@ body {
 /* phones: smaller text, no gap above the title */
 @media (max-width: 500px) {
     html {
-        font-size: 17px;
+        font-size: 16px;
     }
 
     h2 {
@@ -164,11 +164,6 @@ body {
     }
 }
 
-ul {
-    padding-left: 1em;
-    list-style: none;
-}
-
 ol {
     padding-left: 1.4em;
 }
@@ -183,13 +178,6 @@ li > p {
     margin: 0;
 }
 
-/* the dash sits in the list's indent so wrapped lines stay flush */
-ul > li::before {
-    content: "-";
-    position: absolute;
-    right: 100%;
-    padding-right: 0.3em;
-}
 
 /* a list of posts: title, then author and date, then a one-line summary */
 h2:has(+ ul.posts) {

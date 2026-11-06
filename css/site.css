@@ -95,7 +95,7 @@ h1 {
     flex-wrap: wrap;
     gap: 0.2em 1.2em;
     margin: 0.4em 0 1.4em;
-    font-size: 20px;
+    font-size: 18px;
     line-height: 1.2;
 }
 
@@ -105,6 +105,30 @@ h1 {
 
 .menu a.here {
     font-weight: 600;
+}
+
+/* lists: a small round bullet in the list's indent, centred on the first line, so wrapped lines
+   stay flush */
+ul {
+    padding-left: 1em;
+    list-style: none;
+}
+
+ul > li {
+    position: relative;
+}
+
+ul > li::before {
+    content: "";
+    position: absolute;
+    right: 100%;
+    margin-right: 0.5em;
+    top: 0.55em;
+    top: calc(0.5lh - 0.15em);
+    width: 0.3em;
+    height: 0.3em;
+    border-radius: 50%;
+    background: currentColor;
 }
 
 /* phones: smaller title and menu, no gap above the title */
@@ -120,6 +144,6 @@ h1 {
     }
 
     .menu {
-        font-size: 17px;
+        font-size: 16px;
     }
 }
