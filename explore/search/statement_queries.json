@@ -1,0 +1,26 @@
+[
+  {
+    "id": "original",
+    "query": "specNorm (A * B) ≤ specNorm A * specNorm B",
+    "expected": [
+      "NLAlib.specNorm_mul_le"
+    ],
+    "category": "renamed_statement"
+  },
+  {
+    "id": "renamed",
+    "query": "specNorm (X * Y) ≤ specNorm X * specNorm Y",
+    "expected": [
+      "NLAlib.specNorm_mul_le"
+    ],
+    "category": "renamed_statement"
+  },
+  {
+    "id": "renamed-subscript",
+    "query": "specNorm (U₁ * V₂) ≤ specNorm U₁ * specNorm V₂",
+    "expected": [
+      "NLAlib.specNorm_mul_le"
+    ],
+    "category": "renamed_statement"
+  }
+]

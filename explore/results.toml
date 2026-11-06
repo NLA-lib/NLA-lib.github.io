@@ -1,0 +1,230 @@
+# Optional per-result additions, keyed by the `Result:` id in NLAlib docstrings.
+# Everything here is optional; without an entry a result's title is the bold name in its first
+# docstring (or the id), and its statement is that docstring.
+#
+#   [weyl-inequality]
+#   title = "Weyl's inequality"
+#   aliases = ["Weyl's eigenvalue inequality"]          # extra names for the search
+#   latex = "For Hermitian $A, B$: $$\\lambda_{i+j}(A+B) \\le \\lambda_i(A) + \\lambda_j(B).$$"
+#   primary = "NLAlib.some_explicit_theorem"               # headline explicit declaration
+#
+#   [some-old-id]
+#   merge_into = "weyl-inequality"     # show this result's members on that page instead
+#
+# Titles follow the explorer's vocabulary (docs/explorer-redesign.md, Decisions): no leading
+# "The" (the build drops one), "expected error" rather than "average" or "mean", "tail bound"
+# rather than "with high probability" or "deviation", "late-truncated" for truncation after the
+# algorithm. The build warns about a title that does not.
+#
+# A merged id keeps working: `#r/<old id>` opens the merged page at the statement that headed
+# the old one. A merged entry takes only `aliases` besides `merge_into`.
+#
+# The statements on a result page are listed in a table whose labels are generated from the
+# facets of each declaration (facets.py); facets.toml overrides them per declaration.
+#
+# Prefer putting the mathematics in the docstring, where it is reviewed with the Lean; use
+# `latex` only when the docstring cannot carry it.
+
+[davis-kahan]
+title = "Davis–Kahan sin Θ theorem"
+aliases = ["Davis-Kahan", "sin theta theorem", "eigenvector perturbation"]
+
+[leverage-sampling-osi]
+title = "Leverage-score sampling: subspace injection"
+aliases = ["Leverage sampling OSI"]
+
+[sampling-without-replacement-osi]
+title = "Row sampling without replacement: subspace injection"
+aliases = ["Sampling without replacement OSI"]
+
+[etgn]
+title = "Early-truncated generalized Nyström"
+aliases = ["Early-truncated GN"]
+primary = "NLAlib.integral_frobNorm_sub_earlyTruncatedGeneralizedNystrom_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[etrsvd]
+title = "Early-truncated randomized SVD"
+aliases = ["Early-truncated RSVD"]
+primary = "NLAlib.integral_frobNorm_sub_earlyTruncatedRSVD_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[generalized-nystrom-expected-error]
+title = "Generalized Nyström: expected error"
+primary = "NLAlib.integral_frobNorm_sub_generalizedNystrom_sq_le_of_hasLaw_gaussianMatrix"
+
+[tgn-expected-error]
+title = "Late-truncated generalized Nyström: expected error"
+aliases = ["Truncated GN"]
+primary = "NLAlib.integral_frobNorm_sub_truncatedSVD_generalizedNystrom_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[randomized-svd-expected-error]
+title = "Randomized SVD: expected error"
+aliases = ["Tropp–Webber RSVD2", "RSVD expected spectral error", "RSVD average error"]
+primary = "NLAlib.integral_frobNorm_sub_rsvd_sq_le_of_hasLaw_gaussianMatrix"
+
+[randomized-svd-average-spectral-error]
+merge_into = "randomized-svd-expected-error"
+aliases = ["HMT Theorem 10.6"]
+
+[randomized-nystrom-expected-error]
+title = "PSD Nyström: expected error"
+primary = "Matrix.PosSemidef.integral_nuclearNorm_sub_nystrom_le_of_hasLaw_gaussianMatrix"
+
+
+[sketch-and-solve-expected-error]
+title = "Sketch-and-solve: expected relative residual"
+primary = "NLAlib.integral_frobNorm_sub_mul_sketchAndSolve_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[sketch-and-solve-ls]
+title = "Sketch-and-solve: tail bound for the relative residual"
+primary = "NLAlib.measureReal_frobNorm_sub_mul_sketchAndSolve_sq_gt_le_of_hasLaw_gaussianMatrix"
+
+# Krylov: titles for ids whose declarations' bold names are generic or differ
+[krylov-space-dimension]
+title = "Dimension of the Krylov space"
+
+[arnoldi-basis]
+title = "Canonical Arnoldi basis is graded and unique"
+primary = "NLAlib.IsGradedKrylovBasis.eq_arnoldiMatrix"
+
+[arnoldi-relation]
+title = "Arnoldi relation"
+
+[arnoldi-hessenberg]
+title = "Arnoldi compression is upper Hessenberg"
+
+[lanczos-tridiagonal]
+title = "Lanczos compression is tridiagonal"
+
+[cg-chebyshev-bound]
+title = "Chebyshev bound for CG"
+primary = "Matrix.IsHermitian.re_quadForm_sub_cgIterate_le_four_mul_pow"
+
+[cg-finite-termination]
+title = "Finite termination of CG"
+
+[cg-orthogonality]
+title = "CG: orthogonal residuals and conjugate directions"
+
+[cg-near-optimality]
+title = "Near-optimality of CG in the $\\mathbf{A}^\\alpha$-norms"
+primary = "Matrix.IsHermitian.re_quadForm_rpow_sub_cgIterate_le"
+
+[pcg-finite-termination]
+title = "Finite termination of PCG"
+
+[pcg-orthogonality]
+title = "PCG: orthogonal residuals and conjugate directions"
+
+[minres-residual-estimate]
+title = "MINRES residual estimate"
+
+[gmres-finite-termination]
+title = "Finite termination of GMRES"
+
+[lanczos-fa-cg]
+title = "CG is Lanczos-FA for the inverse"
+primary = "Matrix.IsHermitian.lanczosFA_inv_eq_cgIterate"
+
+[lanczos-fa-exactness]
+title = "Exactness of Lanczos-FA"
+
+# Block Krylov and subspace iteration: one id per algorithm and regime; the bold names of the
+# first declarations name only one of several forms.
+[rbki-gapless-error]
+title = "Randomized block Krylov iteration: gapless bounds"
+aliases = ["RBKI gapless", "block Krylov gapless", "Tropp–Webber Theorem 9.1", "Musco–Musco"]
+primary = "NLAlib.integral_specNorm_sub_rbki_sq_le_mul_exp_of_hasLaw_gaussianMatrix"
+
+[rbki-gapped-error]
+title = "Randomized block Krylov iteration: gapped bounds"
+aliases = ["RBKI gapped", "block Krylov gapped", "Tropp–Webber Theorem 9.2"]
+primary = "NLAlib.integral_specNorm_sub_rbki_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix"
+
+[rsi-gapless-error]
+title = "Randomized subspace iteration: gapless bounds"
+aliases = ["RSI gapless", "subspace iteration gapless", "power iteration", "Tropp–Webber Theorem 9.1", "Musco–Musco"]
+primary = "NLAlib.integral_specNorm_sub_rsvd_pow_mul_sq_le_mul_rpow_of_hasLaw_gaussianMatrix"
+
+[rsi-gapped-error]
+title = "Randomized subspace iteration: gapped bounds"
+aliases = ["RSI gapped", "subspace iteration gapped"]
+primary = "NLAlib.integral_specNorm_sub_rsvd_pow_mul_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix"
+
+[nysbki-gapless-error]
+title = "Block Krylov Nyström: gapless bounds"
+aliases = ["NysBKI gapless", "Tropp–Webber Theorem 9.1", "Musco–Musco"]
+primary = "Matrix.PosSemidef.integral_specNorm_sub_nystromBKI_le_mul_exp_of_hasLaw_gaussianMatrix"
+
+[nysbki-gapped-error]
+title = "Block Krylov Nyström: gapped bounds"
+aliases = ["NysBKI gapped"]
+primary = "Matrix.PosSemidef.integral_specNorm_sub_nystromBKI_le_singularGapRatio_of_hasLaw_gaussianMatrix"
+
+[nyssi-gapless-error]
+title = "Nyström subspace iteration: gapless bounds"
+aliases = ["NysSI gapless", "Tropp–Webber Theorem 9.1", "Musco–Musco"]
+primary = "Matrix.PosSemidef.integral_specNorm_sub_nystrom_pow_mul_le_mul_rpow_of_hasLaw_gaussianMatrix"
+
+[nyssi-gapped-error]
+title = "Nyström subspace iteration: gapped bounds"
+aliases = ["NysSI gapped"]
+primary = "Matrix.PosSemidef.integral_specNorm_sub_nystrom_pow_mul_le_singularGapRatio_of_hasLaw_gaussianMatrix"
+
+[randomized-svd-tail]
+title = "Randomized SVD: tail bounds"
+primary = "NLAlib.measureReal_frobNorm_sub_rsvd_sq_gt_le_of_hasLaw_gaussianMatrix"
+aliases = ["Tropp–Webber RSVD1", "RSVD tail", "RSVD high probability", "RSVD deviation bound"]
+
+[randomized-svd-deviation-bound]
+merge_into = "randomized-svd-tail"
+aliases = ["HMT Theorem 10.7", "HMT Theorem 10.8"]
+
+
+
+[hutchinson-variance-gaussian]
+title = "Girard–Hutchinson variance: real Gaussian probe"
+aliases = ["Hutchinson variance Gaussian", "Gaussian trace estimator variance"]
+
+[hutchinson-variance-rademacher]
+title = "Girard–Hutchinson variance: Rademacher probe"
+aliases = ["Hutchinson variance Rademacher", "Hutchinson trace estimator variance"]
+
+[hutchinson-variance-real-sphere]
+title = "Girard–Hutchinson variance: real sphere probe"
+aliases = ["Hutchinson variance sphere"]
+
+# Titles in the explorer's vocabulary for results whose bold names say "tail of", "deviation"
+# or "in expectation"
+[randomized-nystrom-tail]
+title = "PSD Nyström: tail bounds"
+
+[hutchpp-tail]
+title = "Hutch++: tail bound given a range-finder guarantee"
+
+[girard-hutchinson-tail]
+title = "Girard–Hutchinson: tail bound for sub-Gaussian probes"
+
+[filtered-range-finder-bound]
+title = "Filtered range finder: expected error"
+
+[reverse-eckart-young]
+title = "Reverse Eckart–Young for late-truncated Nyström"
+
+[cg-program]
+title = "CG: exact stored-entry implementation"
+aliases = ["square-root-free CG program", "CG operation counts", "CG memory bound"]
+primary = "NLAlib.storedEntriesConjugateGradient"
+
+[lanczos-program]
+title = "Lanczos: exact stored-entry implementation"
+aliases = ["Paige-order Lanczos program", "Lanczos operation counts", "Lanczos memory bound"]
+primary = "NLAlib.storedEntriesLanczos"
+
+[lanczos-quadrature-finite-precision]
+title = "Lanczos quadrature in finite precision"
+primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of_continuousOn"
+
+[lanczos-fa-finite-precision]
+title = "Lanczos matrix functions: Chebyshev recurrence bound"
+aliases = ["Druskin–Knizhnerman", "finite precision Lanczos-FA"]
+primary = "NLAlib.LanczosRun.norm_cfc_mulVec_sub_basis_mulVec_le_of_continuousOn"

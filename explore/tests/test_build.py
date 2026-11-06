@@ -1,0 +1,205 @@
+import contextlib
+import hashlib
+import importlib.util
+import io
+import json
+from pathlib import Path
+import tempfile
+import unittest
+from unittest.mock import patch
+
+spec = importlib.util.spec_from_file_location('explore_build', Path(__file__).resolve().parents[1] / 'build.py')
+b = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(b)
+
+
+def decl(name, doc='', kind='theorem', **kw):
+    return dict(name=name, module='NLAlib.Test', kind=kind, doc=doc, **kw)
+
+
+class BuildTests(unittest.TestCase):
+    def render(self, ds, config=None):
+        config = config or {}
+        with tempfile.TemporaryDirectory() as tmp:
+            with patch.object(b, 'load_toml', side_effect=lambda name: config.get(name, {})):
+                b.build(dict(decls=ds, modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, Path(tmp) / 'site')
+            return json.loads((Path(tmp) / 'site/data.json').read_text())
+
+    def test_inherits_ids_and_removes_metadata(self):
+        site = self.render([decl('N.exp', 'Explicit.\nResult: bound'),
+                            decl('N.asym', 'O(k) suffices.\nAsymptotic:\nN.exp')])
+        r = site['results']['bound']
+        self.assertEqual((r['overview'], r['explicit']), (1, 0))
+        self.assertEqual(r['forms'], [dict(overview=1, explicit=0)])
+        self.assertEqual(site['decls'][1]['r'], ['bound'])
+        self.assertNotIn('Asymptotic', site['decls'][1]['stmt'])
+        self.assertNotIn('N.exp', site['decls'][1]['stmt'])
+
+    def test_all_pairs_and_own_ids(self):
+        site = self.render([decl('N.e1', '**Bound.** First.\nResult: bound'),
+                            decl('N.e2', 'Second.\nResult: bound'),
+                            decl('N.a2', 'Second O.\nAsymptotic: N.e2'),
+                            decl('N.a1', 'First O.\nAsymptotic: N.e1\nResult: own')])
+        r = site['results']['bound']
+        self.assertEqual(r['forms'], [dict(overview=3, explicit=0), dict(overview=2, explicit=1)])
+        self.assertEqual(r['overview'], 3)
+        self.assertIn('own', site['decls'][3]['r'])
+        self.assertEqual(site['results']['own']['explicit'], 0)
+
+    def test_unresolved_and_cycle(self):
+        for ds in ([decl('N.a', 'Asymptotic: N.missing')],
+                   [decl('N.a', 'Asymptotic: N.b'), decl('N.b', 'Asymptotic: N.a')]):
+            with self.assertRaises(ValueError):
+                self.render(ds)
+
+    def test_support_retained_graph_collapses(self):
+        site = self.render([decl('N.concept', kind='def'),
+                            decl('N.bound', kind='def', explorerRole='support', valueDeps=['N.concept']),
+                            decl('N.result', 'Result: result', valueDeps=['N.bound'])])
+        self.assertEqual([d['role'] for d in site['decls']], ['concept', 'support', 'lemma'])
+        self.assertNotIn('d:N.bound', site['nodes'])
+        self.assertEqual(site['nodes']['r:result']['u'], ['d:N.concept'])
+        self.assertEqual(len(site['decls']), 3)
+
+    def test_original_title_primary_and_aliases(self):
+        site = self.render([decl('N.asym', '**Bound asymptotic.** O(k).\nAsymptotic: N.exp'),
+                            decl('N.other', '**Other.** Other.\nResult: bound, alias'),
+                            decl('N.exp', '**Bound explicit.** Explicit.\nResult: bound, alias')])
+        # The established title and named primary come from the explicit declarations.
+        self.assertEqual(site['results']['bound']['title'], 'Bound explicit')
+        self.assertEqual(site['results']['bound']['explicit'], 2)
+        self.assertEqual(site['resultAlias'], {'alias': 'bound'})
+        self.assertEqual(site['decls'][0]['r'], ['bound'])
+        site = self.render([decl('N.asym', '**Bound asymptotic.** O(k).\nAsymptotic: N.exp'),
+                            decl('N.exp', '**Bound explicit.** Explicit.\nResult: bound')])
+        self.assertEqual(site['results']['bound']['title'], 'Bound explicit')
+        self.assertEqual(site['results']['bound']['overview'], 0)
+
+    def test_malformed_metadata_fails(self):
+        for tag in ('Asymptotic:', 'Asymptotic: N.exp extra',
+                    'Prose. Asymptotic: N.exp', 'Result:', 'Prose Result: bound',
+                    'Result: bound,', 'Result: invalid id'):
+            with self.subTest(tag=tag), self.assertRaisesRegex(ValueError, 'malformed'):
+                self.render([decl('N.exp'), decl('N.asym', tag)])
+
+    def test_asymptotic_pair_requires_result_membership(self):
+        with self.assertRaisesRegex(ValueError, 'Asymptotic pair has no Result id: N.asym -> N.exp'):
+            self.render([decl('N.exp'), decl('N.asym', 'Asymptotic: N.exp')])
+        # Either explicit membership or the asymptotic declaration's own id exposes the pair.
+        for explicit_doc, asym_doc in (('Result: bound', 'Asymptotic: N.exp'),
+                                       ('', 'Asymptotic: N.exp\nResult: bound')):
+            site = self.render([decl('N.exp', explicit_doc), decl('N.asym', asym_doc)])
+            self.assertEqual(site['results']['bound']['forms'], [dict(overview=1, explicit=0)])
+
+    def variant_decls(self):
+        return [decl('N.e1', '**Bound, spectral.** First.\nResult: bound'),
+                decl('N.e2', '**Bound, Frobenius.** Second.\nResult: bound'),
+                decl('N.a1', 'First O.\nAsymptotic: N.e1'),
+                decl('N.a2', 'Second O.\nAsymptotic: N.e2')]
+
+    def test_variant_labels_retired(self):
+        # positional Variant labels gave way to generated statement labels (facets.toml)
+        with self.assertRaisesRegex(ValueError, 'variant_labels is retired'):
+            self.render(self.variant_decls(), {'results.toml': {'bound': {'variant_labels': ['A', 'B']}}})
+
+    def test_source_hashes_and_legacy(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            p = Path(tmp) / 'NLAlib/Test.lean'
+            p.parent.mkdir()
+            p.write_text('def x := 1\n')
+            data = dict(modules=[dict(path='NLAlib/Test.lean')], sourceHashes={
+                'NLAlib/Test.lean': hashlib.sha256(p.read_bytes()).hexdigest()})
+            self.assertTrue(b.validate_sources(data, tmp))
+            p.write_text('def x := 2\n')
+            with self.assertRaisesRegex(ValueError, 'mismatch'):
+                b.validate_sources(data, tmp)
+            data['sourceHashes'] = {}
+            with self.assertRaisesRegex(ValueError, 'cover'):
+                b.validate_sources(data, tmp)
+            data = dict(modules=[dict(path='../bad.lean')], sourceHashes={'../bad.lean': 'x'})
+            with self.assertRaisesRegex(ValueError, 'unsafe'):
+                b.validate_sources(data, tmp)
+            err = io.StringIO()
+            with contextlib.redirect_stderr(err):
+                self.assertFalse(b.validate_sources({}, tmp))
+            self.assertIn('skipping definition body enrichment', err.getvalue())
+
+    def test_cache_busted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            for name, text in [('app.js', 'a'), ('math.js', 'm'), ('style.css', 's'), ('data.json', '{}')]:
+                (out / name).write_text(text)
+            v = {name: hashlib.sha256((out / name).read_bytes()).hexdigest()[:10]
+                 for name in ('app.js', 'math.js', 'style.css', 'data.json')}
+            page = b.cache_busted('<link href="style.css"><script src="vendor/katex/katex.min.js"></script>'
+                                  '<script src="math.js"></script><script src="app.js"></script>'
+                                  '<a href="https://x/app.js"></a><body>', out)
+            self.assertIn(f'href="style.css?v={v["style.css"]}"', page)
+            self.assertIn(f'src="math.js?v={v["math.js"]}"', page)
+            self.assertIn(f'src="app.js?v={v["app.js"]}"', page)
+            self.assertIn('src="vendor/katex/katex.min.js"', page)
+            self.assertIn('href="https://x/app.js"', page)
+            self.assertIn(f'<body data-version="{v["data.json"]}">', page)
+
+    def test_built_pages_are_cache_busted(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'site'
+            with patch.object(b, 'load_toml', side_effect=lambda name: {}):
+                b.build(dict(decls=[decl('N.x', 'X.')], modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, out)
+            data_v = hashlib.sha256((out / 'data.json').read_bytes()).hexdigest()[:10]
+            app_v = hashlib.sha256((out / 'app.js').read_bytes()).hexdigest()[:10]
+            main = (out / 'index.html').read_text()
+            self.assertIn(f'src="app.js?v={app_v}"', main)
+            self.assertIn(f'<body data-version="{data_v}">', main)
+            for sub in ('rates', 'algorithms', 'design'):
+                page = (out / sub / 'index.html').read_text()
+                self.assertIn(f'src="../app.js?v={app_v}"', page)
+                self.assertIn(f'<body data-page="{sub}" data-base="../" data-version="{data_v}">', page)
+                # the menu marks this page only: no other link takes its data-page
+                self.assertEqual(page.count(f'data-page="{sub}"'), 2)
+
+    def test_prose_html(self):
+        missing = []
+        out = b.prose_html('# Title\n\nThe map `rsvd` and `Matrix m n 𝕜`, `gone`; **bold** and *it* with $a < b$.\n\n'
+                           '$$\\mathbf{P}_{A} > 0$$\n\n## Part\n\n- one [link](../rates/)\n  continued\n- two',
+                           {'NLAlib.rsvd'}, missing)
+        self.assertIn('<h2>Title</h2>', out)
+        self.assertIn('<h3>Part</h3>', out)
+        self.assertIn('<a href="#d/NLAlib.rsvd"><code>rsvd</code></a>', out)
+        self.assertIn('<code>Matrix m n 𝕜</code>', out)
+        self.assertEqual(missing, ['gone'])
+        self.assertIn('<strong>bold</strong> and <em>it</em>', out)
+        self.assertIn('<span class="math">a &lt; b</span>', out)
+        self.assertIn('<div class="math display">\\mathbf{P}_{A} &gt; 0</div>', out)
+        self.assertIn('<ul><li>one <a href="../rates/">link</a> continued</li><li>two</li></ul>', out)
+
+    def test_prose_html_code_and_ordered_lists(self):
+        missing = []
+        out = b.prose_html('Text.\n\n```lean\ndef f := 1 -- $x$ `g`\n\ndef h := a < b\n```\n\n'
+                           '1. **One** item\n   continued\n2. Two', set(), missing)
+        self.assertIn('<pre class="lean">def f := 1 -- $x$ `g`\n\ndef h := a &lt; b</pre>', out)
+        self.assertIn('<ol><li><strong>One</strong> item continued</li><li>Two</li></ol>', out)
+        self.assertEqual(missing, [])
+
+    def test_design_page_built_with_nav_link(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp) / 'site'
+            with patch.object(b, 'load_toml', side_effect=lambda name: {}):
+                b.build(dict(decls=[decl('NLAlib.rsvd', 'X.', kind='def')],
+                             modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, out)
+            page = (out / 'design' / 'index.html').read_text()
+            self.assertIn('<body data-page="design" data-base="../"', page)
+            self.assertIn('<div id="searchbar" hidden>', page)
+            self.assertIn('<div id="content" class="prose">', page)
+            content = page.split('<div id="content"')[1]
+            self.assertIn('<h2>', content)
+            self.assertIn('class="math', content)
+            self.assertNotIn('```', content)
+            self.assertNotIn('$', content)
+            self.assertIn('<a href="../design/" data-page="design">Design</a>', page)
+            self.assertIn('<a href="design/" data-page="design">Design</a>', (out / 'index.html').read_text())
+            self.assertRegex(page, r'<title>[^<]+ · NLAlib explorer</title>')
+
+
+if __name__ == '__main__':
+    unittest.main()
