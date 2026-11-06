@@ -353,22 +353,6 @@ ul.entries > li {
     color: var(--faint);
 }
 
-/* ---------- the Books page ---------- */
-
-.bkno {
-    font-size: 85%;
-    margin-right: 0.2em;
-    white-space: nowrap;
-}
-
-.bkitem.missing {
-    color: var(--faint);
-}
-
-.bkitem.missing .desc {
-    font-style: italic;
-}
-
 /* ---------- the panel ---------- */
 
 #panel {
@@ -737,7 +721,7 @@ ul.declist li {
 }
 
 /* links that are Lean names keep their underscores clear of the underline */
-.bkitem a code, .declist a code {
+.declist a code {
     text-underline-offset: 4px;
 }
 
