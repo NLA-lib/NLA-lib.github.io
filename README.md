@@ -214,7 +214,7 @@ table per family. Design and decisions: [docs/design/algorithm-pages.md](docs/de
 
 ## Prose pages
 
-Each `pages/<name>.md` is a page at `<name>/`, the app one directory down like the Books page,
+Each `pages/<name>.md` is a page at `<name>/`, the app one directory down like the Rates page,
 with a nav link in `web/index.html`. Today there is one, **Design** (`pages/design.md`, at
 [nla-lib.org/explore/design/](https://nla-lib.org/explore/design/)): how the library states
 results and defines algorithms, why a model of computation is subtle, and the planned program
@@ -311,10 +311,6 @@ rejects them.
   the declaration's label, citations and the remarks on how the source differs go to
   References, sentences pointing at other declarations go to Related, a `Proof:` paragraph goes
   to Proof sketch, port provenance is dropped, and what remains is the statement.
-- **Books** (`books/`): for each book in `books.toml`, every numbered result, with the library
-  results and declarations whose docstrings cite it (`[Tropp2015, Theorem 6.1.1]`; a citation
-  of a section, `§6.6`, or an equation, `(2.1.28)`, is listed under its section). A numbered
-  result no docstring cites is shown faint, so a wrong or missing citation shows up here too.
 - **Dependencies** are the library declarations used in a declaration's statement or proof. The
   graph shows results and definitions, collapsing the helper lemmas between them; a toggle shows
   the raw declaration-level graph.
@@ -332,7 +328,6 @@ rejects them.
 | `synonyms.toml` | search synonyms (`pseudoinverse` → `pinv`) |
 | `rates.toml` | Rates families, guarantees and the reviewed overlay (summaries keyed by theorem and statement hash) |
 | `collections.toml` | the shelves: result and definition groups independent of source modules, and the `sources` prefixes that place new results |
-| `books.toml` | key books for the Books page: chapters, sections, numbered results (numbers and short names only) |
 | `algorithms.toml` | algorithm pages: families, titles, aliases, variants, Rates facets, result-id prefixes, curated exceptions |
 | `algorithms.py` | algorithm pages: members, attachment of results, cost targets, the ladder |
 | `pages/*.md` | prose pages (Design), rendered by `build.py` into `<name>/index.html` |

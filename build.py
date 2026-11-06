@@ -16,14 +16,13 @@ Inputs:
   facets.toml             overrides of the facets inferred from declaration names (facets.py),
                           keyed by declaration name, and short names of citation keys
   synonyms.toml           search synonyms, mathematical words to library names
-  books.toml              key books: chapters, sections and numbered results, for the Books page
   algorithms.toml         algorithm pages: titles, families, variants, Rates facets, result-id
                           prefixes and curated exceptions (algorithms.py; the members are the
                           library's `Algorithm:` tags)
   pages/<name>.md         prose pages, each served at <name>/ (pages/design.md: how the library
                           defines things); Markdown with $…$ maths, see prose_html
 
-Output: <out>/index.html, <out>/data.json, the static assets in web/, the Books, Rates and
+Output: <out>/index.html, <out>/data.json, the static assets in web/, the Rates and
 Algorithms pages one directory down, and <out>/algorithms/ladder.json (the status ladder of every
 algorithm, a work queue) and attachment.json (which rule placed each result).
 
@@ -508,67 +507,6 @@ def topic_of(module, topics_cfg):
         return top, f"{top}/{assign.get(parts[1], 'General')}"
     return top, f'{top}/{parts[1]}'
 
-
-# a numbered result, `6.1.1`, or with Horn and Johnson's fourth level, `7.4.1.3`
-ITEM_NO = re.compile(r'(?<![§(\d.])(\d+)\.(\d+)\.\d+(?:\.\d+)?(?![\d)]|\.\d)')
-
-
-def book_refs(label, items, same):
-    """What a citation label (`Theorem 6.1.1`, `§8.3 and §8.8`, `(2.1.28)`, `Problem 7.3.P7`,
-    `chapter 4`) points at in a book: numbered results (`i`), sections (`s`) and chapters (`c`)."""
-    refs = set()
-    for m in re.finditer(r'§\s*(\d+)\.(\d+)', label):
-        refs.add(('s', f'{m[1]}.{m[2]}'))
-    for m in re.finditer(r'\((\d+)\.(\d+)\.\d+(?:\.\d+)?\)', label):   # an equation number
-        refs.add(('s', f'{m[1]}.{m[2]}'))
-    for m in re.finditer(r'\b(\d+)\.(\d+)\.P\d+', label):           # a problem, `Problem 7.3.P7`
-        refs.add(('s', f'{m[1]}.{m[2]}'))
-    for m in re.finditer(r'\b[Cc]hapters?\s+(\d+)', label):
-        refs.add(('c', m[1]))
-    for m in re.finditer(r'\b[Ss]ections?\s+(\d+)\.(\d+)', label):
-        refs.add(('s', f'{m[1]}.{m[2]}'))
-    for m in ITEM_NO.finditer(label):
-        n = same.get(m[0], m[0])
-        refs.add(('i', n) if n in items else ('s', f'{m[1]}.{m[2]}'))
-    return refs
-
-
-def books_page(cfg, bib, decls):
-    """The Books page: for each book of books.toml, its chapters, sections and numbered results,
-    each with the results and declarations of the library that cite it."""
-    out = []
-    for book in cfg.get('book', []):
-        key, same = book['key'], book.get('same', {})
-        items = {n for ch in book['chapter'] for _, n, _ in ch.get('items', [])}
-        cites = defaultdict(list)                    # ('i' | 's' | 'c', number) -> targets
-        for d in decls:
-            target = {'r': d['r'][0]} if d['r'] else {'d': d['n']}
-            for k, label in d['ci']:
-                if k != key:
-                    continue
-                for ref in book_refs(label, items, same) or {('b', '')}:
-                    if target not in cites[ref]:
-                        cites[ref].append(target)
-        chapters = []
-        for ch in book['chapter']:
-            secs = [{'n': n, 'title': t, 'refs': cites.get(('s', n), []), 'items': []}
-                    for n, t in ch.get('sections', [])]
-            for kind, n, name in ch.get('items', []):
-                sec = next((x for x in secs if n.startswith(x['n'] + '.')), None)
-                item = {'k': kind, 'n': n, 'name': name, 'refs': cites.get(('i', same.get(n, n)), []),
-                        'same': same.get(n)}
-                if sec:
-                    sec['items'].append(item)
-                else:
-                    secs.append({'n': n, 'title': '', 'refs': [], 'items': [item]})
-            chapters.append({'n': ch['n'], 'title': ch['title'], 'refs': cites.get(('c', str(ch['n'])), []),
-                             'sections': secs})
-        n_items = sum(len(x['items']) for c in chapters for x in c['sections'])
-        n_cov = sum(1 for c in chapters for x in c['sections'] for it in x['items'] if it['refs'])
-        out.append({'key': key, 'short': book.get('short', key), 'url': book.get('url'),
-                    'cite': bib.get(key, {}).get('text'), 'chapters': chapters,
-                    'general': cites.get(('b', ''), []), 'items': n_items, 'covered': n_cov})
-    return out
 
 
 def required_text(row, fields, label):
@@ -1409,7 +1347,6 @@ def build(data, bib, out, registry=None, ladder=False):
                        'aliases': alg['aliases'], 'placed': alg['placed'],
                        'rungs': [[k, t, sec] for k, t, sec in algorithms.RUNGS],
                        'measures': {key: label for _, key, label, _ in facets.MEASURES}},
-        'books': books_page(load_toml('books.toml'), bib, out_decls),
     }
 
     out = Path(out)
@@ -1419,17 +1356,15 @@ def build(data, bib, out, registry=None, ladder=False):
     (out / 'data.json').write_text(json.dumps(site, ensure_ascii=False, separators=(',', ':')))
     page = cache_busted((ROOT / 'web' / 'index.html').read_text(), out)
     (out / 'index.html').write_text(page)
-    # the Books page is the same app one directory down, at books/
+    # the Rates, Algorithms and prose pages are the same app one directory down, at <name>/
     page = re.sub(r'(href|src)="(?!data:|https?:|#)([^"]+)"', r'\1="../\2"', page)
     page = page.replace('".././"', '"../"')
-    page = page.replace('<body ', '<body data-page="books" data-base="../" ', 1)
-    (out / 'books').mkdir()
-    (out / 'books' / 'index.html').write_text(page)
-    rates_html = page.replace('<body data-page="books"', '<body data-page="rates"', 1)
+    page = page.replace('<body ', '<body data-page="sub" data-base="../" ', 1)
+    rates_html = page.replace('<body data-page="sub"', '<body data-page="rates"', 1)
     rates_html = re.sub(r'<title>.*?</title>', '<title>Rates · NLAlib explorer</title>', rates_html, flags=re.S)
     (out / 'rates').mkdir()
     (out / 'rates' / 'index.html').write_text(rates_html)
-    algorithms_html = page.replace('<body data-page="books"', '<body data-page="algorithms"', 1)
+    algorithms_html = page.replace('<body data-page="sub"', '<body data-page="algorithms"', 1)
     algorithms_html = re.sub(r'<title>.*?</title>', '<title>Algorithms · NLAlib explorer</title>', algorithms_html, flags=re.S)
     (out / 'algorithms').mkdir()
     (out / 'algorithms' / 'index.html').write_text(algorithms_html)
@@ -1532,7 +1467,7 @@ def prose_html(text, names=(), missing=None):
 
 def prose_pages(page, names, out):
     """Write each `pages/<name>.md` as `<name>/index.html`: the app one directory down (`page`, as
-    for the Books page) with the rendered prose in `#content`, its first heading as the title, and
+    for the Rates page) with the rendered prose in `#content`, its first heading as the title, and
     no search bar. Its nav link is in `web/index.html`."""
     for src in sorted((ROOT / 'pages').glob('*.md')):
         name = src.stem
@@ -1545,7 +1480,7 @@ def prose_pages(page, names, out):
             print(f'note: pages/{src.name} names no library declaration: ' + ', '.join(sorted(set(missing))))
         head = re.search(r'^#\s+(.+)$', text, re.M)
         title = re.sub(r'[`*$]', '', head[1]).strip() if head else name.title()
-        doc = page.replace('data-page="books"', f'data-page="{name}"', 1)
+        doc = page.replace('<body data-page="sub"', f'<body data-page="{name}"', 1)
         doc = re.sub(r'<title>.*?</title>', lambda m: f'<title>{html.escape(title)} · NLAlib explorer</title>',
                      doc, count=1, flags=re.S)
         doc = doc.replace('<div id="searchbar">', '<div id="searchbar" hidden>', 1)
