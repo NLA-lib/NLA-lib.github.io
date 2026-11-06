@@ -7,6 +7,7 @@ menu:
   - Explorer: ./explore/
   - Rates: ./explore/rates/
   - Algorithms: ./explore/algorithms/
+  - Reports: ./explore/reports/
   - Design: ./explore/design/
   - GitHub: https://github.com/NLA-lib/nlalib
 ---
