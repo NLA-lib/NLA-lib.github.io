@@ -209,3 +209,22 @@ title = "Filtered range finder: expected error"
 
 [reverse-eckart-young]
 title = "Reverse Eckart–Young for late-truncated Nyström"
+
+[cg-program]
+title = "CG: exact stored-entry implementation"
+aliases = ["square-root-free CG program", "CG operation counts", "CG memory bound"]
+primary = "NLAlib.storedEntriesConjugateGradient"
+
+[lanczos-program]
+title = "Lanczos: exact stored-entry implementation"
+aliases = ["Paige-order Lanczos program", "Lanczos operation counts", "Lanczos memory bound"]
+primary = "NLAlib.storedEntriesLanczos"
+
+[lanczos-quadrature-finite-precision]
+title = "Lanczos quadrature in finite precision"
+primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of_continuousOn"
+
+[lanczos-fa-finite-precision]
+title = "Lanczos matrix functions: Chebyshev recurrence bound"
+aliases = ["Druskin–Knizhnerman", "finite precision Lanczos-FA"]
+primary = "NLAlib.LanczosRun.norm_cfc_mulVec_sub_basis_mulVec_le_of_continuousOn"

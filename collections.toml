@@ -46,13 +46,20 @@ results = ["randomized-kaczmarz", "kaczmarz-inconsistent", "kaczmarz-rank-defici
 id = "cg"
 title = "CG and PCG"
 definitions = ["NLAlib.cgIterate", "NLAlib.galerkinInverse", "NLAlib.cgState", "NLAlib.CGState", "NLAlib.cgStep", "NLAlib.pcgIterate", "NLAlib.pcgState", "NLAlib.PCGState", "NLAlib.pcgStep", "NLAlib.chebyshevExtremaMatrix", "NLAlib.chebyshevErrorVector"]
-results = ["cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
+results = ["cg-program", "cg-oracle-program", "cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
 
 [[collections.groups]]
 id = "cg-finite-precision"
 title = "CG in finite precision"
 definitions = ["NLAlib.CGRun", "NLAlib.CGBackwardCertificate", "NLAlib.PCGRun"]
-results = ["cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap", "cg-finite-precision-accuracy"]
+results = [
+  "cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap",
+  "cg-finite-precision-accuracy", "cg-physical-energy-decrements",
+  "cg-physical-energy-convergence", "cg-tiny-interval-polynomial-convergence",
+  "cg-tiny-interval-minimax-convergence", "cg-tiny-interval-computed-residual",
+  "cg-delayed-physical-energy-reliability", "cg-delayed-energy-stopping",
+  "cg-relative-energy-decrement-reliability", "cg-physical-energy-quadrature",
+]
 
 [[collections.groups]]
 id = "minres"
@@ -224,10 +231,21 @@ definitions = ["NLAlib.lanczosFA", "NLAlib.compressedCfc", "NLAlib.IsStieltjes",
 results = ["lanczos-fa-formula", "lanczos-fa-interpolation", "lanczos-fa-exactness", "lanczos-fa-uniform-bound", "lanczos-fa-recurrence", "lanczos-fa-cg", "lanczos-fa-near-optimality", "lanczos-fa-kernel-near-optimality", "lanczos-fa-near-optimality-lower-bound"]
 
 [[collections.groups]]
+id = "lanczos-fa-finite-precision"
+title = "Lanczos matrix functions in finite precision"
+definitions = ["NLAlib.LanczosRun", "NLAlib.LanczosRun.normalizedFunctionApprox", "NLAlib.LanczosRun.functionApprox"]
+results = [
+  "lanczos-finite-precision-function-vector",
+  "lanczos-finite-precision-computed-function-vector",
+  "lanczos-finite-precision-bounded-functions",
+  "lanczos-fa-finite-precision",
+]
+
+[[collections.groups]]
 id = "quadrature"
 title = "Lanczos and Gauss quadrature"
 definitions = ["NLAlib.lanczosQuadrature", "NLAlib.gaussQuadrature", "NLAlib.jacobiMatrix"]
-results = ["lanczos-gauss-quadrature", "golub-welsch", "gauss-quadrature", "gauss-quadrature-uniqueness", "lanczos-jacobi-matrix", "stochastic-lanczos-quadrature-error"]
+results = ["lanczos-gauss-quadrature", "golub-welsch", "gauss-quadrature", "gauss-quadrature-uniqueness", "lanczos-jacobi-matrix", "stochastic-lanczos-quadrature-error", "lanczos-quadrature-finite-precision"]
 
 [[collections]]
 id = "polynomial"
@@ -283,13 +301,23 @@ results = ["krylov-space-dimension", "krylov-space-polynomial"]
 id = "lanczos"
 title = "Lanczos"
 definitions = ["NLAlib.lanczosState", "NLAlib.lanczosMatrix", "NLAlib.lanczosTridiagonal", "NLAlib.LanczosState", "NLAlib.lanczosStep", "NLAlib.lanczosAlpha", "NLAlib.preconditionedLanczosState", "NLAlib.preconditionedLanczosMatrix", "NLAlib.preconditionedLanczosTridiagonal", "NLAlib.PreconditionedLanczosState", "NLAlib.preconditionedLanczosStep", "NLAlib.preconditionedLanczosAlpha"]
-results = ["lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "preconditioned-lanczos-recurrence", "lanczos-jacobi-matrix", "lanczos-orthogonal-polynomials"]
+results = ["lanczos-program", "lanczos-oracle-program", "lanczos-tridiagonal", "lanczos-recurrence", "lanczos-breakdown", "preconditioned-lanczos-recurrence", "lanczos-jacobi-matrix", "lanczos-orthogonal-polynomials"]
 
 [[collections.groups]]
 id = "lanczos-finite-precision"
 title = "Lanczos in finite precision"
 definitions = ["NLAlib.LanczosRun", "NLAlib.LanczosData"]
-results = ["lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator", "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment", "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model", "lanczos-backward-model", "lanczos-backward-model-small-roundoff", "lanczos-spectral-measure-wasserstein"]
+results = [
+  "lanczos-local-errors", "lanczos-local-orthogonality", "lanczos-gram-commutator",
+  "paige-loss-of-orthogonality", "lanczos-ritz-residual", "paige-ritz-containment",
+  "paige-stabilized-ritz-values", "lanczos-dilated-recurrence", "greenbaum-backward-model",
+  "lanczos-backward-model", "lanczos-backward-model-small-roundoff",
+  "lanczos-spectral-measure-wasserstein", "lanczos-finite-precision-function-vector",
+  "lanczos-finite-precision-computed-function-vector",
+  "lanczos-finite-precision-bounded-functions",
+  "lanczos-fa-finite-precision",
+  "lanczos-quadrature-finite-precision",
+]
 
 [[collections.groups]]
 id = "arnoldi"
