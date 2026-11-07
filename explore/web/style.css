@@ -52,7 +52,7 @@ h3 {
 
 a:hover .katex,
 a:hover code {
-    color: #fff;
+    color: inherit;
 }
 
 code, pre {
