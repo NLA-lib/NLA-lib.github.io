@@ -67,9 +67,10 @@ a {
     text-underline-offset: 2px;
 }
 
+/* the hover colour is the purple-pink of the site icon; dark text on it reads at 7:1 */
 a:hover {
-    background: #1d1d1d;
-    color: #fff;
+    background: #d885ff;
+    color: #1d1d1d;
 }
 
 #contentContainer {
