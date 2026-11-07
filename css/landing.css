@@ -35,6 +35,16 @@ h2 {
     font-size: 24px;
 }
 
+/* headings sit close to the text they introduce: a small gap below, and
+   the next block's own top margin removed so it does not widen the gap */
+h2, h3 {
+    margin-bottom: 0.4em;
+}
+
+h2 + *, h3 + * {
+    margin-top: 0;
+}
+
 .byline {
     display: flex;
     flex-direction: column;
