@@ -8,39 +8,15 @@
 [[collections]]
 id = "linear-systems"
 topic = "LinearSystems"
-title = "Solve Ax = b and least squares"
-description = "Least-squares foundations and direct factorizations, then the randomized solvers (sketch-and-solve, sketch-and-precondition and iterative sketching, randomized Kaczmarz and sketch-and-project) and the Krylov solvers CG, MINRES and GMRES with their preconditioned forms. Sharpness results are also on the Lower bounds shelf."
-sources = ["NLAlib.Regression", "NLAlib.Solvers", "NLAlib.Krylov.LinearSystems"]
-
-[[collections.groups]]
-id = "foundations"
-title = "Least-squares foundations"
-definitions = ["NLAlib.IsLeastSquaresSolution", "NLAlib.pinv", "NLAlib.obliqueProjector"]
-results = ["normal-equations", "least-squares-pseudoinverse", "minimum-norm-least-squares", "least-squares-qr", "least-squares-perturbation", "linear-system-perturbation", "oblique-projection-error-split", "rouche-capelli"]
+title = "Linear systems"
+description = "Solvers for square and consistent linear systems, with convergence, stability and worst-case bounds. Least-squares problems have their own category; relevant methods and bounds may appear in both."
+sources = ["NLAlib.Krylov.LinearSystems", "NLAlib.Solvers"]
 
 [[collections.groups]]
 id = "direct"
 title = "Direct methods: LU, Cholesky and QR"
 definitions = ["NLAlib.IsLU", "NLAlib.IsCholesky", "NLAlib.IsQR", "NLAlib.forwardSubst", "NLAlib.backSubst"]
 results = ["lu-existence", "partial-pivoting-growth", "cholesky-existence", "qr-existence"]
-
-[[collections.groups]]
-id = "sketch-and-solve"
-title = "Sketch-and-solve"
-definitions = ["NLAlib.sketchAndSolve"]
-results = ["sketch-and-solve-ls", "sketch-and-solve-error-decomposition", "sketch-and-solve-expected-error"]
-
-[[collections.groups]]
-id = "sketch-and-precondition"
-title = "Sketch-and-precondition and iterative sketching"
-definitions = ["NLAlib.sketchAndPrecondition", "NLAlib.iterativeSketching"]
-results = ["sketch-and-precondition", "sketch-and-precondition-ls", "sketch-and-precondition-convergence", "sketch-and-precondition-realisation", "iterative-sketching-convergence"]
-
-[[collections.groups]]
-id = "row-action"
-title = "Randomized Kaczmarz and sketch-and-project"
-definitions = ["NLAlib.kaczmarzIterate", "NLAlib.sketchAndProject", "NLAlib.sketchAndProjectIterate"]
-results = ["randomized-kaczmarz", "kaczmarz-inconsistent", "kaczmarz-rank-deficient", "sketch-and-project"]
 
 [[collections.groups]]
 id = "cg"
@@ -79,10 +55,47 @@ title = "Stationary iterations"
 definitions = ["NLAlib.richardsonIterate"]
 results = ["richardson-iteration", "jacobi-convergence", "convergent-matrix", "neumann-series"]
 
+[[collections.groups]]
+id = "row-action"
+title = "Randomized Kaczmarz and sketch-and-project"
+definitions = ["NLAlib.kaczmarzIterate", "NLAlib.sketchAndProject", "NLAlib.sketchAndProjectIterate"]
+results = ["randomized-kaczmarz", "kaczmarz-inconsistent", "kaczmarz-rank-deficient", "sketch-and-project"]
+
+[[collections]]
+id = "least-squares"
+topic = "LeastSquares"
+title = "Least squares"
+description = "Least-squares solutions, residual error, sketched regression and preconditioning. Algorithms that also solve linear systems are cross-listed."
+sources = ["NLAlib.Regression"]
+
+[[collections.groups]]
+id = "foundations"
+title = "Least-squares foundations"
+definitions = ["NLAlib.IsLeastSquaresSolution", "NLAlib.pinv", "NLAlib.obliqueProjector"]
+results = ["normal-equations", "least-squares-pseudoinverse", "minimum-norm-least-squares", "least-squares-qr", "least-squares-perturbation", "linear-system-perturbation", "oblique-projection-error-split", "rouche-capelli"]
+
+[[collections.groups]]
+id = "sketch-and-solve"
+title = "Sketch-and-solve"
+definitions = ["NLAlib.sketchAndSolve"]
+results = ["sketch-and-solve-ls", "sketch-and-solve-error-decomposition", "sketch-and-solve-expected-error"]
+
+[[collections.groups]]
+id = "sketch-and-precondition"
+title = "Sketch-and-precondition and iterative sketching"
+definitions = ["NLAlib.sketchAndPrecondition", "NLAlib.iterativeSketching"]
+results = ["sketch-and-precondition", "sketch-and-precondition-ls", "sketch-and-precondition-convergence", "sketch-and-precondition-realisation", "iterative-sketching-convergence"]
+
+[[collections.groups]]
+id = "row-action"
+title = "Randomized Kaczmarz and sketch-and-project"
+definitions = ["NLAlib.kaczmarzIterate", "NLAlib.sketchAndProject", "NLAlib.sketchAndProjectIterate"]
+results = ["randomized-kaczmarz", "kaczmarz-inconsistent", "kaczmarz-rank-deficient", "sketch-and-project"]
+
 [[collections]]
 id = "low-rank-one-two-pass"
 topic = "LowRank"
-title = "Randomized low-rank approximation"
+title = "Low-rank approximation"
 description = "Browse by method: randomized SVD, generalized Nyström and PSD Nyström, with their early- and late-truncated variants, then the multi-pass methods, randomized block Krylov and subspace iteration and their Nyström forms. Compare sample sizes and depths on the [Rates page](rates/)."
 
 [[collections.groups]]
@@ -172,9 +185,9 @@ results = ["jl-lemma", "amm-ose", "projection-cost-preserving-sketch"]
 [[collections]]
 id = "estimation"
 topic = "Estimation"
-title = "Trace and spectral-density estimation"
-description = "Estimate the trace and the spectral density of a matrix seen only through matrix-vector products: Girard–Hutchinson and its probe variances, Hutch++, stochastic Lanczos quadrature, the probe spectral measure, and the random-start power and Lanczos methods."
-sources = ["NLAlib.Estimation", "NLAlib.Probability.QuadraticForm"]
+title = "Trace estimation"
+description = "Trace estimators, probe counts, variance and tail bounds: Girard–Hutchinson, Hutch++ and stochastic Lanczos quadrature. Spectral density has its own category."
+sources = ["NLAlib.Estimation.Trace", "NLAlib.Probability.QuadraticForm"]
 
 [[collections.groups]]
 id = "girard-hutchinson"
@@ -194,6 +207,13 @@ title = "Stochastic Lanczos quadrature (SLQ)"
 definitions = ["NLAlib.slq"]
 results = ["stochastic-lanczos-quadrature-error", "stochastic-lanczos-quadrature-tail"]
 
+[[collections]]
+id = "spectral-density"
+topic = "SpectralDensity"
+title = "Spectral density"
+description = "Spectral measures, empirical spectral distributions and their approximation by random probes and stochastic Lanczos quadrature. Shared quadrature results are also listed under trace estimation."
+sources = ["NLAlib.Estimation.Spectral"]
+
 [[collections.groups]]
 id = "spectral-density"
 title = "Spectral density"
@@ -201,15 +221,16 @@ definitions = ["NLAlib.spectralMeasure", "NLAlib.empiricalSpectralMeasure", "NLA
 results = ["spectral-measure", "probe-spectral-measure-unbiased", "spectral-density-kolmogorov-tail", "spectral-density-lipschitz-tail"]
 
 [[collections.groups]]
-id = "random-start"
-title = "Random-start power and Lanczos"
-results = ["random-start-power", "random-start-lanczos", "random-start-log-overlap"]
+id = "slq"
+title = "Stochastic Lanczos quadrature (SLQ)"
+definitions = ["NLAlib.slq"]
+results = ["stochastic-lanczos-quadrature-error", "stochastic-lanczos-quadrature-tail"]
 
 [[collections]]
 id = "matrix-functions"
 topic = "MatrixFunctions"
-title = "Matrix functions and quadrature"
-description = "Functions of Hermitian matrices and their trace inequalities, Lanczos for matrix functions (Lanczos-FA), and the Lanczos and Gauss quadrature rules behind stochastic Lanczos quadrature."
+title = "Matrix functions"
+description = "Functions of matrices, functional calculus and Lanczos function approximation. Quadrature rules have a separate tag, with shared results listed in both."
 sources = ["NLAlib.Matrix.Functions", "NLAlib.Krylov.Functions"]
 
 [[collections.groups]]
@@ -240,6 +261,13 @@ results = [
   "lanczos-finite-precision-bounded-functions",
   "lanczos-fa-finite-precision",
 ]
+
+[[collections]]
+id = "quadrature"
+topic = "Quadrature"
+title = "Quadrature"
+description = "Gauss and Lanczos quadrature, nodes, weights and approximation error. Stochastic applications are also listed under trace estimation and spectral density."
+sources = ["NLAlib.Krylov.Functions.Quadrature", "NLAlib.Polynomial.Orthogonal"]
 
 [[collections.groups]]
 id = "quadrature"
@@ -287,9 +315,38 @@ results = ["orthogonal-polynomial-existence", "orthogonal-polynomial-recurrence"
 [[collections]]
 id = "eigenvalues"
 topic = "Eigenvalues"
-title = "Eigenvalues and Krylov processes"
-description = "Krylov spaces and the Lanczos and Arnoldi processes, power iteration and Ritz values, the variational characterizations of eigenvalues, and their perturbation theory."
-sources = ["NLAlib.Krylov.Basic", "NLAlib.Krylov.Processes", "NLAlib.Krylov.Eigenvalues"]
+title = "Eigenvalues"
+description = "Eigenvalue estimation, variational principles, interlacing and perturbation bounds. Krylov constructions are collected separately, with shared results listed in both."
+sources = ["NLAlib.Krylov.Eigenvalues", "NLAlib.Matrix.Spectral", "NLAlib.Estimation.Spectral.RandomStart", "NLAlib.Eigensolvers"]
+
+[[collections.groups]]
+id = "power-ritz"
+title = "Power iteration and Ritz values"
+results = ["power-iteration", "kaniel-paige-saad", "ritz-value-gap-free", "random-start-power", "random-start-lanczos"]
+
+[[collections.groups]]
+id = "variational"
+title = "Variational characterizations and interlacing"
+definitions = ["NLAlib.eigenvalue"]
+results = ["spectral-theorem-hermitian", "courant-fischer", "rayleigh-ritz", "cauchy-interlacing", "poincare-separation", "interlacing-converse", "eigenvalue-monotonicity", "low-rank-interlacing", "sturm-count"]
+
+[[collections.groups]]
+id = "perturbation"
+title = "Eigenvalue and eigenvector perturbation"
+definitions = ["NLAlib.eigengap"]
+results = ["weyl-inequality", "weyl-perturbation", "hoffman-wielandt", "bauer-fike", "simple-eigenvalue-perturbation", "davis-kahan", "wedin", "sylvester-separation", "singular-value-perturbation"]
+
+[[collections.groups]]
+id = "random-start"
+title = "Random-start power and Lanczos"
+results = ["random-start-power", "random-start-lanczos", "random-start-log-overlap"]
+
+[[collections]]
+id = "krylov-methods"
+topic = "KrylovMethods"
+title = "Krylov methods"
+description = "Krylov spaces, Lanczos and Arnoldi processes, and Krylov solvers with their exact and finite-precision analysis. Applications and lower bounds are also listed in their corresponding categories."
+sources = ["NLAlib.Krylov.Basic", "NLAlib.Krylov.Processes", "NLAlib.Krylov.FinitePrecision"]
 
 [[collections.groups]]
 id = "krylov-spaces"
@@ -331,23 +388,42 @@ title = "Power iteration and Ritz values"
 results = ["power-iteration", "kaniel-paige-saad", "ritz-value-gap-free", "random-start-power", "random-start-lanczos"]
 
 [[collections.groups]]
-id = "variational"
-title = "Variational characterizations and interlacing"
-definitions = ["NLAlib.eigenvalue"]
-results = ["spectral-theorem-hermitian", "courant-fischer", "rayleigh-ritz", "cauchy-interlacing", "poincare-separation", "interlacing-converse", "eigenvalue-monotonicity", "low-rank-interlacing", "sturm-count"]
+id = "cg"
+title = "CG and PCG"
+definitions = ["NLAlib.cgIterate", "NLAlib.galerkinInverse", "NLAlib.cgState", "NLAlib.CGState", "NLAlib.cgStep", "NLAlib.pcgIterate", "NLAlib.pcgState", "NLAlib.PCGState", "NLAlib.pcgStep", "NLAlib.chebyshevExtremaMatrix", "NLAlib.chebyshevErrorVector"]
+results = ["cg-program", "cg-oracle-program", "cg-galerkin-formula", "cg-galerkin-condition", "galerkin-optimality", "cg-optimality", "cg-polynomial-bound", "cg-chebyshev-bound", "cg-outlier-bound", "cg-spectrum-minimax-bound", "cg-finite-termination", "cgls", "cg-recurrence", "cg-orthogonality", "cg-lanczos", "lanczos-fa-cg", "cg-near-optimality", "cg-near-optimality-lower-bound", "cg-chebyshev-sharp", "cg-spectrum-minimax-sharp", "pcg-optimality", "pcg-split-system", "pcg-chebyshev-bound", "pcg-outlier-bound", "pcg-spectrum-minimax-bound", "pcg-finite-termination", "pcg-recurrence", "pcg-orthogonality"]
 
 [[collections.groups]]
-id = "perturbation"
-title = "Eigenvalue and eigenvector perturbation"
-definitions = ["NLAlib.eigengap"]
-results = ["weyl-inequality", "weyl-perturbation", "hoffman-wielandt", "bauer-fike", "simple-eigenvalue-perturbation", "davis-kahan", "wedin", "sylvester-separation", "singular-value-perturbation"]
+id = "cg-finite-precision"
+title = "CG in finite precision"
+definitions = ["NLAlib.CGRun", "NLAlib.CGBackwardCertificate", "NLAlib.PCGRun"]
+results = [
+  "cg-backward-model", "cg-computed-residual-bound", "cg-residual-gap",
+  "cg-finite-precision-accuracy", "cg-physical-energy-decrements",
+  "cg-physical-energy-convergence", "cg-tiny-interval-polynomial-convergence",
+  "cg-tiny-interval-minimax-convergence", "cg-tiny-interval-computed-residual",
+  "cg-delayed-physical-energy-reliability", "cg-delayed-energy-stopping",
+  "cg-relative-energy-decrement-reliability", "cg-physical-energy-quadrature",
+]
+
+[[collections.groups]]
+id = "minres"
+title = "MINRES and preconditioned MINRES"
+definitions = ["NLAlib.gmresIterate", "NLAlib.pminresIterate", "NLAlib.minresState", "NLAlib.MINRESState", "NLAlib.minresStep", "NLAlib.chebyshevExtremaMatrix", "NLAlib.chebyshevWeightVector", "NLAlib.chebyshevTwoIntervalMatrix", "NLAlib.chebyshevTwoIntervalVector"]
+results = ["minres-polynomial-bound", "minres-chebyshev-bound", "minres-two-interval-bound", "minres-outlier-bound", "minres-spectrum-minimax-bound", "minres-lanczos", "minres-recurrence", "minres-residual-estimate", "minres-chebyshev-sharp", "minres-two-interval-sharp", "minres-spectrum-minimax-sharp", "pminres-optimality", "pminres-split-system", "pminres-polynomial-bound", "pminres-chebyshev-bound", "pminres-finite-termination", "pminres-lanczos"]
+
+[[collections.groups]]
+id = "gmres"
+title = "GMRES"
+definitions = ["NLAlib.gmresIterate", "NLAlib.minResidualInverse"]
+results = ["min-residual-optimality", "gmres-optimality", "gmres-petrov-galerkin", "gmres-polynomial-bound", "gmres-diagonalizable-bound", "gmres-field-of-values-bound", "gmres-finite-termination", "gmres-arnoldi", "gmres-givens", "gmres-residual-estimate", "givens-qr"]
 
 [[collections]]
 id = "concentration"
 topic = "Concentration"
-title = "Concentration and random matrices"
-description = "Scalar tails and sub-Gaussian and sub-exponential variables, Gaussian, chi-square and Beta laws, random vectors and quadratic forms, matrix Bernstein, Chernoff and Freedman inequalities, and Gaussian, sub-Gaussian and Haar random matrices."
-sources = ["NLAlib.Probability", "NLAlib.RandomMatrix", "NLAlib.ForMathlib.Probability", "NLAlib.ForMathlib.MeasureTheory"]
+title = "Concentration"
+description = "Scalar, vector and matrix concentration inequalities, tail bounds and moment methods. Random matrix distributions have a separate tag."
+sources = ["NLAlib.Probability", "NLAlib.ForMathlib.Probability", "NLAlib.ForMathlib.MeasureTheory"]
 
 [[collections.groups]]
 id = "scalar"
@@ -372,6 +448,13 @@ id = "matrix-concentration"
 title = "Matrix concentration"
 definitions = ["NLAlib.HasMatrixMGFBound", "NLAlib.HasCondMatrixMGFBound", "NLAlib.dilationCLM"]
 results = ["matrix-bernstein-without-replacement", "matrix-chernoff-without-replacement", "matrix-freedman", "intrinsic-matrix-bernstein", "intrinsic-matrix-chernoff", "noncommutative-khintchine", "generalized-matrix-laplace"]
+
+[[collections]]
+id = "random-matrices"
+topic = "RandomMatrices"
+title = "Random matrices"
+description = "Gaussian, sub-Gaussian and Haar matrices: distributions, invariance, moments and spectral bounds. Relevant concentration results are cross-listed."
+sources = ["NLAlib.RandomMatrix"]
 
 [[collections.groups]]
 id = "random-matrices"
@@ -426,8 +509,8 @@ results = ["nystrom-two-eigenvalue-instance", "rademacher-probe-optimality"]
 [[collections]]
 id = "matrix"
 topic = "Matrix"
-title = "Matrix analysis"
-description = "Deterministic matrix analysis, by source module: norms, spectra, the pseudoinverse, subspaces, perturbation theory, inequalities, matrix functions and factorizations; the rank and minor identities headed for Mathlib come first."
+title = "Rank and matrix identities"
+description = "Rank, minors, Schur complements and basic matrix identities. Norms, factorizations, perturbation theory and other matrix topics have their own tags."
 sources = ["NLAlib.ForMathlib.LinearAlgebra"]
 modules = "inline"
 

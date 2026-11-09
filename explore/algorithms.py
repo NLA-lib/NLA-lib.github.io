@@ -41,7 +41,8 @@ RUNGS = [('definition', 'Definition', 'definition'), ('program', 'Program', 'def
          ('sharpness', 'Sharpness', 'sharpness')]
 
 # access models of a target, read from its name (docs/design/Computation.md F12)
-MODELS = [('MatrixFreeProb', 'matrix-free, with draws'), ('MatrixFreeRounded', 'matrix-free, rounded'),
+MODELS = [('MatrixFreeRoundedProb', 'matrix-free, rounded, with draws'),
+          ('MatrixFreeProb', 'matrix-free, with draws'), ('MatrixFreeRounded', 'matrix-free, rounded'),
           ('MatrixFree', 'matrix-free'), ('StoredEntriesDense', 'stored entries, dense'),
           ('StoredEntriesCoo', 'stored entries, COO'), ('StoredEntries', 'stored entries')]
 

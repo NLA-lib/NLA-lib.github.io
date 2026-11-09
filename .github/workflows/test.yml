@@ -26,5 +26,7 @@ jobs:
       - name: Browser script syntax
         run: |
           node --check web/app.js
+          node --check web/explore.js
+          node --check web/explore-search.js
           node --check web/math.js
           node tests/test_math.cjs

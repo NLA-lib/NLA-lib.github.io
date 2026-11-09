@@ -49,7 +49,7 @@ jobs:
           # the library source at that commit, for the bodies of definitions
           mkdir -p data/src
           curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
-            tar xz -C data/src --strip-components=1 --wildcards '*/NLAlib/*' '*/NLAlib.lean'
+            tar xz -C data/src --strip-components=1 --wildcards '*/NLAlib/*' '*/NLAlib.lean' '*/docs/targets.toml' '*/lean-toolchain'
       - name: Fetch the rename maps
         # docs/renames/*.json (CONTRIBUTING N12): old #d/ links redirect, changed statements are noted;
         # a commit without the directory builds without maps
