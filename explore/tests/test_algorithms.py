@@ -149,6 +149,10 @@ PROG_SIG = 'N.gsProg {P : Type} (p : P) : Computation.Builder P ι VB VI Unit'
 
 
 class LadderTests(unittest.TestCase):
+    def test_rounded_probabilistic_model_keeps_both_qualifiers(self):
+        self.assertEqual(A.model_of('N.MatrixFreeRoundedProbSolver'), 'matrix-free, rounded, with draws')
+        self.assertEqual(A.model_of('N.MatrixFreeRoundedSolver'), 'matrix-free, rounded')
+
     def fixture(self):
         return [decl('N.gsQ', 'Q factor.\nAlgorithm: gram-schmidt', kind='def'),
                 decl('N.gsProg', 'Program.\nAlgorithm: gram-schmidt', kind='def', signature=PROG_SIG),

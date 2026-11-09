@@ -1,0 +1,72 @@
+/* Canonical pages retain the library's typography and quiet, monochrome presentation. */
+.explore-pages main { margin-top: 1.5rem; }
+.explore-pages h1 { overflow-wrap: anywhere; }
+.explore-pages :is(h2, h3) { overflow-wrap: anywhere; }
+.explore-pages p { max-width: 78ch; }
+.explore-pages input, .explore-pages select, .explore-pages button { font: inherit; padding: .4rem .6rem; border: 1px solid var(--rule); border-radius: 2px; background: white; color: var(--ink); }
+.explore-pages button { cursor: pointer; }
+.explore-pages input { min-width: 0; max-width: 100%; box-sizing: border-box; }
+.search-line { display: flex; gap: .5rem; margin-top: .35rem; }
+.search-line input { flex: 1; }
+.explore-pages label { display: block; }
+.entry-list li, .quick-search li, #search-results li { overflow-wrap: anywhere; }
+.entry-list, .quick-search ul, #search-results { list-style: none; padding-left: 0; }
+.entry-list.algorithm-variants { padding-left: 1rem; margin: .3rem 0 .7rem; font-size: .9em; }
+.explore-pages pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #f6f6f4; border-left: 2px solid var(--rule); font-size: .8rem; line-height: 1.5; }
+.explore-pages code { overflow-wrap: anywhere; }
+.muted, .eyebrow, .record-link, .explore-pages footer { color: var(--faint); font-size: .85rem; }
+.notice { padding: .7rem 1rem; border-left: 3px solid var(--ink); background: #f6f6f4; }
+.explore-pages details.implementation { margin: 0; border-bottom: 1px solid var(--rule); font-size: 15px; }
+.implementation-program { margin: 1rem 0; }
+.implementation-program h3 { margin: 0 0 .35rem; font-size: 17px; font-style: normal; }
+.arithmetic-models { margin-left: .6rem; padding-left: .8rem; border-left: 2px solid var(--rule); }
+.explore-pages .implementation > summary { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr) .7rem; gap: .6rem; padding: .65rem 0; align-items: baseline; }
+.implementation-action { text-align: right; text-decoration: underline; text-underline-offset: 3px; }
+.implementation-panel { padding: .5rem 0 1rem; }
+.implementation-panel a { overflow-wrap: anywhere; }
+.implementation dl { display: grid; grid-template-columns: minmax(8rem, 1fr) 4fr; gap: .55rem 1.2rem; }
+.implementation dt { font-weight: 600; }
+.implementation dd { margin: 0; overflow-wrap: anywhere; }
+.table-scroll { overflow-x: auto; position: relative; }
+.explore-pages table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+.explore-pages td, .explore-pages th { padding: .65rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.explore-pages caption { text-align: left; margin: .7rem 0; }
+#library-search { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; }
+.bound-group { margin: 2rem 0; }
+.category-section > summary h2 { padding: 0; margin: 0; }
+.explore-pages details.category-section { margin: 2rem 0; }
+.category-section > summary { margin-bottom: .6rem; }
+.bound-group > summary { margin-bottom: .6rem; }
+.bound-title { margin: 0; font-size: 19px; font-style: normal; }
+.bound-guarantee { padding-bottom: .7rem; border-bottom: 2px solid var(--ink); }
+.explore-pages details.bound-entry { margin: 0; border-bottom: 1px solid var(--rule); }
+.explore-pages .bound-entry > summary { padding: .8rem 0; display: grid; grid-template-columns: minmax(0, 1fr) .7rem; }
+.bound-summary { min-width: 0; overflow-wrap: anywhere; }
+.bound-size { display: block; margin-top: .25rem; }
+.bound-body { padding: 0 0 1rem; }
+.bound-resources { margin: .5rem 0; }
+.bound-resources dt { font-weight: 600; }
+.bound-resources dd { margin: .15rem 0 .7rem; overflow-x: auto; }
+.bound-resources dd p { margin: 0; }
+.bound-entry details { margin: .6rem 0; }
+.bound-source { font-size: 15px; color: var(--faint); margin-bottom: 0; }
+.quick-search { padding: .7rem 0; border-bottom: 1px solid var(--rule); }
+.quick-search ul { margin: 0; }
+.quick-search p { margin: .5rem 0 0; font-size: 15px; }
+.explore-pages details { margin: 1rem 0; }
+.explore-pages :is(h2, h3) + * { margin-top: 0; }
+.explore-pages details > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: .6rem; }
+.explore-pages summary :is(h2, h3) { display: block; min-width: 0; }
+.explore-pages details > summary :is(h2, h3)::before { content: none; }
+.explore-pages details > summary::before { content: none; }
+.explore-pages details > summary::after { content: '+'; flex: 0 0 .7rem; margin-left: auto; text-align: right; }
+.explore-pages details[open] > summary::after { content: '−'; }
+.explore-pages summary::-webkit-details-marker { display: none; }
+.explore-pages footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
+.skip-link { position: absolute; left: -10000px; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.skip-link:focus { left: 1rem; top: 1rem; background: white; padding: .7rem; z-index: 10; }
+.explore-pages details:not([open]) > :not(summary) { display: none; }
+.explore-pages pre.definition { max-height: 30rem; overflow: auto; }
+.explore-pages :focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+@media (max-width: 560px) { .implementation dl { grid-template-columns: 1fr; } .implementation dd { margin-bottom: .6rem; } }

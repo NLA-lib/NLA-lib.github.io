@@ -1,11 +1,10 @@
 ---
 title: How NLA-lib defines things
 description: Brief overview of some of the key design decisions in NLA-lib.
+tab-title: NLA-lib · Design
 menu:
   - Home: ../
   - Explorer: ../explore/
-  - Rates: ../explore/rates/
-  - Algorithms: ../explore/algorithms/
   - Design: ./
   - GitHub: https://github.com/NLA-lib/nlalib
 ---

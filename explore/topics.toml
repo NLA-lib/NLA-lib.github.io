@@ -7,8 +7,8 @@
 # Files directly under a layer go to the subtopic named in that layer's `assign` table, or to
 # `General`. Keep this file in step with the layer design notes in NLAlib's docs/design/.
 
-shelves = ["LinearSystems", "LowRank", "Sketching", "Estimation", "MatrixFunctions", "Polynomial",
-           "Eigenvalues", "Concentration", "LowerBounds", "Matrix"]
+shelves = ["LinearSystems", "LeastSquares", "LowRank", "Sketching", "Estimation", "SpectralDensity",
+           "Eigenvalues", "KrylovMethods", "MatrixFunctions", "Quadrature", "Polynomial", "Concentration", "RandomMatrices", "LowerBounds", "Matrix"]
 
 # source folders, in import-layer order
 order = ["Matrix", "Polynomial", "Computation", "Krylov", "Probability", "RandomMatrix", "Sketching",

@@ -32,7 +32,7 @@ h2 {
 h3 {
     font-size: 19px;
     font-weight: 600;
-    margin: 1.4em 0 0.3em;
+    margin: 1.4em 0 0.4em;
 }
 
 .intro {
@@ -379,12 +379,6 @@ body.panel-open #main {
 
 .statement > :last-child {
     margin-bottom: 0;
-}
-
-/* Maths is scaled so that its x-height matches the text's: KaTeX's own 1.21em suits a Times-like
-   text face, but Source Sans 3's x-height (0.486em) is 1.13 times KaTeX_Main's (0.431em) */
-.katex {
-    font-size: 1.13em;
 }
 
 /* A statement is set to the size of the Lean under it: same x-height as the code at 72% (its
@@ -938,9 +932,8 @@ body[data-page="rates"] .rate-notation > :not(summary), body[data-page="rates"] 
 
 /* Catalogue summaries can contain a full display equation; keep it inside the reading column. */
 .desc .katex-display { overflow-x: auto; overflow-y: hidden; }
-.desc .katex { display: inline-block; max-width: 100%; overflow-x: auto; overflow-y: hidden; vertical-align: middle; }
 .desc .katex-display .katex { display: block; }
-.desc .nowrap { display: inline-block; max-width: 100%; vertical-align: middle; }
+.desc .nowrap { display: inline-block; max-width: 100%; vertical-align: baseline; }
 details.topic, details.sub { scroll-margin-top: 4rem; }
 
 .result-statement .formname {

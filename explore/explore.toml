@@ -1,0 +1,97 @@
+# Reviewed connections augment registered exact targets. They are not inferred from names.
+# The builder requires unchanged complete signatures and explicit program/run references.
+[[implementations]]
+id = 'cg-stored-rounded'
+algorithm = 'cg'
+program = 'NLAlib.cgProg.compiled'
+arithmetic = 'unbounded relative-error scalar contract'
+access_model = 'stored entries'
+execution_theorem = 'NLAlib.CGImplementation.exec_rounded_compiled'
+run_model = 'NLAlib.CGRun'
+output_theorems = ['NLAlib.CGImplementation.exec_rounded_compiled_backward']
+external_services = 'Primitive scalar semantics satisfying IsRelErrSem and AddsZeroExactly; ROM matrix entries and declared RHS. Matrix products execute as scalar loops.'
+service_definitions = [
+  { text = 'Primitive scalar semantics', declaration = 'NLAlib.Computation.ScalarSem' },
+  { text = 'IsRelErrSem', declaration = 'NLAlib.Computation.IsRelErrSem' },
+  { text = 'AddsZeroExactly', declaration = 'NLAlib.Computation.AddsZeroExactly' },
+  { text = 'ROM matrix entries', declaration = 'NLAlib.Computation.Interp' },
+]
+scope = 'Successful execution and decoded output correspondence under symmetry, positive spectral bounds and the stated precision and iteration-horizon restrictions. The backward theorem additionally requires positive budget and nonzero decoded input. These are arithmetic-contract guarantees, not certification of a particular executable or IEEE backend.'
+[implementations.signatures]
+'NLAlib.CGImplementation.exec_rounded_compiled' = '3d85a8129c0af529b4e3ad440d8756b5c3215d7d7fbf8f238b241199034f7bf8'
+'NLAlib.CGImplementation.exec_rounded_compiled_backward' = '4ad77af9b1594822cd7875995a1ca71f89b396e18881399ced2598b8609472db'
+
+[[theory]]
+id = 'matrix-perturbation'
+title = 'Matrix perturbation theory'
+description = 'Bounds for changes in eigenvalues, invariant subspaces, inverses and least-squares solutions. These results are reusable mathematical building blocks and do not require selecting a numerical implementation.'
+prefixes = ['NLAlib.Matrix.Perturbation.']
+
+[tasks.linear-systems]
+summary = 'Solvers, convergence and stability for Ax = b.'
+[tasks.low-rank-approximation]
+summary = 'Approximation errors, sketch sizes and iteration depths for low-rank methods.'
+[tasks.sketching]
+summary = 'Dimension reduction, embeddings, injection and sketch distributions.'
+[tasks.trace-estimation]
+summary = 'Trace estimators, probe counts, variance and tail bounds.'
+bounds_layout = 'result_groups'
+[tasks.matrix-functions]
+summary = 'Functions of matrices and their approximation.'
+[tasks.polynomial]
+summary = 'Polynomial approximation, minimax bounds and orthogonal polynomials.'
+[tasks.eigenvalues]
+summary = 'Eigenvalue estimates, variational bounds and perturbation theory.'
+[tasks.concentration]
+summary = 'Tail bounds and concentration inequalities.'
+[tasks.lower-bounds]
+summary = 'Query lower bounds, sharpness and worst-case examples.'
+[tasks.matrix-analysis]
+summary = 'Rank, minors and basic matrix identities.'
+
+[tasks.least-squares]
+summary = "Least-squares solutions, sketched regression and preconditioning."
+[tasks.krylov-methods]
+summary = "Krylov spaces, Lanczos, Arnoldi and iterative solvers."
+[tasks.spectral-density]
+summary = "Spectral measures and empirical spectral distribution estimates."
+
+[tasks.quadrature]
+summary = "Quadrature rules, nodes, weights and error bounds."
+[tasks.random-matrices]
+summary = "Random matrix distributions, moments and spectra."
+
+# Subject tags use source membership independently of other categories, so a result
+# already cross-listed under an application is not removed from its mathematical topic.
+[tasks.matrix-norms]
+title = "Matrix norms"
+summary = "Spectral, Frobenius, Schatten and invariant norms."
+include_modules = ["NLAlib.Matrix.Norms"]
+[tasks.singular-values]
+title = "Singular values"
+summary = "Singular values, SVD and low-rank spectral facts."
+include_modules = ["NLAlib.Matrix.Spectral.SVD", "NLAlib.Matrix.Spectral.SingularValues", "NLAlib.Matrix.Spectral.SingularValueInequalities", "NLAlib.Matrix.Spectral.LeastSingularValue"]
+[tasks.pseudoinverses]
+title = "Pseudoinverses"
+summary = "Generalized inverses, regularization and least-squares identities."
+include_modules = ["NLAlib.Matrix.Pseudoinverse"]
+[tasks.subspaces]
+title = "Subspaces"
+summary = "Subspaces, projections and principal angles."
+include_modules = ["NLAlib.Matrix.Subspaces"]
+[tasks.perturbation-theory]
+title = "Perturbation theory"
+summary = "Perturbation of eigenvalues, subspaces, inverses and solutions."
+include_modules = ["NLAlib.Matrix.Perturbation"]
+[tasks.matrix-factorizations]
+title = "Matrix factorizations"
+summary = "LU, QR, Cholesky and other matrix factorizations."
+include_modules = ["NLAlib.Matrix.Factorizations"]
+[tasks.matrix-inequalities]
+title = "Matrix inequalities"
+summary = "Matrix order, convexity and trace inequalities."
+include_modules = ["NLAlib.Matrix.Inequalities", "NLAlib.Matrix.Majorization"]
+[tasks.structured-matrices]
+title = "Structured matrices"
+summary = "Identities and bounds for matrices with special structure."
+include_modules = ["NLAlib.Matrix.Structured"]

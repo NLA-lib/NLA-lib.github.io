@@ -239,7 +239,8 @@ class RatesFromFacets(unittest.TestCase):
                     self.assertTrue(all(r.get('kind') in b.RESOURCE_KINDS for r in row['resources']))
         texts = [g['title'] for g in cfg['guarantees']] + [r['label'] for row in cfg['rates'] for r in row['resources']]
         for text in texts:
-            self.assertNotRegex(text, r'(?i)high probability|\bexpectation\b|squared|second moment|average|late truncation')
+            # Plain titles spell out squared errors now that the expectation formula is omitted.
+            self.assertNotRegex(text, r'(?i)high probability|\bexpectation\b|second moment|average|late truncation')
         for family in cfg['families']:
             self.assertNotIn('filters', family)
             self.assertTrue(family['algorithms'])

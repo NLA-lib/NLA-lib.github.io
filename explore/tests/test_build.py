@@ -148,15 +148,18 @@ class BuildTests(unittest.TestCase):
                 b.build(dict(decls=[decl('N.x', 'X.')], modules=[dict(name='NLAlib.Test', path='NLAlib/Test.lean')]), {}, out)
             data_v = hashlib.sha256((out / 'data.json').read_bytes()).hexdigest()[:10]
             app_v = hashlib.sha256((out / 'app.js').read_bytes()).hexdigest()[:10]
-            main = (out / 'index.html').read_text()
-            self.assertIn(f'src="app.js?v={app_v}"', main)
-            self.assertIn(f'<body data-version="{data_v}">', main)
-            for sub in ('rates', 'algorithms'):
+            main = (out / 'catalog/index.html').read_text()
+            self.assertIn(f'src="../app.js?v={app_v}"', main)
+            self.assertIn(f'data-version="{data_v}"', main)
+            for sub in ('rates',):
                 page = (out / sub / 'index.html').read_text()
                 self.assertIn(f'src="../app.js?v={app_v}"', page)
                 self.assertIn(f'<body data-page="{sub}" data-base="../" data-version="{data_v}">', page)
                 # the menu marks this page only: no other link takes its data-page
-                self.assertEqual(page.count(f'data-page="{sub}"'), 2)
+                self.assertEqual(page.count(f'data-page="{sub}"'), 1)
+            version = hashlib.sha256((out / 'explore.js').read_bytes()).hexdigest()[:12]
+            for sub, root in [('', './'), ('algorithms', '../')]:
+                self.assertIn(f'src="{root}explore.js?v={version}"', (out / sub / 'index.html').read_text())
 
 
 

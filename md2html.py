@@ -297,7 +297,7 @@ def main():
         fields.setdefault('description', text('tldr') or title)
         meta = ['  <meta name="%s" content="%s">' % (key, html.escape(text(key)))
                 for key in fields
-                if key not in ('title', 'email', 'lang', 'tldr', 'menu') and text(key)]
+                if key not in ('title', 'tab-title', 'email', 'lang', 'tldr', 'menu') and text(key)]
 
         header = '<h1>%s</h1>' % title
         # the byline: the author, then the date below
@@ -334,7 +334,7 @@ def main():
         if ICON.exists():
             css = '  <link rel="icon" href="%s">\n%s' % (
                 Path(os.path.relpath(ICON, output.resolve().parent)).as_posix(), css)
-        output.write_text(PAGE.format(title=title, lang=text('lang') or 'en',
+        output.write_text(PAGE.format(title=html.escape(text('tab-title'), quote=False) or title, lang=text('lang') or 'en',
                                       meta='\n'.join(meta),
                                       css=css,
                                       body='%s\n%s' % (header, body)),

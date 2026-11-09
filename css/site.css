@@ -60,6 +60,7 @@ body {
     font-feature-settings: "lnum";
     font-weight: 400;
     color: #1d1d1d;
+    line-height: 1.5;
 }
 
 a {
@@ -110,26 +111,23 @@ h1 {
 
 /* lists: a small round bullet in the list's indent, centred on the first line, so wrapped lines
    stay flush */
-ul {
-    padding-left: 1em;
-    list-style: none;
-}
+ul { padding-left: 1.25em; list-style: disc; }
+li { margin: .4em 0; }
 
-ul > li {
-    position: relative;
-}
+/* Shared heading rhythm: the following block must not add another top gap. */
+h2, h3 { margin-bottom: .4em; }
+h2 + *, h3 + * { margin-top: 0; }
 
-ul > li::before {
-    content: "";
-    position: absolute;
-    right: 100%;
-    margin-right: 0.5em;
-    top: 0.55em;
-    top: calc(0.5lh - 0.15em);
-    width: 0.3em;
-    height: 0.3em;
-    border-radius: 50%;
-    background: currentColor;
+/* Match Source Sans's x-height and keep inline math on the text baseline. */
+body .katex { font-size: 1.13em; }
+.math:not(.display) { position: relative; vertical-align: baseline; }
+/* Scrolling an inline equation changes its baseline. Scroll displayed equations or their
+   containing block instead; prose equations retain KaTeX's natural inline layout. */
+.math.display {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
 /* phones: smaller title and menu, no gap above the title */

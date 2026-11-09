@@ -29,6 +29,7 @@ what the Lean source does not say, and the build works with all three empty.
 """
 
 import argparse
+import copy
 import html
 import json
 import hashlib
@@ -46,6 +47,7 @@ SHARED = ROOT.parent
 sys.path.insert(0, str(ROOT))
 import facets  # noqa: E402  (the module beside this script)
 import algorithms  # noqa: E402
+import explore_pages  # noqa: E402
 REPO = 'https://github.com/NLA-lib/NLAlib'
 
 DEF_KINDS = {'def', 'abbrev', 'opaque', 'structure', 'class', 'inductive'}
@@ -803,7 +805,9 @@ def rates_page(cfg, decls, index, targets, facets_for=None, results=None, cites=
         else:
             measure = facets.measure_label(f.get('measure'))
             words = facets.STATISTIC_WORDS.get(f.get('statistic'), 'other statements')
-            stat = facets.statistic_tex(f)
+            stat = facets.statistic_tex(f) if f.get('statistic') != 'expectation' else ''
+            if f.get('statistic') == 'expectation' and f.get('moment') == 2:
+                words = 'expected squared error'
             gid = f'{family}-{slug(f.get("measure") or "any")}-{key or "other"}-{f.get("moment") or 0}'
             title = ' · '.join(x for x in (measure, ' '.join(x for x in (words, stat) if x)) if x)
             title = title[:1].upper() + title[1:]
@@ -995,6 +999,7 @@ def rename_tables(maps, names):
 def build(data, bib, out, registry=None, ladder=False, renames_dir=None):
     """`registry`: NLAlib's docs/targets.toml, parsed (from `--src`), for the cost targets of the
     algorithm pages; without it they have no Cost section."""
+    record_source = copy.deepcopy(data)
     topics_cfg = load_toml('topics.toml')
     results_cfg = load_toml('results.toml')
     synonyms = load_toml('synonyms.toml').get('synonyms', {})
@@ -1444,6 +1449,13 @@ def build(data, bib, out, registry=None, ladder=False, renames_dir=None):
     (out / 'algorithms' / 'attachment.json').write_text(json.dumps(alg['report'], ensure_ascii=False, indent=1) + '\n')
     if ladder:
         print(algorithms.ladder_table(alg, {a: p['title'] for a, p in alg['algorithms'].items()}))
+    catalogue = re.sub(r'(href|src)="(?!data:|https?:|/|#)([^\"]+)"', r'\1="../\2"',
+                       cache_busted((ROOT / 'web' / 'index.html').read_text(), out))
+    catalogue = catalogue.replace('<body ', '<body data-base="../" ', 1)
+    (out / 'catalog').mkdir()
+    (out / 'catalog' / 'index.html').write_text(catalogue)
+    model = explore_pages.make_records(record_source, site, load_toml('explore.toml'))
+    explore_pages.publish(model, site, out, explore_pages.prose_html)
     n_def = sum(1 for d in decls if d['kind'] in DEF_KINDS)
     print(f'{len(modules)} modules, {len(decls)} declarations, {len(out_results)} results, '
           f'{n_def} definitions -> {out}/ ({(out / "data.json").stat().st_size // 1024} KB data)')
@@ -1522,11 +1534,21 @@ def main():
                     help="a directory of NLAlib rename maps (docs/renames/*.json): old #d/ links redirect "
                          "and changed statements are noted; default data/renames when it exists")
     a = ap.parse_args()
-    data = json.loads(Path(a.data).read_text())
+    extraction_bytes = Path(a.data).read_bytes()
+    data = json.loads(extraction_bytes)
+    data['_provenance'] = {
+        'commit': data.get('commit'), 'date': data.get('date'),
+        'extraction_sha256': hashlib.sha256(extraction_bytes).hexdigest(),
+        'fingerprint_kind': 'file-bytes', 'source_hashes_checked': False, 'toolchain': None,
+    }
     if data.get('schema') != 1:
         raise SystemExit(f"unsupported data schema {data.get('schema')!r}")
     registry = None
     if a.src and validate_sources(data, a.src):
+        data['_provenance']['source_hashes_checked'] = True
+        toolchain = Path(a.src) / 'lean-toolchain'
+        if toolchain.is_file():
+            data['_provenance']['toolchain'] = toolchain.read_text().strip()
         print(f"{whole_definitions(data['decls'], a.src)} definitions given whole from {a.src}")
         reg = Path(a.src) / 'docs' / 'targets.toml'
         registry = tomllib.loads(reg.read_text()) if reg.exists() else None
