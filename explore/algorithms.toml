@@ -60,6 +60,12 @@ title = 'Orthogonalization'
 description = 'Orthonormal bases of the columns of a matrix.'
 algorithms = ['gram-schmidt']
 
+[[families]]
+id = 'eigensolvers'
+title = 'Hermitian eigensolvers'
+description = 'Eigenvalue decompositions of Hermitian matrices on a floating-point machine, with the building blocks they call.'
+algorithms = ['spectral-bisection', 'newton-schulz-sign', 'deflate']
+
 [cg]
 title = 'Conjugate gradient (CG)'
 aliases = ['Hestenes–Stiefel', 'HSCG', 'conjugate gradients', 'matrix-free CG',
@@ -98,6 +104,19 @@ facet = 'sketch-and-solve'
 [gram-schmidt]
 title = 'Gram–Schmidt'
 aliases = ['Gram-Schmidt', 'modified Gram–Schmidt', 'MGS', 'QR factorization']
+
+[spectral-bisection]
+title = 'Randomized spectral bisection (EIGH)'
+aliases = ['Hermitian diagonalization', 'EIGH', 'Shah diagonalization', 'spectral divide and conquer',
+           'Hermitian eigensolver in linear precision', 'eigh']
+
+[newton-schulz-sign]
+title = 'Newton–Schulz sign iteration'
+aliases = ['matrix sign function', 'SIGN', 'inverse-free sign iteration', 'Newton–Schulz']
+
+[deflate]
+title = 'Randomized deflation (DEFLATE)'
+aliases = ['DEFLATE', 'Gaussian range finder', 'randomized range finder without oversampling']
 
 [unpaged]
 prefixes = ['cgls', 'minres', 'pminres', 'gmres', 'lanczos-fa', 'rsi', 'rbki', 'gn', 'etgn', 'tgn',
