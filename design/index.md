@@ -24,6 +24,57 @@ This creates a number of subtleties to formalizing NLA.
 
 A bound of the form $O(k/\varepsilon)$ can leave implicit what the constant depends on and how small $\varepsilon$ must be. The formal statement fixes the order of those quantifiers. When the library also gives a bound with explicit constants, readers can use it to see what the theorem guarantees for their parameters.
 
+## Algorithms
+
+A mathematical description of an algorithm lets us study its iterates and outputs. For example, conjugate gradient produces approximate solutions to an SPD system, and a dot product computes $x^\mathsf{T}y$. Theorems about these objects establish properties such as convergence and approximation error.
+
+To establish the cost or numerical behavior of a particular procedure, we also specify its steps. A **program** is the formal representation of that procedure. Hestenes–Stiefel CG and another CG recurrence are variants within the CG family. Sequential and pairwise dot products are variants within the dot-product family. An algorithm at one level can implement an operation used by an algorithm at another level.
+
+### Why a counted function is insufficient
+
+Suppose we want to sum $n$ numbers using rounded addition and count the additions. We could wrap each addition in a counter. In Lean, a state monad can carry that counter.
+
+```lean
+def addC (fl_add : ℝ → ℝ → ℝ) (a b : ℝ) : StateM ℕ ℝ := do
+  modify (· + 1)
+  pure (fl_add a b)
+```
+
+A summation loop that calls this wrapper has a reasonable count. But a function can also compute the entire sum using Lean's real arithmetic and pass the result through the wrapper once.
+
+```lean
+def cheatSum (fl_add : ℝ → ℝ → ℝ) (x : Fin n → ℝ) : StateM ℕ ℝ :=
+  addC fl_add 0 (∑ i, x i)
+```
+
+The counter reports one addition. If `fl_add` meets the standard relative-error bound with parameter $u$, the result has error at most $u|\sum_i x_i|$. The mathematical statements about this function are valid. However, the exact summation took place outside the counter. The same construction could compute $A^{-1}b$ exactly and round each output entry, charging only for that final rounding.
+
+Making the function generic in its value type is also insufficient. Lean's classical logic can distinguish the real-number case and choose special behavior there. The allowed computation therefore has to be enforced by the representation of a program.
+
+### How the program model enforces the operations
+
+A program is a tree of operation calls and control flow over stored values. Computed values are accessed through those calls. The evaluator executes the tree and records its calls and peak scratch space. The algorithm author expresses the procedure in this language, while the evaluator supplies its accounting.
+
+In a scalar-addition model, summation is a loop that reads an entry and calls addition on the accumulator. The tree has no place to insert an arbitrary Lean function that computes the exact sum. If a higher-level model provides `sum` as a primitive, its theorem counts calls to `sum`. Obtaining a scalar-operation bound then requires a certified implementation of that operation.
+
+The model definition is consequently part of what a reader inspects. It states which computations are primitive and what their calls cost. The program representation enforces use of that model, and the implementation certificates justify moving to a more detailed one.
+
+### What the definition enforces, and what contributors choose
+
+For claims about computation, our formal definition of an **algorithm** is a program over a declared operation interface. Mathematical recurrences and readable pseudocode explain that program. The definition fixes how the procedure can compute; the contributor chooses the procedure and the interface it uses.
+
+| Aspect | Enforced by the formal representation | Chosen by the contributor |
+|---|---|---|
+| Computation | The program uses the calls and control flow admitted by its interface. | The recurrence, ordering, stopping rule, and operation groups. |
+| Primitive operations | Calls have the input and output shapes declared by the model. | Where the model stops: scalar arithmetic, BLAS, a matvec oracle, or another interface. |
+| Accounting | The evaluator derives calls and workspace from execution under the declared conventions. | The cost assigned to each primitive and the resource bound to prove. |
+| Guarantees | Lean checks a proof against its stated contracts and hypotheses. | The contracts, input conditions, and theorem being proved. |
+| Composition | A certified implementation must meet the contract required at the substitution boundary. | Which implementation supplies each operation, and how far to lower the program. |
+
+Thus, using the algorithm definition prevents hidden arithmetic outside the declared interface. It does not by itself make a chosen interface a useful model of computation. A contributor can declare an exact linear solve as one primitive; a theorem counting one such call then means exactly that. Claiming a scalar-operation cost requires implementing that primitive and proving the corresponding bound.
+
+Likewise, the definition does not automatically establish convergence, numerical stability, or termination. These are proved properties of a particular program under particular assumptions. Selecting a standard model reuses a reviewed set of operations, contracts, and accounting conventions. A custom model makes those same choices explicit for review.
+
 ## Programs and operation models {#programs}
 
 The central idea is **composable operations**. An algorithm is written as pseudocode using operations such as `matvec`, `dot`, and `axpy`. Each operation has an interface specifying its inputs and outputs, and a contract specifying what it guarantees. A theorem analyzes the algorithm under those contracts.
@@ -36,14 +87,34 @@ An **implementation** expresses an operation using the operations of another mod
 
 **Composition** substitutes those implementations into the algorithm. The library transfers the theorem through their certificates and computes the resulting cost bounds. A CG theorem stated in terms of vector operations can thus give a theorem about the program built from scalar arithmetic. A matrix-vector product can remain primitive at that level, or be implemented using further operations. The word *primitive* refers to where a particular model ends.
 
-NLA-lib provides standard operation models and standard collections of implementations, and users can define their own. These answer two useful questions when reading a result.
+### Standard operation models
 
-| Choice | What it specifies | CG example |
+The library offers **named, standardized operation models** and certified implementations between them. An author selects a model and its parameters when stating a theorem. Users can also define custom models through the same interfaces.
+
+A model is assembled from **operation groups**. For example, a CG model can select a scalar-arithmetic group, a BLAS1 group, and a matrix-vector-product group. Each group defines its operation names, input and output shapes, and a bundled contract. The theorem can assume that bundle as a single hypothesis. The individual primitive declarations live in the shared catalog, where their definitions can be reviewed once and reused across algorithms.
+
+The standard choices cover several independent questions.
+
+| Choice | Examples | What it determines |
 |---|---|---|
-| Operation model | Available calls, assumptions, and cost conventions | Exact or error-bounded `matvec`, `dot`, and vector updates |
-| Implementations | How calls are realized using another model | Sequential or pairwise dot products using scalar arithmetic |
+| Operation level | Scalar arithmetic or BLAS operations | Which calls the algorithm uses and counts |
+| Arithmetic assumptions | Exact results or standard rounding-error bounds | The guarantees available for those calls |
+| Matrix access | A matvec oracle or stored matrix entries | How the program accesses the matrix |
+| Implementation | Sequential or pairwise dot products | How higher-level calls are realized |
 
-The library's new program model, `Ops`, supplies the language of calls and control flow, the evaluator that counts a run, and the composition theorems. Its current implementation collections are called *profiles*, and their compositions are called *stacks*.
+These choices combine. A theorem can analyze HSCG using error-bounded BLAS operations and an exact matvec oracle. A certified sequential BLAS implementation then supplies particular error constants and scalar-operation costs. Implementing the matvec gives a further composition step.
+
+Standard models collect scalar and BLAS1 operation groups, exact or standard-model arithmetic contracts, and matrix-access contracts into named combinations. Certified implementations include sequential and pairwise BLAS algorithms. A format-specific model such as IEEE64 specifies its arithmetic behavior and any range conditions needed by its guarantees. Dot-product summation order is a separate implementation choice.
+
+### Defining and checking a model
+
+The model interface collects the operation groups and their parameters, their contracts, and the conventions for costs, workspace, tests, index conversions, and randomness. Its definition determines the complete set of permitted calls. An algorithm declaration names the groups it uses, so its interface records which operations it requires.
+
+A standard model definition also has a **joint witness** showing that its assumptions can be met together for the stated parameter range. An implementation collection supplies a certificate for each operation it implements, and the generic composition theorems transfer correctness and resource bounds. Shared definitions perform this work at the group and model level, so an algorithm author can reuse the named model and certificate bundles.
+
+This gives authors a short model declaration and gives reviewers a precise definition to expand. The human page explains the chosen groups and assumptions. The generated reference displays the full primitive list, contracts, and certificates for inspection.
+
+The `Ops` evaluator, contracts, and composition theorems provide the foundations for this interface. Implementation collections are called *profiles*, and their compositions are called *stacks*.
 
 ### Arithmetic models
 
@@ -51,11 +122,11 @@ An exact-arithmetic theorem is a result in its own right. It can establish that 
 
 ## Reading an algorithm page
 
-The redesigned Explorer will have curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page will introduce the SPD solve, explain the role of the residual, and link to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page will put readable pseudocode near the top, then show the available implementations, what they assume, and the guarantees proved for them.
+The Explorer has curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page introduces the SPD solve, explains the role of the residual, and links to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page puts readable pseudocode near the top, then shows the available implementations, what they assume, and the guarantees proved for them.
 
 ### A conjugate gradient example
 
-Here is the mathematical pseudocode for HSCG with an initial guess $x$ and an iteration cap $k$. In exact arithmetic, the residual test stops the iteration when the system is solved. The CG port will supply the checked program and its particular stopping rule.
+Here is the mathematical pseudocode for HSCG with an initial guess $x$ and an iteration cap $k$. In exact arithmetic, the residual test stops the iteration when the system is solved. The formal program specifies the stopping rule used by its guarantees.
 
 ```text
 r ← b − A x
@@ -73,7 +144,7 @@ repeat at most k times:
 return x
 ```
 
-An HSCG page will explain the operation models under which the recurrence has been analyzed and the implementations available for its calls. It can then show how choosing sequential or pairwise dot products affects a composed implementation. Each guarantee should name its assumptions, the accuracy or mathematical property it establishes, and the level at which operations and workspace are counted. Preconditioned CG gets its own pseudocode and guarantees because it adds a preconditioner call and changes the recurrence.
+The HSCG page explains the operation models under which the recurrence is analyzed and the implementations available for its calls. It shows how choosing sequential or pairwise dot products affects a composed implementation. Each guarantee names its assumptions, the accuracy or mathematical property it establishes, and the level at which operations and workspace are counted. Preconditioned CG gets its own pseudocode and guarantees because it adds a preconditioner call and changes the recurrence.
 
 The curated explanation links to the relevant formal statements and sources. The generated reference is a separate view for complete theorem signatures, extracted declarations, and machine-readable records.
 
