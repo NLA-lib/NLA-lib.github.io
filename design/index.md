@@ -1,6 +1,6 @@
 ---
 title: How NLA-lib defines things
-description: Brief overview of some of the key design decisions in NLA-lib.
+description: How NLA-lib specifies mathematical problems, programs, operation contracts, and verified implementations.
 tab-title: NLA-lib · Design
 menu:
   - Home: ../
@@ -22,126 +22,49 @@ This creates a number of subtleties to formalizing NLA.
 
 ### Quantification and constants
 
-Results in NLA are often stated using notation like big-O that is typically not defined precisely.
-As such, statements often leave implicit in what order the quantifiers come.
-One advantage of formalization is making this kind of thing precise.
-The cost is that the precise statements are more verbose.
-For reference, we have also included "simpler" versions of many statements of the form "there exist $C, \varepsilon_0 > 0$ such that for all $k$ and all $\varepsilon \in (0, \varepsilon_0]$, BLAH".
-In such statements, the hidden constant may trade off very poorly with the range of validity in parameters, so the constants used may be extremely large, even when the more precise bound is better.
-
-### Algorithms
-
-Much of NLA is concerned with algorithms.
-In NLA-lib, algorithms (and theorems about algorithms) can roughly be broken into two categories:
-
-- **Mathematical quantities.** The first kind are theorems about algorithms as mathematical objects.
-For instance, the mathematical object: `rsvd A Ω` is the projection $\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}\mathbf{A}$, and corresponding theorems bound its error.
-Such theorems are typically relatively simple to state and read, and typically reflect literature results well.
-- **Programs.** The second kind is about a particular implementation of a mathematical algorithm: a sequence of operations that, in principle, outputs the mathematical object.
-We describe such algorithms using Programs, which are written in a small language that NLA-lib defines in Lean.
-A Program is built from a fixed set of instructions, and the library defines how it runs, so theorems can say what it computes, what it costs, and how accurate it is in finite precision.
-We [expand on the implementation of programs below](#programs).
+A bound of the form $O(k/\varepsilon)$ can leave implicit what the constant depends on and how small $\varepsilon$ must be. The formal statement fixes the order of those quantifiers. When the library also gives a bound with explicit constants, readers can use it to see what the theorem guarantees for their parameters.
 
 ## Programs
 
-A program is a particular sequence of operations that computes a mathematical object.
-This lets us keep track of things like how many operations or matrix-vector products the program uses, how much memory it needs, and how accurate it is in finite precision.
-These are properties of a particular way of computing the object, not of the object, so the program itself must be something a theorem can talk about.
+A mathematical specification describes what an algorithm should compute. For conjugate gradient, it starts with a symmetric positive definite (SPD) system $Ax=b$ and describes the iterates and their error. A **program** gives the steps that compute those iterates, including the stopping rule. This gives us a way to state which operations a run uses, how much scratch space it needs, and how accurate its output is.
 
-### Example: summing numbers
+NLA-lib's new program model, `Ops`, gives scalar arithmetic, matrix-vector products, BLAS kernels, and random draws a common interface. An **operation** names a call and specifies the shape of its inputs and outputs. Its **contract** says what the call guarantees. An exact `matvec` contract gives $Ax$. A rounded contract can give an error bound for the returned vector. A draw contract can specify which entries of a random tape the call returns, and the theorem states the law of that tape.
 
-Suppose we want to sum $n$ real numbers in floating point, and count the additions.
-To reason about rounding, make the rounded addition a parameter `fl_add` that satisfies the standard model: $\mathrm{fl}(a+b) = (a+b)(1+\delta)$ with $\lvert\delta\rvert \le u$.
-To count, use a counter that every addition increments, as one would in Python with a class that holds a count.
-Lean has no hidden mutable state, but the state monad passes a counter along:
+An **implementation** supplies a program for an operation using lower-level calls, with a proof that it meets the contract. A **profile** collects implementations and their certificates. For example, a sequential BLAS profile implements a dot product using scalar multiplication and sequential addition. A **stack** combines profiles down to the chosen primitives. A matrix-free stack can keep `matvec` as a primitive and count one call each time the program uses it.
 
-```lean
-def addC (fl_add : ℝ → ℝ → ℝ) (a b : ℝ) : StateM ℕ ℝ := do
-  modify (· + 1)          -- counter += 1
-  pure (fl_add a b)
-
-def recSum (fl_add : ℝ → ℝ → ℝ) (x : Fin n → ℝ) : StateM ℕ ℝ :=
-  Fin.foldlM n (fun s i => addC fl_add s (x i)) 0
-```
-
-The increment lives inside the counted addition, so whoever writes `recSum` places no ticks.
-Two theorems follow by induction on the loop: the counter ends at $n$, and the computed sum is within $\gamma_{n-1}\sum_i \lvert x_i \rvert$ of the true one, where $\gamma_k = (1-u)^{-k} - 1$ (Higham, §4.2).
-For an algorithm designer who only adds through `addC`, this is the right cost and the right error.
-
-The trouble is that nothing makes a designer do so.
-The counter counts only the additions that go through it:
-
-```lean
-def cheatSum (fl_add : ℝ → ℝ → ℝ) (x : Fin n → ℝ) : StateM ℕ ℝ :=
-  addC fl_add 0 (∑ i, x i)       -- count: 1
-```
-
-The counter ends at $1$, and the standard model gives, in one line, an error of at most $u \lvert \sum_i x_i \rvert$.
-Both the accuracy and cost claims beat every real summation algorithm.
-The theorems are correct; what is wrong is that `∑ i, x i` did $n-1$ additions exactly, in an arithmetic no computer has, without passing the counter.
-And the trick works anywhere: to solve $\mathbf{A}\mathbf{x} = \mathbf{b}$, compute $\mathbf{A}^{-1}\mathbf{b}$ exactly and round each entry, for $n$ counted operations and componentwise relative error $u$.
-
-Basic attempts to forbid the bypass fail too.
-For example, making the code generic in the number type, so that it has no `∑` to call, does not work: Lean's logic is classical, so generic code can ask which type it was given and cheat only on `ℝ`.
-
-### How NLA-lib rules it out
-
-NLA-lib keeps the counter, and moves it into the interpreter.
-A program is a tree built from a fixed set of instructions, with no Lean function inside it, so the allowed operations are a definition: there is no `∑` to call and no way to ask which type a value has.
-The library defines how a tree runs: the state of a run has a count, and the run adds to it for every instruction it executes, however the result is used.
-The only way a program can add is an addition instruction, and the only thing that executes instructions is the run.
-So `cheatSum` cannot be written, and the count is a property of the run, not of how the author wrote the code.
-
-Recursive summation as a program is a loop of additions into one cell:
-
-```lean
-def sum (p : P) (dst : Cell VB VI) (x : VB) (n : IExp VI) : Builder P ι VB VI Unit := do
-  ins (.lit p dst 0)                                           -- dst ← 0
-  forRange n fun i => ins (.bin p .add dst dst ⟨x, .var i⟩)   -- dst ← dst + x[i]
-```
-
-It has two theorems, each proved by induction on the loop.
-
-1. **Exact arithmetic.** If the cells of `x` hold $x_0, \ldots, x_{n-1}$, the run succeeds, writes $\sum_i x_i$ into `dst`, and counts $n$ additions and one literal.
-The invariant: after $i$ iterations, `dst` holds $\sum_{j<i} x_j$, and the counts are $i$ additions and one literal.
-2. **Rounded arithmetic.** Under the contract `IsRelErrSem` with unit roundoff $u$, every addition stays in range and returns $(a+b)(1+\delta)$ with $\lvert\delta\rvert \le u$.
-The invariant: `dst` holds $\sum_{j<i} x_j(1+\eta_j)$ with $\lvert\eta_j\rvert \le \gamma_{i-1}$, using that adding to zero is exact.
-At the end, the computed $w$ satisfies $\lvert \sum_i x_i - w \rvert \le \gamma_{n-1} \sum_i \lvert x_i \rvert$.
-
-The cost in the first theorem and the error in the second are about the same tree, so together they say what `cheatSum` could not: this accuracy, at this cost.
-IEEE double is proved to meet the contract, so the bound holds for it too.
-The library's `dot` kernel is this program with a multiplication in the loop; its theorems are `exec_dot` and `IsRelErrSem.exec_dot_abs_sum_mul_sub_le`.
-
-Every kind of operation is counted separately: arithmetic, comparisons, literals and copies, reads of stored entries, matrix-vector products, random draws, and memory.
-Index arithmetic and loop control are not counted; they depend only on the sizes.
-
-A published cost result is a proof of a target: a statement written and registered by the library, about a registered program, that fixes the program before the sizes, the matrix and the random draws.
-The prover supplies only the proof, and a hash of everything the statement reaches stops it from being weakened.
+**Linking** substitutes implementations into the program. The library transfers the guarantee through their certificates and computes the resulting cost bounds. The same CG program can therefore have a bound in matrix-vector products and vector operations, and a linked bound that also counts the scalar operations used to implement the vector kernels. The evaluator follows the program's tree of calls and control flow, counting the calls it executes and tracking peak scratch space.
 
 ### Arithmetic models
 
-A program does not fix its arithmetic.
-A run is given a value semantics, which says what each operation returns or that it fails, and each theorem names the one it assumes.
+An exact-arithmetic theorem is a result in its own right. It can establish that the program returns the mathematical iterate and prove identities or termination properties specific to exact arithmetic. A rounded theorem gives a guarantee under stated error contracts. In the standard model, for instance, a scalar result has the form $\mathrm{fl}(z)=z(1+\delta)$ with $|\delta|\le u$ on the operation's domain. A profile that meets those contracts gives a linked guarantee with its particular error constants. For bounded formats, the guarantee states any conditions needed to stay in range.
 
-- **Exact arithmetic.** Operations on real or complex numbers, with no rounding.
-This is where counts are proved, and where a program is shown to compute its mathematical object.
-- **Error contracts.** A contract is a condition on the semantics.
-For example, the standard model of floating point arithmetic, `IsRelErrSem`, requires every operation to return its exact result times $(1+\delta)$ with $\lvert\delta\rvert \le u$.
-Variants of this model that have a bounded exponent range (so that numbers might overflow or underflow) require, in addition, that the exact result of every operation lies in the representable range, so a program must prove that it never overflows; with gradual underflow, the error gains an absolute term, $\lvert a - z \rvert \le u\lvert a \rvert + \eta$.
+## Reading an algorithm page
 
-To apply a result to a particular arithmetic, such as IEEE 754 double precision, one proves that the arithmetic meets the contract.
+The redesigned Explorer will have curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page will introduce the SPD solve, explain the role of the residual, and link to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page will put readable pseudocode near the top, then show the available implementations, what they assume, and the guarantees proved for them.
 
-### Oracles and certified routines
+### A conjugate gradient example
 
-Algorithms in NLA are often described and analyzed in terms of abstracted subroutines (e.g. matrix-vector products, orthogonalization, and least squares solves).
-NLA-lib supports this in two ways: oracles, whose guarantees are assumed, and certified routines, whose guarantees are proved.
+Here is the mathematical pseudocode for HSCG with an initial guess $x$ and an iteration cap $k$. In exact arithmetic, the residual test stops the iteration when the system is solved. The CG port will supply the checked program and its particular stopping rule.
 
-- **Oracles.** An oracle is a primitive, like an arithmetic operation: a program can call it but cannot see how it is computed.
-What an oracle returns is assumed through a contract, just as `IsRelErrSem` is the contract for arithmetic.
-The main example of an oracle in NLA-lib is matrix-vector products.
-- **Certified routines.** A routine is ordinary code.
-Its certificate is a theorem that it succeeds, changes only its outputs, and meets an error bound.
-A program that takes a routine as a parameter is proved for every routine with that certificate; for instance, Lanczos with full reorthogonalization is proved for any orthogonalization routine certified by `IsOrthRoutine`.
+```text
+r ← b − A x
+p ← r
+ρ ← dot(r, r)
+repeat at most k times:
+    if ρ = 0: return x
+    q ← A p
+    α ← ρ / dot(p, q)
+    x ← x + α p
+    r ← r − α q
+    ρ_new ← dot(r, r)
+    p ← r + (ρ_new / ρ) p
+    ρ ← ρ_new
+return x
+```
+
+After initialization, each update shown here uses one matrix-vector product and two dot products. An HSCG page can explain which calls a stack keeps and which it implements. For instance, sequential and pairwise dot products use different summation orders and give different rounding bounds. Each guarantee should name its assumptions, the accuracy or mathematical property it establishes, and the level at which operations and workspace are counted. Preconditioned CG gets its own pseudocode and guarantees because it adds a preconditioner call and changes the recurrence.
+
+The curated explanation links to the relevant formal statements and sources. The generated reference is a separate view for complete theorem signatures, extracted declarations, and machine-readable records.
 
 ## Some design decisions we made
 
@@ -153,11 +76,10 @@ A theorem that needs nondegeneracy states it as a hypothesis.
 Statements do not build the matrix from random entries on a space of its own.
 - **Expectations come with integrability.** An expectation is an integral, and totality applies here too: the integral of a non-integrable function is defined to be $0$.
 So a bound like $\mathbb{E}\|\mathbf{A} - \mathsf{rsvd}(\mathbf{A},\mathbf{\Omega})\|_{\mathsf{F}} \le B$ would hold trivially if the error were not integrable, and every such bound comes with a separate theorem that it is.
-- **No focus on software implementation.** Our algorithms are defined mathematically or as Programs as described above.
+- **Scope of software verification.** The library proves properties of mathematical algorithms and the programs it defines.
 Proving stuff about particular software, such as LAPACK, would introduce many new challenges and is currently out of scope.
 
 ## Where to read more
 
 - [CONTRIBUTING.md](https://github.com/NLA-lib/nlalib/blob/main/CONTRIBUTING.md) is the library's contract: representation, total definitions, statement shapes, randomness, constants and asymptotic forms (§5), and the checks that enforce them.
-- [docs/design/Computation.md](https://github.com/NLA-lib/nlalib/blob/main/docs/design/Computation.md) is the design of the program layer: the syntax, the run, the access models, the error contracts, and what is proved and what is trusted.
-- The [explorer](../explore/) has the definitions and theorems named on this page, with their statements and sources.
+- The [Explorer](../explore/) provides theorem statements and source links for the library.

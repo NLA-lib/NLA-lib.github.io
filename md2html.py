@@ -5,7 +5,7 @@
 
 Each page is written next to its markdown file, with the same name and a
 .html extension, and links to the stylesheets (css/site.css, shared with the
-explorer, css/landing.css, and css/print.css for printing) and the icon (icon.ico) by paths relative to the
+explorer, css/landing.css, and css/print.css for printing) and the site icons by paths relative to the
 page.
 
 A file starts with a YAML header giving the page's details:
@@ -95,7 +95,7 @@ KATEX_RENDER = '''  <script>
     });
   </script>
 '''
-ICON = Path(__file__).resolve().parent / 'icon.ico'
+ICONS = [('icon', 'favicon.ico', ' sizes="any"'), ('apple-touch-icon', 'apple-touch-icon.png', '')]
 # the faces seen at first paint, fetched before the stylesheet asks for them
 FONTS = [Path(__file__).resolve().parent / 'font' / 'source-sans' / ('SourceSans3-%s.woff2' % face)
          for face in ('Regular', 'It', 'Semibold')]
@@ -327,13 +327,15 @@ def main():
             rel = lambda f: Path(os.path.relpath(KATEX / f, output.resolve().parent)).as_posix()
             css += ('\n  <link rel="stylesheet" href="%s">\n  <script defer src="%s"></script>\n%s'
                     % (rel('katex.min.css'), rel('katex.min.js'), KATEX_RENDER.rstrip('\n')))
+        icons = ''.join(
+            '  <link rel="%s" href="%s"%s>\n'
+            % (kind, Path(os.path.relpath(icon, output.resolve().parent)).as_posix(), attrs)
+            for kind, filename, attrs in ICONS
+            if (icon := SHARED_CSS.parent.parent / filename).exists())
         css = ''.join(
             '  <link rel="preload" href="%s" as="font" type="font/woff2" crossorigin>\n'
             % Path(os.path.relpath(font, output.resolve().parent)).as_posix()
-            for font in FONTS if font.exists()) + css
-        if ICON.exists():
-            css = '  <link rel="icon" href="%s">\n%s' % (
-                Path(os.path.relpath(ICON, output.resolve().parent)).as_posix(), css)
+            for font in FONTS if font.exists()) + icons + css
         output.write_text(PAGE.format(title=html.escape(text('tab-title'), quote=False) or title, lang=text('lang') or 'en',
                                       meta='\n'.join(meta),
                                       css=css,
