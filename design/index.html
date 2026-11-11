@@ -59,7 +59,7 @@ return x</code></pre>
 <p>The counter reports one addition. If <code>fl_add</code> meets the standard relative-error bound with parameter <span class="math inline">u</span>, the result has error at most <span class="math inline">u|\sum_i x_i|</span>. The mathematical statements about this function are valid. However, the exact summation took place outside the counter. The same construction could compute <span class="math inline">A^{-1}b</span> exactly and round each output entry, charging only for that final rounding.</p>
 <p>Making the function generic in its value type is also insufficient. Lean’s classical logic can distinguish the real-number case and choose special behavior there. The allowed computation therefore has to be enforced by the representation of a program.</p>
 <h3 id="how-the-program-model-enforces-the-operations">How the program model enforces the operations</h3>
-<p>A program is a tree of operation calls and control flow over stored values. Computed values are accessed through those calls. The evaluator executes the tree and records its calls and peak scratch space. The algorithm author expresses the procedure in this language, while the evaluator supplies its accounting.</p>
+<p>A program is one fixed tree of operation calls and control flow over stored values. Runtime sizes enter its index environment, and inputs enter declared buffers. Computed values are accessed through the declared operations. The evaluator records operation and query calls, index arithmetic, addressing, control, and allocations on the same execution that produces the output.</p>
 <p>In a scalar-addition model, summation is a loop that reads an entry and calls addition on the accumulator. The tree has no place to insert an arbitrary Lean function that computes the exact sum. If a higher-level model provides <code>sum</code> as a primitive, its theorem counts calls to <code>sum</code>. Obtaining a scalar-operation bound then requires a certified implementation of that operation.</p>
 <p>The model definition is consequently part of what a reader inspects. It states which computations are primitive and what their calls cost. The program representation enforces use of that model, and the implementation certificates justify moving to a more detailed one.</p>
 <h2 id="programs">Programs and operation models</h2>
@@ -112,13 +112,17 @@ return x</code></pre>
 <p>Standard models collect scalar and BLAS1 operation groups, exact or standard-model arithmetic contracts, and matrix-access contracts into named combinations. Certified implementations include sequential and pairwise BLAS algorithms. A format-specific model such as IEEE64 specifies its arithmetic behavior and any range conditions needed by its guarantees. Dot-product summation order is a separate implementation choice.</p>
 <h3 id="defining-and-checking-a-model">Defining and checking a model</h3>
 <p>The model interface collects the operation groups and their parameters, their contracts, and the conventions for costs, workspace, tests, index conversions, and randomness. Its definition determines the complete set of permitted calls. An algorithm declaration names the groups it uses, so its interface records which operations it requires.</p>
-<p>A standard model definition also has a <strong>joint witness</strong> showing that its assumptions can be met together for the stated parameter range. An implementation collection supplies a certificate for each operation it implements, and the generic composition theorems transfer correctness and resource bounds. Shared definitions perform this work at the group and model level, so an algorithm author can reuse the named model and certificate bundles.</p>
+<p>The model assumptions are defined to be exactly satisfaction of its declared operation and query contracts. A model also has a <strong>joint witness</strong> showing that those exact contracts can be met together at every admitted input in the stated parameter range. An implementation collection supplies a certificate for each operation it implements, and the generic composition theorems transfer correctness and resource bounds. Shared definitions perform this work at the group and model level, so an algorithm author can reuse the named model and certificate bundles.</p>
 <p>This gives authors a short model declaration and gives reviewers a precise definition to expand. The human page explains the chosen groups and assumptions. The generated reference displays the full primitive list, contracts, and certificates for inspection.</p>
 <p>The <code>Ops</code> evaluator, contracts, and composition theorems provide the foundations for this interface. Implementation collections are called <em>profiles</em>, and their compositions are called <em>stacks</em>.</p>
 <h3 id="arithmetic-models">Arithmetic models</h3>
 <p>An exact-arithmetic theorem is a result in its own right. It can establish that a program returns the mathematical iterate and prove identities or termination properties specific to exact arithmetic. A rounded theorem gives a guarantee under stated error contracts. In the standard model, for instance, a scalar result has the form <span class="math inline">\mathrm{fl}(z)=z(1+\delta)</span> with <span class="math inline">|\delta|\le u</span> on the operation’s domain. A certified implementation supplies particular error constants to the algorithm’s theorem. For bounded formats, the guarantee states any conditions needed to stay in range.</p>
+<h3 id="storage-work-and-span">Storage, work, and span</h3>
+<p>Storage formats declare a representation identity and a positive byte width. Input buffers have a fixed format layout, and each scratch allocation specifies its format. Calls and queries must match their declared operand formats, including through aliases and procedure frames. A conversion between formats is an explicit operation with its own contract and cost.</p>
+<p>The resource model supplies primitive and query workspace, plus explicit work and span weights for all calls and structural instructions. Allocations charge format width times capacity; total resident storage includes the supplied buffers, even initially uninitialized output space. Span adds along the sequential program while allowing parallel work inside a primitive. Different implementation configurations can trade work, span, and workspace.</p>
+<p>These are modeled resource bounds. A format label alone does not prove that an opaque value has a finite encoding, and span is not a scheduling or elapsed-time guarantee. Physical storage and timing claims require corresponding implementation and representation proofs.</p>
 <h3 id="what-the-definition-enforces-and-what-contributors-choose">What the definition enforces, and what contributors choose</h3>
-<p>For claims about computation, our formal definition of an <strong>algorithm</strong> is a program over a declared operation interface. Mathematical recurrences and readable pseudocode explain that program. The definition fixes how the procedure can compute; the contributor chooses the procedure and the interface it uses.</p>
+<p>For claims about computation, an <strong>algorithm certificate</strong> pairs one fixed program with a total correctness proof against a separately specified problem, operation model, and resource specification. Mathematical recurrences and readable pseudocode explain the program. The definition fixes how the procedure can compute and what its certificate must establish; the contributor chooses the procedure and the specification.</p>
 <table>
 <colgroup>
 <col style="width: 33%" />
@@ -145,15 +149,20 @@ return x</code></pre>
 </tr>
 <tr class="odd">
 <td>Accounting</td>
-<td>The evaluator derives calls and workspace from execution under the declared conventions.</td>
-<td>The cost assigned to each primitive and the resource bound to prove.</td>
+<td>The evaluator records operation, query, and structural counts, and checks the declared format layout. The certificate bounds scratch, resident storage, work, and span for that execution.</td>
+<td>Storage formats, primitive workspace and cost weights, and the resource bounds to prove.</td>
 </tr>
 <tr class="even">
-<td>Guarantees</td>
-<td>Lean checks a proof against its stated contracts and hypotheses.</td>
-<td>The contracts, input conditions, and theorem being proved.</td>
+<td>Model assumptions</td>
+<td>Certification uses exactly the declared primitive contracts, with a joint realization at every admitted input.</td>
+<td>The primitive meanings, contract parameters, and admitted input representation.</td>
 </tr>
 <tr class="odd">
+<td>Guarantees</td>
+<td>Lean checks successful execution and the claimed output property for every admitted input and interpretation meeting the model.</td>
+<td>The input conditions, output guarantee, and acceptable breakdown behavior.</td>
+</tr>
+<tr class="even">
 <td>Composition</td>
 <td>A certified implementation must meet the contract required at the substitution boundary.</td>
 <td>Which implementation supplies each operation, and how far to lower the program.</td>
@@ -161,7 +170,7 @@ return x</code></pre>
 </tbody>
 </table>
 <p>Thus, using the algorithm definition prevents hidden arithmetic outside the declared interface. It does not by itself make a chosen interface a useful model of computation. A contributor can declare an exact linear solve as one primitive; a theorem counting one such call then means exactly that. Claiming a scalar-operation cost requires implementing that primitive and proving the corresponding bound.</p>
-<p>Likewise, the definition does not automatically establish convergence, numerical stability, or termination. These are proved properties of a particular program under particular assumptions. Selecting a standard model reuses a reviewed set of operations, contracts, and accounting conventions. A custom model makes those same choices explicit for review.</p>
+<p>Writing a program does not establish convergence or numerical stability. Its certificate proves successful execution and the stated output guarantee from explicit input and model assumptions. If the procedure stops on breakdown, that outcome is covered by the specification. Partial-correctness lemmas are internal proof tools. Selecting a standard model reuses a reviewed set of operations, contracts, and accounting conventions; a custom model makes those choices explicit for review.</p>
 <h2 id="reading-an-algorithm-page">Reading an algorithm page</h2>
 <p>The Explorer has curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page introduces the SPD solve, explains the role of the residual, and links to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page puts readable pseudocode near the top, then shows the available implementations, what they assume, and the guarantees proved for them.</p>
 <h3 id="a-conjugate-gradient-example">A conjugate gradient example</h3>
