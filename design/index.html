@@ -40,13 +40,42 @@
 <p>The challenges of formalizing NLA are in many ways different from those in certain parts of theoretical math. For instance, the Lean statement of Fermat’s last theorem is extremely simple and easy for a human to check, even though the formal proof itself is incredibly long. In contrast, natural language results in NLA are often stated with implicit definitions, quantification (e.g. when using big-<span class="math inline">O</span>), integrability assumptions (e.g. when using Markov’s inequality), and models of computation. Moreover, there are many formal statements that are all slight variants of one another (for example, with slightly different bounds on parameters). This creates a number of subtleties to formalizing NLA.</p>
 <h3 id="quantification-and-constants">Quantification and constants</h3>
 <p>A bound of the form <span class="math inline">O(k/\varepsilon)</span> can leave implicit what the constant depends on and how small <span class="math inline">\varepsilon</span> must be. The formal statement fixes the order of those quantifiers. When the library also gives a bound with explicit constants, readers can use it to see what the theorem guarantees for their parameters.</p>
-<h2 id="programs">Programs</h2>
-<p>A mathematical specification describes what an algorithm should compute. For conjugate gradient, it starts with a symmetric positive definite (SPD) system <span class="math inline">Ax=b</span> and describes the iterates and their error. A <strong>program</strong> gives the steps that compute those iterates, including the stopping rule. This gives us a way to state which operations a run uses, how much scratch space it needs, and how accurate its output is.</p>
-<p>NLA-lib’s new program model, <code>Ops</code>, gives scalar arithmetic, matrix-vector products, BLAS kernels, and random draws a common interface. An <strong>operation</strong> names a call and specifies the shape of its inputs and outputs. Its <strong>contract</strong> says what the call guarantees. An exact <code>matvec</code> contract gives <span class="math inline">Ax</span>. A rounded contract can give an error bound for the returned vector. A draw contract can specify which entries of a random tape the call returns, and the theorem states the law of that tape.</p>
-<p>An <strong>implementation</strong> supplies a program for an operation using lower-level calls, with a proof that it meets the contract. A <strong>profile</strong> collects implementations and their certificates. For example, a sequential BLAS profile implements a dot product using scalar multiplication and sequential addition. A <strong>stack</strong> combines profiles down to the chosen primitives. A matrix-free stack can keep <code>matvec</code> as a primitive and count one call each time the program uses it.</p>
-<p><strong>Linking</strong> substitutes implementations into the program. The library transfers the guarantee through their certificates and computes the resulting cost bounds. The same CG program can therefore have a bound in matrix-vector products and vector operations, and a linked bound that also counts the scalar operations used to implement the vector kernels. The evaluator follows the program’s tree of calls and control flow, counting the calls it executes and tracking peak scratch space.</p>
+<h2 id="programs">Programs and operation models</h2>
+<p>The central idea is <strong>composable operations</strong>. An algorithm is written as pseudocode using operations such as <code>matvec</code>, <code>dot</code>, and <code>axpy</code>. Each operation has an interface specifying its inputs and outputs, and a contract specifying what it guarantees. A theorem analyzes the algorithm under those contracts.</p>
+<p>An <strong>operation model</strong> specifies the available operations, their assumptions, and how calls and workspace are counted. For example, a model for conjugate gradient can provide an exact matrix-vector product, exact dot products, and exact vector updates. Another can allow a bounded error in each of those operations. A randomized model also specifies the relevant laws and independence assumptions.</p>
+<p>An algorithm together with an operation model gives a precise setting for a theorem. The theorem can establish what the algorithm returns, whether it terminates, its accuracy, how many calls it makes, and its peak scratch space. For example, after initialization, each step of Hestenes–Stiefel CG uses one matrix-vector product and two dot products. The meaning and accuracy of those calls come from the chosen model. Convergence also depends on mathematical assumptions such as positive definiteness of the matrix.</p>
+<p>An <strong>implementation</strong> expresses an operation using the operations of another model. A dot product can be implemented using scalar multiplication and sequential addition, or using scalar multiplication and pairwise summation. Its certificate proves that this program meets the dot-product contract, with bounds on its lower-level cost and workspace.</p>
+<p><strong>Composition</strong> substitutes those implementations into the algorithm. The library transfers the theorem through their certificates and computes the resulting cost bounds. A CG theorem stated in terms of vector operations can thus give a theorem about the program built from scalar arithmetic. A matrix-vector product can remain primitive at that level, or be implemented using further operations. The word <em>primitive</em> refers to where a particular model ends.</p>
+<p>NLA-lib provides standard operation models and standard collections of implementations, and users can define their own. These answer two useful questions when reading a result.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Choice</th>
+<th>What it specifies</th>
+<th>CG example</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Operation model</td>
+<td>Available calls, assumptions, and cost conventions</td>
+<td>Exact or error-bounded <code>matvec</code>, <code>dot</code>, and vector updates</td>
+</tr>
+<tr class="even">
+<td>Implementations</td>
+<td>How calls are realized using another model</td>
+<td>Sequential or pairwise dot products using scalar arithmetic</td>
+</tr>
+</tbody>
+</table>
+<p>The library’s new program model, <code>Ops</code>, supplies the language of calls and control flow, the evaluator that counts a run, and the composition theorems. Its current implementation collections are called <em>profiles</em>, and their compositions are called <em>stacks</em>.</p>
 <h3 id="arithmetic-models">Arithmetic models</h3>
-<p>An exact-arithmetic theorem is a result in its own right. It can establish that the program returns the mathematical iterate and prove identities or termination properties specific to exact arithmetic. A rounded theorem gives a guarantee under stated error contracts. In the standard model, for instance, a scalar result has the form <span class="math inline">\mathrm{fl}(z)=z(1+\delta)</span> with <span class="math inline">|\delta|\le u</span> on the operation’s domain. A profile that meets those contracts gives a linked guarantee with its particular error constants. For bounded formats, the guarantee states any conditions needed to stay in range.</p>
+<p>An exact-arithmetic theorem is a result in its own right. It can establish that a program returns the mathematical iterate and prove identities or termination properties specific to exact arithmetic. A rounded theorem gives a guarantee under stated error contracts. In the standard model, for instance, a scalar result has the form <span class="math inline">\mathrm{fl}(z)=z(1+\delta)</span> with <span class="math inline">|\delta|\le u</span> on the operation’s domain. A certified implementation supplies particular error constants to the algorithm’s theorem. For bounded formats, the guarantee states any conditions needed to stay in range.</p>
 <h2 id="reading-an-algorithm-page">Reading an algorithm page</h2>
 <p>The redesigned Explorer will have curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page will introduce the SPD solve, explain the role of the residual, and link to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page will put readable pseudocode near the top, then show the available implementations, what they assume, and the guarantees proved for them.</p>
 <h3 id="a-conjugate-gradient-example">A conjugate gradient example</h3>
@@ -64,7 +93,7 @@ repeat at most k times:
     p ← r + (ρ_new / ρ) p
     ρ ← ρ_new
 return x</code></pre>
-<p>After initialization, each update shown here uses one matrix-vector product and two dot products. An HSCG page can explain which calls a stack keeps and which it implements. For instance, sequential and pairwise dot products use different summation orders and give different rounding bounds. Each guarantee should name its assumptions, the accuracy or mathematical property it establishes, and the level at which operations and workspace are counted. Preconditioned CG gets its own pseudocode and guarantees because it adds a preconditioner call and changes the recurrence.</p>
+<p>An HSCG page will explain the operation models under which the recurrence has been analyzed and the implementations available for its calls. It can then show how choosing sequential or pairwise dot products affects a composed implementation. Each guarantee should name its assumptions, the accuracy or mathematical property it establishes, and the level at which operations and workspace are counted. Preconditioned CG gets its own pseudocode and guarantees because it adds a preconditioner call and changes the recurrence.</p>
 <p>The curated explanation links to the relevant formal statements and sources. The generated reference is a separate view for complete theorem signatures, extracted declarations, and machine-readable records.</p>
 <h2 id="some-design-decisions-we-made">Some design decisions we made</h2>
 <ul>
