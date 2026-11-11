@@ -9,34 +9,33 @@ menu:
   - GitHub: https://github.com/NLA-lib/nlalib
 ---
 
-This page provides an overview of several choices NLA-lib makes in formalizing numerical linear algebra.
-More precise rules are in the repository.
-
-## Why formalizing NLA is hard
-
 The challenges of formalizing NLA are in many ways different from those in certain parts of theoretical math.
 For instance, the Lean statement of Fermat's last theorem is extremely simple and easy for a human to check, even though the formal proof itself is incredibly long.
 In contrast, natural language results in NLA are often stated with implicit definitions, quantification (e.g. when using big-$O$), integrability assumptions (e.g. when using Markov's inequality), and models of computation.
 Moreover, there are many formal statements that are all slight variants of one another (for example, with slightly different bounds on parameters).
 This creates a number of subtleties to formalizing NLA.
 
-### Quantification and constants
+## How should we represent algorithms in Lean?
 
-A bound of the form $O(k/\varepsilon)$ can leave implicit what the constant depends on and how small $\varepsilon$ must be. The formal statement fixes the order of those quantifiers. When the library also gives a bound with explicit constants, readers can use it to see what the theorem guarantees for their parameters.
+### Sketch-and-solve with different sketches
 
-### Algorithms and operation models
+Consider sketch-and-solve for a least-squares problem. We draw a sketch $S$, apply it to $A$ and $b$, and solve the smaller problem:
 
-An algorithm needs more than a function from inputs to outputs. Two procedures can compute the same mathematical answer while using different operations, having different costs, and behaving differently under rounding. A formal account of an algorithm therefore specifies its steps and the operations those steps use.
+```text
+S ← sample_sketch(parameters)
+A_small ← apply_sketch(S, A)
+b_small ← apply_sketch(S, b)
+x ← least_squares(A_small, b_small)
+return x
+```
 
-There are many combinations to describe. Within conjugate gradient, we can choose different recurrences and orderings. For each variant, we can study exact arithmetic, bounded rounding errors, or a particular floating-point format. We can treat dot products and matrix-vector products as primitive calls, or supply implementations with their own arithmetic assumptions and costs. Even a dot product has sequential and pairwise variants. These choices affect which theorems hold and what their bounds mean.
+We can use a Gaussian sketch or a SparseStack sketch within this same procedure. The choices have different sampling and application costs, and their accuracy guarantees depend on their sketch parameters. The outer algorithm uses a common interface: sample a sketch, apply it, and solve the reduced problem. Its accuracy theorem states the property required of the sketch, including the probability with which that property holds.
 
-NLA-lib makes these choices explicit through algorithms, operation models, and certified implementations. Shared contracts let a theorem apply to many compatible combinations, while composition connects a result about abstract operations to the implementations that realize them.
+Now suppose a contributor supplies a new sketch. A reader assessing the cost of sketch-and-solve can use that sketch's certified sampling and application bounds, together with the cost of the reduced solve, without reading the sketch's definition. The certificate connects those bounds to the actual implementation. Lean checks that connection and the composition; the reader inspects the interface, assumptions, and bounds. Proving the sketch's own certificate requires analyzing its implementation, and that work is reused by every algorithm that calls it.
 
-## Algorithms
+This requires more than a function that returns the right answer. The representation of an algorithm must expose its operation calls so that the outer cost bound accounts for the operations it uses. The same sampled sketch is used for both applications, and the sketch contract supplies the joint guarantee needed for the least-squares result.
 
-A mathematical description of an algorithm lets us study its iterates and outputs. For example, conjugate gradient produces approximate solutions to an SPD system, and a dot product computes $x^\mathsf{T}y$. Theorems about these objects establish properties such as convergence and approximation error.
-
-To establish the cost or numerical behavior of a particular procedure, we also specify its steps. A **program** is the formal representation of that procedure. Hestenes–Stiefel CG and another CG recurrence are variants within the CG family. Sequential and pairwise dot products are variants within the dot-product family. An algorithm at one level can implement an operation used by an algorithm at another level.
+The combinations extend beyond sketch choice. We can select different algorithm variants, exact or rounded arithmetic, and different implementations of the underlying operations. NLA-lib expresses these choices through algorithms, operation models, and certified implementations. Shared contracts let a theorem apply to many compatible combinations.
 
 ### Why a counted function is insufficient
 
