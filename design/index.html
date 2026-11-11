@@ -40,6 +40,10 @@
 <p>The challenges of formalizing NLA are in many ways different from those in certain parts of theoretical math. For instance, the Lean statement of Fermat’s last theorem is extremely simple and easy for a human to check, even though the formal proof itself is incredibly long. In contrast, natural language results in NLA are often stated with implicit definitions, quantification (e.g. when using big-<span class="math inline">O</span>), integrability assumptions (e.g. when using Markov’s inequality), and models of computation. Moreover, there are many formal statements that are all slight variants of one another (for example, with slightly different bounds on parameters). This creates a number of subtleties to formalizing NLA.</p>
 <h3 id="quantification-and-constants">Quantification and constants</h3>
 <p>A bound of the form <span class="math inline">O(k/\varepsilon)</span> can leave implicit what the constant depends on and how small <span class="math inline">\varepsilon</span> must be. The formal statement fixes the order of those quantifiers. When the library also gives a bound with explicit constants, readers can use it to see what the theorem guarantees for their parameters.</p>
+<h3 id="algorithms-and-operation-models">Algorithms and operation models</h3>
+<p>An algorithm needs more than a function from inputs to outputs. Two procedures can compute the same mathematical answer while using different operations, having different costs, and behaving differently under rounding. A formal account of an algorithm therefore specifies its steps and the operations those steps use.</p>
+<p>There are many combinations to describe. Within conjugate gradient, we can choose different recurrences and orderings. For each variant, we can study exact arithmetic, bounded rounding errors, or a particular floating-point format. We can treat dot products and matrix-vector products as primitive calls, or supply implementations with their own arithmetic assumptions and costs. Even a dot product has sequential and pairwise variants. These choices affect which theorems hold and what their bounds mean.</p>
+<p>NLA-lib makes these choices explicit through algorithms, operation models, and certified implementations. Shared contracts let a theorem apply to many compatible combinations, while composition connects a result about abstract operations to the implementations that realize them.</p>
 <h2 id="algorithms">Algorithms</h2>
 <p>A mathematical description of an algorithm lets us study its iterates and outputs. For example, conjugate gradient produces approximate solutions to an SPD system, and a dot product computes <span class="math inline">x^\mathsf{T}y</span>. Theorems about these objects establish properties such as convergence and approximation error.</p>
 <p>To establish the cost or numerical behavior of a particular procedure, we also specify its steps. A <strong>program</strong> is the formal representation of that procedure. Hestenes–Stiefel CG and another CG recurrence are variants within the CG family. Sequential and pairwise dot products are variants within the dot-product family. An algorithm at one level can implement an operation used by an algorithm at another level.</p>
@@ -57,51 +61,6 @@
 <p>A program is a tree of operation calls and control flow over stored values. Computed values are accessed through those calls. The evaluator executes the tree and records its calls and peak scratch space. The algorithm author expresses the procedure in this language, while the evaluator supplies its accounting.</p>
 <p>In a scalar-addition model, summation is a loop that reads an entry and calls addition on the accumulator. The tree has no place to insert an arbitrary Lean function that computes the exact sum. If a higher-level model provides <code>sum</code> as a primitive, its theorem counts calls to <code>sum</code>. Obtaining a scalar-operation bound then requires a certified implementation of that operation.</p>
 <p>The model definition is consequently part of what a reader inspects. It states which computations are primitive and what their calls cost. The program representation enforces use of that model, and the implementation certificates justify moving to a more detailed one.</p>
-<h3 id="what-the-definition-enforces-and-what-contributors-choose">What the definition enforces, and what contributors choose</h3>
-<p>For claims about computation, our formal definition of an <strong>algorithm</strong> is a program over a declared operation interface. Mathematical recurrences and readable pseudocode explain that program. The definition fixes how the procedure can compute; the contributor chooses the procedure and the interface it uses.</p>
-<table>
-<colgroup>
-<col style="width: 33%" />
-<col style="width: 33%" />
-<col style="width: 33%" />
-</colgroup>
-<thead>
-<tr class="header">
-<th>Aspect</th>
-<th>Enforced by the formal representation</th>
-<th>Chosen by the contributor</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>Computation</td>
-<td>The program uses the calls and control flow admitted by its interface.</td>
-<td>The recurrence, ordering, stopping rule, and operation groups.</td>
-</tr>
-<tr class="even">
-<td>Primitive operations</td>
-<td>Calls have the input and output shapes declared by the model.</td>
-<td>Where the model stops: scalar arithmetic, BLAS, a matvec oracle, or another interface.</td>
-</tr>
-<tr class="odd">
-<td>Accounting</td>
-<td>The evaluator derives calls and workspace from execution under the declared conventions.</td>
-<td>The cost assigned to each primitive and the resource bound to prove.</td>
-</tr>
-<tr class="even">
-<td>Guarantees</td>
-<td>Lean checks a proof against its stated contracts and hypotheses.</td>
-<td>The contracts, input conditions, and theorem being proved.</td>
-</tr>
-<tr class="odd">
-<td>Composition</td>
-<td>A certified implementation must meet the contract required at the substitution boundary.</td>
-<td>Which implementation supplies each operation, and how far to lower the program.</td>
-</tr>
-</tbody>
-</table>
-<p>Thus, using the algorithm definition prevents hidden arithmetic outside the declared interface. It does not by itself make a chosen interface a useful model of computation. A contributor can declare an exact linear solve as one primitive; a theorem counting one such call then means exactly that. Claiming a scalar-operation cost requires implementing that primitive and proving the corresponding bound.</p>
-<p>Likewise, the definition does not automatically establish convergence, numerical stability, or termination. These are proved properties of a particular program under particular assumptions. Selecting a standard model reuses a reviewed set of operations, contracts, and accounting conventions. A custom model makes those same choices explicit for review.</p>
 <h2 id="programs">Programs and operation models</h2>
 <p>The central idea is <strong>composable operations</strong>. An algorithm is written as pseudocode using operations such as <code>matvec</code>, <code>dot</code>, and <code>axpy</code>. Each operation has an interface specifying its inputs and outputs, and a contract specifying what it guarantees. A theorem analyzes the algorithm under those contracts.</p>
 <p>An <strong>operation model</strong> specifies the available operations, their assumptions, and how calls and workspace are counted. For example, a model for conjugate gradient can provide an exact matrix-vector product, exact dot products, and exact vector updates. Another can allow a bounded error in each of those operations. A randomized model also specifies the relevant laws and independence assumptions.</p>
@@ -157,6 +116,51 @@
 <p>The <code>Ops</code> evaluator, contracts, and composition theorems provide the foundations for this interface. Implementation collections are called <em>profiles</em>, and their compositions are called <em>stacks</em>.</p>
 <h3 id="arithmetic-models">Arithmetic models</h3>
 <p>An exact-arithmetic theorem is a result in its own right. It can establish that a program returns the mathematical iterate and prove identities or termination properties specific to exact arithmetic. A rounded theorem gives a guarantee under stated error contracts. In the standard model, for instance, a scalar result has the form <span class="math inline">\mathrm{fl}(z)=z(1+\delta)</span> with <span class="math inline">|\delta|\le u</span> on the operation’s domain. A certified implementation supplies particular error constants to the algorithm’s theorem. For bounded formats, the guarantee states any conditions needed to stay in range.</p>
+<h3 id="what-the-definition-enforces-and-what-contributors-choose">What the definition enforces, and what contributors choose</h3>
+<p>For claims about computation, our formal definition of an <strong>algorithm</strong> is a program over a declared operation interface. Mathematical recurrences and readable pseudocode explain that program. The definition fixes how the procedure can compute; the contributor chooses the procedure and the interface it uses.</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Aspect</th>
+<th>Enforced by the formal representation</th>
+<th>Chosen by the contributor</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Computation</td>
+<td>The program uses the calls and control flow admitted by its interface.</td>
+<td>The recurrence, ordering, stopping rule, and operation groups.</td>
+</tr>
+<tr class="even">
+<td>Primitive operations</td>
+<td>Calls have the input and output shapes declared by the model.</td>
+<td>Where the model stops: scalar arithmetic, BLAS, a matvec oracle, or another interface.</td>
+</tr>
+<tr class="odd">
+<td>Accounting</td>
+<td>The evaluator derives calls and workspace from execution under the declared conventions.</td>
+<td>The cost assigned to each primitive and the resource bound to prove.</td>
+</tr>
+<tr class="even">
+<td>Guarantees</td>
+<td>Lean checks a proof against its stated contracts and hypotheses.</td>
+<td>The contracts, input conditions, and theorem being proved.</td>
+</tr>
+<tr class="odd">
+<td>Composition</td>
+<td>A certified implementation must meet the contract required at the substitution boundary.</td>
+<td>Which implementation supplies each operation, and how far to lower the program.</td>
+</tr>
+</tbody>
+</table>
+<p>Thus, using the algorithm definition prevents hidden arithmetic outside the declared interface. It does not by itself make a chosen interface a useful model of computation. A contributor can declare an exact linear solve as one primitive; a theorem counting one such call then means exactly that. Claiming a scalar-operation cost requires implementing that primitive and proving the corresponding bound.</p>
+<p>Likewise, the definition does not automatically establish convergence, numerical stability, or termination. These are proved properties of a particular program under particular assumptions. Selecting a standard model reuses a reviewed set of operations, contracts, and accounting conventions. A custom model makes those same choices explicit for review.</p>
 <h2 id="reading-an-algorithm-page">Reading an algorithm page</h2>
 <p>The Explorer has curated pages organized by mathematical problem and algorithm family. The conjugate gradient family page introduces the SPD solve, explains the role of the residual, and links to variants such as Hestenes–Stiefel CG (HSCG) and preconditioned CG. A variant page puts readable pseudocode near the top, then shows the available implementations, what they assume, and the guarantees proved for them.</p>
 <h3 id="a-conjugate-gradient-example">A conjugate gradient example</h3>
