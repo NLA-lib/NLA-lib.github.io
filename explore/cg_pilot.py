@@ -135,6 +135,8 @@ class Sources:
         self.files = {}
         self.source_hashes = source_hashes or {}
         self.archive_revision = published_revision if re.fullmatch(r'[0-9a-f]{40}', published_revision or '') else None
+        checkout = subprocess.run(['git', '-C', str(root), 'rev-parse', '--show-toplevel'], capture_output=True, text=True)
+        self.is_checkout = checkout.returncode == 0 and Path(checkout.stdout.strip()).resolve() == self.root.resolve()
         # Link only to a published revision containing identical file bytes.
         refs = subprocess.run(['git', '-C', str(root), 'for-each-ref', '--sort=-committerdate',
                                '--format=%(objectname)', 'refs/remotes/origin/'], capture_output=True, text=True)
@@ -159,7 +161,7 @@ class Sources:
         line = text[:match.start()].count('\n') + 1
         if path not in self.source_revisions:
             revision = None
-            if self.archive_revision and self.source_hashes.get(path) == self.files[path]['sha256']:
+            if not self.is_checkout and self.archive_revision and self.source_hashes.get(path) == self.files[path]['sha256']:
                 revision = self.archive_revision
             else:
                 for candidate in self.revisions:
@@ -250,8 +252,8 @@ def build(site, source, published_revision=None, source_hashes=None):
     homepage.write_text(page)
     commit = published_revision or subprocess.run(['git', '-C', str(source), 'rev-parse', 'HEAD'],
                                                  capture_output=True, text=True).stdout.strip() or None
-    snapshot = published_revision and all(source_hashes and source_hashes.get(p) == r['sha256']
-                                         for p, r in sources.files.items())
+    snapshot = published_revision and all(sources.source_revisions[p] == published_revision
+                                         for p in sources.files)
     payload = dict(schema_version=1, source=dict(commit=commit, kind='published-snapshot' if snapshot else 'working-tree-preview',
                    files={p: {'sha256': r['sha256']} for p, r in sources.files.items()}),
                    models=[dict(id=k, title=v) for k, v in MODELS], variants=records)

@@ -25,6 +25,9 @@ class CorePreviewTests(unittest.TestCase):
             self.assertIn('/blob/' + revision + '/Example.lean#L1', source['github_url'])
             (root / 'Example.lean').write_text(content + '-- unpublished\n')
             self.assertIsNone(Sources(root, root).declaration('Example.lean', 'result')['github_url'])
+            digest = hashlib.sha256((root / 'Example.lean').read_bytes()).hexdigest()
+            self.assertIsNone(Sources(root, root, revision, {'Example.lean': digest})
+                              .declaration('Example.lean', 'result')['github_url'])
 
     def test_archive_source_links_require_the_extraction_fingerprint(self):
         with tempfile.TemporaryDirectory() as tmp:
