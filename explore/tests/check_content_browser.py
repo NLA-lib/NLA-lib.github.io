@@ -80,7 +80,8 @@ with sync_playwright() as p:
     page.goto(base + 'theory/chebyshev-polynomials/')
     assert page.get_by_role('link', name='Conjugate gradient (CG)', exact=True).count() <= 1
     page.goto(base + 'library/')
-    assert '7,722 declarations' in page.locator('main').inner_text()
+    declaration_count = len(page.request.get(base + 'api/v1/index.json').json()['declarations'])
+    assert f'{declaration_count:,} declarations' in page.locator('main').inner_text()
     page.get_by_role('link', name='Named results', exact=True).click()
     page.locator('main .entry-list a').first.click()
     assert '/library/results/' in page.url
