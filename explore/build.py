@@ -1533,6 +1533,10 @@ def main():
     ap.add_argument('--renames', default=None,
                     help="a directory of NLAlib rename maps (docs/renames/*.json): old #d/ links redirect "
                          "and changed statements are noted; default data/renames when it exists")
+    ap.add_argument('--content', default=ROOT / 'content', type=Path,
+                    help='editable Markdown explorer pages with YAML metadata')
+    ap.add_argument('--core-src', type=Path, default=None,
+                    help='optional current NLAlib checkout for the source-backed CG preview')
     a = ap.parse_args()
     extraction_bytes = Path(a.data).read_bytes()
     data = json.loads(extraction_bytes)
@@ -1554,6 +1558,17 @@ def main():
         registry = tomllib.loads(reg.read_text()) if reg.exists() else None
     renames = a.renames or (ROOT / 'data' / 'renames' if (ROOT / 'data' / 'renames').is_dir() else None)
     build(data, parse_bib(a.bib), a.out, registry, a.ladder, renames)
+    core_src = a.core_src
+    if not core_src and a.src and (Path(a.src) / 'NLAlib/Krylov/CG/HSCG/Carried/FinitePrecision/Standard.lean').is_file():
+        core_src = Path(a.src)
+    if core_src:
+        import cg_pilot
+        same_snapshot = a.src and core_src.resolve() == Path(a.src).resolve()
+        cg_pilot.build(a.out, core_src,
+                       published_revision=data.get('commit') if same_snapshot else None,
+                       source_hashes=data.get('sourceHashes') if same_snapshot else None)
+    import content_pages
+    content_pages.build(a.out, a.content)
 
 
 if __name__ == '__main__':

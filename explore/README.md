@@ -1,5 +1,11 @@
 # explore
 
+The current front end is authored in [content/*.md](content/README.md): ordinary Markdown
+with YAML metadata, generated relationship lists, and snapshot-backed statement blocks.
+Algorithms, Theory, and Library replace the previous topic navigation. See the
+[architecture](docs/design/explorer-architecture.md). The extraction, curation, facets,
+and reference tooling described below remain the data backend.
+
 The NLA-lib explorer, served at <https://nla-lib.org/explore/>: the definitions and named
 results of [NLAlib](https://github.com/NLA-lib/NLAlib) by topic, a search box, and for each
 result its statement, its Lean declarations with links to the source, and its dependencies
