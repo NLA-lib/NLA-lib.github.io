@@ -117,6 +117,20 @@ class ExplorePagesTests(unittest.TestCase):
         self.assertIsNone(env['record']['source']['url'])
         self.assertEqual(len(env['snapshot']['extraction_sha256']), 64)
 
+    def test_operator_names_remain_single_path_components_after_http_decoding(self):
+        names = ['N.«opsIdx_/_»', 'N.«literal%2F»', 'N.«back\\slash»']
+        out = self.build([decl(name, 'An operator.', kind='def', signature=name + ' : Nat') for name in names])
+        index = json.loads((out / 'api/v1/index.json').read_text())['declarations']
+        for name in names:
+            path = unquote(urlsplit(index[name]).path).removeprefix('/explore/')
+            target = out / path
+            self.assertEqual(target.parent, out / 'api/v1/declarations')
+            record = json.loads(target.read_text())['record']
+            self.assertEqual(record['id'], name)
+            route = unquote(urlsplit(record['url']).path).removeprefix('/explore/')
+            self.assertTrue((out / route / 'index.html').exists())
+        self.assertNotEqual(E.record_component(names[0]), E.record_component(names[1]))
+
     def test_supporting_lemmas_remain_indexed_and_dependencies_are_separate(self):
         ds = self.declarations()
         ds[4]['valueDeps'] = ['N.output']

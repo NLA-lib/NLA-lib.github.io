@@ -22,7 +22,7 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
-from explore_pages import inline_title
+from explore_pages import inline_title, record_component
 
 BASE = '/explore/'
 KINDS = {'home', 'index', 'task', 'family', 'algorithm', 'implementation', 'theory'}
@@ -185,8 +185,8 @@ class Explorer:
         self.pages = load_pages(content)
         self.records = {}
         for kind in ['algorithms', 'tasks', 'results', 'declarations', 'modules']:
-            self.records[kind] = {p.stem: json.loads(p.read_text())['record']
-                                  for p in (self.api / kind).glob('*.json')}
+            records = [json.loads(p.read_text())['record'] for p in (self.api / kind).glob('*.json')]
+            self.records[kind] = {record['id']: record for record in records}
         self.template = (self.site / 'index.html').read_text()
         self.search_version = ''
         self.search_form = re.search(r'(<form id="library-search".*?<noscript>.*?</noscript>)',
@@ -365,7 +365,7 @@ class Explorer:
 
     @staticmethod
     def reference_url(kind, key):
-        return BASE + 'library/' + kind + '/' + quote(key, safe='.') + '/'
+        return BASE + 'library/' + kind + '/' + quote(record_component(key), safe='.') + '/'
 
     def render_body(self, page):
         slots = []
@@ -441,7 +441,7 @@ class Explorer:
                             'href="' + html.escape(urljoin(origin, html.unescape(m[1])), quote=True) + '"', docs)
                     body = '<p class="eyebrow">Library · Source module</p>' + docs
                     body += '<h2>Declarations</h2>' + self.reference_list('declarations', record['declarations'])
-                self.write('library/' + kind + '/' + key, record.get('title', key), body, 'library')
+                self.write('library/' + kind + '/' + record_component(key), record.get('title', key), body, 'library')
         for kind, title in [('results', 'Named results'), ('modules', 'Source modules')]:
             self.write('library/' + kind, title, self.reference_list(kind, sorted(self.records[kind])), 'library')
         definitions = sorted(key for key, d in self.records['declarations'].items() if d['kind'] != 'theorem')
@@ -464,7 +464,7 @@ class Explorer:
                 url = alg_routes.get(key) if kind == 'algorithms' else self.reference_url(kind, key)
                 if url:
                     record['url'] = url
-                    record_file = self.api / kind / (key + '.json')
+                    record_file = self.api / kind / (record_component(key) + '.json')
                     envelope = json.loads(record_file.read_text())
                     envelope['record']['url'] = url
                     record_file.write_text(json.dumps(envelope, ensure_ascii=False, separators=(',', ':')) + '\n')

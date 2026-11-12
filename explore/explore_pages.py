@@ -35,8 +35,14 @@ def slug(text):
     return re.sub(r'[^a-z0-9]+', '-', text.lower()).strip('-')
 
 
+def record_component(key):
+    """One physical path component; URL quoting adds the HTTP encoding separately."""
+    component = str(key).replace('%', '%25').replace('/', '%2F').replace('\\', '%5C')
+    return component.replace('.', '%2E') if component in {'.', '..'} else component
+
+
 def route(kind, key=''):
-    return BASE + kind + ('/' + quote(key, safe='.') if key else '') + '/'
+    return BASE + kind + ('/' + quote(record_component(key), safe='.') if key else '') + '/'
 
 
 def declaration_url(name):
@@ -422,7 +428,7 @@ class Pages:
         metadata = ''
         if record:
             kind, key = record
-            api = f'api/v1/{kind}/{quote(key, safe=".")}.json'
+            api = f'api/v1/{kind}/{quote(record_component(key), safe=".")}.json'
             metadata = f'<p class="record-link"><a href="{BASE + api}">Structured JSON record</a></p>'
         nav = '<a href="/">Home</a><a href="/explore/" class="here" aria-current="page">Explorer</a><a href="/design/">Design</a><a href="https://github.com/NLA-lib/nlalib">GitHub</a>'
         page = f'''<!doctype html>
@@ -489,7 +495,7 @@ class Pages:
                     body += ' <a href="' + html.escape(ref['url'], quote=True) + '">Publication</a>'
                 body += '</li>'
             body += '</ul>' + self.markdown('\n\n'.join(brief.get('cn') or []))
-        self.write('declarations/' + name, name, body, ('declarations', name))
+        self.write('declarations/' + record_component(name), name, body, ('declarations', name))
 
     def result(self, rid):
         r = self.records['results'][rid]
@@ -651,10 +657,10 @@ def publish(model, site, out, prose):
         (api / kind).mkdir(exist_ok=True)
         directory[kind] = {}
         for key, record in rs.items():
-            url = BASE + f'api/v1/{kind}/{quote(key, safe=".")}.json'
+            url = BASE + f'api/v1/{kind}/{quote(record_component(key), safe=".")}.json'
             directory[kind][key] = url
             envelope = {'schema_version': 1, 'snapshot': model['snapshot'], 'record_type': kind, 'record': record}
-            (api / kind / (key + '.json')).write_text(packed(envelope) + '\n')
+            (api / kind / (record_component(key) + '.json')).write_text(packed(envelope) + '\n')
     (api / 'index.json').write_text(packed(directory) + '\n')
     entries = []
     def declaration_text(name):
