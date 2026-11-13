@@ -1,0 +1,51 @@
+[
+  {
+    "name": "NLAlib.measurable_tapeSigma_apply",
+    "module": "NLAlib.Eigensolvers.SpectralBisectionSamples",
+    "kind": "theorem",
+    "statement": "lemma measurable_tapeSigma_apply {Q : Set (Dist × ℕ)} {p : Dist × ℕ} (hp : p ∈ Q) :\n    Measurable[tapeSigma Q] fun ξ : Dist → ℕ → ℝ => ξ p.1 p.2",
+    "signature": "NLAlib.measurable_tapeSigma_apply {Q : Set (Computation.Dist × ℕ)} {p : Computation.Dist × ℕ}\n  (hp : p ∈ Q) : Measurable fun ξ ↦ ξ p.1 p.2"
+  },
+  {
+    "name": "NLAlib.condExp_re_trace_exp_add_le",
+    "module": "NLAlib.Probability.MatrixConcentration.ConditionalMGFBound",
+    "kind": "theorem",
+    "statement": "theorem condExp_re_trace_exp_add_le (hm : m ≤ mΩ) {H X : Ω → Matrix n n 𝕜}\n    (hHm : StronglyMeasurable[m] H) (hH : ∀ᵐ ω ∂μ, (H ω).IsHermitian)\n    (hX : ∀ᵐ ω ∂μ, (X ω).IsHermitian) (hint : Integrable (fun ω => exp (X ω)) μ) :\n    μ[fun ω => RCLike.re (exp (H ω + X ω)).trace | m] ≤ᵐ[μ]\n      fun ω => RCLike.re (exp (H ω + cfc Real.log (μ[fun ω => exp (X ω) | m] ω))).trace",
+    "signature": "NLAlib.condExp_re_trace_exp_add_le.{u_1, u_2, u_3} {Ω : Type u_1} {m mΩ : MeasurableSpace Ω}\n  {μ : Measure Ω} {𝕜 : Type u_2} [RCLike 𝕜] {n : Type u_3} [Fintype n] [DecidableEq n]\n  [IsProbabilityMeasure μ] (hm : m ≤ mΩ) {H X : Ω → Matrix n n 𝕜} (hHm : StronglyMeasurable H)\n  (hH : ∀ᵐ (ω : Ω) ∂μ, (H ω).IsHermitian) (hX : ∀ᵐ (ω : Ω) ∂μ, (X ω).IsHermitian)\n  (hint : Integrable (fun ω ↦ NormedSpace.exp (X ω)) μ) :\n  μ[fun ω ↦ RCLike.re (NormedSpace.exp (H ω + X ω)).trace | m] ≤ᵐ[μ] fun ω ↦\n    RCLike.re (NormedSpace.exp (H ω + cfc Real.log (μ[fun ω ↦ NormedSpace.exp (X ω) | m] ω))).trace"
+  },
+  {
+    "name": "NLAlib.HasCondMatrixMGFBound.supermartingale_re_trace_exp",
+    "module": "NLAlib.Probability.MatrixConcentration.Freedman",
+    "kind": "theorem",
+    "statement": "theorem supermartingale_re_trace_exp (hX : ∀ j, StronglyMeasurable[ℱ (j + 1)] (X j))\n    (h : ∀ j, HasCondMatrixMGFBound (ℱ j) (X j) g (A j) s μ) {θ : ℝ} (hθ : θ ∈ s)\n    (hint : ∀ k, Integrable (fun ω => RCLike.re (exp (θ • ∑ j ∈ Finset.range k, X j ω -\n      g θ • ∑ j ∈ Finset.range k, A j ω)).trace) μ) :\n    Supermartingale (fun k ω => RCLike.re (exp (θ • ∑ j ∈ Finset.range k, X j ω -\n      g θ • ∑ j ∈ Finset.range k, A j ω)).trace) ℱ μ",
+    "signature": "NLAlib.HasCondMatrixMGFBound.supermartingale_re_trace_exp.{u_1, u_2, u_3} {Ω : Type u_1}\n  {mΩ : MeasurableSpace Ω} {μ : Measure Ω} [IsProbabilityMeasure μ] {𝕜 : Type u_2} [RCLike 𝕜]\n  {n : Type u_3} [Fintype n] [DecidableEq n] {ℱ : Filtration ℕ mΩ} {X A : ℕ → Ω → Matrix n n 𝕜}\n  {g : ℝ → ℝ} {s : Set ℝ} (hX : ∀ (j : ℕ), StronglyMeasurable (X j))\n  (h : ∀ (j : ℕ), HasCondMatrixMGFBound (↑ℱ j) (X j) g (A j) s μ) {θ : ℝ} (hθ : θ ∈ s)\n  (hint :\n    ∀ (k : ℕ),\n      Integrable\n        (fun ω ↦\n          RCLike.re\n            (NormedSpace.exp\n                (θ • ∑ j ∈ Finset.range k, X j ω - g θ • ∑ j ∈ Finset.range k, A j ω)).trace)\n        μ) :\n  Supermartingale\n    (fun k ω ↦\n      RCLike.re\n        (NormedSpace.exp\n            (θ • ∑ j ∈ Finset.range k, X j ω - g θ • ∑ j ∈ Finset.range k, A j ω)).trace)\n    ℱ μ"
+  },
+  {
+    "name": "NLAlib.HasCondMatrixMGFBound.measureReal_exists_eigenvalue_zero_sum_ge_le",
+    "module": "NLAlib.Probability.MatrixConcentration.Freedman",
+    "kind": "theorem",
+    "statement": "theorem measureReal_exists_eigenvalue_zero_sum_ge_le [Nonempty n]\n    (hX : ∀ j, StronglyMeasurable[ℱ (j + 1)] (X j))\n    (h : ∀ j, HasCondMatrixMGFBound (ℱ j) (X j) g (A j) s μ) {θ : ℝ} (hθs : θ ∈ s)\n    (hθ : 0 < θ) (hg : 0 ≤ g θ)\n    (hint : ∀ k, Integrable (fun ω => RCLike.re (exp (θ • ∑ j ∈ Finset.range k, X j ω -\n      g θ • ∑ j ∈ Finset.range k, A j ω)).trace) μ) (t w : ℝ) :\n    μ.real {ω | ∃ k, t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0 ∧\n        ∑ j ∈ Finset.range k, A j ω ≤ w • (1 : Matrix n n 𝕜)} ≤\n      Fintype.card n * Real.exp (-θ * t + g θ * w)",
+    "signature": "NLAlib.HasCondMatrixMGFBound.measureReal_exists_eigenvalue_zero_sum_ge_le.{u_1, u_2, u_3}\n  {Ω : Type u_1} {mΩ : MeasurableSpace Ω} {μ : Measure Ω} [IsProbabilityMeasure μ] {𝕜 : Type u_2}\n  [RCLike 𝕜] {n : Type u_3} [Fintype n] [DecidableEq n] {ℱ : Filtration ℕ mΩ}\n  {X A : ℕ → Ω → Matrix n n 𝕜} {g : ℝ → ℝ} {s : Set ℝ} [Nonempty n]\n  (hX : ∀ (j : ℕ), StronglyMeasurable (X j))\n  (h : ∀ (j : ℕ), HasCondMatrixMGFBound (↑ℱ j) (X j) g (A j) s μ) {θ : ℝ} (hθs : θ ∈ s) (hθ : 0 < θ)\n  (hg : 0 ≤ g θ)\n  (hint :\n    ∀ (k : ℕ),\n      Integrable\n        (fun ω ↦\n          RCLike.re\n            (NormedSpace.exp\n                (θ • ∑ j ∈ Finset.range k, X j ω - g θ • ∑ j ∈ Finset.range k, A j ω)).trace)\n        μ)\n  (t w : ℝ) :\n  μ.real\n      {ω |\n        ∃ k, t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0 ∧ ∑ j ∈ Finset.range k, A j ω ≤ w • 1} ≤\n    ↑(Fintype.card n) * rexp (-θ * t + g θ * w)"
+  },
+  {
+    "name": "NLAlib.measureReal_exists_eigenvalue_zero_sum_ge_le_freedman",
+    "module": "NLAlib.Probability.MatrixConcentration.Freedman",
+    "kind": "theorem",
+    "statement": "theorem measureReal_exists_eigenvalue_zero_sum_ge_le_freedman [Nonempty n]\n    {X : ℕ → Ω → Matrix n n 𝕜} (hX : ∀ j, StronglyMeasurable[ℱ (j + 1)] (X j))\n    (hX2 : ∀ j, MemLp (X j) 2 μ) (hmean : ∀ j, μ[X j | ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n    (hle : ∀ j, ∀ᵐ ω ∂μ, X j ω ≤ L • (1 : Matrix n n 𝕜)) {t v : ℝ} (ht : 0 ≤ t) :\n    μ.real {ω | ∃ k, t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0 ∧\n        specNorm (∑ j ∈ Finset.range k, μ[fun ω' => X j ω' ^ 2 | ℱ j] ω) ≤ v} ≤\n      Fintype.card n * Real.exp (-(t ^ 2 / 2) / (v + L * t / 3))",
+    "signature": "NLAlib.measureReal_exists_eigenvalue_zero_sum_ge_le_freedman.{u_1, u_2, u_3} {Ω : Type u_1}\n  {mΩ : MeasurableSpace Ω} {μ : Measure Ω} [IsProbabilityMeasure μ] {𝕜 : Type u_2} [RCLike 𝕜]\n  {n : Type u_3} [Fintype n] [DecidableEq n] {ℱ : Filtration ℕ mΩ} [Nonempty n]\n  {X : ℕ → Ω → Matrix n n 𝕜} (hX : ∀ (j : ℕ), StronglyMeasurable (X j))\n  (hX2 : ∀ (j : ℕ), MemLp (X j) 2 μ) (hmean : ∀ (j : ℕ), μ[X j | ↑ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n  (hle : ∀ (j : ℕ), ∀ᵐ (ω : Ω) ∂μ, X j ω ≤ L • 1) {t v : ℝ} (ht : 0 ≤ t) :\n  μ.real\n      {ω |\n        ∃ k,\n          t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0 ∧\n            specNorm (∑ j ∈ Finset.range k, μ[fun ω' ↦ X j ω' ^ 2 | ↑ℱ j] ω) ≤ v} ≤\n    ↑(Fintype.card n) * rexp (-(t ^ 2 / 2) / (v + L * t / 3))"
+  },
+  {
+    "name": "NLAlib.measureReal_exists_eigenvalue_zero_sum_ge_le_freedman_of_ae_le",
+    "module": "NLAlib.Probability.MatrixConcentration.Freedman",
+    "kind": "theorem",
+    "statement": "theorem measureReal_exists_eigenvalue_zero_sum_ge_le_freedman_of_ae_le [Nonempty n]\n    {X : ℕ → Ω → Matrix n n 𝕜} (hX : ∀ j, StronglyMeasurable[ℱ (j + 1)] (X j))\n    (hX2 : ∀ j, MemLp (X j) 2 μ) (hmean : ∀ j, μ[X j | ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n    (hle : ∀ j, ∀ᵐ ω ∂μ, X j ω ≤ L • (1 : Matrix n n 𝕜)) {t v : ℝ}\n    (hv : ∀ k, ∀ᵐ ω ∂μ, specNorm (∑ j ∈ Finset.range k, μ[fun ω' => X j ω' ^ 2 | ℱ j] ω) ≤ v)\n    (ht : 0 ≤ t) :\n    μ.real {ω | ∃ k, t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0} ≤\n      Fintype.card n * Real.exp (-(t ^ 2 / 2) / (v + L * t / 3))",
+    "signature": "NLAlib.measureReal_exists_eigenvalue_zero_sum_ge_le_freedman_of_ae_le.{u_1, u_2, u_3} {Ω : Type u_1}\n  {mΩ : MeasurableSpace Ω} {μ : Measure Ω} [IsProbabilityMeasure μ] {𝕜 : Type u_2} [RCLike 𝕜]\n  {n : Type u_3} [Fintype n] [DecidableEq n] {ℱ : Filtration ℕ mΩ} [Nonempty n]\n  {X : ℕ → Ω → Matrix n n 𝕜} (hX : ∀ (j : ℕ), StronglyMeasurable (X j))\n  (hX2 : ∀ (j : ℕ), MemLp (X j) 2 μ) (hmean : ∀ (j : ℕ), μ[X j | ↑ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n  (hle : ∀ (j : ℕ), ∀ᵐ (ω : Ω) ∂μ, X j ω ≤ L • 1) {t v : ℝ}\n  (hv :\n    ∀ (k : ℕ), ∀ᵐ (ω : Ω) ∂μ, specNorm (∑ j ∈ Finset.range k, μ[fun ω' ↦ X j ω' ^ 2 | ↑ℱ j] ω) ≤ v)\n  (ht : 0 ≤ t) :\n  μ.real {ω | ∃ k, t ≤ eigenvalue (∑ j ∈ Finset.range k, X j ω) 0} ≤\n    ↑(Fintype.card n) * rexp (-(t ^ 2 / 2) / (v + L * t / 3))"
+  },
+  {
+    "name": "NLAlib.measureReal_exists_specNorm_sum_ge_le_freedman",
+    "module": "NLAlib.Probability.MatrixConcentration.Freedman",
+    "kind": "theorem",
+    "statement": "theorem measureReal_exists_specNorm_sum_ge_le_freedman [Nonempty n] {r : Type*} [Fintype r]\n    [DecidableEq r] {S : ℕ → Ω → Matrix r n 𝕜} (hS : ∀ j, StronglyMeasurable[ℱ (j + 1)] (S j))\n    (hS2 : ∀ j, MemLp (S j) 2 μ) (hmean : ∀ j, μ[S j | ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n    (hle : ∀ j, ∀ᵐ ω ∂μ, specNorm (S j ω) ≤ L) {t v : ℝ} (ht : 0 ≤ t) :\n    μ.real {ω | ∃ k, t ≤ specNorm (∑ j ∈ Finset.range k, S j ω) ∧\n        max (specNorm (∑ j ∈ Finset.range k, μ[fun ω' => S j ω' * (S j ω')ᴴ | ℱ j] ω))\n          (specNorm (∑ j ∈ Finset.range k, μ[fun ω' => (S j ω')ᴴ * S j ω' | ℱ j] ω)) ≤ v} ≤\n      (Fintype.card r + Fintype.card n) * Real.exp (-(t ^ 2 / 2) / (v + L * t / 3))",
+    "signature": "NLAlib.measureReal_exists_specNorm_sum_ge_le_freedman.{u_1, u_2, u_3, u_4} {Ω : Type u_1}\n  {mΩ : MeasurableSpace Ω} {μ : Measure Ω} [IsProbabilityMeasure μ] {𝕜 : Type u_2} [RCLike 𝕜]\n  {n : Type u_3} [Fintype n] [DecidableEq n] {ℱ : Filtration ℕ mΩ} [Nonempty n] {r : Type u_4}\n  [Fintype r] [DecidableEq r] {S : ℕ → Ω → Matrix r n 𝕜} (hS : ∀ (j : ℕ), StronglyMeasurable (S j))\n  (hS2 : ∀ (j : ℕ), MemLp (S j) 2 μ) (hmean : ∀ (j : ℕ), μ[S j | ↑ℱ j] =ᵐ[μ] 0) {L : ℝ} (hL : 0 < L)\n  (hle : ∀ (j : ℕ), ∀ᵐ (ω : Ω) ∂μ, specNorm (S j ω) ≤ L) {t v : ℝ} (ht : 0 ≤ t) :\n  μ.real\n      {ω |\n        ∃ k,\n          t ≤ specNorm (∑ j ∈ Finset.range k, S j ω) ∧\n            max (specNorm (∑ j ∈ Finset.range k, μ[fun ω' ↦ S j ω' * (S j ω')ᴴ | ↑ℱ j] ω))\n                (specNorm (∑ j ∈ Finset.range k, μ[fun ω' ↦ (S j ω')ᴴ * S j ω' | ↑ℱ j] ω)) ≤\n              v} ≤\n    (↑(Fintype.card r) + ↑(Fintype.card n)) * rexp (-(t ^ 2 / 2) / (v + L * t / 3))"
+  }
+]

@@ -65,6 +65,41 @@ class DocumentationMCPTests(unittest.IsolatedAsyncioTestCase):
                 prompt = await client.get_prompt('find_existing_lemma', {'question': 'Bound an operator norm'})
                 self.assertIn('Bound an operator norm', prompt.messages[0].content.text)
 
+    async def test_scoped_source_statements_and_signature_only_fallback_over_stdio(self):
+        from mcp import ClientSession
+        from mcp.client.stdio import stdio_client
+        fixtures = json.loads((ROOT / 'tests/fixtures/scoped-statements.json').read_text(encoding='utf-8'))
+        for d in fixtures:
+            d.update(doc='Scoped hypothesis regression.', sorry=False, line=1, endLine=1,
+                     typeDeps=[], valueDeps=[])
+        self.fixture.raw['decls'].extend(fixtures)
+        self.fixture.data.write_text(json.dumps(self.fixture.raw))
+        async with stdio_client(self.parameters()) as (read, write):
+            async with ClientSession(read, write, read_timeout_seconds=timedelta(seconds=15)) as client:
+                await client.initialize()
+                for d in fixtures + [self.fixture.raw['decls'][0]]:
+                    cursor, chunks = None, []
+                    for _ in range(100):
+                        result = await client.call_tool('docs_read_declaration', {
+                            'name': d['name'], 'max_chars': 1500, 'cursor': cursor})
+                        self.assertFalse(result.isError)
+                        self.assertLessEqual(len(result.content[0].text), 1500)
+                        page = json.loads(result.content[0].text)
+                        chunks.append(page['content'])
+                        cursor = page['next_cursor']
+                        if cursor is None:
+                            break
+                    else:
+                        self.fail('MCP pagination did not terminate')
+                    text = ''.join(chunks)
+                    self.assertIn(d['signature'], text)
+                    self.assertIn('implicit arguments may be omitted', text)
+                    if d.get('statement'):
+                        self.assertIn(d['statement'], text)
+                    else:
+                        self.assertIn('Source statement unavailable', text)
+                    self.assertNotIn('SENTINEL_PROOF_BODY', text)
+
     async def test_sessions_survive_server_restart(self):
         from mcp import ClientSession
         from mcp.client.stdio import stdio_client

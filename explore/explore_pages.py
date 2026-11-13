@@ -74,7 +74,7 @@ def make_records(raw, site, config):
             'module': d['m'], 'import': 'import ' + d['m'],
             'signature': original.get('signature') or '',
             'signature_sha256': fingerprint(original.get('signature')),
-            'statement': original.get('statement') or original.get('signature') or '',
+            'statement': original.get('statement') or '',
             'docstring': original.get('doc') or '', 'summary': d.get('fs') or '',
             'admission_reported': bool(original.get('sorry')),
             'statement_dependencies': original.get('typeDeps', []),
@@ -453,7 +453,13 @@ class Pages:
         if d['admission_reported']:
             body += '<p class="notice">This extraction reports an admitted dependency. Do not treat it as a completed proof.</p>'
         body += self.markdown(brief.get('stmt') or d['docstring'], d['module'])
-        body += '<h2>Formal API</h2><p>All assumptions and typeclasses are retained in this extracted signature.</p>'
+        body += '<h2>Formal API</h2>'
+        if d['statement']:
+            body += '<p>Source statement (in its module context; retains explicit scoped arguments):</p>'
+            body += '<pre id="source-statement"><code>' + html.escape(d['statement']) + '</code></pre>'
+        else:
+            body += '<p>Source statement unavailable. Consult the linked source for the full assumptions.</p>'
+        body += '<p>Pretty-printed elaborated signature: implicit arguments may be omitted.</p>'
         body += f'<pre id="signature"><code>{html.escape(d["signature"])}</code></pre>'
         body += f'<pre id="import"><code>{html.escape(d["import"])}</code></pre>'
         if d['kind'] != 'theorem' and d['statement'] != d['signature']:

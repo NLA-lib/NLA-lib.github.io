@@ -144,8 +144,21 @@ class Documentation:
             doc = first_paragraph(doc)
             if len(doc) > 450:
                 doc = doc[:450] + '… [excerpt; use docs_read_declaration]'
-        text = (f"### {d['name']}\n\n{doc}\n\n```lean\n"
-                f"{d.get('signature') or '(Signature unavailable in extraction.)'}\n```\n")
+        text = f"### {d['name']}\n\n{doc}\n\n"
+        statement, signature = d.get('statement'), d.get('signature')
+        if statement:
+            text += f"Source statement (in its module context):\n\n```lean\n{statement}\n```\n"
+        if signature:
+            text += ('\nElaborated signature (pretty-printed; implicit arguments may be omitted; '
+                     'retain explicit arguments in the source statement above):\n\n'
+                     if statement else
+                     'Source statement unavailable. Pretty-printed signature only; implicit '
+                     'arguments may be omitted. Consult the linked source before relying on '
+                     'the full assumptions:\n\n')
+            text += f"```lean\n{signature}\n```\n"
+        elif not statement:
+            text += '(Statement and signature unavailable in extraction.)\n'
+
         if links:
             text += (f"\nSource: {self.source_link(d['module'], d.get('line', 1))}\n"
                      f"Resource: {self.uri('declaration', d['name'])}\n")
@@ -157,9 +170,9 @@ class Documentation:
                 f'{len(self.by_module)} modules. Exact reads and related declarations may cross '
                 'into other public library topics in this extraction.\n\n'
                 'Start with docs_catalog, read module overviews, then API pages or exact declarations. '
-                'Default readings contain original docstrings and complete extracted signatures, '
-                'with proof bodies omitted. A page may end inside a signature: follow next_cursor '
-                'before treating it as a complete statement.\n\n'
+                'Default readings contain original docstrings, source statements when available, and '
+                'pretty-printed signatures that may omit implicit arguments, with proof bodies omitted. '
+                'A page may split a statement: follow next_cursor to finish reading.\n\n'
                 'Use docs_context for a selected reading bundle. Save goals, bookmarks, unresolved '
                 'questions and agent-authored notes with docs_session. Sessions are pinned to this '
                 'exact extraction and survive server restarts. Notes are not verified mathematics.\n\n'
@@ -356,7 +369,7 @@ class Documentation:
                     '\n## Open questions\n' + '\n'.join('- ' + q for q in record['open_questions']) +
                     '\n\n## Bookmarks\n' + '\n'.join(
                         f'- {n}' for n in record['bookmarks']) +
-                    '\n\nUse docs_context on selected bookmarks to reopen exact signatures and docstrings.\n')
+                    '\n\nUse docs_context on selected bookmarks to reopen source statements, signatures and docstrings.\n')
             return self.page(text, key=f'session:{session_id}:{record["revision"]}', cursor=cursor,
                              max_chars=max_chars, extra={'session_id': session_id,
                                                         'revision': record['revision']})

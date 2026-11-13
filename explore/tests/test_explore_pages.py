@@ -110,6 +110,29 @@ class ExplorePagesTests(unittest.TestCase):
         self.assertIn('a' * 40, page)
         self.assertNotIn('proof_body', record)
 
+    def test_source_statements_retain_scoped_arguments_on_static_pages(self):
+        fixtures = json.loads((Path(__file__).parent / 'fixtures/scoped-statements.json').read_text())
+        ds = [dict(d, kind='theorem', module='NLAlib.Test', line=i + 1, doc='Scoped hypothesis.')
+              for i, d in enumerate(fixtures)]
+        out = self.build(ds)
+        from html import escape
+        for d in ds:
+            record = self.record(out, 'declarations', d['name'])['record']
+            page = (out / unquote(urlsplit(record['url']).path).removeprefix('/explore/') / 'index.html').read_text()
+            self.assertEqual(record['statement'], d['statement'])
+            self.assertIn(escape(d['statement']), page)
+            self.assertIn(escape(d['signature']), page)
+            self.assertIn('implicit arguments may be omitted', page)
+            self.assertNotIn('All assumptions and typeclasses are retained', page)
+
+    def test_static_signature_fallback_is_explicitly_incomplete(self):
+        out = self.build(self.declarations())
+        record = self.record(out, 'declarations', 'N.spec')['record']
+        page = (out / unquote(urlsplit(record['url']).path).removeprefix('/explore/') / 'index.html').read_text()
+        self.assertEqual(record['statement'], '')
+        self.assertIn('Source statement unavailable', page)
+        self.assertIn('implicit arguments may be omitted', page)
+
     def test_unversioned_records_never_manufacture_source_links(self):
         out = self.build(self.declarations())
         env = self.record(out, 'declarations', 'N.spec')

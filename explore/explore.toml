@@ -18,8 +18,8 @@ service_definitions = [
 ]
 scope = 'Successful execution and decoded output correspondence under symmetry, positive spectral bounds and the stated precision and iteration-horizon restrictions. The backward theorem additionally requires positive budget and nonzero decoded input. These are arithmetic-contract guarantees, not certification of a particular executable or IEEE backend.'
 [implementations.signatures]
-'NLAlib.CGImplementation.exec_rounded_compiled' = '3d85a8129c0af529b4e3ad440d8756b5c3215d7d7fbf8f238b241199034f7bf8'
-'NLAlib.CGImplementation.exec_rounded_compiled_backward' = '4ad77af9b1594822cd7875995a1ca71f89b396e18881399ced2598b8609472db'
+'NLAlib.CGImplementation.exec_rounded_compiled' = '5820ff504a7a4d028772a1d6722cfe236bad5d7620b051efe59dcd33ab14389b'
+'NLAlib.CGImplementation.exec_rounded_compiled_backward' = '4a02705e4692473efdc63a986048cc64d19659ca2ababaf80b5cd5ba3f76760b'
 
 [[theory]]
 id = 'matrix-perturbation'

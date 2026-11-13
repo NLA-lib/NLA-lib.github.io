@@ -22,7 +22,7 @@ Budget = Annotated[int, Field(ge=1500, le=20000, description='Maximum characters
 def create_server(docs):
     mcp = FastMCP('NLAlib mathematical documentation', instructions=(
         'Read the library mathematical API without loading proof bodies. Begin with docs_info and '
-        'docs_catalog, read module overviews, then complete signatures via docs_read_declaration. '
+        'docs_catalog, read module overviews, then source statements and signatures via docs_read_declaration. '
         'Every result is pinned to an extraction snapshot and bounded by max_chars. Follow '
         'next_cursor with identical arguments to finish a reading, especially a split signature. '
         'Use docs_session to save a goal, selected names and notes across context resets. '
@@ -52,7 +52,7 @@ def create_server(docs):
         """Read original module documentation or all docstrings and Lean signatures, without proofs.
 
         overview gives main results and imports; prose gives all docstrings without signatures;
-        api gives exact declarations. Optional kind
+        api gives source statements when available and pretty-printed signatures. Optional kind
         filters e.g. theorem or def. Follow continuation before interpreting incomplete signatures.
         """
         return packed(docs.read_module(module, view, kind, cursor, max_chars))
@@ -60,8 +60,10 @@ def create_server(docs):
     @mcp.tool(annotations=read_only, structured_output=False)
     def docs_read_declaration(name: str, view: Literal['api', 'doc', 'definition'] = 'api',
                               cursor: str | None = None, max_chars: Budget = 8000) -> str:
-        """Read one declaration's original docstring and complete extracted type.
+        """Read one declaration's original docstring, source statement and elaborated signature.
 
+        Pretty printing can omit implicit arguments; retain explicit source-statement arguments.
+        Missing source statements are labeled as signature-only fallbacks.
         api omits proof/definition bodies; doc returns prose only. definition additionally reads
         a data/predicate definition from source with a verified file hash. It refuses theorem
         proofs and mismatched source bytes. Exact reads can cross into other library topics.
@@ -74,7 +76,7 @@ def create_server(docs):
         """Find Matrix/helper candidates by names, mathematical prose or a Lean statement.
 
         Uses lexical search plus existing vocabulary aliases; no embeddings or hosted model.
-        Read exact signatures before choosing a result. Try alternative descriptions and browse
+        Read source statements and signatures before choosing a result. Try alternative descriptions and browse
         modules when search misses. This does not verify applicability or equivalence.
         """
         return packed(docs.search(query, module_prefix, kind, cursor, max_chars))
@@ -93,7 +95,7 @@ def create_server(docs):
     @mcp.tool(annotations=read_only, structured_output=False)
     def docs_context(names: Annotated[list[str], Field(min_length=1, max_length=20)],
                      cursor: str | None = None, max_chars: Budget = 8000) -> str:
-        """Assemble only selected declarations' docstrings and exact signatures into a paged bundle.
+        """Assemble only selected declarations' docstrings, source statements and signatures into a paged bundle.
 
         Use after discovery, or to reopen bookmarks from a saved reading session. No proof bodies.
         """

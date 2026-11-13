@@ -525,7 +525,7 @@ guarantee = 'expected-relative-regression-frobenius'
 resources = [{ label = 'Sketch rows s', kind = 'samples', bound = '''factor $1+\frac{m-s}{m-r}\cdot\frac{r}{s-r-1}$ for every sketch law''' }]
 notes = '''Any random sketch of full rank a.s.; $r=\operatorname{rank}\mathbf{A}$, $r+2\le s$ ($\ell$ in the theorem is $s$); a rotated problem $\mathbf{U}\mathbf{A}$, $\mathbf{U}\mathbf{B}$, expectation in $[0,\infty]$. The Haar sketch attains the factor exactly, so it is minimax optimal. [EpperlyWebber2026, Theorem 2.2].'''
 algorithm_definition = 'NLAlib.sketchAndSolve'
-statement_hash = 'cd3d0550587d2d544b4f606f1324a67485963826ba546a8d479f7dab1c5c57f1'
+statement_hash = '1f6683b51f73639df874b095958eedcfb2aaeed5e51493028b29f37f45108cfb'
 
 [[rates]]
 id = '''regression-high-prob-gaussian'''

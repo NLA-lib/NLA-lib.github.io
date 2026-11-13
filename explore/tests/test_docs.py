@@ -71,6 +71,37 @@ class DocumentationTests(unittest.TestCase):
         self.assertIn(self.raw['decls'][1]['doc'], text)
         self.assertIn(self.raw['decls'][1]['signature'], text)
 
+    def test_source_statement_retains_scoped_arguments_in_api_and_bundles(self):
+        fixtures = json.loads((Path(__file__).parent / 'fixtures' / 'scoped-statements.json').read_text())
+        for d in fixtures:
+            d.update(doc='Scoped hypothesis regression.', sorry=False, line=1, endLine=1,
+                     typeDeps=[], valueDeps=[])
+            self.docs.decls[d['name']] = d
+            self.docs.modules.setdefault(d['module'], {'path': d['module'].replace('.', '/') + '.lean'})
+            with self.subTest(name=d['name']):
+                for render, kwargs in [(self.docs.read_declaration, {'name': d['name']}),
+                                       (self.docs.context, {'names': [d['name']]}),
+                                       (self.docs.read_module, {'module': d['module'], 'view': 'api'})]:
+                    text = self.collect(render, **kwargs)
+                    self.assertIn(d['statement'], text)
+                    self.assertIn('implicit arguments may be omitted', text)
+                    self.assertIn('Source statement (in its module context)', text)
+                    self.assertNotIn('SENTINEL_PROOF_BODY', text)
+
+    def test_missing_source_statement_is_labeled_signature_only(self):
+        for value in (None, ''):
+            d = self.docs.decls['NLAlib.toyNorm']
+            d['statement'] = value
+            text = self.collect(self.docs.read_declaration, name=d['name'])
+            self.assertIn(d['signature'], text)
+            self.assertIn('Source statement unavailable', text)
+            self.assertIn('implicit arguments may be omitted', text)
+        d['signature'] = None
+        self.assertIn('Statement and signature unavailable',
+                      self.collect(self.docs.read_declaration, name=d['name']))
+        d['statement'] = 'def toyNorm (x : Nat) : Nat'
+        self.assertIn(d['statement'], self.collect(self.docs.read_declaration, name=d['name']))
+
     def test_document_that_fits_without_cursor_is_returned_in_one_page(self):
         text = 'x' * 1050
         page = self.docs.page(text, key='fits-without-cursor', max_chars=1500)
