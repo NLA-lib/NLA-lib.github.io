@@ -17,7 +17,18 @@ h1{font-size:2rem;letter-spacing:-.04em}p{max-width:75ch}form{display:flex;gap:.
 const q=document.querySelector('#q'),mode=document.querySelector('#mode'),status=document.querySelector('#status'),results=document.querySelector('#results');
 let generation=0;
 function node(tag,text){const x=document.createElement(tag);x.textContent=text;return x;}
-async function search(){const current=++generation;status.textContent='Searching…';results.replaceChildren();try{const response=await fetch('/api/search?'+new URLSearchParams({q:q.value,mode:mode.value}));if(!response.ok)throw Error('Search failed: '+response.status);const data=await response.json();if(current!==generation)return;status.textContent=data.hits.length+' candidates · snapshot '+data.commit.slice(0,8);for(const h of data.hits){const a=document.createElement('article');a.append(node('h2',h.name),node('small',h.reasons.join(' · ')+' · applicability not checked'),node('p',h.doc||'No description available.'),node('pre',h.signature||h.statement));const link=node('a','View source at this snapshot ↗');link.href=h.source;link.target='_blank';link.rel='noopener';a.append(link);results.append(a);}history.replaceState(null,'','?'+new URLSearchParams({q:q.value,mode:mode.value}));}catch(e){if(current===generation)status.textContent=e.message;}}
+function appendFormalStatement(article, hit) {
+  if (hit.statement) {
+    article.append(node('small', 'Source statement (in its module context)'), node('pre', hit.statement));
+  }
+  if (hit.signature) {
+    const label = hit.statement
+      ? 'Pretty-printed signature: implicit arguments may be omitted; retain explicit source arguments above.'
+      : 'Source statement unavailable. Pretty-printed signature may omit implicit arguments; consult the linked source.';
+    article.append(node('small', label), node('pre', hit.signature));
+  }
+}
+async function search(){const current=++generation;status.textContent='Searching…';results.replaceChildren();try{const response=await fetch('/api/search?'+new URLSearchParams({q:q.value,mode:mode.value}));if(!response.ok)throw Error('Search failed: '+response.status);const data=await response.json();if(current!==generation)return;status.textContent=data.hits.length+' candidates · snapshot '+data.commit.slice(0,8);for(const h of data.hits){const a=document.createElement('article');a.append(node('h2',h.name),node('small',h.reasons.join(' · ')+' · applicability not checked'),node('p',h.doc||'No description available.'));appendFormalStatement(a,h);const link=node('a','View source at this snapshot ↗');link.href=h.source;link.target='_blank';link.rel='noopener';a.append(link);results.append(a);}history.replaceState(null,'','?'+new URLSearchParams({q:q.value,mode:mode.value}));}catch(e){if(current===generation)status.textContent=e.message;}}
 document.querySelector('#search').addEventListener('submit',e=>{e.preventDefault();search();});
 document.querySelectorAll('.examples button').forEach(b=>b.onclick=()=>{q.value=b.textContent;search();});
 const initial=new URLSearchParams(location.search);q.value=initial.get('q')||'';mode.value=initial.get('mode')||'hybrid';if(q.value)search();

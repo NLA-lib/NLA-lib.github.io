@@ -1095,8 +1095,16 @@
     const box = h('<div></div>');
     let view = 'st';
     const draw = () => {
-      const text = view === 'st' ? (d.st || d.sig) : (d.sig || d.st);
-      box.innerHTML = `<pre class="lean">${leanHtml(text || '', i)}</pre>`;
+      const block = text => `<pre class="lean">${leanHtml(text || '', i)}</pre>`;
+      if (view === 'st' && d.st) {
+        box.innerHTML = block(d.st);
+      } else {
+        box.innerHTML = '<p>Pretty-printed elaborated signature: implicit arguments may be omitted.</p>' +
+          block(d.sig || d.st);
+        box.innerHTML += d.st
+          ? '<p>Source statement (in its module context; retains explicit scoped arguments):</p>' + block(d.st)
+          : '<p>Source statement unavailable. Consult the linked source for the full assumptions.</p>';
+      }
     };
     box.toggle = () => { view = view === 'st' ? 'sig' : 'st'; draw(); };
     draw();

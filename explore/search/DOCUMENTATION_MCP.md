@@ -1,7 +1,7 @@
 # Mathematical documentation MCP
 
 This server gives an LLM agent bounded access to the library's mathematical interface. The agent
-can browse topics, read original docstrings and complete Lean signatures, inspect definitions and
+can browse topics, read original docstrings, source statements and elaborated Lean signatures, inspect definitions and
 callers, and keep a persistent reading session. Default readings omit theorem proofs. It
 complements Lean LSP MCP's goal, hover, navigation and proof-checking tools.
 
@@ -65,7 +65,13 @@ in 158 modules. Exact reads, explicit module reads, and related declarations may
 other public library topics present in the extraction, so downstream usage remains available.
 Declarations flagged as admitted are excluded. This is not a Mathlib-wide documentation index.
 Use module `view="prose"` to read just the human documentation and declaration names;
-`view="api"` adds all extracted signatures. Module/bundle pages share provenance instead of
+`view="api"` adds extracted source statements (in their module context) and elaborated signatures.
+Pretty printing may omit implicit arguments, including measurable-space arguments. Explicit
+scoped arguments in source statements must be retained when interpreting a signature. Older
+extractions with no source statement show a signature-only warning; consult the linked source
+before relying on the full assumptions. Pagination completeness refers to the returned text,
+not to faithfulness of Lean pretty printing. The website elaborated toggle similarly keeps
+the source statement visible alongside its warning. Module/bundle pages share provenance instead of
 repeating long source/resource links for every declaration.
 
 All tools return **one text JSON page**, without duplicating it as structured content. The
