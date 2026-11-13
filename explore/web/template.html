@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>NLA-lib · Explorer</title>
+<link rel="icon" href="/favicon.ico" sizes="any"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="stylesheet" href="/explore/css/site.css?v={{site_css}}">
+<link rel="stylesheet" href="/explore/explore.css?v={{explore_css}}">
+<link rel="stylesheet" href="/explore/cg-pilot.css?v={{cards_css}}">
+<link rel="stylesheet" href="/explore/vendor/katex/katex.min.css">
+<script defer src="/explore/vendor/katex/katex.min.js"></script>
+<script defer src="/explore/explore-search.js?v={{search_js}}"></script>
+<script defer src="/explore/explore.js?v={{explore_js}}"></script>
+<script defer src="/explore/cg-pilot.js?v={{cards_js}}"></script>
+</head><body class="explore-pages cg-pilot" data-root="/explore/" data-snapshot="{{snapshot}}" data-search-version="{{search_version}}">
+<a class="skip-link" href="#content">Skip to content</a>
+<div id="contentContainer" class="page-wrap"><header><h1>NLA-lib Explorer</h1>
+<nav class="menu" aria-label="Site"><a href="/">Home</a><a href="/explore/" class="here" aria-current="page">Explorer</a><a href="/design/">Design</a><a href="https://github.com/NLA-lib/nlalib">GitHub</a></nav>
+<form id="site-search" action="/explore/search/" role="search"><label class="visually-hidden" for="site-query">Search the library</label>
+<div class="search-line"><input id="site-query" name="q" type="search" placeholder="Search theorems and definitions"><button>Search</button></div></form><div id="quick-search" class="quick-search" hidden></div></header>
+<main id="content"></main>
+<footer>Library snapshot <code>{{commit}}</code> · <a href="/explore/api/v1/manifest.json">Snapshot and data manifest</a> · <a href="/explore/library/modules/">Library reference</a></footer></div>
+</body></html>

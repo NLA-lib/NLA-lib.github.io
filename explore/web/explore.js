@@ -13,7 +13,11 @@
   };
   const params = new URLSearchParams(location.search);
   if (location.hash.startsWith('#open/')) {
-    location.replace(root + 'catalog/' + location.hash);
+    try {
+      const links = await read('legacy-links.json');
+      const key = decodeURIComponent(location.hash.slice(6));
+      location.replace(links.modules[key] || root + 'library/modules/');
+    } catch (_) { location.replace(root + 'library/modules/'); }
     return;
   }
   const old = /^#([rdma])\/([^?]+)(?:\?(.*))?$/.exec(location.hash);

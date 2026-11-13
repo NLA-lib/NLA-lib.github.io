@@ -1,391 +1,96 @@
-# explore
+# Explorer
 
-The NLA-lib explorer, served at <https://nla-lib.org/explore/>: the definitions and named
-results of [NLAlib](https://github.com/NLA-lib/NLAlib) by topic, a search box, and for each
-result its statement, its Lean declarations with links to the source, and its dependencies
-within the library.
+The Explorer is an ordinary Markdown website backed by a generic Lean extraction.
+[Algorithms, method families, implementations, and theory](content/README.md) are
+editable pages under `content/`. The generated Library contains every extracted
+module, declaration, and named result, with exact Lean signatures and source links.
 
-Statements, source links and the Rates rows are generated from the library. Explorer collections
-and the reviewed Rates summaries are curated here and checked against the extracted declarations.
+## Build
 
-An experimental [Matrix lemma search](search/README.md) combines local semantic embeddings,
-keyword retrieval and optional Lean applicability checks. It has its own local interface and
-benchmark and does not change the deployed explorer.
-
-The [mathematical documentation MCP](search/DOCUMENTATION_MCP.md) lets agents browse original
-module documentation, read proof-free APIs, inspect definitions and usages, and resume saved
-reading sessions. It works without the embedding model and complements existing Lean MCP tools.
-
-## How it updates
-
-1. On every push, NLAlib's `explore` workflow builds the library, runs
-   `scripts/explore_data.sh` (every public declaration: kind, docstring, signature, source
-   statement, line range, presentation role, source hashes, and the library declarations its
-   statement and proof use), and
-   publishes the result as `explore-data.json` on NLAlib's rolling `explore-data` release.
-2. It then sends a `nlalib-updated` dispatch to `NLA-lib/NLA-lib.github.io` (needs the secret
-   below), whose `deploy` workflow (`.github/workflows/deploy.yml` at the top of that repository)
-   downloads the data and `references.bib`, runs `build.py` into `_site/explore`, adds the
-   homepage, and deploys the whole of nla-lib.org to GitHub Pages. A daily scheduled run catches
-   anything missed.
-
-The explorer lives in `explore/` of the organisation site's repository since 2026-11-06; it was
-the repository `NLA-lib/explore` before (archived, history kept here). The homepage menu
-(`../index.md`) and the explorer menu (`web/index.html`) must list the same pages:
-`tests/test_menu.py` checks it.
-
-## Rates and algorithm browsing
-
-The [Rates page](https://nla-lib.org/explore/rates/) compares the resources (samples, block size,
-depth, queries) each algorithm needs for a target accuracy. **Every asymptotic pair of the
-library is a row**: each `exists_forall_` declaration with an `Asymptotic:` target, whether or not
-anyone has reviewed it. Its cells come from the same facets as the statements tables of result
-pages (`facets.py`, with `facets.toml` on top): algorithm, error measure, the statistic as a formula
-($\mathbb{E}\|\cdot\|^2$, $\mathbb{E}\|\cdot\|$, $\mathbb{P}[\ldots]$ "tail bound", Var), sketch
-law, output (plain, late-truncated, early-truncated), regime (gapless, gapped) and the source as a
-short citation. Sketch-property corollaries (`exists_forall_hasJLProperty_of_…`,
-`…isObliviousSubspaceEmbedding…`, `…hasProjectionCostPreserving…`, …) are read by a small property
-grammar (`facets.infer_property`): the property takes the algorithm's place, the statistic is a
-tail bound.
-
-- A **reviewed** row has an entry in `rates.toml` (the overlay, below): its resources with their
-  bounds, visible parameter caveats and definition links.
-- A **pending** row has none yet. It is marked *pending review* and shows the asymptotic
-  statement as the library states it, in a group named after its generated cell ("Frobenius norm ·
-  tail bound $\mathbb{P}[\|\cdot\|_{\mathsf F}^2 > t]$").
-- An **exact** row (`kind = 'exact'`) records an identity, for trace estimation.
-- A **lower bound** (`kind = 'lower'`) cites one theorem, like an exact row. With
-  `pairs_with = '<rate id>'` it is shown in the row of the reviewed rate of its family it matches:
-  the family's table gains *Lower bound* and *Lower-bound source* columns beside *Upper bound* and
-  *Source*, with a tightness tag from `tightness = 'tight' | 'gap'`, and ▸ expands both theorems.
-  A lower bound without `pairs_with` keeps a row of its own. The Form filter's *Lower bound* finds
-  the rows that have one; `#rate/<lower id>` opens its rate's row. A lower theorem without a
-  `Result:` id may name its result (`result = '<id>'`). The lower bounds of `NLAlib.LowerBounds`
-  (Epperly–Webber's sharp factors, early-truncated RSVD, truncated GN, sketch-and-solve) are paired
-  this way.
-
-The page has one table per family, in the look of the statements table: guarantee group rows
-with their full statement and definitions in a disclosure, generated columns shown when they vary
-within the family, faint sources. A row's algorithm opens the statement on its result page with
-that row selected (`#r/<id>?s=<asymptotic declaration>`; `#d/<name>` for an exact theorem without
-a Result id); `▸` expands the theorem in place, with the *Explicit bound* toggle, the declaration
-and source links and *Copy link*. Each family ends with **Bounds without a rate form**: the explicit
-probabilistic bounds of its algorithms that have no asymptotic form (for example the RSVD
-spectral-norm bounds of HMT 10.6 and TW 8.1), by algorithm, error measure and statistic, each
-linking to its statement. The filters are global and generated: family, algorithm, error measure,
-statistic, law (grouped by the sketch classes Gaussian, Haar, Sparse, Trig, Other, a class with
-several laws selectable whole), output, regime, resource, form (rate or exact value), source and
-status (reviewed or pending). Options come from the rows compatible with the other choices, and a
-filter with one option is hidden. Filter state and search are kept in the query string
-(`rates/?algorithm=RSVD&stat_key=tail`), so a comparison can be linked.
-
-URLs: `rates/#rate/<id>` expands and scrolls to a reviewed row; a pending row is linked as
-`rates/#rate/<declaration>` (its *Copy link*), which keeps working after it is reviewed; the old
-anchors `#rate-row-<id>`, `#rate-notation-<family>` and `#rate-guarantee-<family>-<guarantee>`
-still work. The families are **Embeddings and sketch properties**, **One- and two-pass low-rank
-approximation**, **Block Krylov and subspace iteration**, **Regression** and **Trace estimation**;
-an asymptotic pair whose algorithm no family lists goes to a generated **Other asymptotic bounds**
-family, so nothing new is dropped silently. Linear-system solvers have no rows this round.
-
-Highlights. Regression: Gaussian and Haar expected-error rows need $O((r+1)/\varepsilon)$ sketch
-rows ($r$ the input rank); the Gaussian tail bound $O((r+1)/(\varepsilon\delta))$, CountSketch
-$O(((r+1)^2+(r+1)/\varepsilon)/\delta)$ over real or complex inputs. Block Krylov and subspace
-iteration list two resources per row, the block size $\ell$ and the depth: gapless rows need
-$O(\log(n+1)/\sqrt{\varepsilon})$ blocks for RBKI and NysBKI and $O(\log(n+1)/\varepsilon)$ power
-steps for RSI and NysSI (late-truncated RBKI and RSI: $\log(n/\varepsilon)$ for $\log(n+1)$);
-gapped rows need $O(\log(n/\varepsilon)/\sqrt{\gamma})$ blocks or $O(\log(n/\varepsilon)/\gamma)$
-power steps for a relative singular gap $\gamma>0$. Trace estimation lists the exact variance of
-the Girard–Hutchinson estimate for one real Gaussian, Rademacher or radius-$\sqrt{n}$ sphere probe,
-one probe with independent coordinates of fourth moment $m_4$, the Haar frame estimator
-$(n/k)\operatorname{tr}(\mathbf{Q}^{\mathsf{T}}\mathbf{A}\mathbf{Q})$, and
-$\mathbb{E}\lvert\cdot-\operatorname{tr}\mathbf{A}\rvert^2$ for $m$ independent isotropic probes,
-next to the (pending) Hutch++ sample sizes.
-
-### `rates.toml`: the reviewed overlay
-
-- `[[families]]`: `id`, `title`, `description`, optional `notation`, `subject_label` (the
-  algorithm column's heading, e.g. "Property"), `definition_label`, `resources_label`, and
-  `algorithms`, the algorithm facet values (`facets.ALGORITHMS`, or property labels) whose generated
-  rows it holds. An algorithm in two families fails the build. Optional `filters` on custom row
-  fields remain an extension point (none is configured); `subject_field` too.
-- `[[guarantees]]`: `id`, `family`, `title`, `description`, optional `definitions` links
-  (`label`, full `declaration`). Titles use the vocabulary: "expected error" with the formula,
-  "tail bound", "late-truncated".
-- `[[rates]]`: the reviewed entries, keyed by `theorem` (the asymptotic declaration, or for
-  `kind = 'exact'` the one theorem cited) and `statement_hash`: `id` (the stable URL),
-  `guarantee`, `resources` (`{label, bound, kind}` with `kind` one of `samples`, `block size`,
-  `depth`, `queries`; omitted for an exact value), optional `notes`, `label` (a detail cell, e.g. an
-  exact row's probe), `algorithm_definition`, `algorithm_definition_label` and
-  `sketch_definition`. A row's family is its guarantee's; if its facets put its algorithm in
-  another family the build fails. The hand facet fields of earlier versions (`algorithm`,
-  `variant`, `sketch`, `sketch_category`, `norm`, `mode`, `gap`, `probe…`) are gone: the names say
-  them.
-- `[algorithm_names]` (filter labels such as "Generalized Nyström (GN)"; an algorithm with a page is named by its `algorithms.toml` title), `[law_classes]` (the
-  sketch classes; other laws are "Other") and `[generate] exclude_words` (words of a Result id or
-  module that keep a pair off the page; today the linear-system solvers).
-
-The statement hash is SHA-256 of the extracted signature, a newline, and its full docstring, after
-removing HTML comments from both. Changed wording or hypotheses fail the build until a reviewer
-checks the summary against the updated theorem and records its hash; a stale hash, a missing,
-unpaired or unproved declaration all fail. This is a change detector, not a proof that the
-handwritten summary is correct. Proof-body changes alone do not require new metadata. To review a
-pending row, add a `[[rates]]` entry with its `theorem`, a guarantee, resources and the hash; its
-id becomes its URL, and the declaration link keeps working. An exact row's theorem must not be an
-asymptotic declaration nor the `Asymptotic:` target of one, and its expanded view has no
-explicit/asymptotic toggle; a Result id is recorded when it has one. No runtime or pass-count
-claim is inferred from a theorem name. See
-[docs/rates-design.md](docs/rates-design.md#rates-from-facets-2026-10-19).
-
-The home page is organized by **task shelves**, not by source folder. `topics.toml` `shelves`
-lists them in order: Solve Ax = b and least squares; Low-rank approximation; Sketches and
-embeddings; Trace and spectral-density estimation; Matrix functions and quadrature; Polynomial
-approximation; Eigenvalues and Krylov processes; Concentration and random matrices; Lower bounds
-(matvec model); Matrix analysis. Each shelf is a collection in `collections.toml`, whose groups
-list existing result IDs and definition names from any folder, keeping their canonical URLs; a
-result may sit in several groups and shelves (CG is under Solve Ax = b, its worst cases also under
-Lower bounds). A shelf may be a folder (LowRank, Sketching, Estimation, LowerBounds, Polynomial, Matrix: its
-source modules follow in a collapsed browser, or inline with `modules = "inline"`) or not
-(LinearSystems, MatrixFunctions, Eigenvalues, Concentration). The other folders
-(Krylov, Probability, RandomMatrix, Regression, Solvers, ForMathlib) sit in a collapsed source
-browser below the shelves; the folders follow NLAlib's import layers (`order`).
-
-A collection's `sources` lists module prefixes (default: the folder named by its `topic`). A
-result or definition that no group lists appears in the "Other results and definitions" group
-of the collection whose prefix matches its module most specifically, so a new result lands on
-exactly one shelf until it is classified (a new `NLAlib.Krylov.LinearSystems.WorstCase` result
-goes to Lower bounds, not Solve Ax = b). Unknown result ids, definitions, shelves and malformed
-prefixes fail the build, all listed together. Prefixes may name folders that do not exist yet,
-so the presentation works across a module migration. File moves preserve Rates and collection
-references because they use declaration names and result IDs; source paths and line numbers come
-from each fresh extraction. See
-[the migration direction](docs/rates-design.md#preparing-the-source-library-reorganization).
-
-`results.toml` can set `primary` to an exact explicit declaration belonging to that result.
-Its asymptotic counterpart becomes the overview. This makes headline choice independent of
-source order; the conditional completion identity no longer titles early-truncated GN. A
-configured primary without an asymptotic form is the headline too (RSVD tail bounds open at
-Tropp–Webber's Gaussian Frobenius tail).
-
-Probability formulas use `$\mathbb{P}[E]$` with square event brackets, including in displayed
-success or failure bounds. `web/math.js` normalizes recognized legacy probability operators and
-round event delimiters at rendering time, preserving event contents, conditional bars, subscripts
-and delimiter sizing. Plain matrix `P`, prose/code, and unrecognized or malformed notation are
-left unchanged. Raw extracted documentation and Lean source remain untouched. The library's
-CONTRIBUTING §6 records the convention for future docstrings.
-
-### The range of $\varepsilon$ and rename maps
-
-Every asymptotic form quantifies `∃ C ε₀ …, ∀ ε ≤ ε₀`. Where the asymptotic form's docstring
-(else the explicit theorem's) states the value (`$\varepsilon_0 = 1/2$`, `ε₀ = 1`),
-`facets.eps0_value` reads it and the row's resources cell shows "Range: $\varepsilon \le 1/2$"
-(`c.eps0` in the data); where it states none, nothing is shown. The family notes keep saying "an
-absolute $\varepsilon_0$".
-
-`build.py --renames DIR` (default `data/renames` when it exists; the deploy workflow downloads the
-library's `docs/renames/` at the data's commit) reads every `*.json` rename map there
-(CONTRIBUTING N12), in file-name order. An old `#d/<name>` that is no longer a declaration
-redirects to the declaration that now carries it (followed through later maps; `"removed": true`
-entries say the content moved), with a note "Renamed: ... (rename map ...)"; an entry whose target
-the data lacks is skipped, so a map ahead of the published library is harmless. A declaration in a
-map's `statementChanged` shows "Statement changed in <map>." above its Lean. Tests use copies of
-the maps in `tests/fixtures/renames/`.
-
-## Algorithm pages
-
-An algorithm page (`#a/<id>`, in the panel of every page of the app) gathers what the library has
-about one algorithm; the [index](https://nla-lib.org/explore/algorithms/) (`algorithms/`) has one
-table per family. Design and decisions: [docs/design/algorithm-pages.md](docs/design/algorithm-pages.md).
-
-The **CG in finite precision** shelf includes physical energy convergence, clustered-spectrum
-polynomial and minimax bounds, delayed energy reliability and stopping certificates. Computed
-Lanczos matrix-function bounds appear on both the **Matrix functions and quadrature** and
-**Eigenvalues and Krylov processes** shelves, and in the Lanczos algorithm's finite-precision
-section. Their statements specify the local arithmetic model and the exact postprocessing or
-supplied postprocessing-error bound. Separately, the CG and Lanczos pages expose the approved
-stored-entry programs, exact output proofs, operation budgets and memory bounds under **Cost
-and output**. These exact program proofs do not certify a complete rounded solver execution.
-
-- **Members** are the library's: a docstring line `Algorithm: <id>`, optionally
-  `Algorithm: <id> (specification)` or `(run model)`, on a definition or program (NLAlib
-  CONTRIBUTING §6 item 4b, checked by its `scripts/check_refs.py`). A constant whose type is a
-  `Computation.Prog` or `Computation.Builder` is shown as a *program*. `algorithms.toml` adds titles,
-  aliases, families, variants (`variants` / `variant_of`, both directions), the Rates `facet`
-  (whose filter label becomes the page's title), `result_prefixes`, curated `results` /
-  `not_results`, `sharpness`, bootstrap `definitions` and `aliases_of`.
-- **Results attach** by the first rule that applies: curated; result-id prefix (the longest
-  wins); the Rates facet of its declarations; the statements (`typeDeps`, and the bodies of
-  Prop-valued definitions such as targets, never proofs) reaching tagged declarations of exactly
-  one algorithm. A result whose facet names an algorithm without a page, or whose id has one of the
-  `[unpaged] prefixes` (algorithms not tagged yet: MINRES, Lanczos-FA, RSI, GN, …), is placed on no
-  page. Every other algorithm a result's statements reach lists it under *Results that also involve
-  this algorithm*. Nothing leaves a shelf. `site/algorithms/attachment.json` records the rule that
-  placed each result.
-- **Sections**: definition (each member whole, with its role; results relating a specification to
-  its recurrence), status, cost (one entry per registered target of `docs/targets.toml` about a
-  program of the algorithm, read from `--src`: access model, the target's statement, its count
-  definition, precomputed inputs, trees, review date and proof), guarantees in exact arithmetic
-  (the Rates rows of its facet, then its results by error measure), in finite precision (with the
-  model), lower bounds and sharpness (`kind = 'lower'` Rates rows, `NLAlib.LowerBounds`, ids ending
-  in `-sharp` or `-lower-bound`), results that also involve it, uses and used by (through the
-  definitions its members are built from), and the Lean. Pseudo-code is deferred.
-- **The status ladder** has six rungs, each computed: definition, program, cost and output (a
-  registered target with a proof), exact guarantees, finite precision, sharpness. Pages show it
-  as a table, the index as columns (`algorithms/?rung=cost` keeps the algorithms with that rung),
-  and `site/algorithms/ladder.json` lists every rung's declarations and results per algorithm, a
-  work queue; `build.py --ladder` prints it. Only NLAlib is extracted, so the scaffold counts for
-  nothing.
-- **Precision** (`facets.toml [precision]`, a model constant to a value) is the facet
-  `fc.precision` of every theorem whose statement reaches one of the constants, else exact
-  arithmetic. Rates has a Precision filter and column, hidden while every row is exact.
-- **Links back**: a result page names the algorithm it is placed on and those it also involves; a
-  definition page and a file page name the algorithm of a tagged declaration; a shelf group whose
-  definitions include tagged ones names their algorithms; a Rates family lists its algorithm pages,
-  and the ▸ view of a row links its page. Search finds algorithms by title and aliases.
-- The build fails on a malformed tag or a tag on a theorem, an unknown id, a family listing an id
-  twice or two families listing one, a variant without its reverse entry, a facet that no Rates
-  row has, an unknown result or declaration, and a bootstrap definition that is tagged.
-
-## Result pages: the statements table
-
-A result page lists every member of the result in a **statements table**: one row per
-(asymptotic, explicit) pair and one per other member. Selecting a row shows that statement, with
-the *Explicit bound* toggle when it has an asymptotic form, its Lean, its own dependency graph
-(the statement as a node; other statements of the result shaded) and its notes and references.
-`#r/<id>` opens the headline row; `#r/<id>?s=<declaration>` opens the row holding that
-declaration (its explicit side with the toggle on); `#d/<name>` of a member does the same.
-Search lists each row of a multi-statement result as a hit of its own, found by its label, its
-names and its citations (`TW 8.1`, `Tropp–Webber 2023 Theorem 8.1`, `TroppWebber2023`).
-
-The cells are generated, not curated. `facets.py` reads a probabilistic bound's facets from its
-name, following the library's naming (CONTRIBUTING §4) and the grammar in
-[docs/explorer-redesign.md](docs/explorer-redesign.md#appendix-b-bound-name-grammar-used-for-inference):
-statistic (`integral_`, `measureReal_`/`measure_` with or without `_not`, `variance_`), moment
-(`_sq`), error measure (the first norm of the conclusion), algorithm (from the name, else from
-the statement's dependencies), sketch law (`_of_hasLaw_…`, or an interface namespace such as
-`HasSubspaceInjection.` for "any subspace injection"), output (plain, late-truncated,
-early-truncated), regime and bound shape. Rows are grouped by error measure; the columns are the
-facets that vary within the result, in the explorer's vocabulary: the statistic as a formula
-($\mathbb{E}\|\cdot\|^2$, $\mathbb{E}\|\cdot\|$, $\mathbb{P}[\|\cdot\|^2 > t]$, Var), "tail bound",
-"late-truncated", and the source as a short citation (`TW 8.1 (RSVD2)`, `HMT 10.6`). Rows the
-facets do not tell apart get their docstring names as detail. A result outside the grammar
-(deterministic theory) lists its members by their docstring names, without the shared head
-(`Courant–Fischer, lower bound` is "lower bound").
-
-`facets.toml` overrides facets per declaration name (`algorithm`, `measure`, `output`, `label`
-for the detail cell, …) for the few names the grammar misses, and may give citation keys short
-names; an override of an unknown declaration fails the build. The build prints a note listing
-algorithm bounds without an error measure. Each declaration's facets are in `data.json` (`fc`),
-each result's rows in `rows`/`cols`/`row`.
-
-`results.toml` can fold a result into another, `merge_into = "<id>"`: its members join that
-page and the old id stays an alias (`#r/<old id>` redirects there, selecting the statement that
-headed the old result). A merged entry takes only `aliases`. Titles drop a leading "The" at build
-time, and the build warns about words the vocabulary retires ("average" or "mean" for an error,
-"with high probability", "deviation"). Positional `variant_labels` are retired; the build
-rejects them.
-
-## What the explorer reads from NLAlib
-
-- **Topics** are the library's directories: `NLAlib/<Layer>/<Subtopic>/<File>.lean`. Titles
-  come from `topics.toml`, else from the directory name; each file's title is the `# Title` of
-  its module docstring.
-- **Results** are the `Result: <id>` lines of docstrings (CONTRIBUTING §6). Declarations with
-  the same id are shown together as one result; its title is the bold name opening the first
-  docstring (`**Weyl's inequality.**`) without a leading "The", else the id.
-- **Roles**: registered named numerical bounds carry `explorerRole: "support"` in raw data;
-  output roles are `support`, `concept` (other definitions), and `lemma`. Support declarations
-  stay searchable and available in source views; default dependency graphs collapse through them.
-- **Asymptotic forms** use `Asymptotic: Full.explicit.name` (the name may be on the next
-  line). Metadata is hidden from prose. Forms inherit the target’s result ids while keeping
-  their own; unresolved targets, cycles and pairs without any result id fail the build.
-  Each result exports `overview`,
-  `explicit`, and every `{overview, explicit}` pair in `forms`. The default pair prefers the
-  original primary explicit declaration, then extraction order. Paired views use mathematical
-  statements parsed from their own docstrings, with Related, Notes and References below;
-  legacy result LaTeX overrides are used only for unpaired results.
-- **Definitions** are `def`, `abbrev`, `structure`, `class` and `inductive` declarations; every
-  other theorem without a result id is a lemma, listed on its file's page.
-- **Statements** are the docstrings, rendered as Markdown with `$…$` and `$$…$$` typeset by
-  KaTeX (doc-gen4 reads the same syntax). Backticked spans written as informal Unicode maths
-  (`` `‖A⁻¹‖₂ ≤ κ / σ_min(A)` ``) are converted to LaTeX and typeset too (`web/math.js`). In the
-  sidebar the whole statement is set in KaTeX's font, Lean names in it upright
-  (`eigenvalue A k`); in the one-line descriptions on the main page a span containing a Lean name
-  stays code. Single-letter matrices and vectors are bold: those whose Lean binder is a matrix
-  or vector (`A : Matrix m n 𝕜`, `x : n → 𝕜`, `G : Ω → Matrix …`) and those the prose introduces
-  as "matrix `G`", and every other capital letter unless the Lean binds it to something else or
-  it is a conventional scalar (`N`, `K`, `C`, `L`). `E` opening a term is the expectation
-  $\mathbb{E}$ and `P(…)` the probability $\mathbb{P}$; `‖·‖_F` is written $\|\cdot\|_{\mathsf F}$.
-  Lean constructions with a standard notation are typeset as such: `fromBlocks A B C D` as a
-  2×2 block matrix, `fromCols`/`fromRows` as a row/column of blocks, `pinv A` as $A^+$,
-  `diagonal`, `specNorm`, `frobNorm`, `pseudoConditionNumber`, `eigenvalue A k`, `singularValues A k`
-  (`CONSTRUCTS` in `web/math.js`; an unapplied name stays a name).
-  `results.toml` can supply a statement for a result whose docstrings have none.
-- **Definitions are shown whole.** The data's statement of a declaration stops at `:=`, which
-  hides only a theorem's proof but a definition's whole content; with `--src` (an NLAlib checkout
-  at the data's commit, which the deploy downloads) a definition, structure or class is shown with
-  its body or fields, read from its source lines. Extraction-time `sourceHashes` must cover
-  every listed module, with safe relative paths and matching SHA-256 bytes under `--src`.
-  A source archive works without Git. A mismatch fails; legacy data without hashes builds
-  with a warning and skips body enrichment.
-- **Docstrings are split** (`build.py`, `split_doc`) along CONTRIBUTING §6: the bold name becomes
-  the declaration's label, citations and the remarks on how the source differs go to
-  References, sentences pointing at other declarations go to Related, a `Proof:` paragraph goes
-  to Proof sketch, port provenance is dropped, and what remains is the statement.
-- **Dependencies** are the library declarations used in a declaration's statement or proof. The
-  graph shows results and definitions, collapsing the helper lemmas between them; a toggle shows
-  the raw declaration-level graph.
-
-## Files
-
-| File | |
-|---|---|
-| `build.py` | `data/explore-data.json` (+ `references.bib`) → `site/` |
-| `web/` | the page: `index.html`, `app.js`, `style.css`, fonts, KaTeX 0.16.22 (MIT) |
-| `topics.toml` | the shelf order (`shelves`); titles, layer order and blurbs of folders and subfolders; where loose files go |
-| `results.toml` | optional title, aliases, LaTeX statement, primary and `merge_into` per result id |
-| `facets.py` | facets of a bound read from its name (and of a sketch property); the statements table of a result page; the Rates cells |
-| `facets.toml` | per-declaration facet overrides and short names of citation keys |
-| `synonyms.toml` | search synonyms (`pseudoinverse` → `pinv`) |
-| `rates.toml` | Rates families, guarantees and the reviewed overlay (summaries keyed by theorem and statement hash) |
-| `collections.toml` | the shelves: result and definition groups independent of source modules, and the `sources` prefixes that place new results |
-| `algorithms.toml` | algorithm pages: families, titles, aliases, variants, Rates facets, result-id prefixes, curated exceptions |
-| `algorithms.py` | algorithm pages: members, attachment of results, cost targets, the ladder |
-
-## Local build
-
-When introducing the role and asymptotic metadata support, merge the corresponding NLAlib
-docstring and extraction changes first, and wait for its Explore data publication to finish.
-The new builder rejects malformed tags that older extractions could contain; the last
-successfully deployed site remains available meanwhile. Rates metadata must match the published
-snapshot; publish theorem updates before deploying their corresponding metadata changes.
+From the website repository root:
 
 ```sh
-# in NLAlib, after LEAN_NUM_THREADS=2 lake build NLAlib
-bash scripts/explore_data.sh ../explore/data/explore-data.json
-# here
-python3 build.py --bib ../nlalib/docs/references.bib --src ../nlalib
-python3 -m http.server -d site 8000     # http://localhost:8000
+python3 -m pip install -r explore/requirements.txt
+python3 explore/build.py --data /path/to/explore-data.json \
+  --src /path/to/matching/library --bib /path/to/references.bib --out /tmp/explorer-site
 ```
 
-Regression Rates metadata references new library theorems. Merge those theorem
-changes into NLAlib and wait for fresh rolling-release extraction before merging or deploying
-explorer rows that reference them. Review each final asymptotic/explicit pair, row restrictions
-and signature/docstring hash against that extraction. Passing explorer unit tests on a PR does
-not establish compatibility with the currently published library data. Keep strict reference,
-proved-pair, rate-hash and source-fingerprint validation enabled; local previews must use matching
-extracted data and source bytes. See [the preparation status](docs/rates-design.md#regression-rates-preparation-2026-10-16).
+`--src` accepts a checkout or an archive at the extraction's revision. Source hashes
+must cover every extracted module and match before definition bodies are loaded.
+Theorems expose their signatures, never source proof bodies. Matching Ops sources
+supply CG implementation fragments automatically; `--core-src` explicitly previews
+a different working core. A file receives a pinned GitHub link only when its bytes
+match the published snapshot or a published checkout revision.
 
-Run metadata regressions with `python3 -m unittest discover -s tests -v` and check browser-script
-syntax with `node --check web/app.js`. Run probability-rendering regressions with
-`node tests/test_math.cjs`.
+Use `--content` for a different Markdown directory, `--renames` for declaration
+rename maps, and `--module-map` for explicit mathematical module relocations.
+Relocation landing pages do not restore retired execution APIs. Rendering existing metadata again only needs:
 
-## One-time setup
+```sh
+python3 explore/content_pages.py --site /path/to/built/explorer
+```
 
-- **Serving at nla-lib.org/explore.** The organisation site is the repository
-  `NLA-lib/NLA-lib.github.io` (renamed from `nla-lib.org` on 2026-10-14), whose custom domain
-  is `nla-lib.org` and whose Pages source is "GitHub Actions". The explorer is built into the
-  `explore/` directory of that site.
-- **Prompt updates.** Create a fine-grained token with *Contents: read and write* on
-  `NLA-lib/NLA-lib.github.io` only and save it in NLAlib as the Actions secret
-  `EXPLORE_DISPATCH_TOKEN`; NLAlib's `explore` workflow must dispatch to that repository.
-  Without it the site still updates once a day.
+## Metadata contract
+
+The input is schema 1: `commit`, `date`, `decls`, `modules`, and `sourceHashes`.
+Declarations preserve `name`, `module`, `kind`, `signature`, `statement`, `doc`,
+`line`, `endLine`, `typeDeps`, `valueDeps`, and `sorry`. Module records preserve
+names, paths, docstrings, and imports. The extraction file hash identifies the
+snapshot across the rendered pages, records, and browser search.
+
+Unpublished extractions may set `dirty: true` and `base_commit`. A dirty extraction
+is always a working-tree preview: the rendered snapshot clears `commit` and `date`,
+keeps the parent revision only as `base_commit`, and does not create source links
+to new paths under that parent revision. Prefer emitting `commit: null` directly
+for such artifacts. Source fingerprints still verify the actual local file bytes.
+
+`Result:` tags group named mathematical results. `Algorithm:` tags and statement
+dependencies supply discovery associations only. Families, tasks, implementations,
+and theory relationships are authored in Markdown. `results.toml` contains optional
+mathematical result titles, aliases, primary declarations, and merge aliases;
+`synonyms.toml` adds keyword search aliases. Page headers can name `source_guides`
+under `docs/algorithms/`: available guides receive a separate Library page and API
+record, their actual file fingerprint, and a source Markdown download. Their bodies
+are not merged into mathematical method pages. Unpublished Lean links resolve to
+current module references; no base-revision source links are invented. Neither file describes an execution
+certificate. Result prefixes and source module selectors live in page headers.
+
+There is no program emitter, old program/target registry, inferred resource ladder,
+Rates table, or old single-page app in the build. The website does not need NumPy
+emission or any old execution namespace to exist. The optional independent
+[lemma-retrieval tools](search/README.md) are not code emitters or part of the
+website build; their lexical/documentation modes use the standard library.
+
+## API and compatibility
+
+`api/v1/index.json` lists declaration, result, algorithm, task, module, and curated guide records.
+Every record has an immutable identity, snapshot provenance, and a canonical URL.
+Declaration records distinguish statement dependencies from proof/value dependencies,
+retain exact signature fingerprints and admission flags, and link to pinned sources.
+Tags and dependencies never establish execution, success, or resource guarantees.
+
+`search-index.json` and its gzip copy use those same records plus the Markdown
+pages. `manifest.json` reports snapshot identity and counts; `schema.json` describes
+the envelope. The retired implementation/target/bound/guarantee API collections are
+not generated. Formal implementation evidence is displayed through authored,
+source-backed statements and Ops-specific adapters.
+
+Old declaration/result/module URLs, result aliases, `#d/` and related hash links,
+and library rename maps resolve to the current Library. The old catalogue and Rates
+URLs redirect to module and result indexes. Removed source/dependency-graph views
+are not recreated. A rename never transfers an old statement silently: the generic
+record retains the maps reporting a changed statement.
+
+## Validate
+
+```sh
+cd explore
+python3 -m unittest discover -s tests
+```
+
+The tests cover extraction provenance, fail-closed source hashes, exact signatures,
+proof separation, operator-name URLs, aliases and renames, removal of old execution
+records, Markdown relationships, statement links, and documentation/search tools.
+Browser scripts under `tests/check_*_browser.py` accept a separately served preview
+and a Chromium path. See [architecture](docs/design/explorer-architecture.md) and
+[the legacy retirement notes](docs/design/legacy-retirement.md).

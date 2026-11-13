@@ -11,19 +11,8 @@
 #   [some-old-id]
 #   merge_into = "weyl-inequality"     # show this result's members on that page instead
 #
-# Titles follow the explorer's vocabulary (docs/explorer-redesign.md, Decisions): no leading
-# "The" (the build drops one), "expected error" rather than "average" or "mean", "tail bound"
-# rather than "with high probability" or "deviation", "late-truncated" for truncation after the
-# algorithm. The build warns about a title that does not.
-#
-# A merged id keeps working: `#r/<old id>` opens the merged page at the statement that headed
-# the old one. A merged entry takes only `aliases` besides `merge_into`.
-#
-# The statements on a result page are listed in a table whose labels are generated from the
-# facets of each declaration (facets.py); facets.toml overrides them per declaration.
-#
-# Prefer putting the mathematics in the docstring, where it is reviewed with the Lean; use
-# `latex` only when the docstring cannot carry it.
+# Presentation overrides only. Result membership comes from source tags; these
+# entries never supply execution, arithmetic, or resource evidence.
 
 [davis-kahan]
 title = "Davis–Kahan sin Θ theorem"

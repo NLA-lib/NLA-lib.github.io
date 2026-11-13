@@ -18,11 +18,17 @@ tests with `cd explore && python3 -m unittest discover -s tests`.
 
 ## Explorer preview
 
-The Explorer opens with a regular list of narrow subject tags. Each category contains its algorithms, bounds and
-mathematical building blocks; implementation details expand on demand. Structured records remain
-available without adding agent-specific navigation. See
-[the Explorer design](explore/docs/design/explore-pages.md).
+The Explorer is authored in [Markdown files](explore/content/README.md), with YAML
+metadata and generated sections. It opens with Algorithms, Theory, and the full
+Library reference. Tasks and method families are discovery pages; mathematical algorithms, implementations,
+and theory topics have canonical identities. See [the architecture](explore/docs/design/explorer-architecture.md).
+
+Install the page-rendering dependencies with
+`python3 -m pip install -r explore/requirements.txt`. The regular build turns the generic extraction into library records and Markdown pages,
+without the retired program/target pipeline. Matching published core sources
+automatically fill the CG implementation pages. Use `--core-src <NLAlib>` to preview
+a newer working core; unfinished pages elsewhere remain placeholders.
 
 Build the Explorer into `_site/explore` using `explore/build.py` and matching published data,
 then add the homepage and shared assets as in the deployment workflow. Run `python3 preview.py`
-from this repository root to serve the combined site at `http://127.0.0.1:8000/explore/`.
+from this repository root (with `--port 8081` for the current demo).

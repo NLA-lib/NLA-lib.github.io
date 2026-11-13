@@ -59,7 +59,6 @@ class Documentation:
             for field, label in [('typeDeps', 'statement'), ('valueDeps', 'proof_or_value')]:
                 for dep in d.get(field, []):
                     self.callers[dep][label].append(d['name'])
-        self.topics = tomllib.loads((ROOT / 'topics.toml').read_text())
         self.synonyms = tomllib.loads((ROOT / 'synonyms.toml').read_text()).get('synonyms', {})
         self.state_dir = Path(state_dir or ROOT / '.docs-state')
 
@@ -189,8 +188,7 @@ class Documentation:
                 summary = first_paragraph(meta.get('doc'))
             else:
                 parts = group.split('.')
-                topic = self.topics.get(parts[1], {}) if len(parts) > 1 else {}
-                summary = topic.get(parts[2], {}).get('title', '') if len(parts) > 2 else topic.get('blurb', '')
+                summary = f'Modules under {group}.'
             lines.append(f'## {group}\n{summary}\n{len(entries)} module(s), {count} declarations. '
                          f'{"Read with docs_read_module." if leaf else "Browse this prefix with docs_catalog."}\n')
         return self.page('\n'.join(lines), key='catalog:' + prefix, cursor=cursor,
