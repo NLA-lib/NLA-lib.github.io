@@ -11,9 +11,13 @@ theory:
 - matrix-polynomials
 - polynomial-approximation
 library_algorithm: newton-schulz-sign
+source_guides:
+- docs/algorithms/Sign-Deflation.md
 ---
 
 Use a polynomial iteration to approximate a matrix sign function.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

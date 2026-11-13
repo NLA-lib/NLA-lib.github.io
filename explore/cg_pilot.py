@@ -1,8 +1,8 @@
-"""Overlay a source-backed CG pilot on a built Explorer.
+"""Generate source-backed CG implementation fragments and metadata.
 
 This is an explicit local preview of the new Ops API, alongside the published
 library snapshot. It never upgrades source inspection into a formal certificate.
-Run after build.py: python3 cg_pilot.py --site ../_site/explore --src <NLAlib>
+Used by build.py; never emits a separate explorer or modifies its navigation.
 """
 import argparse
 import hashlib
@@ -11,7 +11,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
-from cg_presentation import concept_page, models_page, variant_page
+from cg_presentation import variant_page
 
 BASE = '/explore/algorithms/conjugate-gradient/'
 CG = 'NLAlib/Krylov/CG/'
@@ -190,28 +190,9 @@ class Sources:
 
 def build(site, source, published_revision=None, source_hashes=None):
     site = Path(site)
-    template = (site / 'algorithms/conjugate-gradient/index.html').read_text()
-    # Reapplying the overlay must not register the model controller twice.
-    template = re.sub(r'<link rel="stylesheet" href="/explore/cg-pilot.css">|<script defer src="/explore/cg-pilot.js"></script>', '', template)
     sources = Sources(source, site, published_revision, source_hashes)
     records = []
     fragments = {}
-
-    def write(path, title, body):
-        page = re.sub(r'<main id="content">.*?</main>', lambda _: '<main id="content"><h2 class="page-title">' + esc(title) + '</h2>' + body + '</main>', template, flags=re.S)
-        page = re.sub(r'<title>.*?</title>', lambda _: '<title>NLA-lib · Explorer · ' + esc(title) + '</title>', page)
-        page = re.sub(r'<link rel="canonical"[^>]+>', '', page)
-        # Absolute asset paths also work on nested variant and source pages.
-        page = re.sub(r'(href|src)="(?:\.\./)+(?=(?:css/|style\.|explore[.-]|vendor/))', r'\1="/explore/', page)
-        page = re.sub(r'data-root="[^"]*"', 'data-root="/explore/"', page)
-        page = re.sub(r'class="explore-pages(?: cg-pilot)?"', 'class="explore-pages cg-pilot"', page)
-        page = re.sub(r' data-math-font="[^"]*"', '', page)
-        script_hash = hashlib.sha256((Path(__file__).parent / 'web/explore.js').read_bytes()).hexdigest()[:12]
-        page = re.sub(r'explore\.js\?v=[^"\s]+', 'explore.js?v=' + script_hash, page)
-        page = page.replace('</head>', '<link rel="stylesheet" href="/explore/cg-pilot.css"><script defer src="/explore/cg-pilot.js"></script></head>')
-        target = site / path if path.endswith('.html') else site / path / 'index.html'
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(page)
 
     for variant in VARIANTS:
         folder = CG + variant['folder'] + '/'
@@ -235,32 +216,16 @@ def build(site, source, published_revision=None, source_hashes=None):
         resources = resources.replace('<h2>Operations and Storage</h2>', '')
         accuracy = body.split('<h2>Accuracy</h2>', 1)[1].split('<p class="record-link">', 1)[0]
         fragments[variant['id']] = {'cg-definition': definition, 'cg-resources': resources, 'cg-accuracy': accuracy}
-        write('algorithms/conjugate-gradient/variants/' + variant['id'], variant['title'], body)
-    write('algorithms/conjugate-gradient/variants/hscg', 'Ordinary conjugate gradient (CG)',
-          '<script>location.replace("../carried/" + location.search + location.hash)</script>'
-          '<p><a href="../carried/">Open ordinary CG</a></p>')
-    write('arithmetic-models', 'Arithmetic models', models_page(sources))
-    write('algorithms/conjugate-gradient', 'Conjugate gradient (CG)',
-          concept_page(records, site / 'api/v1'))
-
-    # Add a direct algorithms path while keeping the complete existing topic browser.
-    homepage = site / 'index.html'
-    page = homepage.read_text()
-    entry = '<div class="cg-entry"><p><a href="/explore/algorithms/">Browse algorithms →</a> <span class="muted">Concepts, variants and implementations</span></p><p><a href="' + BASE + '">Try the CG pilot →</a> <span class="muted">Switch computation models on a variant page</span></p></div><h2>Browse the whole library</h2>'
-    if 'class="cg-entry"' not in page:
-        page = page.replace('<ul class="entry-list category-list">', entry + '<ul class="entry-list category-list">', 1)
-    homepage.write_text(page)
     commit = published_revision or subprocess.run(['git', '-C', str(source), 'rev-parse', 'HEAD'],
                                                  capture_output=True, text=True).stdout.strip() or None
     snapshot = published_revision and all(sources.source_revisions[p] == published_revision
                                          for p in sources.files)
-    payload = dict(schema_version=1, source=dict(commit=commit, kind='published-snapshot' if snapshot else 'working-tree-preview',
+    payload = dict(schema_version=1, source=dict(commit=commit if snapshot else None,
+                   base_commit=None if snapshot else commit, kind='published-snapshot' if snapshot else 'working-tree-preview',
                    files={p: {'sha256': r['sha256']} for p, r in sources.files.items()}),
                    models=[dict(id=k, title=v) for k, v in MODELS], variants=records)
     (site / 'api/v1/cg-pilot.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
     (site / 'api/v1/cg-pilot-fragments.json').write_text(json.dumps(fragments, ensure_ascii=False) + '\n')
-    for asset in ['cg-pilot.js', 'cg-pilot.css', 'explore.js']:
-        (site / asset).write_text((Path(__file__).parent / 'web' / asset).read_text())
     print(f'CG pilot: {len(records)} variants, {len(sources.files)} fingerprinted source files → {site}')
 
 

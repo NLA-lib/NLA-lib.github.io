@@ -60,8 +60,9 @@ not whether an algorithm or theorem exists in the library.
 - `library_algorithm: lanczos` identifies the extracted algorithm and collects its result IDs.
   Set `library_results: false` to keep that identity while selecting only explicit
   `result_ids` for this method, rather than collecting related methods' results.
-- `library_topics: [matrix-norms]` collects definitions and results from an indexed
-  subject. `result_ids` adds specific result IDs; `module_prefixes` selects source modules.
+- `module_prefixes: [NLAlib.Matrix.Norms]` selects extracted definitions and result
+  groups from matching modules. `result_ids` adds exact named results; `result_prefixes`
+  selects result-ID prefixes. `search_aliases` adds discoverable method names.
 
 Generated sections are single lines of `{{ generated:<name> }}`. Available names:
 `entry-points`, `tasks`, `families`, `algorithms`, `implementations`, `mathematical-method`, `theory`, `theory-topics`,
@@ -126,3 +127,11 @@ Every theorem and definition has a Copy link action alongside its Lean/source de
 use their result/declaration identity; set `id=your-stable-anchor` to choose one.
 Implementation links to arithmetic-specific statements preserve the selected model.
 Opening a statement link expands its containing sections.
+
+## Curated implementation guides
+
+Use `source_guides: [docs/algorithms/Conjugate-Gradient.md]` in a family or method
+header and `{{ generated:source-guides }}` in its body. Available guides appear in
+a closed disclosure and retain their own Library pages, source Markdown, and
+fingerprints. An older source snapshot may not yet contain a guide; it is omitted
+until available. Dirty source guides never acquire a GitHub URL under a base SHA.

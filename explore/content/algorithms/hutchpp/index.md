@@ -13,9 +13,16 @@ theory:
 library_algorithm: hutchpp
 uses:
 - girard-hutchinson
+search_aliases:
+- Hutch plus plus
+- trace estimation
+source_guides:
+- docs/algorithms/HutchPlusPlus.md
 ---
 
 Combine a low-rank approximation with residual trace estimation.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

@@ -12,6 +12,8 @@ theory:
 - pseudoinverses
 - random-matrices
 library_algorithm: sketch-and-solve
+search_aliases:
+- sketched least squares
 ---
 
 Solve a compressed least-squares problem produced by a sketch.

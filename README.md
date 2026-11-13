@@ -24,8 +24,8 @@ Library reference. Tasks and method families are discovery pages; mathematical a
 and theory topics have canonical identities. See [the architecture](explore/docs/design/explorer-architecture.md).
 
 Install the page-rendering dependencies with
-`python3 -m pip install -r explore/requirements.txt`. The regular build generates
-the library snapshot and renders the Markdown pages. Matching published core sources
+`python3 -m pip install -r explore/requirements.txt`. The regular build turns the generic extraction into library records and Markdown pages,
+without the retired program/target pipeline. Matching published core sources
 automatically fill the CG implementation pages. Use `--core-src <NLAlib>` to preview
 a newer working core; unfinished pages elsewhere remain placeholders.
 

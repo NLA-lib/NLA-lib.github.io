@@ -11,9 +11,13 @@ theory:
 - subspaces
 - spectral-theory
 library_algorithm: deflate
+source_guides:
+- docs/algorithms/Sign-Deflation.md
 ---
 
 Modify an operator or starting subspace to remove selected spectral components.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

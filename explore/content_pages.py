@@ -22,7 +22,7 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
-from explore_pages import inline_title, record_component
+from rendering import inline_title, record_component
 
 BASE = '/explore/'
 KINDS = {'home', 'index', 'task', 'family', 'algorithm', 'implementation', 'theory'}
@@ -136,6 +136,8 @@ def load_pages(directory):
         meta = yaml.safe_load(match[1])
         if not isinstance(meta, dict) or not all(meta.get(k) for k in ['kind', 'id', 'title']):
             raise ValueError(f'{file}: kind, id and title are required')
+        if 'library_topics' in meta:
+            raise ValueError(f'{file}: use module_prefixes instead of retired library_topics')
         if meta['kind'] not in KINDS or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', str(meta['id'])):
             raise ValueError(f'{file}: invalid kind or id')
         if meta['kind'] == 'implementation' and not meta.get('algorithm'):
@@ -184,14 +186,19 @@ class Explorer:
         self.content = Path(content)
         self.pages = load_pages(content)
         self.records = {}
-        for kind in ['algorithms', 'tasks', 'results', 'declarations', 'modules']:
+        for kind in ['algorithms', 'tasks', 'results', 'declarations', 'modules', 'guides']:
             records = [json.loads(p.read_text())['record'] for p in (self.api / kind).glob('*.json')]
             self.records[kind] = {record['id']: record for record in records}
         self.template = (self.site / 'index.html').read_text()
         self.search_version = ''
-        self.search_form = re.search(r'(<form id="library-search".*?<noscript>.*?</noscript>)',
-                                     (self.site / 'search/index.html').read_text(), re.S)[1] if (self.site / 'search/index.html').exists() else ''
+        self.search_form = ('<form id="library-search" role="search"><label>Query <input id="library-query" name="q" type="search"></label>'
+            '<label>Kind <select id="kind" name="kind"><option value="">All</option><option>theorem</option><option>def</option>'
+            '<option>structure</option><option>result</option><option>algorithm</option></select></label><button>Search</button></form>'
+            '<p id="search-status" role="status"></p><ol id="search-results"></ol><button type="button" id="more-results" hidden>More results</button>'
+            '<noscript><p>Use the <a href="/explore/library/modules/">module index</a> to browse without JavaScript.</p></noscript>')
         self.cg = json.loads((self.api / 'cg-pilot-fragments.json').read_text()) if (self.api / 'cg-pilot-fragments.json').exists() else {}
+        moves = self.api / 'module-moves.json'
+        self.module_moves = json.loads(moves.read_text())['moves'] if moves.exists() else {}
 
     def link(self, page):
         return '<a href="' + page.url + '"' + (' data-model-link' if page.kind in {'family', 'algorithm', 'implementation'} else '') + '>' + inline_title(mathematics(page.meta['title'])) + '</a>'
@@ -226,18 +233,14 @@ class Explorer:
                 raise ValueError(f'{page.source}: unknown library_algorithm {aid}')
             if page.meta.get('library_results', True):
                 results.update(self.records['algorithms'][aid]['results'])
-        for topic in page.meta.get('library_topics', []):
-            if topic not in self.records['tasks']:
-                raise ValueError(f'{page.source}: unknown library topic {topic}')
-            record = self.records['tasks'][topic]
-            results.update(record['results'])
-            definitions.update(record['definitions'])
         prefixes = page.meta.get('module_prefixes', [])
         for name, d in self.records['declarations'].items():
             if any(d['module'] == prefix or d['module'].startswith(prefix + '.') for prefix in prefixes):
                 results.update(d['results'])
                 if d['kind'] != 'theorem':
                     definitions.add(name)
+        for prefix in page.meta.get('result_prefixes', []):
+            results.update(rid for rid in self.records['results'] if rid == prefix or rid.startswith(prefix + '-'))
         missing = results - self.records['results'].keys()
         if missing:
             raise ValueError(f'{page.source}: unknown result IDs {sorted(missing)}')
@@ -285,6 +288,10 @@ class Explorer:
                     'result' if kind == 'theorem' else 'model', identifier)
 
     def generated(self, slot, page):
+        if slot == 'source-guides':
+            guides = [g for g in self.records['guides'].values() if g['source']['path'] in page.meta.get('source_guides', [])]
+            links = ''.join('<p><a href="' + g['url'] + '">' + inline_title(g['title']) + '</a></p>' for g in guides)
+            return disclosure(links, 'Implementation guides') if links else ''
         if slot == 'entry-points':
             return self.cards(self.pages['index:' + key] for key in ['algorithms', 'theory', 'library'])
         if slot == 'tasks':
@@ -342,10 +349,12 @@ class Explorer:
                                       if kind in {'results', 'declarations', 'modules'}) + '</p>'
         if slot == 'library-index':
             return ''.join('<p><a href="' + BASE + 'library/' + kind + '/">' + label + '</a></p>'
-                           for kind, label in [('results', 'Named results'), ('definitions', 'Definitions and interfaces'), ('modules', 'Source modules')])
+                           for kind, label in [('results', 'Named results'), ('definitions', 'Definitions and interfaces'),
+                                               ('modules', 'Source modules'), ('guides', 'Implementation guides')]
+                           if kind != 'guides' or self.records['guides'])
         if slot == 'search':
             form = self.search_form.replace('<option>variant</option>', '<option>implementation</option>')
-            for kind in ['family', 'implementation', 'task', 'theory']:
+            for kind in ['family', 'implementation', 'task', 'theory', 'guide']:
                 if '<option>' + kind + '</option>' not in form:
                     form = form.replace('<option>algorithm</option>', '<option>algorithm</option><option>' + kind + '</option>')
             return form
@@ -404,7 +413,7 @@ class Explorer:
         page = re.sub(r'(href|src)="(?:\.\./|\./)*(?=(?:css/|style\.|explore[.-]|vendor/|cg-pilot\.))', r'\1="/explore/', page)
         page = re.sub(r'data-root="[^"]*"', 'data-root="/explore/"', page)
         page = re.sub(r'class="explore-pages(?: cg-pilot)?"', 'class="explore-pages cg-pilot"', page)
-        if 'href="/explore/cg-pilot.css"' not in page:
+        if '/explore/cg-pilot.css' not in page:
             page = page.replace('</head>', '<link rel="stylesheet" href="/explore/cg-pilot.css"><script defer src="/explore/cg-pilot.js"></script></head>')
         version = self.search_version
         page = re.sub(r'data-search-version="[^"]*"', 'data-search-version="' + version + '"', page)
@@ -417,6 +426,7 @@ class Explorer:
         target.write_text(page)
 
     def render_library(self):
+        from source_documents import rewrite_links
         for kind in ['results', 'declarations', 'modules']:
             for key, record in self.records[kind].items():
                 if kind == 'results':
@@ -426,6 +436,8 @@ class Explorer:
                              'result' if d['kind'] == 'theorem' else 'model') for d in declarations)
                 elif kind == 'declarations':
                     body = '<p class="eyebrow">Library · ' + html.escape(record['kind']) + '</p>'
+                    if record.get('admission_reported'):
+                        body += '<p class="content-status">The extraction reports an admitted dependency for this declaration.</p>'
                     docs = prose(record['docstring'])
                     if record['source']['url']:
                         docs = re.sub(r'href="([^\"]+\.(?:lean|md)(?:#[^\"]*)?)"', lambda m:
@@ -442,6 +454,28 @@ class Explorer:
                     body = '<p class="eyebrow">Library · Source module</p>' + docs
                     body += '<h2>Declarations</h2>' + self.reference_list('declarations', record['declarations'])
                 self.write('library/' + kind + '/' + record_component(key), record.get('title', key), body, 'library')
+        for key, guide in self.records['guides'].items():
+            body = '<p class="source-label">' + html.escape(guide['source']['kind']) + ' · <code>' + html.escape(guide['source']['path']) + '</code></p>'
+            guide_body = re.sub(r'^# [^\n]*\n', '', guide['markdown'], count=1)
+            body += '<div class="guide-content">' + rewrite_links(markdown(guide_body), guide['source']['path'],
+                self.records['modules'], self.records['guides'], guide['source']['url']) + '</div>'
+            body += '<p class="source-label"><a href="source.md">Source Markdown</a> · SHA-256 <code>' + guide['source']['sha256'] + '</code></p>'
+            if guide['source']['url']:
+                body += '<p><a href="' + guide['source']['url'] + '">Full source on GitHub</a></p>'
+            self.write('library/guides/' + key, guide['title'], body, 'library')
+            (self.site / 'library/guides' / key / 'source.md').write_text(guide['markdown'])
+        if self.records['guides']:
+            self.write('library/guides', 'Implementation guides', self.reference_list('guides', sorted(self.records['guides'])), 'library')
+        for old, move in self.module_moves.items():
+            body = '<p>Mathematical declarations moved to the references below. Retired execution APIs are not restored by this module mapping.</p>'
+            body += '<p>' + html.escape(move['note']) + '</p>' + self.reference_list('modules', move['modules'])
+            self.write('library/module-moves/' + record_component(old), old, body, 'library')
+        for key, record in self.records['algorithms'].items():
+            if record.get('url', '').startswith(BASE + 'library/algorithms/'):
+                body = '<p>Source-tagged discovery group. This association does not certify an implementation.</p>'
+                body += '<h2>Declarations</h2>' + self.reference_list('declarations', [m['declaration'] for m in record.get('members', [])])
+                body += '<h2>Results</h2>' + self.reference_list('results', record['results'])
+                self.write('library/algorithms/' + record_component(key), record['title'], body, 'library')
         for kind, title in [('results', 'Named results'), ('modules', 'Source modules')]:
             self.write('library/' + kind, title, self.reference_list(kind, sorted(self.records[kind])), 'library')
         definitions = sorted(key for key, d in self.records['declarations'].items() if d['kind'] != 'theorem')
@@ -470,7 +504,7 @@ class Explorer:
                     record_file.write_text(json.dumps(envelope, ensure_ascii=False, separators=(',', ':')) + '\n')
         retained = []
         for entry in data['entries']:
-            kind = 'declarations' if entry['kind'] not in {'result', 'algorithm'} else entry['kind'] + 's'
+            kind = 'guides' if entry['kind'] == 'guide' else 'declarations' if entry['kind'] not in {'result', 'algorithm'} else entry['kind'] + 's'
             if kind == 'algorithms' and entry['id'] in alg_routes:
                 inherited_search[entry['id']] = entry['search_text']
                 continue

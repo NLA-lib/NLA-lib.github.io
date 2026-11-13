@@ -14,6 +14,10 @@ theory:
 - krylov-spaces
 - spectral-theory
 library_algorithm: pcg
+search_aliases:
+- preconditioned CG
+source_guides:
+- docs/algorithms/Conjugate-Gradient.md
 ---
 
 For a symmetric positive-definite matrix $\mathbf A$ and symmetric positive-definite inverse preconditioner $\mathbf C$, PCG corresponds to CG on
@@ -21,6 +25,8 @@ For a symmetric positive-definite matrix $\mathbf A$ and symmetric positive-defi
 $$\mathbf C^{1/2}\mathbf A\mathbf C^{1/2}\mathbf y=\mathbf C^{1/2}\mathbf b,\qquad \mathbf x=\mathbf C^{1/2}\mathbf y.$$
 
 The transformed spectrum governs convergence. The preconditioner changes the search spaces; the unpreconditioned CG statements should not be applied verbatim to PCG iterates.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

@@ -8,8 +8,8 @@ status: outline
 order: 15
 parents:
 - probability
-library_topics:
-- random-matrices
+module_prefixes:
+- NLAlib.RandomMatrix
 ---
 
 Gaussian matrices, Haar frames, CountSketch, and subsampled randomized Hadamard transforms. The introductory exposition is incomplete; available library statements are listed below.

@@ -10,8 +10,11 @@ parents:
 - matrix-analysis
 prerequisites:
 - matrix-norms
-library_topics:
-- singular-values
+module_prefixes:
+- NLAlib.Matrix.Spectral.SVD
+- NLAlib.Matrix.Spectral.SingularValues
+- NLAlib.Matrix.Spectral.SingularValueInequalities
+- NLAlib.Matrix.Spectral.LeastSingularValue
 ---
 
 Singular-value decompositions, Weyl inequalities, interlacing, and best-rank approximation. The introductory exposition is incomplete; available library statements are listed below.

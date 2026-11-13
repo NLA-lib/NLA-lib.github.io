@@ -7,8 +7,8 @@ status: outline
 order: 14
 parents:
 - probability
-library_topics:
-- concentration
+module_prefixes:
+- NLAlib.Probability
 ---
 
 Markov, Chebyshev, Bernstein, Hanson–Wright, and matrix Chernoff inequalities. The introductory exposition is incomplete; available library statements are listed below.

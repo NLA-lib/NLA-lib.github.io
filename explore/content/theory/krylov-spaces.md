@@ -12,8 +12,8 @@ parents:
 prerequisites:
 - subspaces
 - matrix-polynomials
-library_topics:
-- krylov-methods
+module_prefixes:
+- NLAlib.Krylov
 ---
 
 For a starting vector $b$, a Krylov space collects the vectors obtainable by applying low-degree polynomials in $A$. It is a mathematical object shared by many algorithms, not an arithmetic implementation.

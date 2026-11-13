@@ -7,8 +7,8 @@ status: outline
 order: 4
 parents:
 - matrix-analysis
-library_topics:
-- subspaces
+module_prefixes:
+- NLAlib.Matrix.Subspaces
 ---
 
 Orthonormal bases, projectors, angles, and approximation by subspaces. This outline reserves a place for an introduction, the central definitions, and a readable organization of the existing statements.

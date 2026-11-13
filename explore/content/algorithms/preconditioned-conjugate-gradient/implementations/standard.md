@@ -9,6 +9,8 @@ order: 1
 renderer: cg
 source_variant: pcg
 library_algorithm: pcg
+search_aliases:
+- preconditioned CG
 ---
 
 ## Mathematical method

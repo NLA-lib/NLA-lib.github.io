@@ -11,9 +11,13 @@ theory:
 - spectral-theory
 - perturbation-theory
 library_algorithm: spectral-bisection
+source_guides:
+- docs/algorithms/Spectral-Bisection.md
 ---
 
 Use a spectral split to separate invariant subspaces.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

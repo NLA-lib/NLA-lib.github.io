@@ -11,8 +11,9 @@ parents:
 - polynomial-approximation
 prerequisites:
 - spectral-theory
-library_topics:
-- matrix-functions
+module_prefixes:
+- NLAlib.Matrix.Functions
+- NLAlib.Polynomial.Matrix
 ---
 
 This topic deliberately belongs to both matrix analysis and polynomial approximation. Its canonical page connects scalar approximation bounds to operator error bounds; it should not be duplicated in each branch.

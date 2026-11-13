@@ -7,8 +7,9 @@ status: outline
 order: 10
 parents:
 - polynomial-approximation
-library_topics:
-- quadrature
+module_prefixes:
+- NLAlib.Polynomial.Quadrature
+- NLAlib.Polynomial.Orthogonal
 ---
 
 Three-term recurrences and Gauss, Gauss–Radau, and Gauss–Lobatto quadrature. The introductory exposition is incomplete; available library statements are listed below.

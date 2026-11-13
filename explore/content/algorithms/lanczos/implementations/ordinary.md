@@ -7,6 +7,13 @@ summary: The short three-term Lanczos recurrence.
 status: outline
 order: 3
 library_algorithm: lanczos
+search_aliases:
+- Lanczos recurrence
+- Lanczos tridiagonalization
+- Lanczos-FA
+- Lanczos matrix functions
+- finite precision Lanczos
+- matrix-free Lanczos
 ---
 
 ## Mathematical method

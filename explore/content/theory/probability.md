@@ -6,8 +6,8 @@ summary: Gaussian and Haar sketches, Bernstein and Hanson–Wright inequalities,
   matrix concentration.
 status: outline
 order: 13
-library_topics:
-- concentration
+module_prefixes:
+- NLAlib.Probability
 ---
 
 Gaussian and Haar sketches, Bernstein and Hanson–Wright inequalities, and matrix concentration. The introductory exposition is incomplete; available library statements are listed below.

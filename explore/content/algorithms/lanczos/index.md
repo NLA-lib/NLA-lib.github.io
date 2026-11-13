@@ -15,9 +15,20 @@ theory:
 - spectral-theory
 - orthogonal-polynomials
 library_algorithm: lanczos
+search_aliases:
+- Lanczos recurrence
+- Lanczos tridiagonalization
+- Lanczos-FA
+- Lanczos matrix functions
+- finite precision Lanczos
+- matrix-free Lanczos
+source_guides:
+- docs/algorithms/Lanczos.md
 ---
 
 Build a Krylov basis and a tridiagonal compression of a symmetric operator.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

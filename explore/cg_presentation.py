@@ -1,10 +1,8 @@
 """Human-facing CG pages: shared cards, mathematical notation, and model descriptions."""
 import html
-import json
-from pathlib import Path
 import re
 
-from explore_pages import inline_title, prose_html
+from rendering import inline_title, prose_html
 
 BASE = '/explore/algorithms/conjugate-gradient/'
 CG = 'NLAlib/Krylov/CG/'
@@ -136,50 +134,4 @@ def rounded_results(key, sources, get):
     convergence = r'Under these assumptions, let $Ax_\star=b$. At every completed step $j\le m$, the computed iterates satisfy $$\|x_\star-x_j\|_A^2\le4\theta^{2j}\|x_\star\|_A^2+\frac{2\|b\|_2^2\delta}{a^2}+135j^2E\kappa\frac{\|b\|_2^2}{a},$$ where $$\theta=\frac{\sqrt{2\kappa+1}-1}{\sqrt{2\kappa+1}+1},\qquad\delta=6000m^2\sqrt m\,E\kappa a^{\prime}.$$ The first term decreases geometrically; the other terms quantify the effect of rounding. Here $\|v\|_A^2=v^{\mathsf T}Av$.'
     body += result('Convergence with rounding', convergence, [sources.declaration('NLAlib/Krylov/FinitePrecision/CGEnergy.lean', 'quadForm_sub_x_le_four_mul_pow_add')], sources,
         '<p>The execution theorem identifies the solver’s stored output with the run in this bound.</p>' + sources.code(get('Stability.lean', 'StableOutput', 'def')))
-    return body
-
-
-def concept_page(records, api):
-    body = prose(r'CG solves a symmetric positive-definite system $Ax=b$ by choosing successive iterates from a Krylov space. The variants below change the recurrence or how its state is retained; an arithmetic model then specifies how its operations are computed.')
-    body += '<h2>Variants</h2><div class="cg-variant-list">'
-    for v in records:
-        title = '<a data-model-link href="' + BASE + 'variants/' + v['id'] + '/">' + html.escape(v['short']) + '</a>'
-        coverage = 'Exact, relative-error BLAS + matvec, standard sequential, and standard pairwise arithmetic.' if len(v['models']) > 1 else 'Exact-arithmetic implementation results.'
-        body += '<article class="explorer-card cg-variant"><h3 class="explorer-card-title">' + title + '</h3>' + prose(v['description']) + '<p class="explorer-card-note">' + coverage + '</p></article>'
-    body += '</div><h2>Related methods</h2><p><a href="/explore/algorithms/lanczos/">Lanczos</a> · <a href="/explore/search/?q=MINRES">MINRES</a> · <a href="/explore/search/?q=conjugate%20gradient%20least%20squares">CGLS</a></p><h2 id="analysis">Mathematical CG in exact arithmetic</h2>'
-    body += prose(r'Let $A$ be symmetric positive definite, let $Ax_\star=b$, and let $x_k$ denote the mathematical CG iterate from $x_0$. Write $r_0=b-Ax_0$ and $\|v\|_A^2=v^{\mathsf T}Av$. The variant pages connect these mathematical facts to actual solver outputs.', 'Abrxv')
-    core = {
-        'cg-optimality': ('Energy optimality', r'The CG iterate minimizes the energy error over the initial guess plus the available Krylov space: $$x_k\in\operatorname*{arg\,min}_{y\in x_0+\mathcal K_k(A,r_0)}\|x_\star-y\|_A^2,$$ where $\mathcal K_k(A,r_0)=\operatorname{span}\{r_0,Ar_0,\ldots,A^{k-1}r_0\}$. The iterates therefore improve as the search space grows.'),
-        'cg-chebyshev-bound': ('Chebyshev convergence', r'If the eigenvalues of $A$ lie in $[a,a^{\prime}]$ with $a>0$, then $$\|x_\star-x_k\|_A^2\le4\left(\frac{\sqrt\kappa-1}{\sqrt\kappa+1}\right)^{2k}\|x_\star-x_0\|_A^2,\qquad\kappa=\frac{a^{\prime}}{a}.$$ The interval ratio controls the rate of convergence.'),
-        'cg-polynomial-bound': ('Polynomial error bound', r'For every polynomial $p$ of degree at most $k$ with $p(0)=1$, $$\|x_\star-x_k\|_A^2\le\|p(A)(x_\star-x_0)\|_A^2.$$ A polynomial that is small on the spectrum gives a small CG error.'),
-        'cg-finite-termination': ('Finite termination', r'Let $g=\dim\operatorname{span}\{r_0,Ar_0,A^2r_0,\ldots\}$. Once $k\ge g$, $$x_k=x_\star.$$ Since $g\le n$ for an $n$-dimensional system, at most $n$ exact-arithmetic steps suffice.'),
-    }
-    algorithm = json.loads((api / 'algorithms/cg.json').read_text())['record']
-    further = ''
-    for rid in list(core) + [rid for rid in algorithm['results'] if rid not in core]:
-        r = json.loads((api / 'results' / (rid + '.json')).read_text())['record']
-        d = json.loads((api / 'declarations' / (r['primary'] + '.json')).read_text())['record']
-        summary = d['summary'] or d['docstring'].split('\n\n')[0]
-        source = d['source']['url'] or 'https://github.com/NLA-lib/nlalib'
-        details = '<pre><code>' + html.escape(d['signature']) + '</code></pre><p><a href="' + html.escape(source, quote=True) + '">Full source on GitHub</a></p>'
-        if rid in core:
-            title, summary = core[rid]
-            body += card(title, prose(summary, 'Abrxvy') + disclosure(details))
-        else:
-            further += card(r['title'], prose(summary) + disclosure(details))
-    return body + disclosure(further, 'Further analysis and implementation results')
-
-
-def models_page(sources):
-    get = lambda file, name, kind='def': sources.declaration('NLAlib/Ops/' + file, name, kind)
-    body = '<p class="eyebrow"><a href="/explore/">Explorer</a> / Arithmetic models</p>'
-    body += prose(r'The algorithm specifies the sequence of operations. An arithmetic model states what each computed operation may return. A convergence theorem combines those local error bounds with assumptions on $A$, the iteration cap and available memory. The following models are currently used by ordinary CG in this pilot.')
-    body += card('Exact arithmetic', prose(r'Scalar arithmetic, dot products, vector updates and matrix–vector products are exact. The CG iterate therefore agrees with its mathematical recurrence, and finite-termination and classical Chebyshev bounds apply.') + disclosure(sources.code(get('Profiles/Standard.lean', 'Scheme.roundoff'))), 'model', 'exact')
-    relative = r'BLAS operations and matvecs are abstract operations with supplied error coefficients. For dot products, $$|\widehat{\langle\mathbf{x},\mathbf{y}\rangle}-\langle\mathbf{x},\mathbf{y}\rangle|\le d_n\sum_{i=1}^n|x_i y_i|.$$ The bound scales with the sum of absolute products; cancellation can make it much larger than a relative error in the dot-product value itself. A scaled vector addition obeys $$|\widehat z_i-(y_i+\alpha x_i)|\le e_a(|y_i|+|\alpha x_i|).$$ Matrix–vector multiplication has the normwise bound $$\|\widehat{A v}-A v\|_2\le e_m\|A\|_2\|v\|_2.$$ Scalar arithmetic has unit roundoff $u$; copies and decoded comparisons are exact. This model supplies $d_n,e_a,e_m$ without choosing sequential or pairwise implementations.'
-    body += card('Relative-error BLAS + matvec', prose(relative, 'Abv') + disclosure(sources.code(get('Catalog/Blas1.lean', 'IsDotErr')) + sources.code(get('Catalog/Blas1.lean', 'IsAxpyErr'))), 'model', 'relative')
-    body += card('Standard rounding with sequential BLAS', prose(r'Scalar operations use the standard relative-rounding model with unit roundoff $u$ and unbounded exponents. Dot products form rounded products and accumulate them sequentially, giving $$d_n=(1+u)^n-1.$$ The BLAS implementation supplies the vector-update bounds. All vector lengths are admitted. Matvec error is supplied separately; choosing this model does not assume exact matvecs.') + disclosure(sources.code(get('Profiles/Standard.lean', 'Scheme.errors'))), 'model', 'sequential')
-    body += card('Standard rounding with pairwise BLAS', prose(r'Scalar arithmetic is the same, but reductions use a pairwise summation tree: $$d_n=(1+u)^{\lceil\log_2n\rceil+1}-1.$$ The implementation requires $\lceil\log_2n\rceil<\mathrm{depth}$. This improves the error coefficient’s dependence on vector length. Pairwise summation describes the reduction order; it does not by itself certify parallel runtime. Matvec error is supplied separately.') + disclosure(sources.code(get('Profiles/Standard.lean', 'Scheme.admits'))), 'model', 'pairwise')
-    envelope = r'The named standard profiles use a common allowance $E$ satisfying $$0\le E\le10^{-2},\quad e_m,e_a\le E,\quad u,d_n,e_{\mathrm{scal}}\le E/16.$$ Here $e_{\mathrm{scal}}$ bounds componentwise vector division. The abstract relative-error CG theorem needs only $u,d_n,e_a,e_m\le E$; the stricter standard envelope is shared with other solvers. CG additionally requires the spectral and iteration-window conditions shown with its convergence theorem.'
-    body += card('How operation errors enter the CG theorem', prose(envelope) + disclosure(sources.code(get('Profiles/Standard.lean', 'Accuracy', 'structure'))), 'model', 'accuracy')
-    body += '<p><a href="' + BASE + 'variants/carried/">Return to ordinary CG</a></p>'
     return body

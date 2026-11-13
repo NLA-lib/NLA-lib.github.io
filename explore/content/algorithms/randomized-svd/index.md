@@ -20,6 +20,14 @@ result_ids:
 - randomized-svd-expected-error
 - randomized-svd-tail
 - randomized-svd-lower-bound
+result_prefixes:
+- randomized-svd
+- rsvd
+- etrsvd
+search_aliases:
+- randomized range finder
+- RSVD
+- early-truncated RSVD
 ---
 Let $\mathbf Y=\mathbf A\mathbf\Omega$ and let $\mathbf P_{\mathbf Y}$ be the orthogonal projector onto its range.
 

@@ -1,6 +1,6 @@
 """Every menu on nla-lib.org lists the same pages in the same order: the homepage's and the design
 page's (the `menu:` front matter of ../index.md and ../design/index.md) and the explorer's
-(web/index.html), so the halves of the site cannot drift apart."""
+(web/template.html), so the halves of the site cannot drift apart."""
 import posixpath
 import re
 import unittest
@@ -16,7 +16,7 @@ def resolve(href, page_dir):
         return './'
     if href.startswith('http'):
         return href
-    path = posixpath.normpath(posixpath.join(page_dir, href))
+    path = (posixpath.normpath(href).lstrip('/') or '.') if href.startswith('/') else posixpath.normpath(posixpath.join(page_dir, href))
     return './' if path == '.' else f'./{path}/'
 
 
@@ -27,7 +27,7 @@ def markdown_menu(source, page_dir):
 
 
 def explorer_menu():
-    nav = re.search(r'<nav class="menu"[^>]*>(.*?)</nav>', (ROOT / 'web' / 'index.html').read_text(), re.S)[1]
+    nav = re.search(r'<nav class="menu"[^>]*>(.*?)</nav>', (ROOT / 'web' / 'template.html').read_text(), re.S)[1]
     return [(label.strip(), resolve(href, 'explore'))
             for href, label in re.findall(r'<a href="([^"]+)"[^>]*>([^<]+)</a>', nav)]
 

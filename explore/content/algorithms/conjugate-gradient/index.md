@@ -15,9 +15,19 @@ theory:
 library_algorithm: cg
 families:
 - galerkin-methods
+search_aliases:
+- Hestenes–Stiefel
+- HSCG
+- conjugate gradients
+- matrix-free CG
+- finite precision CG
+source_guides:
+- docs/algorithms/Conjugate-Gradient.md
 ---
 
 Solve a symmetric positive-definite system $Ax=b$ using a short Krylov recurrence.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

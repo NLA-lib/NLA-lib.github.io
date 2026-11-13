@@ -85,7 +85,11 @@ with sync_playwright() as p:
     page.get_by_role('link', name='Named results', exact=True).click()
     page.locator('main .entry-list a').first.click()
     assert '/library/results/' in page.url
-    assert page.locator('a[href^="https://github.com/"]').count() > 0
+    versioned = page.request.get(base + 'api/v1/manifest.json').json()['snapshot']['versioned']
+    if versioned:
+        assert page.locator('main a[href^="https://github.com/"]').count() > 0
+    else:
+        assert page.locator('main a[href*="/blob/"]').count() == 0
     page.goto(base + 'algorithms/conjugate-gradient/')
     assert page.locator('.cg-result').count() == 4
     assert page.locator('.katex-error').count() == 0

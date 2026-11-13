@@ -11,8 +11,8 @@ parents:
 prerequisites:
 - matrix-norms
 - spectral-theory
-library_topics:
-- perturbation-theory
+module_prefixes:
+- NLAlib.Matrix.Perturbation
 ---
 
 Davis–Kahan subspace bounds and perturbation of eigenvalues, singular values, and solutions. The introductory exposition is incomplete; available library statements are listed below.

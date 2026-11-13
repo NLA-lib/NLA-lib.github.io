@@ -10,9 +10,18 @@ tasks:
 theory:
 - subspaces
 library_algorithm: gram-schmidt
+search_aliases:
+- Gram-Schmidt
+- modified Gram–Schmidt
+- MGS
+- QR factorization
+source_guides:
+- docs/algorithms/Gram-Schmidt.md
 ---
 
 Construct an orthonormal basis from input vectors.
+
+{{ generated:source-guides }}
 
 ## Implementations
 

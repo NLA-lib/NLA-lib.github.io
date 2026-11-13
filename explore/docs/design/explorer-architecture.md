@@ -71,8 +71,8 @@ where a checked program/model connection is available.
 
 `content_pages.py` reads YAML headers and ordinary Markdown. Generated markers
 insert relationship lists and snapshot-backed library records. Statement blocks
-combine editable prose with an exact Lean signature and source link. The existing
-CG adapter fills its program-specific fragments; the Markdown controls the page
+combine editable prose with an exact Lean signature and source link. The
+CG adapter fills its Ops-specific fragments; the Markdown controls the page
 around them. A matching current core is optional and never inferred from an old
 published extraction.
 
@@ -82,3 +82,6 @@ library statements can still be listed on an outline page, with that distinction
 visible. Missing metadata and broken typed references reject the build.
 
 The source and authoring guide is [content/README.md](../../content/README.md).
+
+The build reads the generic extraction directly. It has no old program/target
+registry or code-emitter dependency. See [legacy retirement](legacy-retirement.md).

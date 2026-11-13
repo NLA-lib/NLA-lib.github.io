@@ -8,8 +8,8 @@ status: outline
 order: 2
 parents:
 - matrix-analysis
-library_topics:
-- eigenvalues
+module_prefixes:
+- NLAlib.Matrix.Spectral
 ---
 
 The spectral theorem, eigenvalue variational principles, interlacing, and positive definiteness. The introductory exposition is incomplete; available library statements are listed below.

@@ -9,8 +9,8 @@ parents:
 - matrix-analysis
 prerequisites:
 - subspaces
-library_topics:
-- pseudoinverses
+module_prefixes:
+- NLAlib.Matrix.Pseudoinverse
 ---
 
 Moore–Penrose pseudoinverses, least-squares solutions, and range conditions. The introductory exposition is incomplete; available library statements are listed below.
