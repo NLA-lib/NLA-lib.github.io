@@ -11,6 +11,10 @@ theory:
 - subspaces
 - spectral-theory
 library_algorithm: deflate
+search_aliases:
+- "DEFLATE"
+- "Gaussian range finder"
+- "randomized range finder without oversampling"
 source_guides:
 - docs/algorithms/Sign-Deflation.md
 ---

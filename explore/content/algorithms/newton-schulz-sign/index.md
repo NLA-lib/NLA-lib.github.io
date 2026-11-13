@@ -11,6 +11,11 @@ theory:
 - matrix-polynomials
 - polynomial-approximation
 library_algorithm: newton-schulz-sign
+search_aliases:
+- "matrix sign function"
+- "SIGN"
+- "inverse-free sign iteration"
+- "Newton–Schulz"
 source_guides:
 - docs/algorithms/Sign-Deflation.md
 ---

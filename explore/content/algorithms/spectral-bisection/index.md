@@ -11,6 +11,13 @@ theory:
 - spectral-theory
 - perturbation-theory
 library_algorithm: spectral-bisection
+search_aliases:
+- "Hermitian diagonalization"
+- "EIGH"
+- "Shah diagonalization"
+- "spectral divide and conquer"
+- "Hermitian eigensolver in linear precision"
+- "eigh"
 source_guides:
 - docs/algorithms/Spectral-Bisection.md
 ---
