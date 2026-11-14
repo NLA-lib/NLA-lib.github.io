@@ -6,8 +6,6 @@ title: Two-pass classical Gram–Schmidt basis extension
 summary: Extend a stored basis by a block, column by column, with two classical passes and threshold deflation.
 status: outline
 order: 3
-library_algorithm: cgs2-basis-extension
-library_results: false
 result_ids:
 - cgs2-basis-extension
 - cgs2-basis-extension-error
