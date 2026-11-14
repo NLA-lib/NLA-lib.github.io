@@ -14,6 +14,7 @@ module_prefixes:
 - NLAlib.Matrix.Spectral.SingularValues
 - NLAlib.Matrix.Spectral.SingularValueInequalities
 - NLAlib.Matrix.Spectral.LeastSingularValue
+- NLAlib.Matrix.Spectral.FrameDeflation
 result_ids:
 - weyl-singular-values
 ---

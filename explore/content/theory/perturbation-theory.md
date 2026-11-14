@@ -14,6 +14,7 @@ module_prefixes:
 - NLAlib.Matrix.Perturbation
 result_ids:
 - weyl-perturbation
+- gram-defect-projector-distance
 ---
 
 Perturbation bounds turn an error in a matrix or a computed equation into an error in an eigenvalue, singular value, or subspace. Values and subspaces behave differently: subspace bounds usually need a gap separating the spectral sets of interest.
