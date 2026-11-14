@@ -25,7 +25,11 @@ groups:
   algorithms:
   - rsi
   - rbki
+  - block-golub-kahan
   - filtered-randomized-svd
+  summaries:
+    block-golub-kahan: Compute factors of the block Krylov approximation by two-sided block bidiagonalization
+      with full reorthogonalization.
 - id: nystrom
   title: Nyström methods for PSD matrices
   summary: Approximate a positive-semidefinite matrix from sampled or sketched columns.

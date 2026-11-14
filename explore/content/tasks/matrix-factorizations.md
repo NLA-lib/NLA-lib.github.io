@@ -25,10 +25,13 @@ groups:
   algorithms:
   - qr
   - gram-schmidt
+  - block-golub-kahan
   summaries:
     qr: Specify orthogonal and triangular factors of a matrix.
     gram-schmidt: Construct a basis by successive orthogonal projections; classical and modified orderings
       are implementations.
+    block-golub-kahan: Build left and right block Krylov bases and banded coefficients from products with
+      a matrix and its adjoint.
 - id: singular-values
   title: Singular-value decompositions
   summary: Expose singular values, singular vectors, rank, and low-rank truncations.
