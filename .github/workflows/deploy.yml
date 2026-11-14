@@ -46,24 +46,23 @@ jobs:
             https://github.com/NLA-lib/NLAlib/releases/download/explore-data/explore-data.json
           sha=$(python3 -c "import json; print(json.load(open('data/explore-data.json'))['commit'] or 'scaffold')")
           echo "NLAlib commit: $sha"
-          curl -fsSL -o data/references.bib \
-            "https://raw.githubusercontent.com/NLA-lib/NLAlib/$sha/docs/references.bib" || true
-          # the library source at that commit, for the bodies of definitions
+          # Keep the complete matching snapshot: guides can link to design documents
+          # and other repository files in addition to Lean modules.
           mkdir -p data/src
           curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
-            tar xz -C data/src --strip-components=1 --wildcards '*/NLAlib/*' '*/NLAlib.lean' '*/lean-toolchain'
-          # Older snapshots may not yet have the curated implementation guides.
-          curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
-            tar xz -C data/src --strip-components=1 --wildcards '*/docs/algorithms/*.md' || true
+            tar xz -C data/src --strip-components=1
+          if [ -f data/src/docs/references.bib ]; then
+            cp data/src/docs/references.bib data/references.bib
+          fi
       - name: Fetch the rename maps
         # docs/renames/*.json (CONTRIBUTING N12): old #d/ links redirect, changed statements are noted;
         # a commit without the directory builds without maps
         working-directory: explore
         run: |
-          sha=$(python3 -c "import json; print(json.load(open('data/explore-data.json'))['commit'] or 'scaffold')")
-          mkdir -p data/renames-src
-          curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$sha" |
-            tar xz -C data/renames-src --strip-components=1 --wildcards '*/docs/renames/*' || true
+          if [ -d data/src/docs/renames ]; then
+            mkdir -p data/renames-src/docs
+            cp -a data/src/docs/renames data/renames-src/docs/renames
+          fi
       - name: Build the explorer into _site/explore
         working-directory: explore
         run: |
