@@ -1,9 +1,16 @@
 ---
 kind: task
 id: low-rank-approximation
-title: Build low-rank approximations
+title: Low-rank approximation
 summary: Approximate a matrix by a small-rank factorization or structured surrogate.
 status: ready
+sections_collapsed: true
+result_ids:
+- range-recovery-k-queries
+- fixed-batch-low-rank-lower-bound
+- fixed-batch-nuclear-lower-bound
+- one-pass-low-rank-lower-bound
+- two-pass-low-rank-lower-bound
 order: 3
 theory:
 - singular-values
@@ -56,6 +63,12 @@ groups:
 Approximate a matrix by a small-rank factorization or structured surrogate.
 
 {{ generated:task-groups }}
+
+## Lower bounds
+
+These bounds constrain every admissible algorithm within a stated access model: exact range recovery, fixed-batch approximation, and one- or two-pass approximation. Each statement specifies its query model and accuracy assumptions. Lower bounds for a particular algorithm appear on that algorithm's page.
+
+{{ generated:results }}
 
 ## Mathematical background
 

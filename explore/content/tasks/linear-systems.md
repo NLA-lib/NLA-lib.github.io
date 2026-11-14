@@ -1,7 +1,7 @@
 ---
 kind: task
 id: linear-systems
-title: Solve linear systems
+title: Linear systems
 summary: Solve $A x=b$, including preconditioned and matrix-free methods.
 status: ready
 order: 0

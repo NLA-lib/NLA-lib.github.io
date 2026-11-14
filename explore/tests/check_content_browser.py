@@ -26,7 +26,7 @@ with sync_playwright() as p:
     bounds = card.bounding_box()
     page.mouse.click(bounds['x'] + bounds['width'] - 10, bounds['y'] + bounds['height'] - 10)
     expect(page).to_have_url(base + 'algorithms/')
-    assert page.locator('main .explorer-link-card[href*="/tasks/"]').count() == 9
+    assert page.locator('main .explorer-link-card[href*="/tasks/"]').count() == 10
     assert page.locator('main .explorer-link-card[href*="/families/"]').count() == 0
     assert page.locator('main .explorer-link-card[href*="/algorithms/"]').count() == 0
     page.goto(base + 'tasks/linear-systems/')
@@ -51,12 +51,13 @@ with sync_playwright() as p:
     assert page.get_by_role('link', name='LU factorization', exact=True).is_visible()
     assert page.get_by_role('link', name='PLU factorization', exact=True).is_visible()
     page.goto(base + 'tasks/low-rank-approximation/')
+    page.locator('#group-range-finders > summary').click()
     page.get_by_role('link', name='RSVD-type methods', exact=True).click()
     assert page.locator('#section-methods .explorer-link-card').count() == 4
     page.get_by_role('link', name='Late-truncated RSVD', exact=True).click()
     assert page.get_by_role('article', name='Theorem (Orthogonal error decomposition)', exact=True).is_visible()
     assert page.locator('.katex-error').count() == 0
-    for task in ['eigenvalues', 'matrix-functions', 'quadrature', 'trace-estimation']:
+    for task in ['krylov-factorizations', 'eigenvalues', 'matrix-functions', 'quadrature', 'trace-estimation']:
         page.goto(base + 'tasks/' + task + '/')
         links = page.get_by_role('link', name='Lanczos process', exact=True)
         assert links.count() == 1
@@ -69,6 +70,7 @@ with sync_playwright() as p:
     rsi_eigen_url = page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href')
     page.goto(base + 'tasks/low-rank-approximation/')
     assert page.locator('#group-filtered-ranges').is_visible()
+    page.locator('#group-filtered-ranges > summary').click()
     assert page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href') == rsi_eigen_url
     page.goto(base + 'tasks/quadrature/')
     assert 'quadrature rule' in page.get_by_role('link', name='Lanczos process', exact=True).inner_text()

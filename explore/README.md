@@ -30,6 +30,8 @@ Relocation landing pages do not restore retired execution APIs. Rendering existi
 python3 explore/content_pages.py --site /path/to/built/explorer
 ```
 
+For result placement and review, see [choosing where a guarantee belongs](content/README.md#choosing-where-a-guarantee-belongs).
+
 ## Metadata contract
 
 The input is schema 1: `commit`, `date`, `decls`, `modules`, and `sourceHashes`.

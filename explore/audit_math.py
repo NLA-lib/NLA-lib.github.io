@@ -252,6 +252,7 @@ def markdown_report(result):
               '- Retain checked shifted-QR interfaces and its current source guide without inventing a simplified execution or cost theorem.', '',
               '## Remaining presentation limits', '',
               'Coverage is not a mathematical equivalence review of every prose statement. Some pages still use source-documented expandable results rather than editorial explanations. Outline implementation pages still need readable pseudocode and numerical/resource summaries; discovery tags never certify those programs by themselves.', '',
+              'See the separate [implementation presentation review](implementation-presentation-audit.md) for confirmed gaps between indexed coverage and headline guarantees. Passing this audit does not close those presentation gaps.', '',
               '## Result placements', '']
     for rid, urls in result['result_placements'].items():
         lines += [f'- `{rid}`: ' + ', '.join(f'[{url}]({url})' for url in urls)]

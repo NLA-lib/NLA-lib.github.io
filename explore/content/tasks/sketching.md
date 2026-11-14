@@ -1,7 +1,7 @@
 ---
 kind: task
 id: sketching
-title: Construct sketches and embeddings
+title: Sketching and embeddings
 summary: Compress vectors, matrices, or subspaces while preserving selected geometry.
 status: ready
 order: 7

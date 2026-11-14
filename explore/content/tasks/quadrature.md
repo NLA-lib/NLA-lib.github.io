@@ -1,7 +1,7 @@
 ---
 kind: task
 id: quadrature
-title: Approximate integrals and quadratic forms
+title: Quadrature and quadratic forms
 summary: Approximate integrals and quantities such as $b^{\mathsf T}f(A)b$.
 status: ready
 order: 6

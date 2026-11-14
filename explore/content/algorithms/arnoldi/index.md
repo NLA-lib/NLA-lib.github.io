@@ -20,7 +20,7 @@ result_ids:
 - unreduced-hessenberg-krylov-basis
 ---
 
-Build an orthonormal Krylov basis and an upper-Hessenberg compression.
+Build an orthonormal Krylov basis and an upper-Hessenberg compression. This is a shared Krylov factorization; FOM, GMRES, and other algorithms specify how to use it for a particular task.
 
 ## Implementations
 
