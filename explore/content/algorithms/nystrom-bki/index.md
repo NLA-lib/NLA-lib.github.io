@@ -15,6 +15,7 @@ library_results: false
 result_ids:
 - nysbki-gapless-error
 - nysbki-gapped-error
+- nystrom-bki-simulated-block
 ---
 
 Use a block Krylov construction in a Nyström approximation.
@@ -35,7 +36,17 @@ For Hermitian positive-semidefinite $\mathbf A$, build the test matrix $[\mathbf
 
 {{ generated:components }}
 
-## Results
+## Mathematical guarantees
+
+::: theorem result:nystrom-bki-simulated-block name="The simulated block"
+Let $\mathbf H$ be a real or complex Hermitian positive-semidefinite matrix and $\mathbf\Omega$ a start block. Write $\operatorname{NysBKI}(\mathbf H,\mathbf\Omega,q)$ for the approximation defined above. For all integers $s,q\ge0$,
+
+$$\operatorname{NysBKI}\bigl(\mathbf H,\ [\mathbf\Omega,\mathbf H\mathbf\Omega,\ldots,\mathbf H^{s}\mathbf\Omega],\ q+1\bigr)=\operatorname{NysBKI}(\mathbf H,\mathbf\Omega,\ s+q+1).$$
+
+Running $s+q+1$ blocks from $\mathbf\Omega$ gives the same approximation as running $q+1$ blocks from the wider block formed by the first $s+1$ Krylov blocks of $\mathbf\Omega$. Positive semidefiniteness is a hypothesis of the statement.
+:::
+
+## Further results
 
 {{ generated:results }}
 

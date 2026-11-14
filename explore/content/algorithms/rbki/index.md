@@ -9,11 +9,22 @@ theory:
 - krylov-spaces
 - random-matrices
 - randomized-low-rank-theory
+- complexity-lower-bounds
 library_algorithm: rbki
+uses:
+- block-golub-kahan
 library_results: false
 result_ids:
 - rbki-gapless-error
 - rbki-gapped-error
+- rbki-simulated-block
+- rbki-block-monotonicity
+- rbki-single-vector-structural-error
+- rbki-single-vector-gapped-error
+- rbki-single-vector-gapless-error
+- rbki-any-block-gapped-error
+- rbki-any-block-gapless-error
+- rbki-multiplicity-lower-bound
 ---
 
 Use a block Krylov space to construct a low-rank approximation.
@@ -32,9 +43,81 @@ $$\mathbf Y=[\mathbf A\mathbf\Omega,\ (\mathbf A\mathbf A^{\mathsf{H}})\mathbf A
 Return $\mathbf P_{\mathbf Y}\mathbf A$. The library's convention gives the zero approximation for $q=0$ and the ordinary range finder for $q=1$. Unlike subspace iteration, the block Krylov range retains all these powers.
 :::
 
+Below, $\operatorname{RBKI}(\mathbf A,\mathbf\Omega,q)$ denotes this matrix, a deterministic function of $\mathbf A$, the start block $\mathbf\Omega$, and the number of blocks $q$. Singular values are indexed from zero, $\sigma_0\ge\sigma_1\ge\cdots$, so the best rank-$r$ spectral error is $\sigma_r$, and $[\mathbf A]_r$ denotes the rank-$r$ truncated singular-value decomposition.
 
+## Components
 
-## Results
+The definition is a projection and prescribes no computation. Block Golub–Kahan bidiagonalization is a process whose factored output, in exact arithmetic, equals $\operatorname{RBKI}(\mathbf A,\mathbf\Omega,q)$; that identity and its scope are stated on the process page.
+
+{{ generated:components }}
+
+## Block sizes below the target rank
+
+The statements in this section hold for narrow start blocks, down to a single start vector. The tail bounds assume a relative gap $\Delta$ among the leading singular values and a depth $q$ at least the number of those singular values. For a Gaussian block with at least $t+2$ columns (gapped form) or $r+2$ columns (gapless form), the expectation bounds listed under Further results need no gap $\Delta$.
+
+::: theorem result:rbki-simulated-block name="The simulated block"
+Let $\mathbf A$ be a real or complex $m\times n$ matrix, $\mathbf\Omega$ a start block with $n$ rows, and $\mathbf H=\mathbf A^{\mathsf{H}}\mathbf A$. For all integers $s,q\ge0$,
+
+$$\operatorname{RBKI}\bigl(\mathbf A,\ [\mathbf\Omega,\mathbf H\mathbf\Omega,\ldots,\mathbf H^{s}\mathbf\Omega],\ q+1\bigr)=\operatorname{RBKI}(\mathbf A,\mathbf\Omega,\ s+q+1).$$
+
+Running $s+q+1$ blocks from $\mathbf\Omega$ gives the same approximation as running $q+1$ blocks from the wider block built from the first $s+1$ Krylov blocks of $\mathbf\Omega$. This is an identity of matrices, with no assumption on rank or on the block.
+:::
+
+::: theorem result:rbki-block-monotonicity name="A block with a larger range does at least as well"
+Let $\mathbf\Omega$ and $\mathbf\Omega'$ be start blocks with $\operatorname{range}(\mathbf\Omega')\subseteq\operatorname{range}(\mathbf\Omega)$; for example $\mathbf\Omega'$ consists of some columns of $\mathbf\Omega$. Then for every number of blocks $q$ and every index $i$,
+
+$$\sigma_i\bigl(\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf\Omega,q)\bigr)\le\sigma_i\bigl(\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf\Omega',q)\bigr).$$
+
+The comparison is for the untruncated approximation at the same depth $q$.
+:::
+
+::: theorem decl:NLAlib.measureReal_specNorm_sub_rbki_sq_gt_le_of_hasLaw_gaussianVector name="Single start vector with a gap: spectral-norm tail bound"
+Let $\mathbf A$ be a real matrix with $n$ columns and let $\mathbf x\in\mathbb R^n$ have independent standard normal entries. Fix a head of $r=h+1$ singular values, a tail index $t\ge r$, a depth $q\ge t$, and $\delta>0$. Suppose there is $\Delta>0$ with
+
+$$\sigma_{i+1}^2\le(1-\Delta)\,\sigma_i^2\qquad\text{whenever } i+1<t,$$
+
+and set $\gamma=(\sigma_h-\sigma_t)/(\sigma_h+\sigma_t)$, with $\gamma=0$ when both singular values vanish. Then
+
+$$\mathbb P\Bigl[\|\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf x,q)\|_2^2>\sigma_r^2+32\,e^{-8(q-t)\sqrt\gamma}\,\Delta^{-2(t-1)}\,\frac{t^3}{\delta^3}\,\|\mathbf A-[\mathbf A]_t\|_{\mathrm F}^2\Bigr]\le\delta.$$
+
+The start block is the single column $\mathbf x$. The gap hypothesis concerns only $\sigma_0,\ldots,\sigma_{t-1}$: no gap between $\sigma_{t-1}$ and $\sigma_t$ and no positivity of $\sigma_{t-1}$ is assumed. The same result group, listed under Further results, contains the Frobenius-norm form, the form for the rank-$r$ truncation of the output, and an expectation restricted to an explicit event.
+:::
+
+::: theorem result:rbki-single-vector-gapless-error name="Single start vector: gapless tail bound for the truncated output"
+Let $\mathbf A$ be a real matrix with $n$ columns and let $\mathbf x\in\mathbb R^n$ have independent standard normal entries. Fix a target rank $r$, a depth $q\ge r$, $\delta>0$, and $\varepsilon>0$. Suppose there is $\Delta>0$ with $\sigma_{i+1}^2\le(1-\Delta)\sigma_i^2$ whenever $i+1<r$. Then
+
+$$\mathbb P\Bigl[\|\mathbf A-[\operatorname{RBKI}(\mathbf A,\mathbf x,q)]_r\|_2^2>(1+\varepsilon)^2\sigma_r^2+32\,e^{-8(q-r)\sqrt{\varepsilon/(2+\varepsilon)}}\,\Delta^{-2(r-1)}\,\frac{r^3}{\delta^3}\,\|\mathbf A-[\mathbf A]_r\|_{\mathrm F}^2\Bigr]\le\delta.$$
+
+No gap between $\sigma_{r-1}$ and $\sigma_r$ is assumed. The gap $\Delta$ among the first $r$ singular values is still required.
+:::
+
+::: theorem decl:NLAlib.measureReal_specNorm_sub_rbki_sq_gt_le_of_hasLaw_gaussianMatrix name="Any block size with a gap: spectral-norm tail bound"
+Let $\mathbf A$ be a real matrix with $n$ columns and let $\mathbf X$ be an $n\times\ell$ matrix with independent standard normal entries, $\ell\ge1$. With $r=h+1\le t\le q$, $\delta>0$, $\Delta>0$ satisfying $\sigma_{i+1}^2\le(1-\Delta)\sigma_i^2$ whenever $i+1<t$, and $\gamma=(\sigma_h-\sigma_t)/(\sigma_h+\sigma_t)$ as in the single-vector bound,
+
+$$\mathbb P\Bigl[\|\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf X,q)\|_2^2>\sigma_r^2+32\,e^{-8(q-t)\sqrt\gamma}\,\Delta^{-2(t-1)}\,\frac{t^3}{\delta^3}\,\|\mathbf A-[\mathbf A]_t\|_{\mathrm F}^2\Bigr]\le\delta.$$
+
+The right-hand side is the single-vector bound and does not depend on $\ell$. The same result group contains the Frobenius-norm form and the form for the rank-$r$ truncation of the output.
+:::
+
+::: theorem result:rbki-any-block-gapless-error name="Any block size: gapless tail bound for the truncated output"
+Let $\mathbf A$ be a real matrix with $n$ columns and let $\mathbf X$ be an $n\times\ell$ matrix with independent standard normal entries, $\ell\ge1$. Fix a target rank $r$, a depth $q\ge r$, $\delta>0$, and $\varepsilon>0$, and suppose there is $\Delta>0$ with $\sigma_{i+1}^2\le(1-\Delta)\sigma_i^2$ whenever $i+1<r$. Then
+
+$$\mathbb P\Bigl[\|\mathbf A-[\operatorname{RBKI}(\mathbf A,\mathbf X,q)]_r\|_2^2>(1+\varepsilon)^2\sigma_r^2+32\,e^{-8(q-r)\sqrt{\varepsilon/(2+\varepsilon)}}\,\Delta^{-2(r-1)}\,\frac{r^3}{\delta^3}\,\|\mathbf A-[\mathbf A]_r\|_{\mathrm F}^2\Bigr]\le\delta.$$
+
+The bound does not depend on $\ell$.
+:::
+
+::: theorem result:rbki-multiplicity-lower-bound name="A repeated singular value beyond the block size"
+Let $\mathbf A$ be a real or complex matrix and $\mathbf\Omega$ any start block with $\ell$ columns; no distribution and no rank condition is assumed. If indices $i,k$ satisfy $\sigma_i(\mathbf{A})=\sigma_{i+\ell+k}(\mathbf{A})$, then for every depth $q$,
+
+$$\sigma_i(\mathbf A)\le\sigma_k\bigl(\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf\Omega,q)\bigr).$$
+
+In particular, for $k=0$: if $\sigma_i=\sigma_{i+\ell}$, then $\sigma_i(\mathbf A)\le\|\mathbf A-\operatorname{RBKI}(\mathbf A,\mathbf\Omega,q)\|_2$ for every $q$. When such a $\sigma_i$ exceeds $\sigma_r$, the spectral error stays above the best rank-$r$ error at every depth. This is a statement about the exact projection defining RBKI.
+:::
+
+The deterministic bounds for a given start vector and a polynomial filter, in the spectral and Frobenius norms, and the exactness of the single-vector iteration at depth $q\ge t$ for a matrix of rank at most $t$ with $\sigma_0>\sigma_1>\cdots>\sigma_{t-1}$, are listed under Further results with their complete hypotheses.
+
+## Further results
 
 {{ generated:results }}
 
