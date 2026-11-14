@@ -22,7 +22,7 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
-from rendering import inline_title, record_component
+from rendering import inline_title, record_component, prose_html
 
 BASE = '/explore/'
 KINDS = {'home', 'index', 'task', 'family', 'algorithm', 'implementation', 'theory'}
@@ -149,6 +149,45 @@ def load_pages(directory):
             raise ValueError(f'{file}: duplicate identity or route')
         pages[page.key] = page
         routes.add(page.path)
+    # Task-local groups own discovery placement. An algorithm's URL and global
+    # conceptual families remain independent of the task's editorial taxonomy.
+    grouped_tasks = {p.meta['id'] for p in pages.values() if p.kind == 'task' and 'groups' in p.meta}
+    for page in pages.values():
+        if 'groups' in page.meta and page.kind != 'task':
+            raise ValueError(f'{page.source}: groups belong to task pages')
+        if page.kind == 'algorithm':
+            if not isinstance(page.meta.get('tasks', []), list):
+                raise ValueError(f'{page.source}: tasks must be a list')
+            page.meta['tasks'] = [t for t in page.meta.get('tasks', []) if t not in grouped_tasks]
+    for task in [p for p in pages.values() if p.kind == 'task' and 'groups' in p.meta]:
+        groups = task.meta['groups']
+        if not isinstance(groups, list) or not groups:
+            raise ValueError(f'{task.source}: groups must be a nonempty list')
+        ids = set()
+        for group in groups:
+            if not isinstance(group, dict) or not all(group.get(k) for k in ['id', 'title', 'algorithms']):
+                raise ValueError(f'{task.source}: each group requires id, title and algorithms')
+            if not re.fullmatch(r'[a-z0-9][a-z0-9-]*', str(group['id'])) or group['id'] in ids:
+                raise ValueError(f'{task.source}: invalid or duplicate group id')
+            ids.add(group['id'])
+            members = group['algorithms']
+            if not isinstance(members, list) or any(not isinstance(m, str) for m in members) or len(set(members)) != len(members):
+                raise ValueError(f'{task.source}: group algorithms must be a list of distinct algorithm IDs')
+            if group.get('family') and 'family:' + group['family'] not in pages:
+                raise ValueError(f'{task.source}: unknown group family {group["family"]}')
+            if group.get('family'):
+                family = pages['family:' + group['family']]
+                if task.meta['id'] not in family.meta.setdefault('tasks', []):
+                    family.meta['tasks'].append(task.meta['id'])
+            summaries = group.get('summaries', {})
+            if not isinstance(summaries, dict) or set(summaries) - set(members) or any(not isinstance(v, str) for v in summaries.values()):
+                raise ValueError(f'{task.source}: group summaries must describe its algorithm IDs')
+            for member in members:
+                if 'algorithm:' + member not in pages:
+                    raise ValueError(f'{task.source}: unknown group algorithm {member}')
+                algorithm = pages['algorithm:' + member]
+                if task.meta['id'] not in algorithm.meta['tasks']:
+                    algorithm.meta['tasks'].append(task.meta['id'])
     for page in pages.values():
         for relation, kind in RELATIONS.items():
             values = page.meta.get(relation, [])
@@ -159,6 +198,21 @@ def load_pages(directory):
                     raise ValueError(f'{page.source}: unknown {relation} reference {value}')
         if page.kind == 'implementation' and 'algorithm:' + page.meta['algorithm'] not in pages:
             raise ValueError(f'{page.source}: unknown parent algorithm')
+    for kind, relation in [('theory', 'parents'), ('theory', 'prerequisites'), ('algorithm', 'uses')]:
+        visited, active = set(), set()
+        def visit(key):
+            if key in active:
+                raise ValueError(f'Cycle in {relation}: {key}')
+            if key in visited:
+                return
+            active.add(key)
+            for target in pages[key].meta.get(relation, []):
+                visit(kind + ':' + target)
+            active.remove(key)
+            visited.add(key)
+        for page in pages.values():
+            if page.kind == kind:
+                visit(page.key)
     return pages
 
 
@@ -203,10 +257,11 @@ class Explorer:
     def link(self, page):
         return '<a href="' + page.url + '"' + (' data-model-link' if page.kind in {'family', 'algorithm', 'implementation'} else '') + '>' + inline_title(mathematics(page.meta['title'])) + '</a>'
 
-    def cards(self, pages):
+    def cards(self, pages, summaries=None, preserve_order=False):
         items = []
-        for page in sorted(pages, key=lambda p: (p.meta.get('order', 100), p.meta['title'])):
-            summary = re.sub(r'<a\b[^>]*>(.*?)</a>', r'\1', markdown(page.meta.get('summary', '')), flags=re.S)
+        pages = list(pages)
+        for page in pages if preserve_order else sorted(pages, key=lambda p: (p.meta.get('order', 100), p.meta['title'])):
+            summary = re.sub(r'<a\b[^>]*>(.*?)</a>', r'\1', markdown((summaries or {}).get(page.meta['id'], page.meta.get('summary', ''))), flags=re.S)
             items.append('<a class="explorer-card explorer-link-card" href="' + page.url + '" aria-label="' +
                 html.escape(page.meta['title'], quote=True) + '"' +
                 (' data-model-link' if page.kind in {'family', 'algorithm', 'implementation'} else '') +
@@ -249,7 +304,29 @@ class Explorer:
     def evidence(self, declaration):
         link = declaration['source']['url']
         return '<pre><code>' + html.escape(declaration['signature']) + '</code></pre>' + (
-            '<p><a href="' + html.escape(link, quote=True) + '">Full source on GitHub</a></p>' if link else '<p>Source revision unavailable in this snapshot.</p>')
+            '<p><a href="' + html.escape(link, quote=True) + '">Full source on GitHub</a></p>' if link else '<p><a href="https://github.com/NLA-lib/NLAlib">Source repository on GitHub</a> · <code>' + html.escape(declaration['source'].get('path', declaration['module'])) + '</code></p><p>This statement comes from an unpublished working-tree snapshot; a revision-specific source link is unavailable.</p>')
+
+    def result_reference(self, key):
+        """Browse documented results in place; keep the exact Lean evidence separate."""
+        record = self.records['results'][key]
+        declaration = self.records['declarations'][record['primary']]
+        label = ('Statement' if declaration.get('admission_reported') else
+                 'Theorem' if declaration['kind'] == 'theorem' else 'Definition')
+        text = declaration.get('docstring') or declaration.get('summary', '')
+        text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
+        text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
+        # The title is already in the disclosure header. Retain all hypotheses,
+        # formulas, qualifications and references in the documented statement.
+        text = re.sub(r'^\*\*[^*]+\*\*\s*[:.]?\s*', '', text).strip() or text
+        body = prose_html(text) if text else '<p>The exact statement is available in the Lean details below.</p>'
+        if declaration.get('admission_reported'):
+            body = '<p>This library statement reports an admission.</p>' + body
+        body += disclosure(self.evidence(declaration))
+        title = inline_title(mathematics(record['title']))
+        return '<article class="explorer-card cg-result explorer-result-reference" id="' + label.lower() + '-' + slug(key) + \
+            '" aria-label="' + html.escape(label + ' (' + record['title'] + ')', quote=True) + \
+            '"><details class="explorer-disclosure explorer-result-details"><summary><span class="explorer-statement-label"><strong>' + \
+            label + '</strong> (' + title + ')<strong>.</strong></span></summary><div class="explorer-disclosure-body">' + body + '</div></details></article>'
 
     def statement(self, match):
         kind, source_kind, key, options, body = match.groups()
@@ -288,6 +365,20 @@ class Explorer:
                     'result' if kind == 'theorem' else 'model', identifier)
 
     def generated(self, slot, page):
+        if slot == 'task-groups':
+            if page.kind != 'task':
+                raise ValueError(f'{page.source}: task-groups requires a task page')
+            sections = []
+            for group in page.meta.get('groups', []):
+                body = markdown(group.get('summary', ''))
+                body += self.cards([self.pages['algorithm:' + key] for key in group['algorithms']],
+                                   group.get('summaries'), preserve_order=True)
+                if group.get('family'):
+                    family = self.pages['family:' + group['family']]
+                    body += '<p class="record-link">' + self.link(family) + '</p>'
+                sections.append('<details class="explorer-section task-group" open id="group-' + group['id'] +
+                    '"><summary><h2>' + inline_title(group['title']) + '</h2></summary><div class="explorer-section-body">' + body + '</div></details>')
+            return ''.join(sections)
         if slot == 'source-guides':
             guides = [g for g in self.records['guides'].values() if g['source']['path'] in page.meta.get('source_guides', [])]
             links = ''.join('<p><a href="' + g['url'] + '">' + inline_title(g['title']) + '</a></p>' for g in guides)
@@ -308,7 +399,8 @@ class Explorer:
                               [p for p in self.pages.values() if p.kind == 'family' and
                                (page.kind != 'task' or page.meta['id'] in p.meta.get('tasks', []))])
         if slot == 'implementations':
-            return self.cards(p for p in self.pages.values() if p.kind == 'implementation' and p.meta['algorithm'] == page.meta['id'])
+            matches = [p for p in self.pages.values() if p.kind == 'implementation' and p.meta['algorithm'] == page.meta['id']]
+            return self.cards(matches) if matches else ''
         if slot == 'mathematical-method':
             return self.cards([self.pages['algorithm:' + page.meta['algorithm']]])
         if slot == 'theory':
@@ -317,8 +409,12 @@ class Explorer:
             return self.cards(p for p in self.pages.values() if p.kind == 'theory' and not p.meta.get('parents'))
         if slot == 'subtopics':
             return self.cards(self.associated(page, 'parents', reverse=True))
+        if slot == 'parent-topics':
+            matches = self.associated(page, 'parents')
+            return self.cards(matches) if matches else ''
         if slot == 'prerequisites':
-            return self.cards(self.associated(page, 'prerequisites'))
+            matches = self.associated(page, 'prerequisites')
+            return self.cards(matches) if matches else ''
         if slot == 'used-by':
             topics = {page.meta['id']}
             while True:
@@ -327,23 +423,48 @@ class Explorer:
                     break
                 topics = expanded
             matches = [p for p in self.pages.values() if p.kind == 'algorithm' and topics.intersection(p.meta.get('theory', []))]
+            if not matches:
+                return ''
             rendered = self.cards(matches)
             return disclosure(rendered, f'{len(matches)} algorithms using this topic or its subtopics') if len(matches) > 6 else rendered
         if slot == 'applications':
-            return self.cards(self.associated(page, 'uses', reverse=True))
+            components = {page.meta['id']}
+            while True:
+                expanded = components | {p.meta['id'] for p in self.pages.values() if p.kind == 'algorithm'
+                                         and components.intersection(p.meta.get('uses', []))}
+                if expanded == components:
+                    break
+                components = expanded
+            matches = [p for p in self.pages.values() if p.kind == 'algorithm'
+                       and p.meta['id'] in components - {page.meta['id']}]
+            return self.cards(matches) if matches else ''
         if slot == 'components':
-            return self.cards(self.associated(page, 'uses'))
+            matches = self.associated(page, 'uses')
+            return self.cards(matches) if matches else ''
         if slot == 'task-membership':
             parent = self.pages['algorithm:' + page.meta['algorithm']] if page.kind == 'implementation' else page
             return self.cards(self.associated(parent, 'tasks'))
         if slot == 'results':
             result_ids, _ = self.selection(page)
-            rendered = self.reference_list('results', result_ids)
-            return disclosure(rendered, f'{len(result_ids)} indexed result groups') if page.kind == 'theory' and result_ids else rendered
+            authored = set()
+            for statement in STATEMENT.finditer(page.body):
+                if statement[2] == 'result':
+                    authored.add(self.records['results'][statement[3]]['primary'])
+                elif statement[2] == 'decl':
+                    authored.add(statement[3])
+            items = []
+            for key in result_ids:
+                primary = self.records['results'][key]['primary']
+                if primary not in authored:
+                    items.append(self.result_reference(key))
+                    authored.add(primary)
+            return ''.join(items)
         if slot == 'definitions':
             _, names = self.selection(page)
+            if not names:
+                return ''
             rendered = self.reference_list('declarations', names)
-            return disclosure(rendered, f'{len(names)} indexed definitions') if page.kind == 'theory' and names else rendered
+            return rendered
         if slot == 'library-counts':
             return '<p>' + ' · '.join(f'{len(rs):,} {kind}' for kind, rs in self.records.items()
                                       if kind in {'results', 'declarations', 'modules'}) + '</p>'
@@ -379,6 +500,8 @@ class Explorer:
     def render_body(self, page):
         slots = []
         def keep(value):
+            if not value:
+                return ''
             slots.append(value)
             return '\n\nEXPLORERGENERATEDBLOCK' + str(len(slots) - 1) + 'END\n\n'
         text = STATEMENT.sub(lambda m: keep(self.statement(m)), page.body)
@@ -393,9 +516,12 @@ class Explorer:
                 start, end = heading.map
                 stop = headings[index + 1].map[0] if index + 1 < len(headings) else len(lines)
                 title = ''.join(lines[start:end])
-                opened = '' if slug(title) in {'mathematical-background', 'appears-under-these-tasks', 'family'} else ' open'
+                section_body = markdown(''.join(lines[end:stop]))
+                if not section_body.strip():
+                    continue
+                opened = '' if slug(title) in {'mathematical-background', 'appears-under-these-tasks', 'family', 'broader-topics', 'formal-definitions'} else ' open'
                 rendered += '<details class="explorer-section"' + opened + ' id="section-' + slug(title) + '"><summary>' + markdown(title) + \
-                    '</summary><div class="explorer-section-body">' + markdown(''.join(lines[end:stop])) + '</div></details>'
+                    '</summary><div class="explorer-section-body">' + section_body + '</div></details>'
         else:
             rendered = markdown(text)
         return re.sub(r'<p>EXPLORERGENERATEDBLOCK(\d+)END</p>', lambda m: slots[int(m[1])], rendered)
@@ -438,6 +564,9 @@ class Explorer:
                     body = '<p class="eyebrow">Library · ' + html.escape(record['kind']) + '</p>'
                     if record.get('admission_reported'):
                         body += '<p class="content-status">The extraction reports an admitted dependency for this declaration.</p>'
+                    if record.get('statement_changed'):
+                        body += '<p class="source-label">This statement changed in the recorded rename: ' + ', '.join(
+                            '<code>' + html.escape(name) + '</code>' for name in record['statement_changed']) + '.</p>'
                     docs = prose(record['docstring'])
                     if record['source']['url']:
                         docs = re.sub(r'href="([^\"]+\.(?:lean|md)(?:#[^\"]*)?)"', lambda m:
@@ -454,6 +583,28 @@ class Explorer:
                     body = '<p class="eyebrow">Library · Source module</p>' + docs
                     body += '<h2>Declarations</h2>' + self.reference_list('declarations', record['declarations'])
                 self.write('library/' + kind + '/' + record_component(key), record.get('title', key), body, 'library')
+        # Rewritten computation interfaces need explanatory landings, not aliases
+        # pretending that the old and new Lean statements are interchangeable.
+        reconciliation = json.loads(Path(__file__).with_name('legacy_math_reconciliation.json').read_text())
+        legacy_path = self.api / 'legacy-links.json'
+        legacy = json.loads(legacy_path.read_text()) if legacy_path.is_file() else None
+        for old, entry in reconciliation['declarations'].items():
+            targets = entry.get('current', [])
+            if entry['status'] != 'rewritten-interface' or old in self.records['declarations'] or not targets or not all(n in self.records['declarations'] for n in targets):
+                continue
+            landing = 'library/declarations/' + record_component(old)
+            body = '<p>The sampling interface was rewritten during the Ops migration. The current statements use the Ops machine and tape interfaces, with their own explicit hypotheses.</p>'
+            related = [p for p in self.pages.values() if p.url == entry['page']]
+            if related:
+                body += self.cards(related)
+            body += '<h2>Current statements</h2>' + self.reference_list('declarations', targets)
+            self.write(landing, old, body, 'library')
+            from library import write_redirect
+            write_redirect(self.site / 'declarations' / record_component(old) / 'index.html', BASE + landing + '/')
+            if legacy is not None:
+                legacy['declarations'][old] = BASE + landing + '/'
+        if legacy is not None:
+            legacy_path.write_text(json.dumps(legacy, ensure_ascii=False, separators=(',', ':')) + '\n')
         for key, guide in self.records['guides'].items():
             body = '<p class="source-label">' + html.escape(guide['source']['kind']) + ' · <code>' + html.escape(guide['source']['path']) + '</code></p>'
             guide_body = re.sub(r'^# [^\n]*\n', '', guide['markdown'], count=1)
@@ -514,7 +665,8 @@ class Explorer:
         for page in self.pages.values():
             data['entries'].append({'id': page.key, 'kind': page.kind, 'title': page.meta['title'], 'url': page.url,
                 'summary': page.meta.get('summary', ''), 'module': '', 'record': BASE + 'api/v1/editorial-pages.json',
-                'search_text': ' '.join(re.findall(r'\w+', page.body.lower() + ' ' + page.meta['title'].lower())) + ' ' + inherited_search.get(page.meta.get('library_algorithm'), ''),
+                'aliases': page.meta.get('search_aliases', []),
+                'search_text': ' '.join(re.findall(r'\w+', page.body.lower() + ' ' + page.meta['title'].lower() + ' ' + ' '.join(page.meta.get('search_aliases', [])))) + ' ' + inherited_search.get(page.meta.get('library_algorithm'), ''),
                 'library_algorithm': page.meta.get('library_algorithm'),
                 'library_search_text': inherited_search.get(page.meta.get('library_algorithm'), ''),
                 'admission_reported': False, 'editorial_page': True})
@@ -529,8 +681,11 @@ class Explorer:
     def build(self):
         # Resolve every marker before replacing any rendered page.
         rendered = {p.key: self.render_body(p) for p in self.pages.values()}
-        for asset in ['cg-pilot.css', 'cg-pilot.js']:
+        for asset in ['cg-pilot.css', 'cg-pilot.js', 'explore.css', 'explore.js', 'explore-search.js']:
             shutil.copyfile(Path(__file__).parent / 'web' / asset, self.site / asset)
+            digest = hashlib.sha256((self.site / asset).read_bytes()).hexdigest()[:12]
+            self.template = re.sub(r'((?:href|src)="(?:/explore/)?' + re.escape(asset) + r')(?:\?[^\"]*)?"',
+                                   lambda m: m[1] + '?v=' + digest + '"', self.template)
         self.search_and_registry()
         self.render_library()
         for page in self.pages.values():

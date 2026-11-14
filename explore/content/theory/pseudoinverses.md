@@ -19,14 +19,18 @@ Moore–Penrose pseudoinverses, least-squares solutions, and range conditions. T
 
 {{ generated:prerequisites }}
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
 
-## Definitions in the library
+## Formal definitions
 
 {{ generated:definitions }}
 
 ## Used by algorithms
 
 {{ generated:used-by }}
+
+## Broader topics
+
+{{ generated:parent-topics }}

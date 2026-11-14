@@ -11,16 +11,24 @@ module_prefixes:
 - NLAlib.Matrix.Subspaces
 ---
 
-Orthonormal bases, projectors, angles, and approximation by subspaces. This outline reserves a place for an introduction, the central definitions, and a readable organization of the existing statements.
+Many numerical methods first select a subspace and then solve or approximate within it. The projector describes that choice independently of the basis used to represent it.
 
-## Statements in the library
+::: definition name="Orthogonal projection"
+If $\mathbf Q$ has orthonormal columns, then $\mathbf P=\mathbf Q\mathbf Q^{\mathsf{H}}$ is the orthogonal projector onto their range: $\mathbf P^{\mathsf{H}}=\mathbf P$ and $\mathbf P^2=\mathbf P$. For any vector $\mathbf x$, the projected vector lies in the subspace and the residual $\mathbf x-\mathbf P\mathbf x$ is orthogonal to it. Principal angles compare two subspaces rather than particular choices of basis.
+:::
+
+## Results
 
 {{ generated:results }}
 
-## Definitions in the library
+## Formal definitions
 
 {{ generated:definitions }}
 
 ## Used by algorithms
 
 {{ generated:used-by }}
+
+## Broader topics
+
+{{ generated:parent-topics }}

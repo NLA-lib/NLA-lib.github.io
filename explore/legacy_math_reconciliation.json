@@ -1,0 +1,27 @@
+{
+  "from_commit": "c2996a88ae0f8cb17fb2d8d022574529b6d1fea5",
+  "note": "Inventory dispositions, not declaration aliases. Rewritten interfaces do not assert unchanged statements or transfer old execution certificates.",
+  "declarations": {
+    "NLAlib.eigh_toFloatMachine_map_samples": {
+      "status": "rewritten-interface",
+      "old_module": "NLAlib.Eigensolvers.SpectralBisectionSamples",
+      "old_kind": "theorem",
+      "current": ["NLAlib.Ops.Machine.eigh_toFloatMachine_map_samples"],
+      "page": "/explore/theory/random-sampling-models/",
+      "reason": "Sampler-map equality is stated for an Ops machine instead of the retired Computation scalar semantics. The current theorem is displayed with its actual type."
+    },
+    "NLAlib.eigh_eighTapeMachine_eq_eigh_eighIdealTree": {
+      "status": "rewritten-interface",
+      "old_module": "NLAlib.Eigensolvers.SpectralBisectionSamples",
+      "old_kind": "theorem",
+      "current": ["NLAlib.SpectralBisection.eigh_tapeMachine_roundTape"],
+      "page": "/explore/theory/random-sampling-models/",
+      "reason": "The Ops tape-to-ideal coupling uses explicit position-independent rounding functions and an explicit starting position. It is not an alias for the old Computation.Interp statement."
+    },
+    "NLAlib.Ops.tacticIdx_prod": {"status": "syntax-helper", "old_module": "NLAlib.Ops.Logic.Index", "old_kind": "def", "reason": "A ParserDescr for tactic syntax, not a mathematical theorem."},
+    "NLAlib.Ops.tacticWp_shape": {"status": "syntax-helper", "old_module": "NLAlib.Ops.Tactic", "old_kind": "def", "reason": "A ParserDescr for tactic syntax, not a mathematical theorem."},
+    "NLAlib.Ops.tacticFrame_facts": {"status": "syntax-helper", "old_module": "NLAlib.Ops.Logic.Step", "old_kind": "def", "reason": "A ParserDescr for tactic syntax, not a mathematical theorem."},
+    "NLAlib.Ops.instDecidableEqCastOp.decEq": {"status": "generated-helper", "old_module": "NLAlib.Ops.Catalog.Tagged", "old_kind": "def", "reason": "A generated DecidableEq implementation helper, not a named mathematical result."},
+    "NLAlib.Ops.instDecidableEqTagged.decEq": {"status": "generated-helper", "old_module": "NLAlib.Ops.Catalog.Tagged", "old_kind": "def", "reason": "A generated DecidableEq implementation helper, not a named mathematical result."}
+  }
+}

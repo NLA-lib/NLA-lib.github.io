@@ -42,6 +42,10 @@
     let target;
     try { target = document.getElementById(decodeURIComponent(location.hash.slice(1))); } catch (_) { return; }
     if (!target) return;
+    if (target.classList.contains('explorer-result-reference')) {
+      const statement = target.querySelector(':scope > details');
+      if (statement) statement.open = true;
+    }
     for (let node = target; node; node = node.parentElement) if (node.tagName === 'DETAILS') node.open = true;
     target.scrollIntoView();
   }

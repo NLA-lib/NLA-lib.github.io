@@ -12,6 +12,7 @@
       'generalized inverse': ['pinv', 'pseudoinverse'], product: ['mul', 'multiplication', 'product']};
     const documents = entries.filter(e => !e.admission_reported).map(e => ({e,
       name: lower(e.id), title: lower(e.title),
+      aliases: (e.aliases || []).map(lower),
       text: lower([e.id, e.title, e.summary, e.signature, e.module, e.search_text].join(' '))}));
     return function search(query, kind = '') {
       const q = lower(query).trim();
@@ -31,11 +32,11 @@
       let ranked = documents.filter(d => !kind || d.e.kind === kind).map(d => {
         let hits = 0, score = ['result', 'algorithm'].includes(d.e.kind) ? 2 : 0;
         for (const group of groups) {
-          const weight = Math.max(0, ...group.map(term => contains(d.name, term) ? 6 : contains(d.title, term) ? 5 : contains(d.text, term) ? 1 : 0));
+          const weight = Math.max(0, ...group.map(term => d.aliases.includes(term) ? 8 : contains(d.name, term) ? 6 : contains(d.title, term) ? 5 : contains(d.text, term) ? 1 : 0));
           if (weight) hits++;
           score += weight;
         }
-        if (d.name === q || d.name.endsWith('.' + q)) score += 1000;
+        if (d.name === q || d.name.endsWith('.' + q) || d.aliases.includes(q)) score += 1000;
         return {entry: d.e, hits, score};
       });
       const complete = ranked.filter(r => r.hits === groups.length);

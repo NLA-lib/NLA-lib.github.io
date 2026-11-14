@@ -8,20 +8,28 @@ order: 10
 parents:
 - polynomial-approximation
 module_prefixes:
-- NLAlib.Polynomial.Quadrature
 - NLAlib.Polynomial.Orthogonal
+- NLAlib.Krylov.Functions.Quadrature
 ---
 
-Three-term recurrences and Gauss, Gauss–Radau, and Gauss–Lobatto quadrature. The introductory exposition is incomplete; available library statements are listed below.
+A measure defines an inner product on polynomials. Orthogonalizing this sequence produces recurrences whose small Jacobi matrices connect polynomial zeros, quadrature nodes, and Lanczos coefficients.
 
-## Statements in the library
+::: definition name="Orthogonal polynomials and quadrature rules"
+For a positive measure $\mu$ with the required finite moments, polynomials $p_i,p_j$ are orthogonal when $\int p_i(t)p_j(t)\,d\mu(t)=0$ for $i\ne j$. A quadrature rule replaces an integral by $\sum_i w_i f(t_i)$. Gauss, Radau, and Lobatto rules differ in whether endpoint nodes are prescribed; exactness and error statements require the hypotheses given in each result.
+:::
+
+## Results
 
 {{ generated:results }}
 
-## Definitions in the library
+## Formal definitions
 
 {{ generated:definitions }}
 
 ## Used by algorithms
 
 {{ generated:used-by }}
+
+## Broader topics
+
+{{ generated:parent-topics }}

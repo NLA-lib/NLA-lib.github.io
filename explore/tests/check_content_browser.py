@@ -26,9 +26,13 @@ with sync_playwright() as p:
     bounds = card.bounding_box()
     page.mouse.click(bounds['x'] + bounds['width'] - 10, bounds['y'] + bounds['height'] - 10)
     expect(page).to_have_url(base + 'algorithms/')
+    assert page.locator('main .explorer-link-card[href*="/tasks/"]').count() == 9
+    assert page.locator('main .explorer-link-card[href*="/families/"]').count() == 0
+    assert page.locator('main .explorer-link-card[href*="/algorithms/"]').count() == 0
     page.goto(base + 'tasks/linear-systems/')
+    assert page.locator('.task-group').count() == 5
     page.get_by_role('link', name='Galerkin methods', exact=True).click()
-    assert page.locator('main .explorer-link-card').count() == 4
+    assert page.locator('#section-methods .explorer-link-card').count() == 4
     assert page.get_by_role('link', name='Preconditioned CG (PCG)', exact=True).is_visible()
     assert page.get_by_role('link', name='Block CG', exact=True).is_visible()
     assert page.get_by_role('link', name='Full orthogonalization method (FOM)', exact=True).is_visible()
@@ -48,7 +52,7 @@ with sync_playwright() as p:
     assert page.get_by_role('link', name='PLU factorization', exact=True).is_visible()
     page.goto(base + 'tasks/low-rank-approximation/')
     page.get_by_role('link', name='RSVD-type methods', exact=True).click()
-    assert page.locator('main .explorer-link-card').count() == 4
+    assert page.locator('#section-methods .explorer-link-card').count() == 4
     page.get_by_role('link', name='Late-truncated RSVD', exact=True).click()
     assert page.get_by_role('article', name='Theorem (Orthogonal error decomposition)', exact=True).is_visible()
     assert page.locator('.katex-error').count() == 0
@@ -57,6 +61,17 @@ with sync_playwright() as p:
         links = page.get_by_role('link', name='Lanczos process', exact=True)
         assert links.count() == 1
         assert '/algorithms/lanczos/' in links.get_attribute('href')
+    page.goto(base + 'tasks/eigenvalues/')
+    assert page.locator('.task-group').count() == 6
+    assert page.get_by_role('heading', name='QR eigenvalue methods', exact=True).is_visible()
+    eigen_description = page.locator('#group-krylov').inner_text()
+    assert 'Ritz eigenvalues' in eigen_description
+    rsi_eigen_url = page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href')
+    page.goto(base + 'tasks/low-rank-approximation/')
+    assert page.locator('#group-filtered-ranges').is_visible()
+    assert page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href') == rsi_eigen_url
+    page.goto(base + 'tasks/quadrature/')
+    assert 'quadrature rule' in page.get_by_role('link', name='Lanczos process', exact=True).inner_text()
     page.get_by_role('link', name='Lanczos process', exact=True).click()
     assert page.url.split('?')[0] == base + 'algorithms/lanczos/'
     assert page.get_by_role('heading', name='Lanczos process', exact=True).is_visible()
@@ -68,7 +83,7 @@ with sync_playwright() as p:
     assert page.get_by_role('heading', name='Accuracy', exact=True).is_visible()
     assert page.locator('#computation-model').count() == 0
     page.goto(base + 'algorithms/lsqr/')
-    assert 'Placeholder' in page.locator('.content-status').inner_text()
+    assert page.get_by_role('article', name='Definition (LSQR)', exact=True).is_visible()
     assert page.locator('.cg-result').count() == 0
     for topic in ['matrix-analysis', 'polynomial-approximation']:
         page.goto(base + 'theory/' + topic + '/')
@@ -91,7 +106,8 @@ with sync_playwright() as p:
     else:
         assert page.locator('main a[href*="/blob/"]').count() == 0
     page.goto(base + 'algorithms/conjugate-gradient/')
-    assert page.locator('.cg-result').count() == 4
+    assert page.locator('#section-mathematical-cg-in-exact-arithmetic .cg-result').count() == 4
+    assert page.locator('#section-further-mathematical-results .explorer-result-reference').count() > 0
     assert page.locator('.katex-error').count() == 0
     for section in ['mathematical-background', 'appears-under-these-tasks', 'family']:
         assert page.locator('#section-' + section).get_attribute('open') is None

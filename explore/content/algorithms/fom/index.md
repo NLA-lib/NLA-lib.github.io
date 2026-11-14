@@ -4,8 +4,6 @@ id: fom
 title: Full orthogonalization method (FOM)
 summary: Enforce Galerkin orthogonality using a full Krylov basis.
 status: outline
-tasks:
-- linear-systems
 theory:
 - krylov-spaces
 - subspaces

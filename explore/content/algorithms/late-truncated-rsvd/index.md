@@ -4,14 +4,15 @@ id: late-truncated-rsvd
 title: Late-truncated RSVD
 summary: Project onto the sketch range, then truncate the resulting approximation.
 status: outline
-tasks:
-- low-rank-approximation
 families:
 - rsvd-type-methods
 theory:
 - singular-values
 - random-matrices
 - best-rank-approximation
+- randomized-low-rank-theory
+uses:
+- randomized-svd
 ---
 
 ::: definition name="Late-truncated RSVD"
@@ -35,6 +36,10 @@ The squared error separates into the range-finding error and the error from trun
 
 
 
+## Components
+
+{{ generated:components }}
+
 ## Mathematical background
 
 {{ generated:theory }}
@@ -42,3 +47,7 @@ The squared error separates into the range-finding error and the error from trun
 ## Family
 
 {{ generated:families }}
+
+## Appears under these tasks
+
+{{ generated:task-membership }}

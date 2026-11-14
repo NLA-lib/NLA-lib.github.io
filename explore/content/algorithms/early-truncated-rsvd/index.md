@@ -4,17 +4,20 @@ id: early-truncated-rsvd
 title: Early-truncated RSVD
 summary: Truncate the sketch first, then project the matrix onto that smaller range.
 status: outline
-tasks:
-- low-rank-approximation
 families:
 - rsvd-type-methods
 theory:
 - singular-values
 - random-matrices
 - best-rank-approximation
+- sketching-theory
+- randomized-low-rank-theory
 result_ids:
 - early-truncation-structural-bound
 - early-truncation-pcp-bound
+- early-truncated-rsvd-lower-bound
+- etrsvd
+library_results: false
 ---
 
 ::: definition decl:NLAlib.earlyTruncatedRSVD name="Early-truncated RSVD"
@@ -41,3 +44,7 @@ Early truncation needs control of how the sketch preserves useful subspaces and 
 ## Family
 
 {{ generated:families }}
+
+## Appears under these tasks
+
+{{ generated:task-membership }}

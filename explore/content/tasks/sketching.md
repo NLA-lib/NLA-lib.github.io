@@ -9,17 +9,22 @@ theory:
 - subspaces
 - probability
 - concentration
+groups:
+- id: sparse
+  title: Sparse embeddings
+  summary: Apply a sketch with very few nonzero entries per input coordinate.
+  algorithms:
+  - countsketch
+- id: structured
+  title: Structured orthogonal embeddings
+  summary: Combine random signs, an orthogonal transform, and subsampling.
+  algorithms:
+  - srht
 ---
 
 Compress vectors, matrices, or subspaces while preserving selected geometry.
 
-## Families
-
-{{ generated:families }}
-
-## Other methods
-
-{{ generated:algorithms }}
+{{ generated:task-groups }}
 
 ## Mathematical background
 

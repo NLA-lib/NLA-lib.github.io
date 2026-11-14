@@ -2,12 +2,9 @@
 kind: family
 id: galerkin-methods
 title: Galerkin methods
-summary: Choose a Krylov approximation by requiring its residual to be orthogonal
-  to the trial space.
+summary: Choose a Krylov approximation by requiring its residual to be orthogonal to the trial space.
 status: ready
 order: 0
-tasks:
-- linear-systems
 source_guides:
 - docs/algorithms/Conjugate-Gradient.md
 ---
@@ -19,3 +16,7 @@ Galerkin methods choose an approximate solution from a trial space and require t
 ## Methods
 
 {{ generated:algorithms }}
+
+## Appears under these tasks
+
+{{ generated:task-membership }}

@@ -256,8 +256,8 @@ def publish(model, out, synonyms=None):
         redirects = dict(legacy[kind])
         for old, destination in redirects.items():
             write_redirect(out / kind / record_component(old) / 'index.html', destination)
-            if kind == 'modules' and old in model.get('module_moves', {}):
-                write_redirect(out / 'library/modules' / record_component(old) / 'index.html', destination)
+            if old not in model['records'][kind] or (kind == 'modules' and old in model.get('module_moves', {})):
+                write_redirect(out / 'library' / kind / record_component(old) / 'index.html', destination)
     write_redirect(out / 'catalog/index.html', BASE + 'library/modules/')
     write_redirect(out / 'rates/index.html', BASE + 'library/results/')
     return model

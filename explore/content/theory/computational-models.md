@@ -2,8 +2,8 @@
 kind: theory
 id: computational-models
 title: Computational models
-summary: Exact arithmetic, relative-error BLAS and matvec, sequential and pairwise
-  reductions, and operation/storage measures.
+summary: Exact arithmetic, relative-error BLAS and matvec, sequential and pairwise reductions, and operation/storage
+  measures.
 status: outline
 order: 16
 ---
@@ -12,13 +12,9 @@ Keep access to data, arithmetic accuracy, storage representation, and resource c
 
 See [Arithmetic models](/explore/arithmetic-models/) for the four arithmetic choices in the CG pilot.
 
-## Statements in the library
+## Subtopics
 
-{{ generated:results }}
-
-## Definitions in the library
-
-{{ generated:definitions }}
+{{ generated:subtopics }}
 
 ## Used by algorithms
 
