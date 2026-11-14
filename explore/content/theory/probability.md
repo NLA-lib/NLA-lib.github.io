@@ -2,27 +2,16 @@
 kind: theory
 id: probability
 title: Probability for numerical linear algebra
-summary: Gaussian and Haar sketches, Bernstein and Hanson–Wright inequalities, and
-  matrix concentration.
+summary: Distributions, random matrices, and concentration bounds used in randomized numerical algorithms.
 status: outline
 order: 13
-module_prefixes:
-- NLAlib.Probability
 ---
 
-Gaussian and Haar sketches, Bernstein and Hanson–Wright inequalities, and matrix concentration. The introductory exposition is incomplete; available library statements are listed below.
+Follow random matrices for sketch distributions and invariance, or concentration inequalities for tail bounds. These results are shared by trace estimators, low-rank approximations, and randomized eigensolvers.
 
 ## Subtopics
 
 {{ generated:subtopics }}
-
-## Statements in the library
-
-{{ generated:results }}
-
-## Definitions in the library
-
-{{ generated:definitions }}
 
 ## Used by algorithms
 

@@ -3,15 +3,16 @@ kind: algorithm
 id: lanczos-quadrature
 title: Lanczos quadrature
 summary: Use the Lanczos compression to approximate a quadratic form $b^{\mathsf T}f(A)b$.
-status: placeholder
+status: outline
 order: 3
-tasks:
-- quadrature
 theory:
 - orthogonal-polynomials
 - spectral-theory
 uses:
 - lanczos
+library_results: false
+result_ids:
+- lanczos-gauss-quadrature
 ---
 
 Use the Lanczos compression to approximate a quadratic form $b^{\mathsf T}f(A)b$.
@@ -22,7 +23,13 @@ Use the Lanczos compression to approximate a quadratic form $b^{\mathsf T}f(A)b$
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition decl:NLAlib.lanczosQuadrature name="Lanczos quadrature"
+For Hermitian $\mathbf A$ and nonzero $\mathbf b$, approximate the quadratic form by
+
+$$\mathbf b^{\mathsf{H}}f(\mathbf A)\mathbf b\approx\|\mathbf b\|_2^2\mathbf e_1^{\mathsf{H}}f(\mathbf T_k)\mathbf e_1.$$
+
+The eigenvalues of the Lanczos compression $\mathbf T_k$ provide quadrature nodes; the squared first components of its normalized eigenvectors provide weights. The function, interval, and derivative assumptions determine which error bounds apply.
+:::
 
 
 
@@ -30,9 +37,13 @@ This page is an outline. A readable definition and reviewed pseudocode will be a
 
 {{ generated:components }}
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
+
+## Used by other algorithms
+
+{{ generated:applications }}
 
 ## Mathematical background
 

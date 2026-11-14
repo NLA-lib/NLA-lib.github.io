@@ -2,11 +2,8 @@
 kind: algorithm
 id: early-and-late-truncated-rsvd
 title: Early-and-late-truncated RSVD
-summary: Select a reduced sketch range, then truncate the projected matrix to the
-  target rank.
+summary: Select a reduced sketch range, then truncate the projected matrix to the target rank.
 status: outline
-tasks:
-- low-rank-approximation
 families:
 - rsvd-type-methods
 theory:
@@ -39,3 +36,7 @@ A reviewed analysis combining subspace selection and final truncation will be cu
 ## Family
 
 {{ generated:families }}
+
+## Appears under these tasks
+
+{{ generated:task-membership }}

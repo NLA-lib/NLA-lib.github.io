@@ -3,15 +3,16 @@ kind: algorithm
 id: cholesky
 title: Cholesky factorization
 summary: Construct a triangular factor of a positive-definite matrix.
-status: placeholder
+status: outline
 order: 24
-tasks:
-- matrix-factorizations
-- linear-systems
 theory:
 - spectral-theory
+- matrix-factorization-theory
 families:
 - matrix-factorizations
+library_results: false
+result_ids:
+- cholesky-existence
 ---
 
 Construct a triangular factor of a positive-definite matrix.
@@ -22,11 +23,19 @@ Construct a triangular factor of a positive-definite matrix.
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition name="Cholesky factorization"
+For Hermitian positive-definite $\mathbf A$, a Cholesky factorization has the form $\mathbf A=\mathbf L\mathbf L^{\mathsf{H}}$, where $\mathbf L$ is lower triangular with positive real diagonal. The upper-triangular convention uses $\mathbf A=\mathbf R^{\mathsf{H}}\mathbf R$. Solving with these factors requires two triangular solves.
+:::
 
 
 
-## Statements in the library
+## Mathematical guarantees
+
+::: theorem result:cholesky-existence name="Existence of Cholesky factors"
+A square matrix admits a Cholesky factor with positive real diagonal exactly when it is positive definite. This characterizes existence of the mathematical factorization; a rounded implementation needs a separate execution and accuracy result.
+:::
+
+## Further results
 
 {{ generated:results }}
 

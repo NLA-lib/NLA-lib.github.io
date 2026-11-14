@@ -14,7 +14,8 @@ def mathematics(text, vectors='AbxvPQHM'):
     parts = re.split(r'(\$\$[\s\S]*?\$\$|\$[^$\n]+\$)', text)
     token = r'\\(?:mathbf|boldsymbol|mathsf|mathrm|mathbb|mathcal|text|operatorname)\*?\{[^{}]*\}|\\[A-Za-z]+|[A-Za-z]'
     for index in range(1, len(parts), 2):
-        parts[index] = re.sub(r'\\mathbf\s+([A-Za-z])', r'\\mathbf{\1}', parts[index])
+        parts[index] = re.sub(r'\\(mathbf|boldsymbol|mathsf|mathrm|mathbb|mathcal)\s+([A-Za-z])',
+                              lambda m: '\\' + m[1] + '{' + m[2] + '}', parts[index])
         parts[index] = re.sub(token, lambda m: r'\mathbf{' + m[0] + '}' if m[0] in vectors else m[0], parts[index])
         parts[index] = re.sub(r'\\(widehat|hat|tilde|widetilde)\s*(\\mathbf\{[A-Za-z]\})', r'\\\1{\2}', parts[index])
     return ''.join(parts)

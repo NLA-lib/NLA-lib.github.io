@@ -5,12 +5,10 @@ title: Randomized subspace iteration
 summary: Apply power iterations to improve a randomized range approximation.
 status: outline
 order: 11
-tasks:
-- low-rank-approximation
-- eigenvalues
 theory:
 - matrix-polynomials
 - random-matrices
+- randomized-low-rank-theory
 library_algorithm: rsi
 uses:
 - randomized-svd
@@ -24,7 +22,13 @@ Apply power iterations to improve a randomized range approximation.
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition name="Randomized subspace iteration"
+Choose a test matrix $\mathbf\Omega$ and a nonnegative power count $p$. Form
+
+$$\mathbf Y=\mathbf A(\mathbf A^{\mathsf{H}}\mathbf A)^p\mathbf\Omega,\qquad\mathbf B=\mathbf P_{\mathbf Y}\mathbf A.$$
+
+Here $\mathbf P_{\mathbf Y}$ is the orthogonal projector onto the sampled range. With $p=0$ this is the ordinary range-finder approximation. Intermediate orthogonalization controls the numerical loss of directions and belongs to the implementation. For Hermitian positive-semidefinite matrices, the range also approximates a dominant invariant subspace.
+:::
 
 
 
@@ -32,7 +36,7 @@ This page is an outline. A readable definition and reviewed pseudocode will be a
 
 {{ generated:components }}
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
 

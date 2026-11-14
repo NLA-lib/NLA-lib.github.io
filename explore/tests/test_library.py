@@ -91,6 +91,9 @@ class LibraryTests(unittest.TestCase):
         self.assertEqual(links['results']['old-bound'], links['results']['bound'])
         self.assertEqual(links['declarations']['N.old'], links['declarations']['N.bound'])
         self.assertEqual(model['records']['declarations']['N.bound']['statement_changed'], ['rename'])
+        self.assertIn('/library/declarations/N.bound/', (out / 'library/declarations/N.old/index.html').read_text())
+        self.assertIn('/library/results/bound/', (out / 'library/results/old-bound/index.html').read_text())
+        self.assertFalse((out / 'library/declarations/N.bound/index.html').exists())
         with self.assertRaisesRegex(ValueError, 'primary declaration'):
             self.model(overrides={'old-bound': {'primary': 'N.missing'}})
         with self.assertRaisesRegex(ValueError, 'cycle'):

@@ -5,12 +5,11 @@ title: Sketch-and-solve least squares
 summary: Solve a compressed least-squares problem produced by a sketch.
 status: outline
 order: 20
-tasks:
-- least-squares
 theory:
 - subspaces
 - pseudoinverses
 - random-matrices
+- sketching-theory
 library_algorithm: sketch-and-solve
 search_aliases:
 - sketched least squares
@@ -24,11 +23,17 @@ Solve a compressed least-squares problem produced by a sketch.
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition decl:NLAlib.sketchAndSolve name="Sketch-and-solve least squares"
+Replace the original problem by $\min_{\mathbf x}\|\mathbf S\mathbf A\mathbf x-\mathbf S\mathbf b\|_2$ and return the minimum-norm solution
+
+$$\widehat{\mathbf x}=(\mathbf S\mathbf A)^{\dagger}\mathbf S\mathbf b.$$
+
+The solution minimizes the sketched residual. Relating it to the original residual requires assumptions on the sketch.
+:::
 
 
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
 

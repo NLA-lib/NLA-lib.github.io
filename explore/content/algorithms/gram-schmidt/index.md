@@ -5,10 +5,9 @@ title: Gram–Schmidt orthogonalization
 summary: Construct an orthonormal basis from input vectors.
 status: outline
 order: 22
-tasks:
-- matrix-factorizations
 theory:
 - subspaces
+- matrix-factorization-theory
 library_algorithm: gram-schmidt
 search_aliases:
 - Gram-Schmidt
@@ -17,6 +16,8 @@ search_aliases:
 - QR factorization
 source_guides:
 - docs/algorithms/Gram-Schmidt.md
+result_ids:
+- gram-schmidt
 ---
 
 Construct an orthonormal basis from input vectors.
@@ -29,13 +30,19 @@ Construct an orthonormal basis from input vectors.
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition decl:NLAlib.gramSchmidtQ name="Gram–Schmidt orthogonalization"
+Process the input columns in order. Remove from each column its components along the earlier nonzero orthonormal columns, then normalize a nonzero residual. A zero residual represents a dependent column and remains zero in the library's rank-revealing convention. Classical Gram–Schmidt forms projection coefficients from a common input residual; modified Gram–Schmidt updates that residual after each projection. Repeated passes are separate implementation choices.
+:::
 
 
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
+
+## Used by other algorithms
+
+{{ generated:applications }}
 
 ## Mathematical background
 

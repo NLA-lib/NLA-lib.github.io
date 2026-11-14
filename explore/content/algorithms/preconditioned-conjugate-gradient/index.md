@@ -2,22 +2,31 @@
 kind: algorithm
 id: preconditioned-conjugate-gradient
 title: Preconditioned CG (PCG)
-summary: Apply conjugate gradients to a symmetrically preconditioned positive-definite
-  system.
+summary: Apply conjugate gradients to a symmetrically preconditioned positive-definite system.
 status: outline
 order: 1
-tasks:
-- linear-systems
 families:
 - galerkin-methods
 theory:
 - krylov-spaces
 - spectral-theory
+- finite-precision-krylov
 library_algorithm: pcg
 search_aliases:
 - preconditioned CG
 source_guides:
 - docs/algorithms/Conjugate-Gradient.md
+library_results: false
+result_ids:
+- pcg-chebyshev-bound
+- pcg-finite-termination
+- pcg-optimality
+- pcg-orthogonality
+- pcg-outlier-bound
+- pcg-recurrence
+- pcg-spectrum-minimax-bound
+- pcg-split-system
+- preconditioned-lanczos-recurrence
 ---
 
 For a symmetric positive-definite matrix $\mathbf A$ and symmetric positive-definite inverse preconditioner $\mathbf C$, PCG corresponds to CG on
@@ -47,3 +56,7 @@ These library results describe the mathematical PCG iterates. The implementation
 ## Family
 
 {{ generated:families }}
+
+## Appears under these tasks
+
+{{ generated:task-membership }}

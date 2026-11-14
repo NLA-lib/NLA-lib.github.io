@@ -5,8 +5,6 @@ title: Nyström subspace iteration
 summary: Use subspace iteration in a Nyström approximation.
 status: outline
 order: 17
-tasks:
-- low-rank-approximation
 theory:
 - matrix-polynomials
 - random-matrices
@@ -23,7 +21,9 @@ Use subspace iteration in a Nyström approximation.
 
 ## Definition
 
-This page is an outline. A readable definition and reviewed pseudocode will be added here. Existing statements are listed below where they are indexed in the library.
+::: definition name="Nyström subspace iteration"
+For Hermitian positive-semidefinite $\mathbf A$, replace the test matrix in the Nyström approximation by $\mathbf A^p\mathbf\Omega$, with $p\ge0$. The powers emphasize dominant spectral directions. The result is $\operatorname{Nystrom}(\mathbf A,\mathbf A^p\mathbf\Omega)$; the choice of stable intermediate bases belongs to a concrete implementation.
+:::
 
 
 
@@ -31,7 +31,7 @@ This page is an outline. A readable definition and reviewed pseudocode will be a
 
 {{ generated:components }}
 
-## Statements in the library
+## Results
 
 {{ generated:results }}
 

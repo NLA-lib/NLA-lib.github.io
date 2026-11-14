@@ -43,6 +43,9 @@
 .explorer-section { margin-block: 1.4rem; }
 .explorer-section > summary { cursor: pointer; }
 .explorer-section > summary h2 { display: inline; margin: 0; font-size: 1.15rem; }
+.explorer-section > summary h2 { padding-top: 0; }
+.explorer-section + .explorer-section { margin-top: 1.65rem; }
+.explore-pages .page-title { padding-top: 0; margin: 1.8rem 0 .65rem; }
 .explorer-section-body { padding-top: .35rem; }
 .explorer-section:target, article:target { outline: 2px solid #777; outline-offset: 3px; }
 .explorer-card .math.display { display: block; overflow-x: auto; padding-block: .25rem; }
@@ -63,6 +66,15 @@
 .cg-pseudocode .cg-pseudocode-phase { margin: 1rem 0 .35rem; }
 .cg-pseudocode li { padding-left: .2rem; margin: .35rem 0; }
 .cg-pseudocode p { margin: 0; }
+.cg-model > ol, .cg-algorithm > ol { padding-left: 1.5rem; }
+.cg-model ol ol, .cg-algorithm ol ol { padding-left: 1.4rem; margin-block: .3rem .6rem; }
+.cg-model li, .cg-algorithm li { margin-block: .3rem; padding-left: .15rem; }
+.explorer-result-reference { margin-block: .65rem; padding-block: .75rem; }
+.explorer-result-reference > .explorer-result-details { margin: 0 !important; padding-top: 0; font-size: 1rem; }
+.explorer-result-details > summary { color: var(--explorer-accent); }
+.explorer-result-details > .explorer-disclosure-body { padding-top: .8rem; }
+.explorer-result-reference code { overflow-wrap: anywhere; }
+.explorer-result-reference .math.display { padding-block: .15rem; }
 .cg-model-picker label { font-weight: 600; margin-bottom: .6rem; }
 .cg-model-picker { margin: 1rem 0 1.5rem; }
 .cg-model-picker select { width: 100%; max-width: 26rem; border-radius: 0; }

@@ -27,6 +27,6 @@ Operation counts, work assumptions, and storage bounds are not curated on this p
 
 Arithmetic-model choices and checked execution-to-accuracy links will be added here. No model switch is shown until a coherent implementation and theorem are linked.
 
-## Statements in the library
+## Results
 
 {{ generated:results }}

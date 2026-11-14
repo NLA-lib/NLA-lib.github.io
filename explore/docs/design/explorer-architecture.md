@@ -22,10 +22,21 @@ compositions, linked to the common process through `uses`.
 
 ## Families, mathematical methods, and implementations
 
-The visible hierarchy is task → family → mathematical algorithm → implementation,
-with arithmetic choices inside an implementation. Family membership is a discovery
-relationship, not part of an algorithm's canonical URL. Methods can belong to more
-than one family.
+The Algorithms entry point lists tasks. Each task owns a custom organization of
+methods, using ordered `groups` in its Markdown front matter. A task can group by
+algorithmic family, problem structure, output, or the role of a shared component.
+Those groups need not be uniform across tasks. Lanczos can appear under Krylov
+eigenvalue methods in one task and shared quadrature recurrences in another.
+
+Every group links to the same canonical mathematical algorithm pages. Those pages
+own their implementations, with arithmetic choices inside an implementation.
+Task membership is derived from the task groups, so editing placement also updates
+the method's backlinks. Task-specific card descriptions do not change the method's
+identity or definition. Group membership is discovery metadata, not a proof claim.
+
+Global family pages remain shared conceptual references. A task group can link a
+family while selecting only the members relevant to that task. The Algorithms
+entry point does not also show a parallel global family or method list.
 
 Galerkin methods contains CG, PCG, Block CG, and FOM. The CG page owns the mathematical
 iterate and its exact guarantees; carried-residual and fully reorthogonalized
@@ -80,6 +91,12 @@ Placeholders reserve navigation identities and explain the intended scope. They 
 not manufacture code, operation counts, arithmetic choices, or theorems. Existing
 library statements can still be listed on an outline page, with that distinction
 visible. Missing metadata and broken typed references reject the build.
+
+Empty generated sections are omitted. Unknown task-group members, duplicate group
+IDs, and cycles in component, theory-parent, or prerequisite graphs reject the
+build. The [organization audit](organization-audit.md) records a review of every
+authored page and remaining exposition gaps. `audit_organization.py` checks task
+reachability and source-selector coverage against a selected snapshot.
 
 The source and authoring guide is [content/README.md](../../content/README.md).
 

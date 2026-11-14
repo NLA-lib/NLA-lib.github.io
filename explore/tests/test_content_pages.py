@@ -1,5 +1,6 @@
 """The Markdown/metadata boundary owns routes, associations, and source fidelity."""
 import json
+import hashlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -80,6 +81,106 @@ class MarkdownExplorerTests(unittest.TestCase):
         Explorer(self.site, self.content).build()
         self.assertIn('revised prose', (self.site / 'theory/bound/index.html').read_text())
 
+    def test_unpublished_evidence_does_not_invent_a_github_revision(self):
+        explorer = Explorer(self.site, self.content)
+        declaration = dict(self.records['declarations']['N.bound'])
+        declaration['source'] = {'url': None, 'path': 'N/Bound.lean'}
+        evidence = explorer.evidence(declaration)
+        self.assertIn('Source repository on GitHub', evidence)
+        self.assertIn('N/Bound.lean', evidence)
+        self.assertIn('unpublished working-tree snapshot', evidence)
+        self.assertNotIn('/blob/', evidence)
+
+    def test_result_browsing_shows_documentation_and_exact_evidence_without_duplicates(self):
+        explorer = Explorer(self.site, self.content)
+        page = explorer.pages['algorithm:lanczos']
+        body = explorer.generated('results', page)
+        self.assertIn('explorer-result-reference', body)
+        self.assertIn('A useful bound.', body)
+        self.assertIn('N.bound (n : Nat) : n ≤ n', body)
+        self.assertIn('Full source on GitHub', body)
+        page.body += '\n::: theorem result:bound name="Reviewed explanation"\nA readable result.\n:::'
+        self.assertEqual(explorer.generated('results', page), '')
+
+    def test_result_browsing_does_not_call_definitions_or_admissions_theorems(self):
+        explorer = Explorer(self.site, self.content)
+        declaration = explorer.records['declarations']['N.bound']
+        declaration['kind'] = 'def'
+        self.assertIn('aria-label="Definition (A useful bound)"', explorer.result_reference('bound'))
+        declaration['kind'] = 'theorem'
+        declaration['admission_reported'] = True
+        body = explorer.result_reference('bound')
+        self.assertIn('aria-label="Statement (A useful bound)"', body)
+        self.assertIn('reports an admission', body)
+        self.assertNotIn('<strong>Theorem</strong>', body)
+
+    def test_markdown_rebuild_refreshes_asset_versions(self):
+        self.site.joinpath('index.html').write_text('<html><head><link href="/explore/cg-pilot.css?v=old"></head><body class="explore-pages"><main id="content"></main></body></html>')
+        Explorer(self.site, self.content).build()
+        digest = hashlib.sha256((self.site / 'cg-pilot.css').read_bytes()).hexdigest()[:12]
+        rendered = (self.site / 'algorithms/lanczos/index.html').read_text()
+        self.assertIn('/explore/cg-pilot.css?v=' + digest, rendered)
+        self.assertNotIn('cg-pilot.css?v=old', rendered)
+
+    def test_markdown_rebuild_keeps_editorial_search_aliases(self):
+        self.page('lanczos.md', kind='algorithm', id='lanczos', title='Lanczos', search_aliases=['special recurrence'])
+        Explorer(self.site, self.content).build()
+        entries = json.loads((self.api / 'search-index.json').read_text())['entries']
+        entry = next(e for e in entries if e['id'] == 'algorithm:lanczos')
+        self.assertEqual(entry['aliases'], ['special recurrence'])
+        self.assertIn('special recurrence', entry['search_text'])
+
+    def test_task_local_groups_share_canonical_methods_and_derive_membership(self):
+        self.page('eigenvalues.md', '{{ generated:task-groups }}', kind='task', id='eigenvalues', title='Eigenvalues', groups=[
+            {'id': 'krylov', 'title': 'Krylov eigenvalue methods', 'algorithms': ['lanczos'],
+             'summaries': {'lanczos': 'Extract Ritz approximations.'}}])
+        self.page('functions.md', '{{ generated:task-groups }}', kind='task', id='functions', title='Matrix functions', groups=[
+            {'id': 'compression', 'title': 'Operator compression', 'algorithms': ['lanczos'],
+             'summaries': {'lanczos': 'Compress before evaluating a function.'}}])
+        self.page('lanczos.md', '{{ generated:task-membership }}', kind='algorithm', id='lanczos', title='Lanczos')
+        explorer = Explorer(self.site, self.content)
+        explorer.build()
+        method = explorer.pages['algorithm:lanczos']
+        self.assertEqual(set(method.meta['tasks']), {'eigenvalues', 'functions'})
+        self.assertEqual(method.url, '/explore/algorithms/lanczos/')
+        for task, summary in [('eigenvalues', 'Extract Ritz approximations.'), ('functions', 'Compress before evaluating a function.')]:
+            body = (self.site / 'tasks' / task / 'index.html').read_text()
+            self.assertIn('href="/explore/algorithms/lanczos/"', body)
+            self.assertIn(summary, body)
+        registry = json.loads((self.api / 'editorial-pages.json').read_text())['pages']
+        self.assertEqual(sum(p['kind'] == 'algorithm' and p['id'] == 'lanczos' for p in registry), 1)
+
+    def test_task_groups_preserve_authored_order_and_validate_targets(self):
+        self.page('another.md', kind='algorithm', id='another', title='A method')
+        groups = [{'id': 'custom', 'title': 'Custom order', 'algorithms': ['lanczos', 'another']}]
+        self.page('eigenvalues.md', '{{ generated:task-groups }}', kind='task', id='eigenvalues', title='Eigenvalues', groups=groups)
+        explorer = Explorer(self.site, self.content)
+        body = explorer.render_body(explorer.pages['task:eigenvalues'])
+        self.assertLess(body.index('/algorithms/lanczos/'), body.index('/algorithms/another/'))
+        for invalid, error in [
+            ([{'id': 'x', 'title': 'X', 'algorithms': ['missing']}], 'unknown group algorithm'),
+            (groups * 2, 'duplicate group id'),
+            ([{'id': 'x', 'title': 'X', 'algorithms': ['lanczos'], 'summaries': {'another': 'Wrong'}}], 'group summaries'),
+        ]:
+            self.page('eigenvalues.md', kind='task', id='eigenvalues', title='Eigenvalues', groups=invalid)
+            with self.assertRaisesRegex(ValueError, error):
+                load_pages(self.content)
+
+    def test_empty_generated_sections_are_omitted(self):
+        self.page('empty.md', 'Introduction.\n\n## Implementations\n\n{{ generated:implementations }}\n\n## Statements\n\n{{ generated:results }}',
+                  kind='algorithm', id='empty', title='Empty method')
+        explorer = Explorer(self.site, self.content)
+        self.assertEqual(explorer.render_body(explorer.pages['algorithm:empty']).strip(), '<p>Introduction.</p>')
+
+    def test_theory_and_component_dependency_cycles_are_rejected(self):
+        self.page('spectral.md', kind='theory', id='spectral', title='Spectral theory', parents=['spectral'])
+        with self.assertRaisesRegex(ValueError, 'Cycle in parents'):
+            load_pages(self.content)
+        self.page('spectral.md', kind='theory', id='spectral', title='Spectral theory')
+        self.page('lanczos.md', kind='algorithm', id='lanczos', title='Lanczos', uses=['lanczos'])
+        with self.assertRaisesRegex(ValueError, 'Cycle in uses'):
+            load_pages(self.content)
+
     def test_family_contains_methods_and_methods_own_implementations(self):
         self.page('family.md', '{{ generated:algorithms }}', kind='family', id='krylov',
                   title='Krylov methods', tasks=['eigenvalues'])
@@ -137,6 +238,8 @@ class MarkdownExplorerTests(unittest.TestCase):
         self.assertIn('<ul>', rendered)
         self.assertIn('<code>$literal$</code>', rendered)
         self.assertIn('\\mathbf{A}\\mathbf{x}=\\mathbf{b}', rendered)
+        self.assertIn(r'\mathbf{U}^{\mathsf{H}}', markdown(r'$\mathbf U^{\mathsf H}$'))
+        self.assertNotIn(r'\mathsf \mathbf', markdown(r'$\mathbf U^{\mathsf H}$'))
 
     def test_statements_have_stable_links_and_distinguish_arithmetic_models(self):
         body = ''.join('<section data-cg-model="' + model + '"><article class="explorer-card cg-result" '
