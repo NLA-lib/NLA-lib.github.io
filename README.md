@@ -32,3 +32,11 @@ a newer working core; unfinished pages elsewhere remain placeholders.
 Build the Explorer into `_site/explore` using `explore/build.py` and matching published data,
 then add the homepage and shared assets as in the deployment workflow. Run `python3 preview.py`
 from this repository root (with `--port 8081` for the current demo).
+
+## Analytics
+
+All content pages load the asynchronous GoatCounter script for
+`https://nlalib.goatcounter.com`. The Markdown page generator (`md2html.py`) and
+Explorer shell (`explore/web/template.html`) supply it to generated pages. The
+standalone lemma-search page also includes it. Keep the committed homepage and
+Design HTML in sync with the Markdown generator.

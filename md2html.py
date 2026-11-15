@@ -67,6 +67,8 @@ PAGE = """<!DOCTYPE html>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
 {css}
+<script data-goatcounter="https://nlalib.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
 </head>
 <body>
 <div id="contentContainer">
