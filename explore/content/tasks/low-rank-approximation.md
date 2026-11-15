@@ -27,23 +27,35 @@ groups:
   - early-and-late-truncated-rsvd
   family: rsvd-type-methods
 - id: filtered-ranges
-  title: Iterated and filtered range finders
-  summary: Improve the sampled range with repeated applications, a Krylov space, or a polynomial filter.
+  title: Subspace iteration methods
+  summary: Multiply the test matrix by a power, or another polynomial filter, of the operator before
+    taking its range; only the last block is kept.
   algorithms:
   - rsi
-  - rbki
-  - block-golub-kahan
+  - late-truncated-rsi
   - filtered-randomized-svd
   summaries:
-    block-golub-kahan: Compute factors of the block Krylov approximation by two-sided block bidiagonalization
-      with full reorthogonalization.
+    filtered-randomized-svd: Replace the power by a general polynomial filter; its bound is the comparison
+      behind the gapped subspace iteration and block Krylov bounds.
+  family: subspace-iteration-methods
+- id: block-krylov
+  title: Block Krylov methods
+  summary: Project onto a block Krylov space that keeps every power applied to the start block, with
+    a separate choice for truncating the final approximation.
+  algorithms:
+  - rbki
+  - late-truncated-rbki
+  family: block-krylov-methods
 - id: nystrom
   title: Nyström methods for PSD matrices
-  summary: Approximate a positive-semidefinite matrix from sampled or sketched columns.
+  summary: Approximate a positive-semidefinite matrix from sampled or sketched columns; the test matrix
+    can be a plain sketch, a powered sketch, or a block Krylov matrix.
   algorithms:
   - nystrom
   - nyssi
+  - late-truncated-nyssi
   - nystrom-bki
+  - late-truncated-nystrom-bki
 - id: generalized-nystrom
   title: Generalized Nyström (GN)
   summary: Use two-sided sketches for a general rectangular matrix, with distinct early and late truncation
