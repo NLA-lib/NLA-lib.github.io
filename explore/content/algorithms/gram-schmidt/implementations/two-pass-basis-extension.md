@@ -49,7 +49,7 @@ The program uses scalar operations, level-one vector operations (dot product, ve
 
 ## Accuracy
 
-The exact contract (an exact extension of a basis by a block) and the rounded contract with parameters $(\eta_0,\mu,\varepsilon)$ are defined on the block Golub–Kahan page. The first statement of each pair below is about decoded matrices; the second is about the program.
+The exact contract (an exact extension of a basis by a block) is defined on the [Golub–Kahan process](/explore/algorithms/golub-kahan/) page, and the rounded contract with parameters $(\eta_0,\mu,\varepsilon)$ on its [implementation](/explore/algorithms/golub-kahan/implementations/full-reorthogonalization/) page. The first statement of each pair below is about decoded matrices; the second is about the program.
 
 ::: theorem result:cgs2-basis-extension name="Two exact passes give an exact extension"
 Let $\mathbf Q$ be an arbitrary real or complex matrix with $k$ columns, $\mathbf W$ a block of $\ell$ columns, and write $\operatorname{su}(\mathbf M)$ for the strictly upper triangular part of $\mathbf M$. Suppose
@@ -94,7 +94,7 @@ $$\mu=4c+\frac{8(\eta_0+c)^2}{\tau}+5E,\qquad\varepsilon=3c+2E+2\tau.$$
 Here $c$ is the budget of one classical pass against all stored columns and $E$ the relative accuracy of the computed norms and of the scaling. The bound on a kept column is absolute, so the guarantee covers every returned column.
 :::
 
-These statements certify the extension program against its two contracts. The certificate of the block Golub–Kahan driver linked with this program is not stated in the library; see the Scope section of the block Golub–Kahan page.
+These statements certify the extension program against its two contracts. The certificate of the block Golub–Kahan driver linked with this program is not stated in the library; see the Scope section of the [block Golub–Kahan implementation](/explore/algorithms/golub-kahan/implementations/full-reorthogonalization/#section-scope) page.
 
 ## Results on the extension contracts
 

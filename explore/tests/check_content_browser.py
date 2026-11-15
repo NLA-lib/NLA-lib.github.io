@@ -67,11 +67,11 @@ with sync_playwright() as p:
     assert page.get_by_role('heading', name='QR eigenvalue methods', exact=True).is_visible()
     eigen_description = page.locator('#group-krylov').inner_text()
     assert 'Ritz eigenvalues' in eigen_description
-    rsi_eigen_url = page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href')
+    rsi_eigen_url = page.get_by_role('link', name='Randomized subspace iteration (RSI)', exact=True).get_attribute('href')
     page.goto(base + 'tasks/low-rank-approximation/')
     assert page.locator('#group-filtered-ranges').is_visible()
     page.locator('#group-filtered-ranges > summary').click()
-    assert page.get_by_role('link', name='Randomized subspace iteration', exact=True).get_attribute('href') == rsi_eigen_url
+    assert page.get_by_role('link', name='Randomized subspace iteration (RSI)', exact=True).get_attribute('href') == rsi_eigen_url
     page.goto(base + 'tasks/quadrature/')
     assert 'quadrature rule' in page.get_by_role('link', name='Lanczos process', exact=True).inner_text()
     page.get_by_role('link', name='Lanczos process', exact=True).click()

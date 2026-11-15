@@ -1,7 +1,7 @@
 'use strict';
 (() => {
   const picker = document.getElementById('computation-model');
-  const models = ['exact', 'relative', 'sequential', 'pairwise'];
+  const models = picker ? Array.from(picker.options, option => option.value) : ['exact', 'relative', 'sequential', 'pairwise'];
   document.addEventListener('click', async (event) => {
     const link = event.target.closest('[data-copy-link]');
     if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -29,7 +29,7 @@
   function applyModel() {
     const url = new URL(location.href);
     const targetModel = fragmentTarget()?.closest('[data-cg-model]')?.dataset.cgModel;
-    const value = models.includes(url.searchParams.get('model')) ? url.searchParams.get('model') : (targetModel || 'exact');
+    const value = models.includes(url.searchParams.get('model')) ? url.searchParams.get('model') : (targetModel || models[0]);
     if (picker) {
       picker.value = value;
       for (const section of document.querySelectorAll('[data-cg-model]')) section.hidden = section.dataset.cgModel !== value;
