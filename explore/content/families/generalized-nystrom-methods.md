@@ -6,7 +6,7 @@ summary: Two-sided sketches for general matrices, with early or late rank trunca
 status: ready
 ---
 
-Generalized Nyström uses a column sketch and an independent row sketch. Ordinary GN, early truncation of the range sketch, and late truncation of the completed approximation have different mathematical outputs and error bounds.
+Generalized Nyström (GN) uses a column sketch and an independent row sketch. Ordinary GN, early-truncated GN (ETGN), and late-truncated GN (TGN) have different mathematical outputs and error bounds.
 
 ## Methods
 

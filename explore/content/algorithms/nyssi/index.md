@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: nyssi
-title: Nyström subspace iteration
+title: Nyström subspace iteration (NysSI)
 summary: Use a powered test matrix in a Nyström approximation of a positive-semidefinite matrix.
 status: outline
 order: 17

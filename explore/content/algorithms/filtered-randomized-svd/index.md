@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: filtered-randomized-svd
-title: Filtered randomized SVD
+title: Filtered RSVD
 summary: Apply a polynomial filter before constructing a randomized range approximation.
 status: outline
 order: 13

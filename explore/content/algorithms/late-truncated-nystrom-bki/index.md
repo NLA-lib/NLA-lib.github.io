@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: late-truncated-nystrom-bki
-title: Late-truncated Nyström block Krylov iteration
+title: Late-truncated NysBKI
 summary: Complete Nyström block Krylov iteration, then truncate the output to the target rank.
 status: outline
 order: 16.5

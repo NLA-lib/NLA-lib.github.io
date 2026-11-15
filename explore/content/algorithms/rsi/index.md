@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: rsi
-title: Randomized subspace iteration
+title: Randomized subspace iteration (RSI)
 summary: Apply power iterations to the sketch, then project the matrix onto its range.
 status: outline
 order: 11

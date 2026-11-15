@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: nystrom-bki
-title: Nyström block Krylov iteration
+title: Nyström block Krylov iteration (NysBKI)
 summary: Use a block Krylov test matrix in a Nyström approximation of a positive-semidefinite matrix.
 status: outline
 order: 16

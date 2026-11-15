@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: late-truncated-generalized-nystrom
-title: Late-truncated generalized Nyström (TGN)
+title: Late-truncated GN
 summary: Complete generalized Nyström, then truncate the output to the target rank.
 status: outline
 families:
@@ -23,6 +23,8 @@ result_ids:
 uses:
 - generalized-nystrom
 ---
+
+Late-truncated generalized Nyström (TGN) truncates the completed GN approximation to the target rank.
 
 ::: definition name="Late-truncated GN"
 First form the generalized Nyström approximation $\mathbf B=\mathsf{gn}(\mathbf A,\mathbf\Omega,\mathbf\Psi)$. Return $\widehat{\mathbf A}=[\mathbf B]_k$, a best rank-at-most-$k$ approximation to the completed matrix. This truncation selects a subspace from the output rather than from the original range sketch.

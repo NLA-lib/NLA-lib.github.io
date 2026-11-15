@@ -106,6 +106,22 @@ Statuses: `ready`, `outline`, `placeholder`.
 Status describes the curated page,
 not whether an algorithm or theorem exists in the library.
 
+## Algorithm names and abbreviations
+
+Base method titles give the full name followed by the established abbreviation, such as
+Generalized Nyström (GN), Randomized subspace iteration (RSI), Randomized block Krylov
+iteration (RBKI), Nyström subspace iteration (NysSI), and Nyström block Krylov iteration
+(NysBKI). Use the short form after it has been introduced.
+
+Variant titles use the modifier and the base abbreviation: Late-truncated GN,
+Late-truncated RSI, Late-truncated RBKI, and Late-truncated NysBKI. Introduce established
+variant aliases such as TGN and ETGN in the opening prose and retain them in search aliases.
+Avoid inventing a new abbreviation for every variant. Family titles describe the family;
+expand member abbreviations in their introductions.
+
+Algorithm names inside mathematics use lowercase sans-serif, for example `\mathsf{gn}`,
+`\mathsf{rsi}`, and `\mathsf{rbki}`. Formal Lean identifiers keep their source spelling.
+
 ## Relationships and generated metadata
 
 - **Task pages own placement.** The Algorithms entry point lists tasks. Each task

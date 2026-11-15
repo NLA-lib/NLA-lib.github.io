@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: early-truncated-generalized-nystrom
-title: Early-truncated generalized Nyström (ETGN)
+title: Early-truncated GN
 summary: Truncate the range sketch before completing the two-sided approximation.
 status: outline
 families:
@@ -19,6 +19,8 @@ search_aliases:
 result_ids:
 - etgn
 ---
+
+Early-truncated generalized Nyström (ETGN) selects the smaller range from the sketch before completing the two-sided approximation.
 
 ::: definition decl:NLAlib.earlyTruncatedGeneralizedNystrom name="Early-truncated GN"
 Form $\mathbf Y_k=[\mathbf A\mathbf\Omega]_k$, then return

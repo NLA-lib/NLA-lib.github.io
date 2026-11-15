@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: rbki
-title: Randomized block Krylov iteration
+title: Randomized block Krylov iteration (RBKI)
 summary: Project the matrix onto a block Krylov space generated from its sketch.
 status: outline
 order: 12

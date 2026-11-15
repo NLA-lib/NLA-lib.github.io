@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: late-truncated-nyssi
-title: Late-truncated Nyström subspace iteration
+title: Late-truncated NysSI
 summary: Complete Nyström subspace iteration, then truncate the output to the target rank.
 status: outline
 order: 17.5

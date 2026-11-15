@@ -8,6 +8,8 @@ status: ready
 
 Sketched-range approximations and methods that truncate the sketch, the output, or both.
 
+Here RSVD denotes the randomized SVD range-finder approximation before any final target-rank truncation.
+
 Each method below defines a mathematical output and has its own analysis. Follow a method for its guarantees and implementations.
 
 ## Methods
