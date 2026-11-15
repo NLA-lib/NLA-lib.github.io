@@ -1,7 +1,7 @@
 ---
 kind: task
 id: least-squares
-title: Solve least-squares problems
+title: Least squares
 summary: Minimize $\|A x-b\|_2$, exactly or using a sketch.
 status: ready
 order: 2

@@ -1,7 +1,7 @@
 ---
 kind: task
 id: eigenvalues
-title: Approximate eigenvalues
+title: Eigenvalues
 summary: Approximate extremal or interior eigenvalues and their invariant subspaces.
 status: ready
 order: 1
@@ -16,15 +16,14 @@ groups:
   algorithms:
   - spectral-bisection
 - id: krylov
-  title: Krylov methods
-  summary: Compress a large operator onto a Krylov space and extract Ritz approximations.
+  title: Krylov factorizations
+  summary: Shared basis constructions used to extract Ritz eigenvalues and vectors; the factorizations also serve linear solves, matrix functions, and quadrature.
   algorithms:
   - lanczos
   - arnoldi
   summaries:
-    lanczos: For a symmetric or Hermitian operator, build a tridiagonal compression for Ritz eigenvalues
-      and vectors.
-    arnoldi: For a general operator, build an upper-Hessenberg compression for Ritz eigenvalues and vectors.
+    lanczos: Build an orthonormal Krylov basis and a tridiagonal factorization for a Hermitian operator.
+    arnoldi: Build an orthonormal Krylov basis and an upper-Hessenberg factorization for a general operator.
 - id: subspace-iteration
   title: Power and subspace iteration
   summary: Improve one vector or a block of vectors by repeatedly applying an operator or a shifted inverse.

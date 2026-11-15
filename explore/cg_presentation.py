@@ -105,10 +105,10 @@ def variant_page(v, sources, models, pseudocode, operations, memory):
             assumptions = r'Assume exact scalar operations, dot products, vector updates, and matrix–vector products, correct comparisons, admissible distinct buffers, and enough working memory. '
             if v['id'] == 'pcg':
                 statement = r'Let $\mathbf A$ and the applied inverse preconditioner $\mathbf P$ be symmetric positive definite, and let $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$. ' + assumptions
-                statement += r'If $k\le g$, where $g=\dim\mathcal K(\mathbf P\mathbf A,\mathbf P\mathbf r_0)$, and the preconditioner is applied exactly, the program executes successfully and its decoded stored output is the mathematical PCG iterate: $$\widehat{\mathbf x}=\operatorname{PCG}(\mathbf A,\mathbf P,\mathbf b,\mathbf x_0,k).$$'
+                statement += r'If $k\le g$, where $g=\dim\mathcal K(\mathbf P\mathbf A,\mathbf P\mathbf r_0)$, and the preconditioner is applied exactly, the program executes successfully and its decoded stored output is the mathematical PCG iterate: $$\widehat{\mathbf x}=\mathsf{pcg}(\mathbf A,\mathbf P,\mathbf b,\mathbf x_0,k).$$'
             else:
                 statement = r'Let $\mathbf A$ be symmetric positive definite, let $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$, and choose any iteration cap $k$. ' + assumptions
-                statement += r'The program executes successfully and its decoded stored output is the mathematical CG iterate: $$\widehat{\mathbf x}=\operatorname{CG}(\mathbf A,\mathbf b,\mathbf x_0,q),\qquad q=\min\{k,g\},\qquad g=\dim\mathcal K(\mathbf A,\mathbf r_0).$$ The program stops at the cap or earlier when the residual becomes zero.'
+                statement += r'The program executes successfully and its decoded stored output is the mathematical CG iterate: $$\widehat{\mathbf x}=\mathsf{cg}(\mathbf A,\mathbf b,\mathbf x_0,q),\qquad q=\min\{k,g\},\qquad g=\dim\mathcal K(\mathbf A,\mathbf r_0).$$ The program stops at the cap or earlier when the residual becomes zero.'
             body += result('Exact output', statement, [get('Solve.lean', 'runs_solve')], sources)
         else:
             body += rounded_results(key, sources, rounded_get)

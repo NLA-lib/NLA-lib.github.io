@@ -43,7 +43,7 @@ primary = "NLAlib.integral_frobNorm_sub_generalizedNystrom_sq_le_of_hasLaw_gauss
 [tgn-expected-error]
 title = "Late-truncated generalized Nyström: expected error"
 aliases = ["Truncated GN"]
-primary = "NLAlib.integral_frobNorm_sub_truncatedSVD_generalizedNystrom_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+primary = "NLAlib.integral_frobNorm_sub_truncatedSVD_generalizedNystrom_sq_le_one_add_of_hasLaw_gaussianMatrix_of_truncatedGeneralizedNystromRangeDim_le"
 
 [randomized-svd-expected-error]
 title = "Randomized SVD: expected error"

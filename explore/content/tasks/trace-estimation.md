@@ -1,7 +1,7 @@
 ---
 kind: task
 id: trace-estimation
-title: Estimate traces and spectral statistics
+title: Trace estimation and spectral statistics
 summary: Estimate $\operatorname{tr}(A)$, $\operatorname{tr}(f(A))$, and related quantities.
 status: ready
 order: 5

@@ -3,14 +3,22 @@ kind: implementation
 id: shah
 algorithm: spectral-bisection
 title: Randomized spectral bisection
-summary: Shah's Hermitian eigensolver with stored-word arithmetic, explicit random draws, and certified resources.
+summary: Shah's Hermitian eigensolver with an explicit precision bound, stored-word arithmetic, and certified resources.
 status: ready
+library_algorithm: spectral-bisection
+library_results: false
+result_ids:
+- spectral-bisection-diagonalization
+- spectral-bisection-diagonalization-bits
+- spectral-bisection-diagonalization-simple
 order: 0
 source_guides:
 - docs/algorithms/Spectral-Bisection.md
 ---
 
 Diagonalize a stored Hermitian matrix $\mathbf A\in\mathbb C^{n\times n}$ by splitting its spectrum, solving the smaller problems, and assembling a basis $\mathbf U$ and real values $\mathbf d$. This implementation follows Shah's randomized spectral-bisection method.
+
+The [precision bound](#precision) grows logarithmically in dimension, inverse error tolerance, and inverse failure probability.
 
 {{ generated:source-guides }}
 
@@ -56,6 +64,8 @@ $$\mathcal{H}(n,L,c)+(L+1)(2c+11)T(n).$$
 At a node of dimension $k$, splitting costs at most $(2c+9)T(k)$ in matrix work and reconstruction at most $2T(k)$. Disjoint node slots and superadditivity bound their sum at each level by the root-size term. The scalar budget $\mathcal{H}$ remains conservative.
 :::
 
+This work bound uses the supplied primitive costs. Counting bit operations additionally requires bit costs for scalar arithmetic, matrix multiplication, QR, and sampling; the precision requirement below specifies how accurately those primitives must operate.
+
 Let $E(n)$ be the maximum workspace cost of multiplication and QR over all call dimensions at most $n$; no monotonicity of workspace is required.
 
 ::: theorem decl:NLAlib.SpectralBisection.staticPeak_workspaceEnvelope_le name="Scratch storage" id=scratch
@@ -84,6 +94,34 @@ $$(L+1)(n+4n^2)$$
 random words and releases its scoped scratch storage. This correspondence does not require a numerical-success assumption.
 :::
 
+::: theorem decl:NLAlib.FloatMachine.IsAccurate.measureReal_not_isApproxDiagonalization_eigh_bisectionDepth_le_of_logb_le_of_hasLaw_eighSampleLaw name="Precision in bits" id=precision
+Let $\mathbf A\in\mathbb C^{n\times n}$ be Hermitian, with $n\ge1$ and $\|\mathbf A\|_2\le R_0$, where $R_0>0$. Given an accuracy target $0<\varepsilon\le2^{-15}$ and failure probability $0<\theta\le1$, write
+
+$$\Lambda=\log_2\frac1\varepsilon+\log_2\frac1\theta+\log_2 n.$$
+
+For arithmetic with unit roundoff $u=2^{-p}$, the numerical reference has the accuracy guarantee below if
+
+$$p\ge\log_2\frac1\varepsilon+\frac32\log_2\frac1\theta+\frac72\log_2 n+4\log_2\Lambda+24.$$
+
+Use depth $L=\lceil\log_2(1/\varepsilon)\rceil+5$, sign-iteration cap $c\ge\lceil4\Lambda\rceil$, and a stored parameter satisfying
+
+$$\frac{\varepsilon\sqrt\theta}{2048(n\Lambda)^{3/2}}\le\beta\le\frac{\varepsilon\sqrt\theta}{1024(n\Lambda)^{3/2}}.$$
+
+The arithmetic must meet the primitive accuracy contracts with $\mu_{\mathrm{MM}}(d)=\mu_{\mathrm{QR}}(d)=2d$ and $c_{\mathrm N}=\sqrt2$. Its absolute-error floor $\tau\ge0$ and range $\Omega$ must satisfy
+
+$$300n^3\tau\le\varepsilon\theta\min(R_0,1),\qquad64(R_0+n+\Lambda)\le\Omega.$$
+
+With independent node samples having the prescribed uniform/Gaussian law and the theorem's sampler measurability assumptions, the reference output satisfies
+
+$$\|\mathbf A-\mathbf U\operatorname{diag}(\mathbf d)\mathbf U^{\mathsf H}\|_2\le2\varepsilon R_0,$$
+
+$$(1-\varepsilon/3)^2\mathbf I\preceq\mathbf U^{\mathsf H}\mathbf U\preceq(1+\varepsilon/3)^2\mathbf I$$
+
+with probability at least $1-\theta$. Thus sufficient precision grows logarithmically with dimension, inverse tolerance, and inverse failure probability. For example, $n=1000$, $\varepsilon=2^{-15}$ and $\theta=1/100$ require 104 bits by this bound, giving a success probability of at least $99\%$ under the stated assumptions.
+:::
+
+The precision theorem concerns the numerical reference. The next theorem transfers a reference guarantee to the stored-word execution when its arithmetic and random tape realize those assumptions.
+
 ::: theorem decl:NLAlib.SpectralBisection.measureReal_not_accepts_le_of_wordSpecification name="Accuracy transfers to the stored output" id=accuracy
 Suppose the numerical reference returns an approximate diagonalization with error parameters $\eta=2\varepsilon R_0$ and $\kappa=\varepsilon/3$, except on a tape event of probability at most $\theta$. For a probability tape law, the certified execution satisfies its functional and resource specification and stores $\mathbf U,\mathbf d$ with
 
@@ -95,6 +133,10 @@ with probability at least $1-\theta$. Here the matrices and parameters denote de
 
 The failure event includes execution failure, any resource-bound violation, and incorrect numerical output. Establishing the reference premise separately requires Hermitian input, a valid radius bound, sufficient precision, depth and sign-iteration cap, and the stated sampler and tape-law assumptions. This transfer theorem does not by itself establish those numerical hypotheses.
 :::
+
+## Further numerical results
+
+{{ generated:results }}
 
 ## Mathematical method
 

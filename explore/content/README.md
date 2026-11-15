@@ -10,6 +10,66 @@ Start with `tasks/eigenvalues.md` for task-specific organization,
 `algorithms/conjugate-gradient/index.md` shows editable theorem prose backed by
 extracted Lean statements.
 
+## Choosing where a guarantee belongs
+
+A canonical URL is a stable navigation identity. It does not establish that its subject is
+a canonical mathematical algorithm. Only genuinely canonical mathematical methods get
+separate exact-arithmetic theory on their method pages. CG's mathematical iterate is an
+example: implementation recurrences link to that analysis through correspondence results.
+PCG has its own mathematical hypotheses and analysis. An exact randomized estimator such as
+GN can also have mathematical probability bounds on its method page.
+
+Specific numerical algorithms keep their own analysis with their implementation. Shah's
+spectral-bisection solver is randomized and finite precision; its precision, probability,
+parameter choices and numerical error theorems belong on its implementation page. The
+spectral-bisection overview introduces the strategy and links to implementations. Do not
+create a fictional canonical exact solver just to fill a standard page template.
+
+Reusable mathematics belongs on theory pages. Task pages own discovery groups; the same
+method can appear in different groups under different tasks, with one stable method URL.
+Conceptual families do not impose a uniform classification on every task.
+
+Task pages present general lower bounds for the task within an explicit access or query
+model. Lower bounds for a particular algorithm belong on that algorithm's own page.
+
+For a concrete algorithm, explain its instructions and output, Operations and Storage, and
+Accuracy. Put facts independent of arithmetic above any model selector; expose a model only
+when its implementation and theorem connection have been reviewed. A stored representation
+can change both the algorithm and its costs, rather than just its rounding parameter.
+
+Distinguish exact correspondence, a theorem about a numerical run model, and a guarantee
+of stored execution. State the bridge assumptions instead of inheriting accuracy from a
+related algorithm. A sufficient precision in bits is not a full bit-operation count: the
+latter also needs bit costs for arithmetic, kernels and sampling. Give actual cost formulas,
+parameter requirements and norms, rather than saying that a run meets its stated budget.
+
+## Coverage and presentation are separate reviews
+
+The mathematical audit checks extraction, source identity, actual result placement and
+snapshot continuity. A result rendered anywhere in a selected page passes that placement
+check. This does not establish that the most important guarantees are prominent on the
+right implementation page, that all proved model choices are exposed, or that authored
+prose is mathematically equivalent to its linked Lean statement.
+
+Review each page's headline guarantees separately:
+
+1. Identify its exact mathematical object or particular numerical algorithm.
+2. Check the source for correctness, convergence/error, precision/range, randomness, work
+   and storage guarantees that apply to that object and model.
+3. Explain the principal results in authored blocks, preserving material assumptions.
+   Distinguish an upper guarantee from a lower-bound example and alternative parameter regimes.
+4. Use consistent notation across definitions and statements. When choosing a primary result
+   in `results.toml`, review sharper existing bounds rather than relying on extraction order.
+5. Retain further results in generated disclosures and precise statements in the Library.
+   Do not substitute a long result listing for the headline explanation.
+6. Record incomplete model presentations explicitly. A placeholder does not imply missing
+   mathematics; a ready page is not a claim that every proved model has been curated.
+
+The [presentation review](../docs/design/implementation-presentation-audit.md) records known
+gaps. Keep it separate from the [coverage report](../docs/design/mathematical-coverage-audit.md).
+The library-side [contributor guide](https://github.com/NLA-lib/NLAlib/blob/main/docs/contributing/explorer.md)
+describes source metadata, theorem scope and the publication handoff.
+
 ## A page
 
 ```markdown
@@ -127,6 +187,11 @@ renderer omits results already explained in an authored statement block and merg
 rows with the same primary declaration. Admission-reported declarations are labeled
 as statements rather than theorems. These rows have stable copyable links.
 
+Use lowercase sans-serif mathematical names for algorithms: `\mathsf{gn}`,
+`\mathsf{rsvd}`, `\mathsf{cg}`, `\mathsf{pcg}`, and `\mathsf{nystrom}`.
+Ordinary operators such as trace and span retain their operator notation. Lean identifiers
+in code and extracted statements retain their exact source spelling.
+
 Use authored blocks for the main results and their reader-facing explanations.
 Use the generated rows for additional results whose complete documented hypotheses
 should remain available in place. Formal definition indexes start collapsed.
@@ -163,6 +228,9 @@ identities, relationships, paths, statuses, and content fingerprints. Editorial
 pages also enter the same search index as the library statements.
 
 ## Sections and statement links
+
+Set `sections_collapsed: true` in a page header to start all of its sections and task groups
+collapsed. Other pages keep their existing defaults.
 
 Second-level headings become collapsible sections. Mathematical background,
 Appears under these tasks, Family, and Broader topics start collapsed; the other sections start expanded. Empty generated sections are omitted. Put

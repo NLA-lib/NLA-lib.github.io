@@ -144,6 +144,8 @@ def load_pages(directory):
             raise ValueError(f'{file}: implementation requires algorithm')
         if meta.get('status', 'outline') not in {'ready', 'outline', 'placeholder'}:
             raise ValueError(f'{file}: invalid status')
+        if not isinstance(meta.get('sections_collapsed', False), bool):
+            raise ValueError(f'{file}: sections_collapsed must be a boolean')
         page = Page(file, meta, match[2])
         if page.key in pages or page.path in routes:
             raise ValueError(f'{file}: duplicate identity or route')
@@ -376,7 +378,8 @@ class Explorer:
                 if group.get('family'):
                     family = self.pages['family:' + group['family']]
                     body += '<p class="record-link">' + self.link(family) + '</p>'
-                sections.append('<details class="explorer-section task-group" open id="group-' + group['id'] +
+                opened = '' if page.meta.get('sections_collapsed') else ' open'
+                sections.append('<details class="explorer-section task-group"' + opened + ' id="group-' + group['id'] +
                     '"><summary><h2>' + inline_title(group['title']) + '</h2></summary><div class="explorer-section-body">' + body + '</div></details>')
             return ''.join(sections)
         if slot == 'source-guides':
@@ -519,7 +522,7 @@ class Explorer:
                 section_body = markdown(''.join(lines[end:stop]))
                 if not section_body.strip():
                     continue
-                opened = '' if slug(title) in {'mathematical-background', 'appears-under-these-tasks', 'family', 'broader-topics', 'formal-definitions'} else ' open'
+                opened = '' if page.meta.get('sections_collapsed') or slug(title) in {'mathematical-background', 'appears-under-these-tasks', 'family', 'broader-topics', 'formal-definitions'} else ' open'
                 rendered += '<details class="explorer-section"' + opened + ' id="section-' + slug(title) + '"><summary>' + markdown(title) + \
                     '</summary><div class="explorer-section-body">' + section_body + '</div></details>'
         else:

@@ -69,6 +69,10 @@ The retired entries are not represented as guarantees of the new Ops programs. T
 
 Coverage is not a mathematical equivalence review of every prose statement. Some pages still use source-documented expandable results rather than editorial explanations. Outline implementation pages still need readable pseudocode and numerical/resource summaries; discovery tags never certify those programs by themselves.
 
+The separate [implementation presentation review](implementation-presentation-audit.md) records
+confirmed gaps between indexed results and the headline guarantees shown on implementation
+pages. Passing the coverage audit does not close those gaps.
+
 ## Result placements
 
 - `albert-theorem`: [/explore/theory/matrix-algebra/](/explore/theory/matrix-algebra/), [/explore/theory/pseudoinverses/](/explore/theory/pseudoinverses/)

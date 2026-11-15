@@ -51,6 +51,11 @@ output rank; setting them equal makes the final truncation redundant. Each metho
 owns its analysis and lists concrete implementations separately. The combined and
 block methods are explicitly marked as outlines/placeholders until reviewed.
 
+A canonical URL is a navigation identity, not a claim that the algorithm has canonical
+exact-arithmetic theory. Only genuinely canonical mathematical methods own that theory.
+Specific numerical algorithms, including Shah spectral bisection, keep their numerical
+analysis with the implementation; a strategy overview supplies navigation.
+
 Mathematical method pages present definitions and method-specific guarantees.
 Implementation pages present recurrences, resources, and connection theorems to the
 mathematical output, followed by arithmetic-dependent accuracy. A shared theorem is

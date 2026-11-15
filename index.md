@@ -20,10 +20,10 @@ This is a work in progress.
 
 Here are some highlights of the project so far:
 
-- **Coverage.** We have formalized a lot of theorems in matrix analysis, polynomial approximation, random matrices and concentration, Krylov methods, sketching, least squares, low-rank approximation, trace estimation, and lower bounds.
-- **Low-rank approximation.** We proved that truncated generalized Nyström is an optimal method for Frobenius low-rank approximation.
-- **Finite-precision Krylov methods.** We proved several new results about the standard implementation of conjugate gradient in finite precision (most past results were about Lanczos).
-- **Eigensolvers.** We formalized bounds for Shah's randomized [spectral bisection algorithm](https://arxiv.org/abs/2408.09880) for Hermitian diagonalization.
+- **Coverage.** We have formalized a lot of [theorems](./explore/theory/) in matrix analysis, polynomial approximation, random matrices and concentration, Krylov methods, sketching, least squares, low-rank approximation, trace estimation, and lower bounds.
+- **Low-rank approximation.** We proved that [truncated generalized Nyström](./explore/algorithms/late-truncated-generalized-nystrom/) is an [optimal](./explore/tasks/low-rank-approximation/#theorem-one-pass-low-rank-lower-bound) single-pass method for Frobenius low-rank approximation.
+- **Finite-precision Krylov methods.** We proved several new results about the [standard implementation of conjugate gradient in finite precision](./explore/algorithms/conjugate-gradient/implementations/ordinary/?model=relative) (most past results were about Lanczos).
+- **Eigensolvers.** We formalized bounds for Shah's randomized [spectral bisection algorithm](./explore/algorithms/spectral-bisection/implementations/shah/#precision) for Hermitian diagonalization.
 
 
 ## Contributing

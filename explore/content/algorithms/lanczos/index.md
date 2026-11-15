@@ -30,7 +30,7 @@ result_ids:
 - ritz-value-gap-free
 ---
 
-Build a Krylov basis and a tridiagonal compression of a symmetric operator.
+Build a Krylov basis and a tridiagonal compression of a symmetric operator. This shared factorization supports linear solves, spectral approximation, matrix functions, and quadrature. Its task placements all link to this one mathematical construction.
 
 {{ generated:source-guides }}
 

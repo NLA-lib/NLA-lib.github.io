@@ -10,6 +10,7 @@ theory:
 - perturbation-theory
 - random-sampling-models
 library_algorithm: spectral-bisection
+library_results: false
 search_aliases:
 - Hermitian diagonalization
 - EIGH
@@ -17,8 +18,6 @@ search_aliases:
 - spectral divide and conquer
 - Hermitian eigensolver in linear precision
 - eigh
-source_guides:
-- docs/algorithms/Spectral-Bisection.md
 uses:
 - newton-schulz-sign
 - deflation
@@ -26,25 +25,15 @@ uses:
 
 Recursively split the spectrum of a Hermitian matrix, solve the smaller eigenproblems, and assemble their invariant subspaces.
 
-{{ generated:source-guides }}
-
 ## Implementations
 
 {{ generated:implementations }}
 
-## Definition
+## Approach
 
-::: definition name="Spectral bisection"
-For a Hermitian matrix $\mathbf A$, a spectral split separates the invariant subspaces on either side of a shift. Compress $\mathbf A$ onto bases for these subspaces, diagonalize the compressed matrices, and lift their eigenvectors back to the original space. Recursion reduces diagonalization to smaller problems.
+Separate the spectrum of a Hermitian matrix, compress onto the resulting subspaces, solve the smaller problems, and assemble their bases. Choices of shifts, spectral splitting, randomization, arithmetic, and stopping rules specify different algorithms.
 
-Randomized spectral bisection uses a matrix-sign approximation and randomized basis extraction to compute the split. The concrete implementation specifies rounding, stopping rules, and resource bounds.
-:::
-
-
-
-## Results
-
-{{ generated:results }}
+The implementations above own their numerical analysis. In particular, Shah's randomized finite-precision solver has its own precision requirements, failure probability, error guarantees, and resource bounds. This overview does not identify a single canonical exact-arithmetic recurrence.
 
 ## Components
 

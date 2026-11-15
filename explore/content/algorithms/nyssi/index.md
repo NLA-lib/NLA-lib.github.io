@@ -22,7 +22,7 @@ Use subspace iteration in a Nyström approximation.
 ## Definition
 
 ::: definition name="Nyström subspace iteration"
-For Hermitian positive-semidefinite $\mathbf A$, replace the test matrix in the Nyström approximation by $\mathbf A^p\mathbf\Omega$, with $p\ge0$. The powers emphasize dominant spectral directions. The result is $\operatorname{Nystrom}(\mathbf A,\mathbf A^p\mathbf\Omega)$; the choice of stable intermediate bases belongs to a concrete implementation.
+For Hermitian positive-semidefinite $\mathbf A$, replace the test matrix in the Nyström approximation by $\mathbf A^p\mathbf\Omega$, with $p\ge0$. The powers emphasize dominant spectral directions. The result is $\mathsf{nystrom}(\mathbf A,\mathbf A^p\mathbf\Omega)$; the choice of stable intermediate bases belongs to a concrete implementation.
 :::
 
 
