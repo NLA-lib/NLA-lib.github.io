@@ -138,7 +138,8 @@ not whether an algorithm or theorem exists in the library.
 Generated sections are single lines of `{{ generated:<name> }}`. Available names:
 `entry-points`, `tasks`, `task-groups`, `families`, `algorithms`, `implementations`, `mathematical-method`, `theory`, `theory-topics`,
 `subtopics`, `parent-topics`, `prerequisites`, `used-by`, `components`, `applications`,
-`task-membership`, `results`, `definitions`, `library-counts`, `library-index`.
+`task-membership`, `results`, `definitions`, `library-counts`, `library-index`,
+`arithmetic-model-selector`.
 
 For example, one task can use:
 
@@ -207,6 +208,42 @@ An authored mathematical definition.
 An unsourced theorem is rejected. Unknown result/declaration names, wrong statement
 kinds, missing relationships, duplicate routes, and unknown generated markers reject
 the build. Metadata associations never establish an execution or accuracy guarantee.
+
+## Arithmetic-dependent statements
+
+An implementation can declare its reviewed models in front matter:
+
+```yaml
+arithmetic_models:
+- id: exact
+  title: Exact arithmetic
+- id: rounded
+  title: Rounded extension and products
+```
+
+Place shared pseudocode, operation/storage bounds, and common scope notes before the
+selector. Under Accuracy, render the selector and one block for each model:
+
+```markdown
+{{ generated:arithmetic-model-selector }}
+
+::: model exact
+Exact assumptions and source-backed statement blocks go here.
+::: end-model
+
+::: model rounded
+Rounded assumptions and source-backed statement blocks go here.
+::: end-model
+```
+
+The model blocks accept the same theorem/definition blocks and generated sections as the
+rest of the page. Every declared model needs one block and there must be one selector.
+Model IDs drive `?model=...` URLs and Copy link actions; opening a statement fragment without
+an explicit model selects its model and expands its containing disclosures. Without
+JavaScript, both sets of statements remain readable with model headings.
+
+Declaring a model does not establish its contracts. Keep the statement's actual input,
+arithmetic and execution-to-analysis assumptions in its explanation and Lean details.
 
 ## Rendering and rebuilding
 

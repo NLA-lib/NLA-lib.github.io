@@ -6,6 +6,11 @@ title: Block Golub–Kahan with full reorthogonalization
 summary: One fixed program that draws the start block, applies the two products, and extends each basis against all of its stored blocks through an abstract extension operation.
 status: outline
 order: 1
+arithmetic_models:
+- id: exact
+  title: Exact arithmetic
+- id: rounded
+  title: Rounded extension and products
 library_algorithm: block-golub-kahan
 library_results: false
 result_ids:
@@ -46,7 +51,7 @@ Storage is column-major, one word per entry: $\mathbf U$ has $q\ell m$ words, $\
 
 ## Model of arithmetic
 
-The driver uses three groups of operations: the extension of a stored basis by a block, the products with $\mathbf A$ and with its adjoint, and scalar draws from a tape stream. Each has a contract. The exact extension contract is the relation defining an exact basis extension on the mathematical method page; the rounded contract is the rounded extension with parameters $(\eta_0,\mu,\varepsilon)$ defined below. Products are either exact or within normwise allowances. The work and workspace of every primitive are parameters of the model.
+The driver uses three groups of operations: the extension of a stored basis by a block, the products with $\mathbf A$ and with its adjoint, and scalar draws from a tape stream. Each has a contract. The selector below chooses the contracts for products and basis extension. Their assumptions are stated with the corresponding accuracy guarantees. The work and workspace of every primitive are parameters of the model.
 
 A concrete orthogonalization scheme is a separate program certified against one of the two extension contracts and substituted for the operation by linking. The two-pass Gram–Schmidt extension is such a program.
 
@@ -66,16 +71,29 @@ The full budget also counts the structural instructions (index arithmetic, addre
 ::: theorem decl:NLAlib.Krylov.GolubKahan.Band.Certification.staticPeak_program_le_solvePeak name="Scratch storage" id=scratch
 For every resource model, the scratch of the fixed program at the sizes $(m,n,\ell,q)$ is at most
 
-$$\max(m,n)\,\ell+w+\text{(query reservation)},$$
+$$\max(m,n)\,\ell+w+w_{\mathrm q},$$
 
 where $w$ is the largest declared workspace among the primitive calls of the run: a draw, a product with $\mathbf A$, a product with its adjoint, and the $2q+1$ basis extensions at their dimensions. No common bound on the workspaces of the primitives is assumed. The block of $\max(m,n)\,\ell$ words holds the drawn block and then the products.
+
+Here $w_{\mathrm q}$ is the maximum declared workspace of any query included in the program's instruction budget, with maximum zero when there are no queries. It is also zero when all admitted queries have zero workspace. Adding this reservation allows query scratch to overlap the largest live allocation, giving a conservative total in abstract word cells.
 :::
 
 The run consumes exactly $n\ell$ words of the tape. Resident memory is the five output blocks plus the scratch. The cost of an extension is that of the scheme linked for it; after linking, each of the $2q+1$ extension calls is replaced by a supplied bound on the cost of the scheme at its dimensions.
 
+## Scope
+
+In exact arithmetic the stored product equals $\mathsf{rbki}(\mathbf A,\mathbf\Omega,q)$, so every statement about that matrix applies to exact factors; for a standard Gaussian start block these are the bounds on the randomized block Krylov iteration page. The following are not stated in the library, and nothing on this page should be read as claiming them.
+
+- A concrete linked certificate. The driver has a generic linking theorem, and the two-pass Gram–Schmidt extension program has an exact and a rounded statement of its own, but the certificate of the driver linked with that program over an exact or a rounded level-one model, with its typing side condition and recomputed costs, is not written.
+- A rounded canonical certificate. The rounded run is stated as total execution of the implementation and as a counted run of a linked program, not as a packaged certificate.
+- An end-to-end rounded accuracy theorem. The forward bound compares the returned factors with the projection onto the computed left range. The Gaussian bounds for randomized block Krylov iteration are exact-arithmetic statements and are not transferred to a rounded run.
+- Complex scalars for the program. The exact process and the exact extension contract are over real or complex scalars; the stored-run predicates, the certificate, the rounded run model, and the rounded analysis of the Gram–Schmidt extension are over the reals.
+
 ## Accuracy
 
-### Exact contracts
+{{ generated:arithmetic-model-selector }}
+
+::: model exact
 
 ::: theorem decl:NLAlib.Krylov.GolubKahan.Band.Certification.certifies name="Total exact certificate over an abstract extension" id=execution
 For all sizes $(m,n,\ell,q)$, every real $m\times n$ matrix $\mathbf A$, every interpretation whose products are the exact products with $\mathbf A$ and its adjoint and whose basis extension meets the exact contract, and every tape, the counted run of the fixed program succeeds within its static budget and resource bounds. It consumes $n\ell$ words of the tape, releases its scratch, and leaves five output blocks that decode to an exact run for $\mathbf A$ from the start block decoded from the tape.
@@ -99,7 +117,9 @@ $$\mathbf U\mathbf S^{\mathsf{H}}\mathbf V^{\mathsf{H}}=\mathsf{rbki}(\mathbf A,
 The equality holds for every $\mathbf X$, not almost surely. The library uses it to transfer a tail bound or an expectation for $\mathsf{rbki}(\mathbf A,\mathbf X,q)$ to the stored output of the counted run, and restates two bounds for a standard Gaussian $\mathbf X$ in that form: the gapped tail bound for every block size and the gapped expectation bound for $t+2\le\ell$. These are exact-arithmetic accuracy statements: they use the exact certificate.
 :::
 
-### The rounded run
+::: end-model
+
+::: model rounded
 
 The rounded statements are over the reals. They concern a mathematical run model: a relation satisfied by stored matrices, with error parameters. Under rounded contracts for the products and the extension, the library states that the same program runs in total mode and that its stored blocks decode to such a run, and it states the orthogonality and forward bounds below for the decoded output words. These are statements under assumed contracts for an abstract extension operation.
 
@@ -152,18 +172,11 @@ where the two unsubscripted norms are the same norm and the last factor is the s
 
 The orthogonality bounds rest on a one-step estimate for the Gram defect under a rounded extension, and the forward bound on a comparison of $\mathbf Q\mathbf Q^{\mathsf{T}}$ with the range projector of $\mathbf Q$; both are listed under Further results.
 
-## Scope
-
-In exact arithmetic the stored product equals $\mathsf{rbki}(\mathbf A,\mathbf\Omega,q)$, so every statement about that matrix applies to exact factors; for a standard Gaussian start block these are the bounds on the randomized block Krylov iteration page. The following are not stated in the library, and nothing on this page should be read as claiming them.
-
-- A concrete linked certificate. The driver has a generic linking theorem, and the two-pass Gram–Schmidt extension program has an exact and a rounded statement of its own, but the certificate of the driver linked with that program over an exact or a rounded level-one model, with its typing side condition and recomputed costs, is not written.
-- A rounded canonical certificate. The rounded run is stated as total execution of the implementation and as a counted run of a linked program, not as a packaged certificate.
-- An end-to-end rounded accuracy theorem. The forward bound compares the returned factors with the projection onto the computed left range. The Gaussian bounds for randomized block Krylov iteration are exact-arithmetic statements and are not transferred to a rounded run.
-- Complex scalars for the program. The exact process and the exact extension contract are over real or complex scalars; the stored-run predicates, the certificate, the rounded run model, and the rounded analysis of the Gram–Schmidt extension are over the reals.
-
-## Further results
+### Further results
 
 {{ generated:results }}
+
+::: end-model
 
 ## Mathematical method
 

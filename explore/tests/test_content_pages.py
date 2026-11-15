@@ -172,6 +172,55 @@ class MarkdownExplorerTests(unittest.TestCase):
         explorer = Explorer(self.site, self.content)
         self.assertEqual(explorer.render_body(explorer.pages['algorithm:empty']).strip(), '<p>Introduction.</p>')
 
+    def test_arithmetic_models_share_resources_and_preserve_statement_link_context(self):
+        body = '''## Operations and Storage
+
+Shared operation counts.
+
+## Accuracy
+
+{{ generated:arithmetic-model-selector }}
+
+::: model exact
+::: theorem decl:N.bound name="Exact result" id=exact-result
+Exact-model explanation.
+:::
+::: end-model
+
+::: model rounded
+::: theorem decl:N.bound name="Rounded result" id=rounded-result
+Rounded-model explanation.
+:::
+::: end-model
+'''
+        self.page('ordinary.md', body, kind='implementation', id='ordinary', algorithm='lanczos',
+                  title='Ordinary Lanczos', arithmetic_models=[
+                      {'id': 'exact', 'title': 'Exact arithmetic'},
+                      {'id': 'rounded', 'title': 'Rounded arithmetic'}])
+        Explorer(self.site, self.content).build()
+        rendered = (self.site / 'algorithms/lanczos/implementations/ordinary/index.html').read_text()
+        self.assertLess(rendered.index('Shared operation counts.'), rendered.index('id="computation-model"'))
+        self.assertIn('<option value="rounded">Rounded arithmetic</option>', rendered)
+        self.assertIn('data-cg-model="exact"', rendered)
+        self.assertIn('data-cg-model="rounded"', rendered)
+        self.assertIn('?model=exact#exact-result', rendered)
+        self.assertIn('?model=rounded#rounded-result', rendered)
+        self.assertEqual(rendered.count('N.bound (n : Nat) : n ≤ n'), 2)
+        self.assertNotIn('EXPLORERGENERATEDBLOCK', rendered)
+
+    def test_arithmetic_model_choices_reject_missing_or_unknown_statements(self):
+        models = [{'id': 'exact', 'title': 'Exact arithmetic'}, {'id': 'rounded', 'title': 'Rounded arithmetic'}]
+        for body, message in [
+            ('{{ generated:arithmetic-model-selector }}\n', 'every arithmetic model'),
+            ('::: model other\nUnknown.\n::: end-model\n', 'unknown or repeated'),
+            ('::: model exact\nExact.\n::: end-model\n::: model rounded\nRounded.\n::: end-model\n', 'exactly one selector'),
+        ]:
+            self.page('ordinary.md', body, kind='implementation', id='ordinary', algorithm='lanczos',
+                      title='Ordinary Lanczos', arithmetic_models=models)
+            with self.subTest(body=body), self.assertRaisesRegex(ValueError, message):
+                explorer = Explorer(self.site, self.content)
+                explorer.render_body(explorer.pages['implementation:lanczos/ordinary'])
+
     def test_theory_and_component_dependency_cycles_are_rejected(self):
         self.page('spectral.md', kind='theory', id='spectral', title='Spectral theory', parents=['spectral'])
         with self.assertRaisesRegex(ValueError, 'Cycle in parents'):

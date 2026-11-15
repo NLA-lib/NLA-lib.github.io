@@ -30,6 +30,7 @@ RELATIONS = {'tasks': 'task', 'theory': 'theory', 'prerequisites': 'theory',
              'parents': 'theory', 'uses': 'algorithm', 'families': 'family'}
 MARKER = re.compile(r'^\{\{\s*generated:([a-z-]+)\s*\}\}\s*$', re.M)
 STATEMENT = re.compile(r'^::: (theorem|definition)(?: (result|decl):([^\s]+))?([^\n]*)\n(.*?)\n:::\s*$', re.M | re.S)
+MODEL_BLOCK = re.compile(r'^::: model ([a-z0-9][a-z0-9-]*)[ \t]*\n(.*?)^::: end-model[ \t]*$', re.M | re.S)
 MD = MarkdownIt('commonmark', {'html': False}).enable('table')
 
 
@@ -146,6 +147,18 @@ def load_pages(directory):
             raise ValueError(f'{file}: invalid status')
         if not isinstance(meta.get('sections_collapsed', False), bool):
             raise ValueError(f'{file}: sections_collapsed must be a boolean')
+        if 'arithmetic_models' in meta:
+            models = meta['arithmetic_models']
+            if meta['kind'] != 'implementation' or not isinstance(models, list) or not models:
+                raise ValueError(f'{file}: arithmetic_models requires a nonempty implementation model list')
+            ids = set()
+            for model in models:
+                if (not isinstance(model, dict) or not isinstance(model.get('id'), str)
+                        or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', model['id'])
+                        or model['id'] in ids or not isinstance(model.get('title'), str)
+                        or not model['title'].strip()):
+                    raise ValueError(f'{file}: invalid or duplicate arithmetic model')
+                ids.add(model['id'])
         page = Page(file, meta, match[2])
         if page.key in pages or page.path in routes:
             raise ValueError(f'{file}: duplicate identity or route')
@@ -367,6 +380,15 @@ class Explorer:
                     'result' if kind == 'theorem' else 'model', identifier)
 
     def generated(self, slot, page):
+        if slot == 'arithmetic-model-selector':
+            models = page.meta.get('arithmetic_models')
+            if not models:
+                raise ValueError(f'{page.source}: arithmetic-model-selector requires arithmetic_models')
+            options = ''.join('<option value="' + model['id'] + '">' +
+                              html.escape(model['title']) + '</option>' for model in models)
+            return ('<section class="cg-model-picker"><label for="computation-model">Model of arithmetic</label>'
+                    '<select id="computation-model">' + options + '</select>'
+                    '<p id="model-status" class="visually-hidden" role="status"></p></section>')
         if slot == 'task-groups':
             if page.kind != 'task':
                 raise ValueError(f'{page.source}: task-groups requires a task page')
@@ -509,6 +531,27 @@ class Explorer:
             return '\n\nEXPLORERGENERATEDBLOCK' + str(len(slots) - 1) + 'END\n\n'
         text = STATEMENT.sub(lambda m: keep(self.statement(m)), page.body)
         text = MARKER.sub(lambda m: keep(self.generated(m[1], page)), text)
+        models = {model['id']: model for model in page.meta.get('arithmetic_models', [])}
+        seen = set()
+        def model_block(match):
+            identifier, body = match.groups()
+            if identifier not in models or identifier in seen:
+                raise ValueError(f'{page.source}: unknown or repeated arithmetic model {identifier}')
+            seen.add(identifier)
+            # Statements and generated lists were already protected as HTML islands.
+            body = re.sub(r'<p>EXPLORERGENERATEDBLOCK(\d+)END</p>',
+                          lambda m: slots[int(m[1])], markdown(body))
+            label = models[identifier]['title']
+            return keep('<section data-cg-model="' + identifier + '" aria-label="' +
+                        html.escape(label, quote=True) + '"><noscript><h3>' +
+                        html.escape(label) + '</h3></noscript>' + body + '</section>')
+        text = MODEL_BLOCK.sub(model_block, text)
+        if seen != models.keys():
+            raise ValueError(f'{page.source}: every arithmetic model needs one model block')
+        if models and sum(m[1] == 'arithmetic-model-selector' for m in MARKER.finditer(page.body)) != 1:
+            raise ValueError(f'{page.source}: arithmetic models need exactly one selector')
+        if re.search(r'^::: (?:model|end-model)\b', text, re.M):
+            raise ValueError(f'{page.source}: malformed arithmetic model block')
         if re.search(r'\{\{\s*generated:|^::: (theorem|definition)', text, re.M):
             raise ValueError(f'{page.source}: malformed generated marker or statement block')
         lines = text.splitlines(keepends=True)
