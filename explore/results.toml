@@ -1,6 +1,8 @@
 # Optional per-result additions, keyed by the `Result:` id in NLAlib docstrings.
 # Everything here is optional; without an entry a result's title is the bold name in its first
-# docstring (or the id), and its statement is that docstring.
+# docstring (or the id), and its statement is that docstring, up to its `Note:` block.
+# A result with several declarations should name its `primary`; without one the build takes
+# the first theorem by name and `audit_primaries.py` lists the result.
 #
 #   [weyl-inequality]
 #   title = "Weyl's inequality"

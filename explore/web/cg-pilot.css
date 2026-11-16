@@ -61,6 +61,22 @@
 .explorer-disclosure-body { padding-top: .5rem; }
 .explorer-disclosure pre { max-height: 28rem; overflow-y: auto; background: #ededed; }
 .source-label { font-size: .8rem; overflow-wrap: anywhere; }
+/* Headline and general-form markers; docstring notes are a secondary disclosure. */
+.explorer-badges { display: flex; flex-wrap: wrap; gap: .4rem; margin: .6rem 0 0; }
+.explorer-badge {
+  padding: .05rem .4rem;
+  border: 1px solid var(--explorer-muted);
+  color: var(--explorer-muted);
+  font-family: 'Source Sans 3', sans-serif;
+  font-size: .72rem;
+  font-style: normal;
+  line-height: 1.5;
+}
+.explorer-badge[title] { cursor: help; }
+.explorer-badge-headline { border-color: var(--explorer-border); color: var(--explorer-accent); font-weight: 600; }
+.explorer-notes-body { padding-top: .5rem; color: var(--explorer-muted); }
+.explorer-notes-body > :first-child { margin-top: 0; }
+.explorer-other-forms { margin: 1.6rem 0 .4rem; color: var(--explorer-muted); font-size: .85rem; font-weight: 600; }
 .cg-pseudocode { margin: .5rem 0 1rem; }
 .cg-pseudocode ol { padding-left: 1.4rem; margin: .35rem 0 1rem; }
 .cg-pseudocode .cg-pseudocode-phase { margin: 1rem 0 .35rem; }

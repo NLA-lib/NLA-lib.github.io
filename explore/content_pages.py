@@ -22,7 +22,8 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
-from rendering import inline_title, record_component, prose_html
+from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, inline_title, notes_html, record_component,
+                       prose_html, split_notes)
 
 BASE = '/explore/'
 KINDS = {'home', 'index', 'task', 'family', 'algorithm', 'implementation', 'theory'}
@@ -321,13 +322,30 @@ class Explorer:
         return '<pre><code>' + html.escape(declaration['signature']) + '</code></pre>' + (
             '<p><a href="' + html.escape(link, quote=True) + '">Full source on GitHub</a></p>' if link else '<p><a href="https://github.com/NLA-lib/NLAlib">Source repository on GitHub</a> · <code>' + html.escape(declaration['source'].get('path', declaration['module'])) + '</code></p><p>This statement comes from an unpublished working-tree snapshot; a revision-specific source link is unavailable.</p>')
 
+    def badges(self, declaration, result=None, headline=True):
+        """Small markers: the headline of `result` (or, without one, of any result of the
+        declaration), and a `Result:` declaration whose signature carries a size as an index type."""
+        marks = []
+        for rid in ([result] if result else declaration.get('results', [])) if headline else []:
+            record = self.records['results'].get(rid, {})
+            if record.get('primary') != declaration['id']:
+                continue
+            chosen = record.get('primary_explicit') or len(record.get('declarations', [])) < 2
+            where = '' if result else ' of ' + rid
+            marks.append(badge('Headline' + where, 'The headline statement of this result.', 'headline') if chosen else
+                         badge('Headline' + where + ' (provisional)', 'No headline has been chosen for this result yet; '
+                               'this declaration is the first theorem by name.'))
+        if declaration.get('results') and declaration.get('index_typed_sizes'):
+            marks.append(badge(INDEX_SIZES_LABEL, INDEX_SIZES_TIP))
+        return '<p class="explorer-badges">' + ' '.join(marks) + '</p>' if marks else ''
+
     def result_reference(self, key):
         """Browse documented results in place; keep the exact Lean evidence separate."""
         record = self.records['results'][key]
         declaration = self.records['declarations'][record['primary']]
         label = ('Statement' if declaration.get('admission_reported') else
                  'Theorem' if declaration['kind'] == 'theorem' else 'Definition')
-        text = declaration.get('docstring') or declaration.get('summary', '')
+        text, notes = split_notes(declaration.get('docstring') or declaration.get('summary', ''))
         text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
         text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
         # The title is already in the disclosure header. Retain all hypotheses,
@@ -336,7 +354,8 @@ class Explorer:
         body = prose_html(text) if text else '<p>The exact statement is available in the Lean details below.</p>'
         if declaration.get('admission_reported'):
             body = '<p>This library statement reports an admission.</p>' + body
-        body += disclosure(self.evidence(declaration))
+        body += self.badges(declaration, headline=False)
+        body += notes_html(re.sub(r'<!--.*?-->', '', notes, flags=re.S), prose_html) + disclosure(self.evidence(declaration))
         title = inline_title(mathematics(record['title']))
         return '<article class="explorer-card cg-result explorer-result-reference" id="' + label.lower() + '-' + slug(key) + \
             '" aria-label="' + html.escape(label + ' (' + record['title'] + ')', quote=True) + \
@@ -376,7 +395,7 @@ class Explorer:
             title = option.split('=', 1)[1]
         if not title:
             raise ValueError('An authored definition requires a name')
-        return card(title, markdown(body) + (disclosure(self.evidence(declaration)) if declaration else ''),
+        return card(title, markdown(body) + (disclosure(self.badges(declaration, headline=False) + self.evidence(declaration)) if declaration else ''),
                     'result' if kind == 'theorem' else 'model', identifier)
 
     def generated(self, slot, page):
@@ -602,10 +621,17 @@ class Explorer:
         for kind in ['results', 'declarations', 'modules']:
             for key, record in self.records[kind].items():
                 if kind == 'results':
-                    declarations = [self.records['declarations'][name] for name in record['declarations']]
-                    body = '<p class="eyebrow">Library · Result group</p>' + ''.join(
-                        card(d['id'].removeprefix('NLAlib.'), prose(d.get('summary', '') or d['kind']) + disclosure(self.evidence(d)),
-                             'result' if d['kind'] == 'theorem' else 'model') for d in declarations)
+                    # The headline first; a result with several declarations names the others as such.
+                    declarations = [self.records['declarations'][name] for name in
+                                    sorted(record['declarations'], key=lambda name: name != record['primary'])]
+                    cards = [card(d['id'].removeprefix('NLAlib.'), prose(d.get('summary', '') or d['kind']) +
+                                  self.badges(d, key) + notes_html(d.get('docstring_notes'), prose) + disclosure(self.evidence(d)),
+                                  'result' if d['kind'] == 'theorem' else 'model') for d in declarations]
+                    if len(cards) > 1:
+                        cards.insert(1, '<h3 class="explorer-other-forms">Other forms</h3>')
+                    body = '<p class="eyebrow">Library · Result group</p>' + ''.join(cards)
+                    if any(d.get('index_typed_sizes') for d in declarations):
+                        body += '<p class="explorer-card-note">' + html.escape(INDEX_SIZES_LABEL + '. ' + INDEX_SIZES_TIP) + '</p>'
                 elif kind == 'declarations':
                     body = '<p class="eyebrow">Library · ' + html.escape(record['kind']) + '</p>'
                     if record.get('admission_reported'):
@@ -613,12 +639,16 @@ class Explorer:
                     if record.get('statement_changed'):
                         body += '<p class="source-label">This statement changed in the recorded rename: ' + ', '.join(
                             '<code>' + html.escape(name) + '</code>' for name in record['statement_changed']) + '.</p>'
-                    docs = prose(record['docstring'])
+                    statement, notes = split_notes(record['docstring'])
+                    body += self.badges(record)
+                    docs = prose(statement) + notes_html(notes, prose)
                     if record['source']['url']:
                         docs = re.sub(r'href="([^\"]+\.(?:lean|md)(?:#[^\"]*)?)"', lambda m:
                             'href="' + html.escape(urljoin(record['source']['url'], html.unescape(m[1])), quote=True) + '"', docs)
                     body += docs + self.evidence(record)
                     body += '<p>Import <code>' + html.escape(record['module']) + '</code>.</p>'
+                    if record.get('results') and record.get('index_typed_sizes'):
+                        body += '<p class="explorer-card-note">' + html.escape(INDEX_SIZES_LABEL + '. ' + INDEX_SIZES_TIP) + '</p>'
                 else:
                     docs = prose(record.get('summary', ''))
                     origin = next((self.records['declarations'][name]['source']['url']

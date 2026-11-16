@@ -9,6 +9,47 @@ def record_component(key):
     return component.replace('.', '%2E') if component in {'.', '..'} else component
 
 
+NOTES = re.compile(r'(?:\A|\n[ \t]*\n)(?=Note:)')
+TAG_LINE = re.compile(r'\s*(?:Result|Algorithm|Asymptotic):')
+
+
+def split_notes(text):
+    """`(statement, notes)` of a docstring. The notes block starts at the first paragraph whose
+    first line starts with the literal `Note:` and runs to the end, except for the tag lines
+    (`Result:`, `Algorithm:`, `Asymptotic:`), which stay with the statement. The statement is the
+    docstring without the notes block; a docstring without one is returned unchanged."""
+    text = text or ''
+    match = NOTES.search(text)
+    if not match:
+        return text, ''
+    notes, tags = [], []
+    for line in text[match.end():].split('\n'):
+        (tags if TAG_LINE.match(line) else notes).append(line)
+    statement = text[:match.start()].rstrip()
+    if tags:
+        statement += ('\n\n' if statement else '') + '\n'.join(tags)
+    return statement, '\n'.join(notes).strip()
+
+
+def notes_html(notes, render):
+    """The secondary, collapsed block for a docstring's notes; nothing without notes. Its body is
+    not an `explorer-disclosure-body`, so statement links stay with the Lean details."""
+    if not notes:
+        return ''
+    return ('<details class="explorer-disclosure explorer-notes"><summary>Notes</summary><div class="explorer-notes-body">' +
+            render(re.sub(r'\ANote:\s*', '', notes)) + '</div></details>')
+
+
+def badge(label, tip='', kind=''):
+    return ('<span class="explorer-badge' + (' explorer-badge-' + kind if kind else '') + '"' +
+            (' title="' + html.escape(tip, quote=True) + '"' if tip else '') + '>' + html.escape(label) + '</span>')
+
+
+INDEX_SIZES_LABEL = 'General form: sizes are index types'
+INDEX_SIZES_TIP = ('A size is carried by a finite index type: |k| is the number of elements of the index type k, '
+                   'and "k nonempty" means k ≥ 1.')
+
+
 def inline_title(text):
     """Titles share the same safe math/code markup in headings and links."""
     parts = re.split(r'(\$\$.*?\$\$|\$[^$\n]+\$|`[^`]+`)', text)

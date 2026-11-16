@@ -13,7 +13,7 @@ import re
 import tomllib
 from urllib.parse import quote
 
-from rendering import record_component
+from rendering import record_component, split_notes
 
 BASE = '/explore/'
 REPO = 'https://github.com/NLA-lib/NLAlib'
@@ -41,6 +41,31 @@ def reference_url(kind, key):
 def summary(text):
     text = re.sub(r'^(?:Result|Algorithm|Asymptotic):.*$', '', text or '', flags=re.M).strip()
     return ' '.join(text.split('\n\n')[0].split())
+
+
+def index_typed_sizes(signature):
+    """Whether a Lean signature carries a size as an index type rather than as a natural number:
+    it mentions `Fintype.card` or assumes `[Nonempty …]`. The one detector behind the "general
+    form" marker and the headline audit."""
+    return 'Fintype.card' in (signature or '') or '[Nonempty ' in (signature or '')
+
+
+def primary_report(records):
+    """Result ids whose headline still needs attention: `unchosen` lists every result with more
+    than one declaration and no explicit `primary` (the build falls back to the first theorem by
+    name), `index_typed` every result whose primary carries a size as an index type."""
+    unchosen, index_typed = [], []
+    for rid, result in sorted(records['results'].items()):
+        primary = records['declarations'][result['primary']]
+        row = {'id': rid, 'primary': result['primary'], 'explicit': bool(result.get('primary_explicit')),
+               'declarations': result['declarations']}
+        if len(result['declarations']) > 1 and not row['explicit']:
+            unchosen.append(row)
+        if index_typed_sizes(primary['signature']):
+            index_typed.append(row)
+    return {'results': len(records['results']),
+            'multiple': sum(len(r['declarations']) > 1 for r in records['results'].values()),
+            'unchosen': unchosen, 'index_typed': index_typed}
 
 
 def title(text, fallback):
@@ -110,12 +135,15 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
         signature = original.get('signature') or ''
         citations = [{'key': m[1], 'locator': m[2] or '', **bibliography.get(m[1], {})}
                      for m in re.finditer(r'\[([A-Z][A-Za-z]+\d{4}[a-z]?)(?:,\s*([^\]]*))?\]', original.get('doc') or '')]
+        doc_statement, doc_notes = split_notes(original.get('doc'))
         records['declarations'][name] = {
             'id': name, 'kind': original['kind'], 'url': reference_url('declarations', name),
             'module': module, 'import': 'import ' + module,
             'signature': signature, 'signature_sha256': fingerprint(signature),
             'statement': signature if original['kind'] == 'theorem' else original.get('statement') or signature,
-            'docstring': original.get('doc') or '', 'summary': summary(original.get('doc')),
+            'docstring': original.get('doc') or '', 'summary': summary(doc_statement),
+            'docstring_statement': doc_statement, 'docstring_notes': doc_notes,
+            'index_typed_sizes': index_typed_sizes(signature),
             'admission_reported': bool(original.get('sorry')),
             'statement_dependencies': original.get('typeDeps', []),
             'proof_or_value_dependencies': original.get('valueDeps', []),
@@ -128,13 +156,14 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
         }
     for rid, names in grouped.items():
         cfg = overrides.get(rid, {})
-        primary = cfg.get('primary')
+        primary = explicit = cfg.get('primary')
         if primary and primary not in names:
             raise ValueError(f'result {rid}: primary declaration {primary} is absent from this result')
         primary = primary or min(names, key=lambda n: (bool(originals[n].get('sorry')), originals[n]['kind'] != 'theorem', n))
         records['results'][rid] = {
             'id': rid, 'title': cfg.get('title') or title(originals[primary].get('doc'), rid),
-            'url': reference_url('results', rid), 'primary': primary, 'declarations': sorted(names),
+            'url': reference_url('results', rid), 'primary': primary, 'primary_explicit': bool(explicit),
+            'declarations': sorted(names),
             'forms': [], 'aliases': cfg.get('aliases', []),
             'admission_reported': all(bool(originals[n].get('sorry')) for n in names),
         }

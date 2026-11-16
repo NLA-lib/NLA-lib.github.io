@@ -10,6 +10,7 @@ from urllib.parse import unquote, urlsplit
 
 import build
 import library
+import rendering
 from content_pages import load_pages
 
 
@@ -167,6 +168,126 @@ class LibraryTests(unittest.TestCase):
         moves.write_text(json.dumps({'mathematical_module_moves': {'Old.Math': {'modules': ['Missing']}}}))
         with self.assertRaisesRegex(ValueError, 'destination absent'):
             library.make_records(self.data, load_pages(self.content), source=self.root, module_map=moves)
+
+    NOTED = ('**A bound.** For every $n$, $n \\le C n$.\nHere $C = 1$.\n\n[Key2020, Theorem 1], verbatim.\n\n'
+             'Note: tight for $n = 0$.\nGeneral form: `N.general`.\n\nSecond NOTE_SENTINEL paragraph.\n\n'
+             'Asymptotic: n\nResult: bound')
+
+    def test_docstring_without_notes_block_is_unchanged(self):
+        for doc in ['', '**A bound.**\nResult: bound', 'First.\n\nSee the Note: inside a line.\n\nNotes: plural.\nNote: not a paragraph start.']:
+            self.assertEqual(rendering.split_notes(doc), (doc, ''))
+        self.assertEqual(rendering.split_notes(None), ('', ''))
+        self.assertEqual(rendering.notes_html('', str), '')
+        d = self.model()['records']['declarations']['N.bound']
+        self.assertEqual(d['docstring_statement'], d['docstring'])
+        self.assertEqual((d['docstring_notes'], d['summary']), ('', '**A bound.**'))
+        with patch.object(build, 'load_toml', return_value={}):
+            build.build(self.data, {}, self.root / 'site', content=self.content)
+        page = (self.root / 'site/library/declarations/N.method/index.html').read_text()
+        self.assertIn('<p class="eyebrow">Library · def</p><p><strong>Method.</strong> Algorithm: method</p><pre>', page)
+        for page in ['library/declarations/N.bound', 'library/results/bound', 'algorithms/method']:
+            self.assertNotIn('explorer-notes', (self.root / 'site' / page / 'index.html').read_text())
+
+    def test_notes_block_is_separated_from_the_statement_everywhere(self):
+        statement, notes = rendering.split_notes(self.NOTED)
+        self.assertEqual(statement, self.NOTED.split('\n\nNote:')[0] + '\n\nAsymptotic: n\nResult: bound')
+        self.assertEqual(notes, 'Note: tight for $n = 0$.\nGeneral form: `N.general`.\n\nSecond NOTE_SENTINEL paragraph.')
+        self.data['decls'][1]['doc'] = self.NOTED
+        with patch.object(build, 'load_toml', return_value={}):
+            model = build.build(self.data, {}, self.root / 'site', content=self.content)
+        d = model['records']['declarations']['N.bound']
+        self.assertEqual(d['docstring'], self.NOTED)
+        self.assertEqual((d['docstring_statement'], d['docstring_notes']), (statement, notes))
+        self.assertEqual(d['summary'], '**A bound.** For every $n$, $n \\le C n$. Here $C = 1$.')
+        self.assertEqual(d['results'], ['bound'])
+        self.assertEqual(d['references'][0]['key'], 'Key2020')
+        site = self.root / 'site'
+        search = json.loads((site / 'api/v1/search-index.json').read_text())['entries']
+        entry = next(e for e in search if e['id'] == 'N.bound')
+        self.assertIn('NOTE_SENTINEL', entry['search_text'])
+        self.assertNotIn('NOTE_SENTINEL', entry['summary'])
+        for page in ['library/declarations/N.bound', 'library/results/bound', 'algorithms/method']:
+            text = (site / page / 'index.html').read_text()
+            before, block = text.split('<details class="explorer-disclosure explorer-notes"><summary>Notes</summary>')
+            self.assertEqual(text.count('NOTE_SENTINEL'), 1, page)
+            self.assertNotIn('tight for', before)
+            self.assertNotIn('Note:', text)
+            self.assertIn('<div class="explorer-notes-body"><p>tight for <span class="math">n = 0</span>.', block)
+            self.assertIn('NOTE_SENTINEL', block.split('</details>')[0])
+            self.assertIn('Here <span class="math">C = 1</span>.', before)
+        for page in ['library/declarations/N.bound', 'algorithms/method']:
+            before = (site / page / 'index.html').read_text().split('explorer-notes')[0]
+            self.assertIn('[Key2020, Theorem 1], verbatim.', before)
+        # The statement link stays with the Lean details, not with the notes.
+        method = (site / 'algorithms/method/index.html').read_text()
+        self.assertLess(method.index('N.bound (n : Nat)'), method.index('statement-permalink'))
+
+    def test_primary_is_marked_explicit_or_fallback_and_reported(self):
+        self.data['decls'] += [
+            {'name': 'N.a_general', 'module': 'N', 'kind': 'theorem', 'doc': '**General.**\nResult: bound sized',
+             'signature': 'N.a_general {k : Type} [Fintype k] [Nonempty k] : 0 < Fintype.card k'},
+            {'name': 'N.sized', 'module': 'N', 'kind': 'theorem', 'doc': 'Result: sized', 'signature': 'N.sized {k : ℕ} : k ≤ k'}]
+        self.assertTrue(library.index_typed_sizes('theorem t [Nonempty k] : True'))
+        self.assertTrue(library.index_typed_sizes('t : Fintype.card k = 2'))
+        for signature in ['N.sized {k : ℕ} (hk : 0 < k) : k ≤ k', 'Nonempty (Fin n)', '', None]:
+            self.assertFalse(library.index_typed_sizes(signature))
+        fallback = self.model()['records']
+        self.assertEqual((fallback['results']['bound']['primary'], fallback['results']['bound']['primary_explicit']), ('N.a_general', False))
+        self.assertTrue(fallback['declarations']['N.a_general']['index_typed_sizes'])
+        self.assertFalse(fallback['declarations']['N.bound']['index_typed_sizes'])
+        summary = library.primary_report(fallback)
+        self.assertEqual((summary['results'], summary['multiple']), (2, 2))
+        self.assertEqual([(r['id'], r['primary'], r['declarations']) for r in summary['unchosen']],
+                         [('bound', 'N.a_general', ['N.a_general', 'N.bound']), ('sized', 'N.a_general', ['N.a_general', 'N.sized'])])
+        self.assertEqual([r['id'] for r in summary['index_typed']], ['bound', 'sized'])
+        overrides = {'bound': {'primary': 'N.bound'}, 'sized': {'primary': 'N.a_general'}}
+        chosen = self.model(overrides=overrides)['records']
+        self.assertEqual((chosen['results']['bound']['primary'], chosen['results']['bound']['primary_explicit']), ('N.bound', True))
+        summary = library.primary_report(chosen)
+        self.assertEqual(summary['unchosen'], [])
+        self.assertEqual([(r['id'], r['explicit']) for r in summary['index_typed']], [('sized', True)])
+        import audit_primaries
+        listing = audit_primaries.report(library.primary_report(fallback))
+        self.assertIn('bound (2 declarations)\n  * N.a_general\n    N.bound\n', listing)
+        self.assertIn('sized: N.a_general (fallback primary)', listing)
+
+    def test_result_and_declaration_pages_mark_the_headline_and_index_typed_sizes(self):
+        self.data['decls'] += [
+            {'name': 'N.a_general', 'module': 'N', 'kind': 'theorem', 'doc': '**General.**\nResult: bound',
+             'signature': 'N.a_general {k : Type} [Fintype k] [Nonempty k] : 0 < Fintype.card k'},
+            {'name': 'N.sized', 'module': 'N', 'kind': 'theorem', 'doc': 'Result: sized',
+             'signature': 'N.sized {k : Type} [Fintype k] : 0 ≤ Fintype.card k'}]
+        site = self.root / 'site'
+        headline = '<span class="explorer-badge explorer-badge-headline" title="The headline statement of this result.">Headline'
+        general = '>General form: sizes are index types</span>'
+        for overrides, mark in [({'bound': {'primary': 'N.bound'}}, headline + '</span>'), ({}, '>Headline (provisional)</span>')]:
+            with patch.object(build, 'load_toml', return_value=overrides):
+                build.build(self.data, {}, site, content=self.content)
+            page = (site / 'library/results/bound/index.html').read_text()
+            first, others = page.split('<h3 class="explorer-other-forms">Other forms</h3>')
+            primary, other = ('N.bound', 'N.a_general') if overrides else ('N.a_general', 'N.bound')
+            self.assertIn('(' + primary + ')', first)
+            self.assertIn(mark, first)
+            self.assertNotIn('(' + other + ')', first)
+            self.assertIn('(' + other + ')', others)
+            self.assertNotIn('>Headline', others)
+            self.assertEqual(page.count(general), 1)
+            self.assertIn(general, others if overrides else first)
+            self.assertIn('is the number of elements of the index type k', page)
+        # A single declaration is its result's headline and needs no "other forms".
+        page = (site / 'library/results/sized/index.html').read_text()
+        self.assertIn(headline + '</span>', page)
+        self.assertIn(general, page)
+        self.assertNotIn('Other forms', page)
+        self.assertIn(headline + ' of sized</span>', (site / 'library/declarations/N.sized/index.html').read_text())
+        self.assertIn('>Headline of bound (provisional)</span>', (site / 'library/declarations/N.a_general/index.html').read_text())
+        plain = (site / 'library/declarations/N.bound/index.html').read_text()
+        self.assertNotIn('explorer-badge', plain)
+        self.assertNotIn('explorer-badge', (site / 'library/declarations/N.method/index.html').read_text())
+        # Generated result lists show the primary; they flag only its index-typed sizes.
+        method = (site / 'algorithms/method/index.html').read_text()
+        self.assertEqual(method.count(general), 1)
+        self.assertNotIn('>Headline', method)
 
 
 if __name__ == '__main__':

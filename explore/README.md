@@ -71,6 +71,18 @@ Declaration records distinguish statement dependencies from proof/value dependen
 retain exact signature fingerprints and admission flags, and link to pinned sources.
 Tags and dependencies never establish execution, success, or resource guarantees.
 
+A docstring may end with a notes block: one or more paragraphs, the first starting
+with the literal `Note:` at the start of a line, before the tag lines. The pages show
+the part before it as the statement and the notes as a collapsed "Notes" disclosure.
+Declaration records keep `docstring` whole and add `docstring_statement` (the
+docstring without the notes block), `docstring_notes` (the block, empty when there is
+none) and `index_typed_sizes` (the signature mentions `Fintype.card` or `[Nonempty …]`).
+`summary` is the first paragraph of the statement. The search text still contains the
+notes, so the Lean names they mention remain searchable. Result records add
+`primary_explicit`: whether `primary` was chosen in `results.toml` or is the fallback,
+the first theorem by name. Result pages show the primary first, marked "Headline"
+("provisional" for a fallback among several declarations), then the other forms.
+
 `search-index.json` and its gzip copy use those same records plus the Markdown
 pages. `manifest.json` reports snapshot identity and counts; `schema.json` describes
 the envelope. The retired implementation/target/bound/guarantee API collections are
@@ -82,6 +94,16 @@ and library rename maps resolve to the current Library. The old catalogue and Ra
 URLs redirect to module and result indexes. Removed source/dependency-graph views
 are not recreated. A rename never transfers an old statement silently: the generic
 record retains the maps reporting a changed statement.
+
+## Headline audit
+
+```sh
+python3 explore/audit_primaries.py --site /path/to/built/explorer [--report FILE] [--strict]
+```
+
+This lists every result with several declarations and no explicit `primary`, with its
+members, and every result whose primary carries a size as an index type. Choosing a
+primary is a mathematical decision recorded in `results.toml`; the audit never chooses.
 
 ## Validate
 
