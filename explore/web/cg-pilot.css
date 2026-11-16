@@ -45,8 +45,13 @@
 .explorer-section > summary h2 { display: inline; margin: 0; font-size: 1.15rem; }
 .explorer-section > summary h2 { padding-top: 0; }
 .explorer-section + .explorer-section { margin-top: 1.65rem; }
-/* A group's one-line summary belongs to its disclosure label and shows while collapsed. */
-.task-group-summary { display: block; margin: .3rem 0 0 1.1rem; color: var(--explorer-muted); font-size: .9rem; font-weight: 400; }
+/* A group's one-line summary belongs to its disclosure label and shows while collapsed.
+   The label is a flex row (explore.css): the title takes the first line up to the +/− marker,
+   and the summary wraps onto a full-width line of its own below the title. */
+.explore-pages .task-group > summary { flex-wrap: wrap; row-gap: .2rem; }
+.explore-pages .task-group > summary > h2 { flex: 1 1 0; }
+.explore-pages .task-group > summary::after { order: 1; }
+.explore-pages .task-group-summary { order: 2; flex: 0 0 100%; margin: 0; color: var(--explorer-muted); font-size: .9rem; font-weight: 400; }
 .explore-pages .page-title { padding-top: 0; margin: 1.8rem 0 .65rem; }
 .explorer-section-body { padding-top: .35rem; }
 .explorer-section:target, article:target { outline: 2px solid #777; outline-offset: 3px; }

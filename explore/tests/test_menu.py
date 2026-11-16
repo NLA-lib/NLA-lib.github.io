@@ -40,5 +40,18 @@ class MenuTests(unittest.TestCase):
         self.assertEqual(home, markdown_menu(SITE / 'design' / 'index.md', 'design'))
 
 
+
+class GroupSummaryLayoutTests(unittest.TestCase):
+    def test_group_summary_wraps_below_the_title_of_the_flex_label(self):
+        # The disclosure label is a flex row with the marker pushed right. The summary needs a
+        # line of its own after the title and the marker, at a specificity above that row's.
+        row = (ROOT / 'web' / 'explore.css').read_text()
+        self.assertIn('.explore-pages details > summary { cursor: pointer; list-style: none; display: flex;', row)
+        css = (ROOT / 'web' / 'cg-pilot.css').read_text()
+        self.assertIn('.explore-pages .task-group > summary { flex-wrap: wrap;', css)
+        self.assertIn('.explore-pages .task-group > summary > h2 { flex: 1 1 0; }', css)
+        self.assertIn('.explore-pages .task-group > summary::after { order: 1; }', css)
+        self.assertRegex(css, r'\.explore-pages \.task-group-summary \{ order: 2; flex: 0 0 100%; margin: 0;')
+
 if __name__ == '__main__':
     unittest.main()
