@@ -22,6 +22,7 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
+from models import FACETS as MODEL_FACETS, FACTS as MODEL_FACTS, tags as model_tags
 from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, inline_title, notes_html, record_component,
                        prose_html, split_notes)
 
@@ -324,7 +325,8 @@ class Explorer:
 
     def badges(self, declaration, result=None, headline=True):
         """Small markers: the headline of `result` (or, without one, of any result of the
-        declaration), and a `Result:` declaration whose signature carries a size as an index type."""
+        declaration), a `Result:` declaration whose signature carries a size as an index type, and
+        the arithmetic and execution-model facts established for the declaration."""
         marks = []
         for rid in ([result] if result else declaration.get('results', [])) if headline else []:
             record = self.records['results'].get(rid, {})
@@ -337,6 +339,7 @@ class Explorer:
                                'this declaration is the first theorem by name.'))
         if declaration.get('results') and declaration.get('index_typed_sizes'):
             marks.append(badge(INDEX_SIZES_LABEL, INDEX_SIZES_TIP))
+        marks += [badge(*MODEL_FACTS[fact['facet']][fact['value']]) for fact in declaration.get('model_facts', [])]
         return '<p class="explorer-badges">' + ' '.join(marks) + '</p>' if marks else ''
 
     def result_reference(self, key):
@@ -522,7 +525,14 @@ class Explorer:
             for kind in ['family', 'implementation', 'task', 'theory', 'guide']:
                 if '<option>' + kind + '</option>' not in form:
                     form = form.replace('<option>algorithm</option>', '<option>algorithm</option><option>' + kind + '</option>')
-            return form
+            # Offer only the model facts that some record of this snapshot has.
+            present = {tag for record in self.records['declarations'].values() for tag in model_tags(record.get('model_facts'))}
+            filters = ''.join(
+                '<label>' + label + ' <select name="' + facet + '" data-facet="' + facet + '"><option value="">Any</option>' +
+                ''.join('<option value="' + value + '">' + html.escape(MODEL_FACTS[facet][value][0]) + '</option>'
+                        for value in MODEL_FACTS[facet] if facet + ':' + value in present) + '</select></label>'
+                for facet, label in MODEL_FACETS.items() if any(tag.startswith(facet + ':') for tag in present))
+            return form.replace('<button>Search</button>', filters + '<button>Search</button>')
         if slot.startswith('cg-'):
             source = page.meta.get('source_variant', 'concept')
             fragment = self.cg.get(source, {}).get(slot)

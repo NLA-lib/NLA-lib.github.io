@@ -13,6 +13,7 @@ import re
 import tomllib
 from urllib.parse import quote
 
+import models
 from rendering import record_component, split_notes
 
 BASE = '/explore/'
@@ -129,6 +130,9 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
         for name in names:
             declaration_results[name].append(rid)
     renamed, changed = rename_tables(rename_maps, set(originals))
+    # The certificate record is not fingerprinted; read it only beside verified module sources.
+    certificates, certificate_record = (models.load_certificates(source, originals)
+                                        if snapshot.get('source_hashes_checked') else ({}, None))
     for name, original in originals.items():
         module = original['module']
         path = module.replace('.', '/') + '.lean'
@@ -136,6 +140,7 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
         citations = [{'key': m[1], 'locator': m[2] or '', **bibliography.get(m[1], {})}
                      for m in re.finditer(r'\[([A-Z][A-Za-z]+\d{4}[a-z]?)(?:,\s*([^\]]*))?\]', original.get('doc') or '')]
         doc_statement, doc_notes = split_notes(original.get('doc'))
+        model_facts, certificate = models.facts(original, certificates.get(name))
         records['declarations'][name] = {
             'id': name, 'kind': original['kind'], 'url': reference_url('declarations', name),
             'module': module, 'import': 'import ' + module,
@@ -144,6 +149,7 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
             'docstring': original.get('doc') or '', 'summary': summary(doc_statement),
             'docstring_statement': doc_statement, 'docstring_notes': doc_notes,
             'index_typed_sizes': index_typed_sizes(signature),
+            'model_facts': model_facts, 'certificate': certificate,
             'admission_reported': bool(original.get('sorry')),
             'statement_dependencies': original.get('typeDeps', []),
             'proof_or_value_dependencies': original.get('valueDeps', []),
@@ -165,6 +171,7 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
             'url': reference_url('results', rid), 'primary': primary, 'primary_explicit': bool(explicit),
             'declarations': sorted(names),
             'forms': [], 'aliases': cfg.get('aliases', []),
+            'model_facts': records['declarations'][primary]['model_facts'],
             'admission_reported': all(bool(originals[n].get('sorry')) for n in names),
         }
     editorial_algorithms = {}
@@ -220,6 +227,7 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
     for aid, page in editorial_algorithms.items():
         records['algorithms'][aid]['guides'] = [guide_paths[path] for path in page.meta.get('source_guides', []) if path in guide_paths]
     return {'schema_version': 1, 'snapshot': snapshot, 'records': records, 'module_moves': moves,
+            'certificate_record': certificate_record,
             'renamed': renamed, 'result_aliases': {old: resolve_result(old) for old in result_aliases}}
 
 
@@ -246,6 +254,8 @@ def publish(model, out, synonyms=None):
                 'summary': record.get('summary', ''), 'module': record.get('module', ''), 'url': record['url'],
                 'record': directory[kind][key], 'search_text': text + ' ' + ' '.join(record.get('aliases', [])) + ' ' + record.get('markdown', ''),
                 'admission_reported': record.get('admission_reported', False)})
+            if record.get('model_facts'):
+                entries[-1]['facets'] = models.tags(record['model_facts'])
     search = packed({'schema_version': 1, 'snapshot': model['snapshot'], 'synonyms': synonyms or {}, 'entries': entries})
     (api / 'search-index.json').write_text(search)
     (api / 'search-index.json.gz').write_bytes(gzip.compress(search.encode(), mtime=0))
@@ -265,6 +275,7 @@ def publish(model, out, synonyms=None):
     manifest = {'schema_version': 1, 'snapshot': model['snapshot'],
         'records': BASE + 'api/v1/index.json', 'search': BASE + 'api/v1/search-index.json',
         'schema': BASE + 'api/v1/schema.json', 'counts': {kind: len(rs) for kind, rs in model['records'].items()},
+        'certificate_record': model.get('certificate_record'),
         'evidence_policy': 'Tags and associations are discovery metadata, not execution or resource certification. Exact signatures and source fingerprints are preserved.'}
     (api / 'manifest.json').write_text(packed(manifest) + '\n')
     schema = {'$schema': 'https://json-schema.org/draft/2020-12/schema', 'type': 'object',
