@@ -5,8 +5,10 @@ import subprocess
 import tempfile
 import unittest
 
-from cg_pilot import Sources
-from cg_presentation import mathematics
+import json
+
+from cg_pilot import ROUNDED, Sources, rounded_declarations
+from cg_presentation import coverage_note, mathematics
 
 
 class CorePreviewTests(unittest.TestCase):
@@ -63,3 +65,21 @@ class CorePreviewTests(unittest.TestCase):
                 sources.declaration('Example.lean', 'absent')
             with self.assertRaisesRegex(ValueError, 'Missing theorem'):
                 sources.declaration('Example.lean', 'next')
+
+    def test_coverage_note_names_only_rounded_results_of_the_snapshot(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            records = Path(tmp) / 'api/v1/declarations'
+            records.mkdir(parents=True)
+            self.assertEqual(rounded_declarations(tmp, 'pcg'), [])
+            name = ROUNDED['pcg'][1]
+            (records / (name + '.json')).write_text(json.dumps({'record': {'id': name, 'url': '/explore/library/declarations/' + name + '/'}}))
+            found = rounded_declarations(tmp, 'pcg')
+            self.assertEqual([d['name'] for d in found], [name])
+            self.assertEqual(rounded_declarations(tmp, 'reorth'), [])
+        absent, present = coverage_note([]), coverage_note(found)
+        # The note describes the page. It never says that the library has no rounded theorem.
+        for note in [absent, present]:
+            self.assertIn('No rounded execution theorem is presented for this variant', note)
+            self.assertNotIn('has no rounded', note)
+        self.assertNotIn('<ul>', absent)
+        self.assertIn('href="/explore/library/declarations/' + name + '/"><code>' + name.removeprefix('NLAlib.') + '</code>', present)
