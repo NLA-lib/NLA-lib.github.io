@@ -98,7 +98,8 @@
 .explorer-result-details > .explorer-disclosure-body { padding-top: .8rem; }
 .explorer-result-reference code { overflow-wrap: anywhere; }
 .explorer-result-reference .math.display { padding-block: .15rem; }
-.cg-model-picker label { font-weight: 600; margin-bottom: .6rem; }
+.cg-model-picker label, .cg-model-label { display: block; font-weight: 600; margin: 0 0 .6rem; }
+.cg-model-value { margin: 0; }
 .cg-model-picker { margin: 1rem 0 1.5rem; }
 .cg-model-picker select { width: 100%; max-width: 26rem; border-radius: 0; }
 .cg-variant-list { margin-block: 1rem 2rem; }
