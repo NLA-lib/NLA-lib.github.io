@@ -179,9 +179,10 @@ their mathematical scope. Algorithm tags can include relatives: use
 `library_results: false` and explicit `result_ids` when necessary to keep a method's
 results distinct from compositions and arithmetic-specific implementations.
 
-The CG adapter additionally supplies `cg-definition`, `cg-resources`, and
-`cg-accuracy`. These preserve the current program/model demo using matching core
-source metadata; the surrounding prose, headings, and placement are Markdown-owned.
+The CG adapter additionally supplies `cg-definition`, `cg-resources`, one
+`cg-accuracy-<model>` for each model it has a theorem for, and `cg-coverage` for the
+variants without rounded theorems. They are built from matching core source metadata;
+the model selector, the model blocks, prose, headings, and placement are Markdown-owned.
 
 ## Editable statements with generated Lean details
 
@@ -225,38 +226,84 @@ An unsourced theorem is rejected. Unknown result/declaration names, wrong statem
 kinds, missing relationships, duplicate routes, and unknown generated markers reject
 the build. Metadata associations never establish an execution or accuracy guarantee.
 
-## Arithmetic-dependent statements
+## Programs and models of an implementation page
 
-An implementation can declare its reviewed models in front matter:
+An algorithm page is a named algorithm, with its attribution where the library cites one
+(Hessenberg shifted QR (BGS), Hermitian spectral bisection (Shah)). Its implementation pages are its
+certified programs. Title a program by what distinguishes it, for example "Exact arithmetic
+(BGS I)"; the page shows the algorithm above the title, and `search_aliases` keeps older names
+findable. A further algorithm of the same kind is a sibling algorithm page in the same task
+group, not a rename.
+
+**One page per instruction listing.** Two library programs share a page when they have the
+same listing up to
+
+1. the model hypothesis (the same tree under exact and rounded arithmetic),
+2. mechanical lowering by linking (the matrix–vector product replaced by loops over stored
+   rows, vector operations replaced by scalar loops), or
+3. initialization.
+
+They get separate pages when the steps, the primitives assumed, or the inputs and outputs
+differ, as for the two shifted QR programs. Present the general start in the listing. When the
+certificate of a model starts from zero only, say so inside that model's block and list the
+general-start certificate under "Not yet presented".
+
+**Every non-placeholder page declares its models** in the header and places the generated
+selector first in a `## Model of arithmetic` section, directly after `## Algorithm`:
 
 ```yaml
 arithmetic_models:
 - id: exact
-  title: Exact arithmetic
-- id: rounded
-  title: Rounded extension and products
+  arithmetic: exact
+  program: blas-matvec
+- id: stored-scalar
+  arithmetic: standard
+  program: stored-scalar
 ```
 
-Place shared pseudocode, operation/storage bounds, and common scope notes before the
-selector. Under Accuracy, render the selector and one block for each model:
+```markdown
+## Model of arithmetic
+
+{{ generated:arithmetic-model-selector }}
+```
+
+With several models this is a selector; with one it is a plain line in the same place. Under it
+the page links the definitions of the models and the other programs of the algorithm.
+
+**Names come from one vocabulary**, in `models.py`, shared with the badges and the search
+filters. `arithmetic` is `exact` (Exact arithmetic), `standard` (Standard rounding) or
+`relative-error`. `program` says what the program is built from and is given only where it
+tells the models of that page apart: `blas-matvec`, `relative-blas-matvec`,
+`relative-blas`, `stored-scalar`. Use the same
+`id` for the same model on every page (`exact`, `standard`, `stored-scalar`), since `?model=<id>`
+selects a model and is carried along links between algorithm pages. A retired id listed under a model's `aliases` keeps selecting that model;
+an unknown id selects the first model. A written `title` instead
+of `arithmetic` is only for a model that the vocabulary does not describe; add a vocabulary
+entry when a second page needs it.
+
+**Offer a model only when the library has a reviewed statement** for that program in that
+model. Everything else goes once under `## Not yet presented`.
+
+**Order of sections**: Algorithm (the listing, independent of the model), Model of arithmetic,
+Operations and Storage, Accuracy, Not yet presented. Put what holds for every model outside
+model blocks. Put what differs inside:
 
 ```markdown
-{{ generated:arithmetic-model-selector }}
-
 ::: model exact
 Exact assumptions and source-backed statement blocks go here.
 ::: end-model
 
-::: model rounded
-Rounded assumptions and source-backed statement blocks go here.
+::: model stored-scalar
+Name the Lean program, say how it differs from the listing, then state its theorem.
 ::: end-model
 ```
 
-The model blocks accept the same theorem/definition blocks and generated sections as the
-rest of the page. Every declared model needs one block and there must be one selector.
-Model IDs drive `?model=...` URLs and Copy link actions; opening a statement fragment without
-an explicit model selects its model and expands its containing disclosures. Without
-JavaScript, both sets of statements remain readable with model headings.
+A model can have several blocks, for example one under Model of arithmetic for its assumptions
+and one under Accuracy. With several models every model needs at least one block; with one
+model no block is needed. The blocks accept the same theorem/definition blocks and generated
+sections as the rest of the page. Opening a statement fragment without an explicit model selects
+its model and expands its containing disclosures. Without JavaScript, all model blocks remain
+readable with model headings.
 
 Declaring a model does not establish its contracts. Keep the statement's actual input,
 arithmetic and execution-to-analysis assumptions in its explanation and Lean details.

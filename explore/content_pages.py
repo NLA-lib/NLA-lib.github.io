@@ -22,7 +22,7 @@ from markdown_it import MarkdownIt
 import yaml
 
 from cg_presentation import card, disclosure, mathematics, prose
-from models import FACETS as MODEL_FACETS, FACTS as MODEL_FACTS, tags as model_tags
+from models import FACETS as MODEL_FACETS, FACTS as MODEL_FACTS, PROGRAMS, model_title, tags as model_tags
 from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, inline_title, notes_html, record_component,
                        prose_html, split_notes)
 
@@ -156,11 +156,23 @@ def load_pages(directory):
             ids = set()
             for model in models:
                 if (not isinstance(model, dict) or not isinstance(model.get('id'), str)
-                        or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', model['id'])
-                        or model['id'] in ids or not isinstance(model.get('title'), str)
-                        or not model['title'].strip()):
+                        or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', model['id']) or model['id'] in ids):
+                    raise ValueError(f'{file}: invalid or duplicate arithmetic model')
+                # A model is named from the shared vocabulary. A written title is for a model
+                # that the vocabulary does not describe.
+                if 'arithmetic' in model:
+                    if (model['arithmetic'] not in MODEL_FACTS['arithmetic'] or 'title' in model
+                            or model.get('program') not in {None, *PROGRAMS}):
+                        raise ValueError(f'{file}: arithmetic model {model["id"]} is not in the model vocabulary')
+                    model['title'] = model_title(model['arithmetic'], model.get('program'))
+                elif not isinstance(model.get('title'), str) or not model['title'].strip() or 'program' in model:
                     raise ValueError(f'{file}: invalid or duplicate arithmetic model')
                 ids.add(model['id'])
+            # Retired ids keep selecting the model that replaced them.
+            aliases = [alias for model in models for alias in model.get('aliases', [])]
+            if (any(not isinstance(model.get('aliases', []), list) for model in models) or len(set(aliases)) != len(aliases)
+                    or any(not isinstance(a, str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', a) or a in ids for a in aliases)):
+                raise ValueError(f'{file}: invalid or duplicate arithmetic model alias')
         page = Page(file, meta, match[2])
         if page.key in pages or page.path in routes:
             raise ValueError(f'{file}: duplicate identity or route')
@@ -283,8 +295,15 @@ class Explorer:
                 html.escape(page.meta['title'], quote=True) + '"' +
                 (' data-model-link' if page.kind in {'family', 'algorithm', 'implementation'} else '') +
                 '><h3 class="explorer-card-title">' + inline_title(mathematics(page.meta['title'])) + '</h3>' +
-                summary + '</a>')
+                summary + (self.model_names(page, '<p class="explorer-card-note">Models: ', '</p>')
+                           if page.kind == 'implementation' else '') + '</a>')
         return ''.join(items) or '<p>No entries have been added yet.</p>'
+
+    @staticmethod
+    def model_names(page, before='', after=''):
+        """The names of the models an implementation page presents, for lists of programs."""
+        names = [html.escape(model['title']) for model in page.meta.get('arithmetic_models', [])]
+        return before + '; '.join(names) + after if names else ''
 
     def status(self, page):
         if page.meta.get('renderer') == 'cg' and page.meta.get('source_variant') not in self.cg:
@@ -406,11 +425,25 @@ class Explorer:
             models = page.meta.get('arithmetic_models')
             if not models:
                 raise ValueError(f'{page.source}: arithmetic-model-selector requires arithmetic_models')
-            options = ''.join('<option value="' + model['id'] + '">' +
-                              html.escape(model['title']) + '</option>' for model in models)
-            return ('<section class="cg-model-picker"><label for="computation-model">Model of arithmetic</label>'
-                    '<select id="computation-model">' + options + '</select>'
-                    '<p id="model-status" class="visually-hidden" role="status"></p></section>')
+            # Same place, same frame: a selector for several models, a plain line for one.
+            if len(models) > 1:
+                options = ''.join('<option value="' + model['id'] + '"' +
+                                  (' data-aliases="' + ' '.join(model['aliases']) + '"' if model.get('aliases') else '') +
+                                  '>' + html.escape(model['title']) + '</option>' for model in models)
+                control = ('<label for="computation-model">Show the statements for</label>'
+                           '<select id="computation-model">' + options + '</select>'
+                           '<p id="model-status" class="visually-hidden" role="status"></p>')
+            else:
+                control = ('<p class="cg-model-label">All statements on this page are for</p><p class="cg-model-value">' +
+                           html.escape(models[0]['title']) + '</p>')
+            notes = '<a href="' + BASE + 'arithmetic-models/">Definitions of the arithmetic models</a>'
+            siblings = [p for p in self.pages.values() if p.kind == 'implementation' and p is not page
+                        and p.meta['algorithm'] == page.meta['algorithm'] and self.status(p) != 'placeholder']
+            if siblings:
+                notes += ' · Other programs of this algorithm: ' + ', '.join(
+                    self.link(p) + self.model_names(p, ' (', ')') for p in
+                    sorted(siblings, key=lambda p: (p.meta.get('order', 100), p.meta['title'])))
+            return '<section class="cg-model-picker">' + control + '<p class="explorer-card-note">' + notes + '</p></section>'
         if slot == 'task-groups':
             if page.kind != 'task':
                 raise ValueError(f'{page.source}: task-groups requires a task page')
@@ -569,8 +602,8 @@ class Explorer:
         seen = set()
         def model_block(match):
             identifier, body = match.groups()
-            if identifier not in models or identifier in seen:
-                raise ValueError(f'{page.source}: unknown or repeated arithmetic model {identifier}')
+            if identifier not in models:
+                raise ValueError(f'{page.source}: unknown arithmetic model {identifier}')
             seen.add(identifier)
             # Statements and generated lists were already protected as HTML islands.
             body = re.sub(r'<p>EXPLORERGENERATEDBLOCK(\d+)END</p>',
@@ -580,8 +613,9 @@ class Explorer:
                         html.escape(label, quote=True) + '"><noscript><h3>' +
                         html.escape(label) + '</h3></noscript>' + body + '</section>')
         text = MODEL_BLOCK.sub(model_block, text)
-        if seen != models.keys():
-            raise ValueError(f'{page.source}: every arithmetic model needs one model block')
+        # With one model the whole page is in it; blocks distinguish several.
+        if len(models) > 1 and seen != models.keys():
+            raise ValueError(f'{page.source}: every arithmetic model needs a model block')
         if models and sum(m[1] == 'arithmetic-model-selector' for m in MARKER.finditer(page.body)) != 1:
             raise ValueError(f'{page.source}: arithmetic models need exactly one selector')
         if re.search(r'^::: (?:model|end-model)\b', text, re.M):
@@ -784,7 +818,7 @@ class Explorer:
                       'library' if page.key == 'index:library' else '' if page.kind == 'home' or page.key == 'index:search' else 'algorithms')
             body = rendered[page.key]
             if page.kind == 'implementation':
-                body = '<p class="eyebrow">Implementation</p>' + body
+                body = '<p class="eyebrow">Implementation of ' + self.link(self.pages['algorithm:' + page.meta['algorithm']]) + '</p>' + body
             if page.meta.get('renderer') == 'cg' and page.meta.get('source_variant') in self.cg:
                 body += '<p class="record-link">Implementation preview from the current computational core · <a href="/explore/api/v1/cg-pilot.json">Source metadata</a></p>'
             if self.status(page) == 'placeholder':

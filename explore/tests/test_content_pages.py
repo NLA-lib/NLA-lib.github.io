@@ -234,11 +234,54 @@ Rounded-model explanation.
         self.assertEqual(rendered.count('N.bound (n : Nat) : n ≤ n'), 2)
         self.assertNotIn('EXPLORERGENERATEDBLOCK', rendered)
 
+    def test_one_model_is_a_static_line_and_model_names_come_from_the_vocabulary(self):
+        self.page('ordinary.md', '## Model of arithmetic\n\n{{ generated:arithmetic-model-selector }}\n\n## Accuracy\n\nOne model.',
+                  kind='implementation', id='ordinary', algorithm='lanczos', title='Ordinary Lanczos',
+                  arithmetic_models=[{'id': 'exact', 'arithmetic': 'exact'}])
+        self.page('stored.md', '{{ generated:arithmetic-model-selector }}\n\n::: model exact\nExact.\n::: end-model\n\n'
+                  '::: model stored-scalar\nFirst.\n::: end-model\n\n::: model stored-scalar\nSecond.\n::: end-model\n',
+                  kind='implementation', id='stored', algorithm='lanczos', title='Stored Lanczos', arithmetic_models=[
+                      {'id': 'exact', 'arithmetic': 'exact', 'program': 'blas-matvec'},
+                      {'id': 'stored-scalar', 'arithmetic': 'standard', 'program': 'stored-scalar', 'aliases': ['scalar', 'old-id']}])
+        self.page('lanczos.md', '{{ generated:implementations }}', kind='algorithm', id='lanczos', title='Lanczos')
+        Explorer(self.site, self.content).build()
+        single = (self.site / 'algorithms/lanczos/implementations/ordinary/index.html').read_text()
+        # The same frame as a selector, without a control, and a link to the sibling program.
+        self.assertIn('<section class="cg-model-picker"><p class="cg-model-label">All statements on this page are for</p>'
+                      '<p class="cg-model-value">Exact arithmetic</p>', single)
+        self.assertNotIn('<select id="computation-model"', single)
+        # A program page names its algorithm above its own title.
+        self.assertIn('<p class="eyebrow">Implementation of <a href="/explore/algorithms/lanczos/" data-model-link>Lanczos</a></p>', single)
+        self.assertIn('Other programs of this algorithm: <a href="/explore/algorithms/lanczos/implementations/stored/" data-model-link>'
+                      'Stored Lanczos</a> (Exact arithmetic · BLAS + matvec; Standard rounding · stored scalar)', single)
+        several = (self.site / 'algorithms/lanczos/implementations/stored/index.html').read_text()
+        # Retired ids travel with the option; the page script maps them to the model.
+        self.assertIn('<option value="exact">Exact arithmetic · BLAS + matvec</option>'
+                      '<option value="stored-scalar" data-aliases="scalar old-id">Standard rounding · stored scalar</option>', several)
+        script = (Path(__file__).resolve().parents[1] / 'web/cg-pilot.js').read_text()
+        self.assertIn("option.dataset.aliases", script)
+        self.assertIn("models.includes(asked) ? asked : (targetModel || models[0])", script)
+        # A model can have several blocks, for parts of the page that differ by model.
+        self.assertEqual(several.count('data-cg-model="stored-scalar"'), 2)
+        overview = (self.site / 'algorithms/lanczos/index.html').read_text()
+        self.assertIn('<p class="explorer-card-note">Models: Exact arithmetic</p>', overview)
+        self.assertIn('Models: Exact arithmetic · BLAS + matvec; Standard rounding · stored scalar', overview)
+        for models in [[{'id': 'exact', 'arithmetic': 'precise'}], [{'id': 'exact', 'arithmetic': 'exact', 'program': 'dense'}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'title': 'My own name'}], [{'id': 'exact'}],
+                       [{'id': 'exact', 'title': 'Named', 'program': 'stored-scalar'}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': ['exact']}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': ['old']}, {'id': 'standard', 'arithmetic': 'standard', 'aliases': ['old']}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': 'old'}]]:
+            self.page('ordinary.md', '{{ generated:arithmetic-model-selector }}', kind='implementation', id='ordinary',
+                      algorithm='lanczos', title='Ordinary Lanczos', arithmetic_models=models)
+            with self.subTest(models=models), self.assertRaisesRegex(ValueError, 'arithmetic model'):
+                Explorer(self.site, self.content)
+
     def test_arithmetic_model_choices_reject_missing_or_unknown_statements(self):
         models = [{'id': 'exact', 'title': 'Exact arithmetic'}, {'id': 'rounded', 'title': 'Rounded arithmetic'}]
         for body, message in [
             ('{{ generated:arithmetic-model-selector }}\n', 'every arithmetic model'),
-            ('::: model other\nUnknown.\n::: end-model\n', 'unknown or repeated'),
+            ('::: model other\nUnknown.\n::: end-model\n', 'unknown arithmetic model'),
             ('::: model exact\nExact.\n::: end-model\n::: model rounded\nRounded.\n::: end-model\n', 'exactly one selector'),
         ]:
             self.page('ordinary.md', body, kind='implementation', id='ordinary', algorithm='lanczos',

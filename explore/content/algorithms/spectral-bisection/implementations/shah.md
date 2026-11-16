@@ -2,11 +2,16 @@
 kind: implementation
 id: shah
 algorithm: spectral-bisection
-title: Randomized spectral bisection
+title: Randomized, finite precision
 summary: Shah's Hermitian eigensolver with an explicit precision bound, stored-word arithmetic, and certified resources.
 status: ready
 library_algorithm: spectral-bisection
 library_results: false
+arithmetic_models:
+- id: float-machine
+  title: Floating-point machine, Shah's contract
+search_aliases:
+- Randomized spectral bisection
 result_ids:
 - spectral-bisection-diagonalization
 - spectral-bisection-diagonalization-bits
@@ -47,6 +52,8 @@ Each instruction uses the supplied arithmetic. In particular, one-half and the t
 :::
 
 ## Model of arithmetic
+
+{{ generated:arithmetic-model-selector }}
 
 The dense word model supplies scalar arithmetic and decoding, matrix multiplication, full QR, comparisons, bounded integer conversions, and explicit random draws. Scalar transformations, copies, control flow, and allocation are counted separately. This is a parameterized arithmetic model; a concrete floating-point format must establish the primitive accuracy and range assumptions.
 

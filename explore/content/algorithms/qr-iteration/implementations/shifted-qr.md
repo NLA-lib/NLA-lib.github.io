@@ -2,11 +2,16 @@
 kind: implementation
 id: shifted-qr
 algorithm: qr-iteration
-title: Exact shifted QR solver
+title: Exact arithmetic (BGS I)
 summary: Scalar QR steps, shift search, and deflation, with two explicit local spectral primitives.
 status: ready
 library_algorithm: shifted-qr
 library_results: false
+arithmetic_models:
+- id: exact
+  arithmetic: exact
+search_aliases:
+- Exact shifted QR solver
 source_guides:
 - docs/algorithms/Shifted-QR.md
 ---
@@ -38,6 +43,10 @@ The input assumptions ensure that a required split is found within the budget. S
 
 Zero input pairs produce identity Givens rotations. Inverse-row solves test pivots and return either the inverse-row result or a singularity flag. The enclosing strategy handles these cases; the theorem does not assume a successful run or that all candidate shifts are nonsingular.
 
+## Model of arithmetic
+
+{{ generated:arithmetic-model-selector }}
+
 ## Operation model and spectral primitives
 
 The exact operation model includes real arithmetic, square root, copies, comparisons, dimension literals, and bounded natural-index conversion. It also includes these two operations:
@@ -53,7 +62,7 @@ Every spectral problem used by the full driver has order at most $k$. The `ritz`
 The routine collection specifies the output lengths, Ritz optimality, and complete eigenvalue listing. The exact reference realization uses noncomputable root selection. It establishes consistency of the operation model; it is not an executable small eigensolver.
 :::
 
-The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [rounded shifted QR solver](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is a randomized kernel specified by its accuracy and failure probability, and the guarantee holds with a probability over a random tape. It assumes such a kernel; it does not implement one.
+The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is a randomized kernel specified by its accuracy and failure probability, and the guarantee holds with a probability over a random tape. It assumes such a kernel; it does not implement one.
 
 ## Input assumptions
 

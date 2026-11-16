@@ -126,6 +126,15 @@ class DetectorTests(unittest.TestCase):
             self.assertTrue(label and tip)
         self.assertEqual(set(models.FACTS), set(models.FACETS))
 
+    def test_model_names_come_from_one_vocabulary(self):
+        self.assertEqual(models.model_title('exact'), 'Exact arithmetic')
+        self.assertEqual(models.model_title('standard', 'stored-scalar'), 'Standard rounding · stored scalar')
+        self.assertEqual(models.model_title('standard'), models.FACTS['arithmetic']['standard'][0])
+        self.assertIn('unit roundoff u', models.FACTS['arithmetic']['standard'][1])
+        for unknown in [('rounded', None), ('exact', 'dense')]:
+            with self.assertRaises(KeyError):
+                models.model_title(*unknown)
+
 
 class ModelRecordTests(unittest.TestCase):
     def setUp(self):
@@ -179,7 +188,7 @@ class ModelRecordTests(unittest.TestCase):
         self.assertNotIn('facets', entries['N.plain'])
         self.assertEqual(read('manifest.json')['certificate_record']['certificates'], 1)
         page = (site / 'library/declarations/N.certificate/index.html').read_text()
-        for label in ['Standard model, unit roundoff u', 'Uniform model', 'Work: closed']:
+        for label in ['Standard rounding', 'Uniform model', 'Work: closed']:
             self.assertIn('>' + label + '</span>', page)
         self.assertNotIn('explorer-badge', (site / 'library/declarations/N.plain/index.html').read_text())
         self.assertIn('>Exact arithmetic</span>', (site / 'library/results/run/index.html').read_text())

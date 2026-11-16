@@ -63,7 +63,7 @@ def pseudocode_html(phases):
 def coverage_note(rounded):
     """What a variant without a presented rounded theorem says under a rounded model. It describes
     this page; it names the library's rounded results for the variant when the snapshot has them."""
-    note = '<p>No rounded execution theorem is presented for this variant under this model. Ordinary CG has one.</p>'
+    note = '<p>No rounded execution theorem is presented for this variant. Ordinary CG has one.</p>'
     if rounded:
         note += ('<p>The library has rounded results for this variant. They are stated for their own programs '
                  'and operation models, which their statements give:</p><ul>' + ''.join(
@@ -81,9 +81,8 @@ def variant_page(v, sources, models, pseudocode, operations, memory, rounded=())
     body = '<p class="eyebrow"><a href="/explore/">Explorer</a> / <a data-model-link href="' + BASE + '">Conjugate gradient</a></p>'
     body += prose(v['description'])
 
-    instructions = prose(r'Given a real matrix $A$ and a right-hand side $b$. ' + (
-        r'The zero-start form below assumes the iterate buffer already contains $x=0$. The exact solver also has an initializer for a general starting guess.' if carried else
-        r'The iterate buffer initially contains the starting guess $x_0$.'))
+    instructions = prose(r'Given a real matrix $A$ and a right-hand side $b$. '
+                         r'The iterate buffer initially contains the starting guess $x_0$.')
     instructions += pseudocode_html(pseudocode)
     code = '<h4>Round</h4>' + sources.code(get(v['code'], v['step'], 'def'))
     code += '<h4>Solver initialized from an initial guess</h4>' + sources.code(get(v['solver'], 'solve', 'def'))
@@ -105,14 +104,12 @@ def variant_page(v, sources, models, pseudocode, operations, memory, rounded=())
     body += card('Operation count', prose(r'Let $n$ be the dimension and $k$ the number of iterations, or the cap for a solver that stops early. ' + operations) + disclosure(cost_details), 'cost')
     body += card('Storage bound', prose(memory + r' Here $W_{\max}$ is the largest temporary workspace of a called operation. Matrix and preconditioner storage are additional. These are scalar payload cells, not bytes.') + disclosure(memory_details), 'cost') + '</section>'
 
-    body += '<h2>Accuracy</h2><section class="cg-model-picker"><label for="computation-model">Model of arithmetic</label><select id="computation-model">' + ''.join('<option value="' + key + '">' + html.escape(label) + '</option>' for key, label in models) + '</select><p class="explorer-card-note"><a href="' + MODELS_URL + '">Definitions and assumptions of the arithmetic models</a></p><p id="model-status" class="visually-hidden" role="status"></p></section>'
-    body += '<noscript><p>All model sections are displayed below without JavaScript.</p></noscript>'
-
+    # One section for each model that has a presented theorem. The page's model blocks place them.
+    body += '<h2>Accuracy</h2>'
     for key, label in models:
-        body += '<section data-cg-model="' + key + '" aria-label="' + html.escape(label, quote=True) + '">'
         if key != 'exact' and not carried:
-            body += card('Implementation coverage', coverage_note(rounded) + '<p><a data-model-link href="' + BASE + 'variants/carried/">Open ordinary CG</a></p>', 'note') + '</section>'
             continue
+        body += '<section data-cg-model="' + key + '" aria-label="' + html.escape(label, quote=True) + '">'
         if key == 'exact':
             assumptions = r'Assume exact scalar operations, dot products, vector updates, and matrix–vector products, correct comparisons, admissible distinct buffers, and enough working memory. '
             if v['id'] == 'pcg':
@@ -135,11 +132,16 @@ def rounded_results(key, sources, get):
         bounds = r'Choose a nonnegative common allowance $E$ with $$\max\{u,d_n,e_a,e_m\}\le E\le 10^{-2}.$$'
         evidence = [get('Solve.lean', 'runs_solve'), get('Stability.lean', 'Output.stable')]
     else:
-        description = (r'Scalar operations have unit roundoff $u$, and dot products accumulate sequentially. Their error coefficient is $$d_n=(1+u)^n-1.$$' if key == 'sequential' else r'Scalar operations have unit roundoff $u$, and dot products use pairwise reductions. Their error coefficient is $$d_n=(1+u)^{\lceil\log_2n\rceil+1}-1.$$ The reduction depth must satisfy $\lceil\log_2n\rceil<\mathrm{depth}$.')
+        description = r'Scalar operations have unit roundoff $u$, and dot products are summed sequentially. Their error coefficient is $$d_n=(1+u)^n-1.$$'
         bounds = r'Choose $0\le E\le10^{-2}$ large enough for the scalar, dot-product, vector-update and matvec error budgets. The named standard profile uses the common accuracy conditions documented on the arithmetic-models page.'
         evidence = [get('Standard.lean', 'runs_solve_of_model')]
-    model = prose(description + ' ' + bounds)
-    model += '<p><a href="' + MODELS_URL + '#relative">What these error bounds mean</a></p>'
+    # The rounded solver differs from the listing in its initialization only.
+    start = (r' The program certified in this model starts from $x_0=0$: its initialization copies $b$ into $r$ and $p$ '
+             r'and computes $\rho$, and its rounds are those of the listing. A certificate for a general starting guess is '
+             r'not presented in this model.')
+    model = prose(description + ' ' + bounds + start)
+    model += ('<p><a href="' + MODELS_URL + '#relative">What these error bounds mean</a></p>' if key == 'relative' else
+              '<p><a href="' + MODELS_URL + '#sequential">Sequential summation and its coefficient</a></p>')
     body = card('Arithmetic assumptions', model, 'model')
     conditions = r'Let $A$ be symmetric positive definite, with eigenvalues in $[a,a^{\prime}]$, $a>0$, and put $\kappa=a^{\prime}/a$. Start at $x_0=0$ and use cap $k$. If the operations satisfy the selected error budgets and $$3Ea^{\prime}\le a,\qquad k^2\sqrt k\,E\kappa^2\le10^{-5},$$ the solver executes successfully. It performs at most $k$ rounds, stopping early if the computed residual becomes zero.'
     body += result('Successful execution', conditions, evidence, sources,

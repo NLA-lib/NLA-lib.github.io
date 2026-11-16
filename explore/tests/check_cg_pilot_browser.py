@@ -86,10 +86,11 @@ with sync_playwright() as p:
     page.get_by_role('link', name='Galerkin methods', exact=True).click()
     page.get_by_role('link', name='Preconditioned CG (PCG)', exact=True).click()
     page.get_by_role('link', name='Standard PCG recurrence', exact=True).click()
-    assert page.locator('#computation-model').input_value() == 'pairwise'
-    assert 'No rounded execution theorem is presented' in page.locator('[data-cg-model="pairwise"]').inner_text()
-    page.select_option('#computation-model', 'exact')
-    assert 'preconditioner' in page.locator('[data-cg-model="exact"]').inner_text()
+    # PCG presents one model: a static line in the selector's place, and what is not presented.
+    assert page.locator('#computation-model').count() == 0
+    assert 'Exact arithmetic' in page.locator('.cg-model-value').inner_text()
+    assert 'No rounded execution theorem is presented' in page.locator('#section-not-yet-presented').inner_text()
+    assert 'preconditioner' in page.locator('#section-accuracy').inner_text()
     # Every local link in pilot pages resolves, including line-linked source viewers.
     for variant, url in [('ordinary', base + 'implementations/ordinary/'),
                          ('preconditioned', root + '/explore/algorithms/preconditioned-conjugate-gradient/implementations/standard/'),

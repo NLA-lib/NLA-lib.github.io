@@ -1,8 +1,12 @@
 ---
 kind: algorithm
 id: qr-iteration
-title: QR eigenvalue iteration
-summary: Use repeated QR factorizations and orthogonal similarities to approximate a Schur form.
+title: Hessenberg shifted QR (BGS)
+summary: The shifted QR algorithm of Banks, Garza-Vargas and Srivastava on Hessenberg matrices, with an exact-arithmetic program and a finite-precision program.
+search_aliases:
+- QR eigenvalue iteration
+- QR algorithm
+- Banks Garza-Vargas Srivastava
 status: ready
 theory:
 - spectral-theory
@@ -19,13 +23,15 @@ source_guides:
 - docs/algorithms/Shifted-QR.md
 ---
 
-QR iteration preserves the spectrum through unitary similarities and exposes small subdiagonal couplings that can be discarded to split the eigenvalue problem. A shifting strategy chooses which similarities to apply; a deflation rule decides when to split.
+A QR eigenvalue method preserves the spectrum through unitary similarities and exposes small subdiagonal couplings that can be discarded to split the eigenvalue problem. A shifting strategy chooses which similarities to apply; a deflation rule decides when to split. Different strategies give different algorithms.
 
-::: definition name="QR eigenvalue iteration"
+This page is the Hessenberg shifted QR algorithm of Banks, Garza-Vargas and Srivastava (BGS): a shifting strategy with exceptional shifts for upper Hessenberg matrices that are diagonalizable with a bounded eigenvector condition number. The library has two certified programs for it, one in exact arithmetic (BGS I) and one in finite precision (BGS II). They are different programs, not one program under two models.
+
+::: definition name="Shifted QR step"
 Choose a shift $\mu_j$ and factor $\mathbf A_j-\mu_j\mathbf I=\mathbf Q_j\mathbf R_j$. Set $\mathbf A_{j+1}=\mathbf R_j\mathbf Q_j+\mu_j\mathbf I=\mathbf Q_j^{\mathsf{H}}\mathbf A_j\mathbf Q_j$. Thus each exact step preserves eigenvalues. Shift selection, deflation tests, and explicit or implicit execution belong to concrete variants. The target for a general matrix is Schur form, rather than necessarily a diagonal matrix.
 :::
 
-## Abstract algorithm
+## Outline shared by the two programs
 
 ```text
 start from an upper Hessenberg matrix
@@ -36,17 +42,17 @@ while an active block remains:
     solve terminal blocks and collect their eigenvalues
 ```
 
-For multiple shifts $s_1,\ldots,s_k$, the shift polynomial is $p(z)=\prod_{j=1}^k(z-s_j)$. The exact implementation applies a sequence of single-shift steps. Its candidate order, exceptional-shift search, storage, and operation model are specified on the implementation page.
+For multiple shifts $s_1,\ldots,s_k$, the shift polynomial is $p(z)=\prod_{j=1}^k(z-s_j)$. The exact-arithmetic program applies a sequence of single-shift steps. The candidate order, the shift search, the storage, and the operation model of each program are specified on its own page.
 
 ## What is certified
 
-The library proves normal-matrix and conditioned nonnormal-matrix decoupling results, together with the Ritz-quality or early-decoupling dichotomy. The concrete exact solver connects scalar execution to backward error, a directed forward-error bound, and resource accounting.
+The library proves normal-matrix and conditioned nonnormal-matrix decoupling results, together with the Ritz-quality or early-decoupling dichotomy. The exact-arithmetic program connects scalar execution to backward error, a directed forward-error bound, and resource accounting.
 
-The exact solver uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. See that implementation for its precise boundary and input hypotheses.
+The exact-arithmetic program uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. See that implementation for its precise boundary and input hypotheses.
 
-The rounded solver is a separate program with its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks are solved by a randomized small-eigenvalue kernel specified by its accuracy and failure probability, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The kernel is assumed, not implemented.
+The finite-precision program has its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks are solved by a randomized small-eigenvalue kernel specified by its accuracy and failure probability, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The kernel is assumed, not implemented.
 
-## Implementations
+## Programs
 
 {{ generated:implementations }}
 

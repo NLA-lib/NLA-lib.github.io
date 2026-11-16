@@ -11,19 +11,27 @@ import json
 from pathlib import Path
 import re
 import subprocess
-from cg_presentation import variant_page
+from cg_presentation import coverage_note, variant_page
+from models import model_title
 from rendering import record_component
 
 BASE = '/explore/algorithms/conjugate-gradient/'
 CG = 'NLAlib/Krylov/CG/'
-MODELS = [('exact', 'Exact arithmetic'), ('relative', 'Relative-error BLAS + matvec'),
-          ('sequential', 'Standard rounding · sequential'),
-          ('pairwise', 'Standard rounding · pairwise')]
+# The models of the matrix-free solver, named from the vocabulary of models.py. The pages declare
+# them in their headers; the adapter supplies one accuracy fragment for each.
+MODELS = [(key, model_title(arithmetic, program)) for key, arithmetic, program in [
+    ('exact', 'exact', 'blas-matvec'), ('relative', 'standard', 'relative-blas-matvec'),
+    ('standard', 'standard', 'blas-matvec')]]
+# Ids of the former selector. They select `standard`, and cg-pilot.json keeps listing them.
+RETIRED = {'sequential': 'standard', 'pairwise': 'standard'}
 PSEUDOCODE = {
     'carried': [
-        ('Initialize:', [
+        ('Initialize from the starting iterate:', [
             r'Copy $b$ into $r$.',
-            r'Copy $b$ into $p$.',
+            r'Compute $q\leftarrow Ax$.',
+            r'Set $\alpha\leftarrow-1$.',
+            r'Update $r\leftarrow r+\alpha q$.',
+            r'Copy $r$ into $p$.',
             r'Compute $\rho\leftarrow\langle r,r\rangle$.',
         ]),
         (r'Repeat while $\rho>0$, up to the iteration cap:', [
@@ -220,7 +228,7 @@ def build(site, source, published_revision=None, source_hashes=None):
             step_source=sources.declaration(folder + variant['code'], variant['step'], 'def'),
             solver_source=sources.declaration(folder + variant['solver'], 'solve', 'def'),
             exact_theorem=sources.declaration(folder + 'Solve.lean', 'runs_solve'),
-            models=[key for key, _ in MODELS] if carried else ['exact'],
+            models=[key for key, _ in MODELS] + list(RETIRED) if carried else ['exact'],
             rounded_declarations=[d['name'] for d in rounded_declarations(site, variant['id'])])
         if carried:
             record['convergence_theorem'] = sources.declaration(folder + 'Bounds.lean', 'runs_solve_chebyshev')
@@ -235,8 +243,11 @@ def build(site, source, published_revision=None, source_hashes=None):
         definition = re.search(r'(<section id="shared-algorithm">.*?</section>)', body, re.S)[1]
         resources = re.search(r'(<section id="shared-theorems">.*?</section>)', body, re.S)[1]
         resources = resources.replace('<h2>Operations and Storage</h2>', '')
-        accuracy = body.split('<h2>Accuracy</h2>', 1)[1].split('<p class="record-link">', 1)[0]
-        fragments[variant['id']] = {'cg-definition': definition, 'cg-resources': resources, 'cg-accuracy': accuracy}
+        fragments[variant['id']] = {'cg-definition': definition, 'cg-resources': resources}
+        fragments[variant['id']]['cg-coverage'] = coverage_note(rounded_declarations(site, variant['id']))
+        # One fragment for each model; the page's own model blocks place them.
+        for key, content in re.findall(r'<section data-cg-model="([a-z-]+)"[^>]*>(.*?)</section>', body, re.S):
+            fragments[variant['id']]['cg-accuracy-' + key] = content
     commit = published_revision or subprocess.run(['git', '-C', str(source), 'rev-parse', 'HEAD'],
                                                  capture_output=True, text=True).stdout.strip() or None
     snapshot = published_revision and all(sources.source_revisions[p] == published_revision
@@ -244,7 +255,9 @@ def build(site, source, published_revision=None, source_hashes=None):
     payload = dict(schema_version=1, source=dict(commit=commit if snapshot else None,
                    base_commit=None if snapshot else commit, kind='published-snapshot' if snapshot else 'working-tree-preview',
                    files={p: {'sha256': r['sha256']} for p, r in sources.files.items()}),
-                   models=[dict(id=k, title=v) for k, v in MODELS], variants=records)
+                   models=[dict(id=k, title=v, aliases=[old for old, new in RETIRED.items() if new == k]) for k, v in MODELS] +
+                          [dict(id=old, title=dict(MODELS)[new], alias_of=new) for old, new in RETIRED.items()],
+                   variants=records)
     (site / 'api/v1/cg-pilot.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
     (site / 'api/v1/cg-pilot-fragments.json').write_text(json.dumps(fragments, ensure_ascii=False) + '\n')
     print(f'CG pilot: {len(records)} variants, {len(sources.files)} fingerprinted source files → {site}')
