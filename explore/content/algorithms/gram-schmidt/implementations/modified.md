@@ -6,6 +6,9 @@ title: Modified Gram–Schmidt
 summary: Orthogonalize the stored columns in place, updating each residual after every projection.
 status: ready
 order: 1
+arithmetic_models:
+- id: exact
+  arithmetic: exact
 source_guides:
 - docs/algorithms/Gram-Schmidt.md
 ---
@@ -34,6 +37,8 @@ Each projection coefficient uses the already updated residual. This is the modif
 :::
 
 ## Model of arithmetic
+
+{{ generated:arithmetic-model-selector }}
 
 This page presents exact real or complex field arithmetic with Hermitian dot products, vector updates, division by a scalar, square roots, and real-part comparisons. The primitive contracts permit the in-place column views used by the program. The normalization guard handles dependent columns and zero dimensions.
 

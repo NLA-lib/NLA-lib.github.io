@@ -8,7 +8,7 @@ status: outline
 order: 1
 arithmetic_models:
 - id: exact
-  title: Exact arithmetic
+  arithmetic: exact
 - id: rounded
   title: Rounded extension and products
 library_algorithm: block-golub-kahan
@@ -51,7 +51,9 @@ Storage is column-major, one word per entry: $\mathbf U$ has $q\ell m$ words, $\
 
 ## Model of arithmetic
 
-The driver uses three groups of operations: the extension of a stored basis by a block, the products with $\mathbf A$ and with its adjoint, and scalar draws from a tape stream. Each has a contract. The selector below chooses the contracts for products and basis extension. Their assumptions are stated with the corresponding accuracy guarantees. The work and workspace of every primitive are parameters of the model.
+{{ generated:arithmetic-model-selector }}
+
+The driver uses three groups of operations: the extension of a stored basis by a block, the products with $\mathbf A$ and with its adjoint, and scalar draws from a tape stream. Each has a contract. The selector chooses the contracts for products and basis extension. Their assumptions are stated with the corresponding accuracy guarantees. The work and workspace of every primitive are parameters of the model.
 
 A concrete orthogonalization scheme is a separate program certified against one of the two extension contracts and substituted for the operation by linking. The two-pass Gram–Schmidt extension is such a program.
 
@@ -90,8 +92,6 @@ In exact arithmetic the stored product equals $\mathsf{rbki}(\mathbf A,\mathbf\O
 - Complex scalars for the program. The exact process and the exact extension contract are over real or complex scalars; the stored-run predicates, the certificate, the rounded run model, and the rounded analysis of the Gram–Schmidt extension are over the reals.
 
 ## Accuracy
-
-{{ generated:arithmetic-model-selector }}
 
 ::: model exact
 

@@ -6,6 +6,12 @@ title: Two-pass classical Gram–Schmidt basis extension
 summary: Extend a stored basis by a block, column by column, with two classical passes and threshold deflation.
 status: outline
 order: 3
+arithmetic_models:
+- id: exact
+  arithmetic: exact
+- id: standard
+  arithmetic: standard
+  program: relative-blas
 result_ids:
 - cgs2-basis-extension
 - cgs2-basis-extension-error
@@ -45,12 +51,15 @@ At $\tau=0$ the test is the exact zero guard. A dropped column remains a zero co
 
 ## Model of arithmetic
 
+{{ generated:arithmetic-model-selector }}
+
 The program uses scalar operations, level-one vector operations (dot product, vector update, norm, scaling, copy), and comparisons. The statements below are for two models: exact real arithmetic with exact level-one operations, where the threshold is $0$; and the standard model of rounded arithmetic with level-one error contracts and exact comparisons, where the threshold is positive. Scalars are real.
 
 ## Accuracy
 
 The exact contract (an exact extension of a basis by a block) is defined on the [Golub–Kahan process](/explore/algorithms/golub-kahan/) page, and the rounded contract with parameters $(\eta_0,\mu,\varepsilon)$ on its [implementation](/explore/algorithms/golub-kahan/implementations/full-reorthogonalization/) page. The first statement of each pair below is about decoded matrices; the second is about the program.
 
+::: model exact
 ::: theorem result:cgs2-basis-extension name="Two exact passes give an exact extension"
 Let $\mathbf Q$ be an arbitrary real or complex matrix with $k$ columns, $\mathbf W$ a block of $\ell$ columns, and write $\operatorname{su}(\mathbf M)$ for the strictly upper triangular part of $\mathbf M$. Suppose
 
@@ -67,6 +76,9 @@ No hypothesis is made on $\mathbf Q$. Orthonormality of its nonzero columns ente
 Under exact scalar arithmetic, exact level-one operations at every length, and exact comparisons, the implementation with threshold $\tau=0$ runs on all admitted operands of the extension operation, and its decoded basis, block, new block, and coefficients satisfy the exact extension contract. The stored basis is arbitrary: it may contain zero columns and need not be orthonormal on its support.
 :::
 
+::: end-model
+
+::: model standard
 ::: theorem result:cgs2-basis-extension-error name="Column guarantees give the rounded contract"
 Let $\mathbf Q$ be a real basis, $\mathbf W$ the block, $\mathbf W'$ the reduced block, $\mathbf Q'$ the new block, and $\mathbf H$, $\mathbf R$ the coefficients, with $\mathbf R$ upper triangular. For every column $c$ assume:
 
@@ -93,6 +105,7 @@ $$\mu=4c+\frac{8(\eta_0+c)^2}{\tau}+5E,\qquad\varepsilon=3c+2E+2\tau.$$
 
 Here $c$ is the budget of one classical pass against all stored columns and $E$ the relative accuracy of the computed norms and of the scaling. The bound on a kept column is absolute, so the guarantee covers every returned column.
 :::
+::: end-model
 
 These statements certify the extension program against its two contracts. The certificate of the block Golub–Kahan driver linked with this program is not stated in the library; see the Scope section of the [block Golub–Kahan implementation](/explore/algorithms/golub-kahan/implementations/full-reorthogonalization/#section-scope) page.
 
