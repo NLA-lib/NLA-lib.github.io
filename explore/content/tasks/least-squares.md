@@ -4,6 +4,7 @@ id: least-squares
 title: Least squares
 summary: Minimize $\|A x-b\|_2$, exactly or using a sketch.
 status: ready
+sections_collapsed: true
 order: 2
 theory:
 - matrix-analysis

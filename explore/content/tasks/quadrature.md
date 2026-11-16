@@ -4,6 +4,7 @@ id: quadrature
 title: Quadrature and quadratic forms
 summary: Approximate integrals and quantities such as $b^{\mathsf T}f(A)b$.
 status: ready
+sections_collapsed: true
 order: 6
 theory:
 - orthogonal-polynomials

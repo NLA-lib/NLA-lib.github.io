@@ -416,7 +416,12 @@ class Explorer:
                 raise ValueError(f'{page.source}: task-groups requires a task page')
             sections = []
             for group in page.meta.get('groups', []):
-                body = markdown(group.get('summary', ''))
+                # A one-paragraph summary is part of the disclosure's label, so it stays visible
+                # while the group is collapsed; it is not repeated in the body.
+                summary = re.sub(r'<a\b[^>]*>(.*?)</a>', r'\1', markdown(group.get('summary', '')).strip(), flags=re.S)
+                line = re.fullmatch(r'<p>((?:(?!</?p>).)*)</p>', summary, re.S)
+                label = '<span class="task-group-summary">' + line[1] + '</span>' if line else ''
+                body = '' if line else summary
                 body += self.cards([self.pages['algorithm:' + key] for key in group['algorithms']],
                                    group.get('summaries'), preserve_order=True)
                 if group.get('family'):
@@ -424,7 +429,7 @@ class Explorer:
                     body += '<p class="record-link">' + self.link(family) + '</p>'
                 opened = '' if page.meta.get('sections_collapsed') else ' open'
                 sections.append('<details class="explorer-section task-group"' + opened + ' id="group-' + group['id'] +
-                    '"><summary><h2>' + inline_title(group['title']) + '</h2></summary><div class="explorer-section-body">' + body + '</div></details>')
+                    '"><summary><h2>' + inline_title(group['title']) + '</h2>' + label + '</summary><div class="explorer-section-body">' + body + '</div></details>')
             return ''.join(sections)
         if slot == 'source-guides':
             guides = [g for g in self.records['guides'].values() if g['source']['path'] in page.meta.get('source_guides', [])]

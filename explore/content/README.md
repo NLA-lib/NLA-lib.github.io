@@ -283,7 +283,14 @@ pages also enter the same search index as the library statements.
 ## Sections and statement links
 
 Set `sections_collapsed: true` in a page header to start all of its sections and task groups
-collapsed. Other pages keep their existing defaults.
+collapsed. Other pages keep their existing defaults. Task pages with several groups set it, so
+a reader first sees the list of groups; a task with a single group leaves it open.
+
+A group's `summary` is shown directly under its title, inside the disclosure's label, so it
+stays visible while the group is collapsed and is read with the title by a screen reader. Keep
+it to one short paragraph without links: links are removed there, and a summary of several
+paragraphs is shown in the group body instead. Opening a link to `#group-<id>` or to a section
+expands it.
 
 Second-level headings become collapsible sections. Mathematical background,
 Appears under these tasks, Family, and Broader topics start collapsed; the other sections start expanded. Empty generated sections are omitted. Put

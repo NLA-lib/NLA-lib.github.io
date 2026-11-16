@@ -4,6 +4,7 @@ id: sketching
 title: Sketching and embeddings
 summary: Compress vectors, matrices, or subspaces while preserving selected geometry.
 status: ready
+sections_collapsed: true
 order: 7
 theory:
 - subspaces

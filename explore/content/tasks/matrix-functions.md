@@ -4,6 +4,7 @@ id: matrix-functions
 title: Matrix functions
 summary: Approximate $f(A)b$ or evaluate a matrix function.
 status: ready
+sections_collapsed: true
 order: 4
 theory:
 - matrix-polynomials

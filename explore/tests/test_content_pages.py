@@ -150,6 +150,32 @@ class MarkdownExplorerTests(unittest.TestCase):
         registry = json.loads((self.api / 'editorial-pages.json').read_text())['pages']
         self.assertEqual(sum(p['kind'] == 'algorithm' and p['id'] == 'lanczos' for p in registry), 1)
 
+    def test_group_summary_stays_in_the_label_of_a_collapsed_group(self):
+        groups = [{'id': 'krylov', 'title': 'Krylov methods', 'algorithms': ['lanczos'],
+                   'summary': 'Compress the operator, as in [Lanczos](/explore/algorithms/lanczos/), for $k$ steps.'},
+                  {'id': 'direct', 'title': 'Direct methods', 'algorithms': ['lanczos'], 'summary': 'First.\n\nSecond.'},
+                  {'id': 'other', 'title': 'Other methods', 'algorithms': ['lanczos']}]
+        self.page('eigenvalues.md', '{{ generated:task-groups }}', kind='task', id='eigenvalues', title='Eigenvalues',
+                  sections_collapsed=True, groups=groups)
+        self.page('lanczos.md', '', kind='algorithm', id='lanczos', title='Lanczos')
+        Explorer(self.site, self.content).build()
+        body = (self.site / 'tasks/eigenvalues/index.html').read_text()
+        # Collapsed, with the heading and anchor unchanged and the summary inside the control.
+        self.assertIn('<details class="explorer-section task-group" id="group-krylov"><summary><h2>Krylov methods</h2>'
+                      '<span class="task-group-summary">Compress the operator, as in Lanczos, for '
+                      '<span class="math">k</span> steps.</span></summary><div class="explorer-section-body">', body)
+        self.assertEqual(body.count('Compress the operator'), 1)
+        # Several paragraphs cannot be a label: they stay in the body, once.
+        self.assertIn('id="group-direct"><summary><h2>Direct methods</h2></summary><div class="explorer-section-body"><p>First.</p>', body)
+        self.assertEqual(body.count('First.'), 1)
+        self.assertIn('id="group-other"><summary><h2>Other methods</h2></summary>', body)
+        self.assertNotIn('task-group" open', body)
+        self.page('eigenvalues.md', '{{ generated:task-groups }}', kind='task', id='eigenvalues', title='Eigenvalues', groups=groups)
+        Explorer(self.site, self.content).build()
+        body = (self.site / 'tasks/eigenvalues/index.html').read_text()
+        self.assertIn('task-group" open id="group-krylov"><summary><h2>Krylov methods</h2><span class="task-group-summary">', body)
+        self.assertEqual(body.count('Compress the operator'), 1)
+
     def test_task_groups_preserve_authored_order_and_validate_targets(self):
         self.page('another.md', kind='algorithm', id='another', title='A method')
         groups = [{'id': 'custom', 'title': 'Custom order', 'algorithms': ['lanczos', 'another']}]
