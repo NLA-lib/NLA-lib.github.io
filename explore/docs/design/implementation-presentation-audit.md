@@ -31,6 +31,23 @@ all existing execution models have been connected to the arithmetic selector.
   canonical Gram–Schmidt page. It needs a distinct two-pass presentation; it must not be
   advertised as a guarantee of the exact modified Gram–Schmidt implementation.
 
+### Changes against library `5f2caad95458ad99d8b0e1f377bdce6feeb63eca`
+
+These three points were checked against that snapshot only; the rest of this review still
+refers to the core named at the top.
+
+- Ordinary CG, ordinary Lanczos and Shah's spectral bisection now state their rounded
+  operation-count theorems in authored blocks: `cg-scalar-rounded-operation-count-energy-error`,
+  `lanczos-scalar-rounded-operation-count-ritz-residual` and
+  `spectral-bisection-operation-count-accuracy`. The CG and Lanczos theorems are for stored
+  scalar programs, so they have their own section and are not choices of a model selector.
+- PCG: the implementation page no longer says that the library has no rounded theorem. It
+  links `HSPCG.Rounded.solve_writes`, `HSPCG.Rounded.Stored.algorithm` and `countedAlgorithm`.
+  A readable statement of the stored certificate and of its closed count is still missing.
+- The finite-precision run-model results (13 `cg-*` and 13 `lanczos-*` result groups) are on
+  the theory page `finite-precision-krylov` and on no implementation page. Stating one on an
+  implementation needs its bridge from that program's execution to the run model.
+
 There are 19 implementation pages: 7 marked ready and 12 outline/placeholder pages. The latter
 are not evidence of missing proofs by themselves: some have mathematical results without a
 matching certified execution, and some have existing certificates awaiting presentation.
