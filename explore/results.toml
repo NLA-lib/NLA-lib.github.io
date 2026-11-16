@@ -209,3 +209,19 @@ primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of
 title = "Lanczos matrix functions: Chebyshev recurrence bound"
 aliases = ["Druskin–Knizhnerman", "finite precision Lanczos-FA"]
 primary = "NLAlib.LanczosRun.norm_cfc_mulVec_sub_basis_mulVec_le_of_continuousOn"
+
+[one-pass-low-rank-lower-bound]
+title = "One-pass low-rank approximation needs $\\Omega(k/\\varepsilon)$ matrix–vector products"
+primary = "NLAlib.natCast_div_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le_of_lt_one"
+
+[two-pass-low-rank-lower-bound]
+title = "Two-pass low-rank approximation needs $\\Omega(k/\\varepsilon)$ matrix–vector products"
+primary = "NLAlib.natCast_div_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le"
+
+[fixed-batch-low-rank-lower-bound]
+title = "Chebyshev fixed-batch Frobenius query lower bound"
+primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le_of_pass_lt"
+
+[fixed-batch-nuclear-lower-bound]
+title = "Chebyshev fixed-batch nuclear-norm query lower bound"
+primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureReal_nuclearNorm_sub_mul_le_of_pass_lt"
