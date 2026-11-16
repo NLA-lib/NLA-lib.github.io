@@ -102,6 +102,7 @@
 .cg-model-value { margin: 0; }
 .cg-model-picker { margin: 1rem 0 1.5rem; }
 .cg-model-picker select { width: 100%; max-width: 26rem; border-radius: 0; }
+@media (max-width: 560px) { .cg-model-picker select { font-size: .85rem; } }
 .cg-variant-list { margin-block: 1rem 2rem; }
 .explorer-navigation { display: flex; flex-wrap: wrap; gap: 1.1rem; padding-bottom: .6rem; border-bottom: 1px solid #ccc; margin-bottom: 1.4rem; }
 .explorer-navigation [aria-current='page'] { font-weight: 600; text-decoration: none; }
