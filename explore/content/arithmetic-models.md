@@ -80,6 +80,7 @@ $$d_n=(1+u)^n-1.$$
 
 The BLAS implementation supplies the vector-update bounds. All vector lengths are
 admitted. Matvec error is supplied separately; this choice does not assume exact matvecs.
+In Lean the coefficients are `Ops.Blas.seq.err u`.
 :::
 
 ::: definition name="Standard rounding with pairwise BLAS" id=pairwise
@@ -90,7 +91,12 @@ $$d_n=(1+u)^{\lceil\log_2 n\rceil+1}-1.$$
 
 The implementation requires $\lceil\log_2 n\rceil<\mathrm{depth}$. Pairwise summation
 specifies the reduction order; it does not by itself certify parallel execution.
-Matvec error is supplied separately.
+Matvec error is supplied separately. In Lean the coefficients are `Ops.Blas.pairwise.err u`.
+
+A solver theorem for the standard profiles is one statement for both reduction orders.
+Between them the dot-product coefficient $d_n$ changes, the pairwise order adds the depth
+condition, and the declared workspace of the vector operations is that of the chosen
+profile. The program, the other error coefficients, and the work and span weights are the same.
 :::
 
 ::: definition name="Accuracy budgets" id=accuracy
