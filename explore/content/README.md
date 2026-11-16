@@ -229,7 +229,7 @@ the build. Metadata associations never establish an execution or accuracy guaran
 ## Programs and models of an implementation page
 
 An algorithm page is a named algorithm, with its attribution where the library cites one
-(Hessenberg shifted QR (BGS), Spectral bisection (Shah)). Its implementation pages are its
+(Hessenberg shifted QR (BGS), Hermitian spectral bisection (Shah)). Its implementation pages are its
 certified programs. Title a program by what distinguishes it, for example "Exact arithmetic
 (BGS I)"; the page shows the algorithm above the title, and `search_aliases` keeps older names
 findable. A further algorithm of the same kind is a sibling algorithm page in the same task
