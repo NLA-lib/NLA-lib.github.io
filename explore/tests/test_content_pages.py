@@ -250,6 +250,8 @@ Rounded-model explanation.
         self.assertIn('<section class="cg-model-picker"><p class="cg-model-label">All statements on this page are for</p>'
                       '<p class="cg-model-value">Exact arithmetic</p>', single)
         self.assertNotIn('<select id="computation-model"', single)
+        # A program page names its algorithm above its own title.
+        self.assertIn('<p class="eyebrow">Implementation of <a href="/explore/algorithms/lanczos/" data-model-link>Lanczos</a></p>', single)
         self.assertIn('Other programs of this algorithm: <a href="/explore/algorithms/lanczos/implementations/stored/" data-model-link>'
                       'Stored Lanczos</a> (Exact arithmetic · BLAS + matvec; Standard rounding · stored scalar)', single)
         several = (self.site / 'algorithms/lanczos/implementations/stored/index.html').read_text()

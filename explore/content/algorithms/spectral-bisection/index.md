@@ -1,7 +1,7 @@
 ---
 kind: algorithm
 id: spectral-bisection
-title: Spectral bisection
+title: Spectral bisection (Shah)
 summary: Use a spectral split to separate invariant subspaces.
 status: ready
 order: 26

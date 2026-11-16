@@ -812,7 +812,7 @@ class Explorer:
                       'library' if page.key == 'index:library' else '' if page.kind == 'home' or page.key == 'index:search' else 'algorithms')
             body = rendered[page.key]
             if page.kind == 'implementation':
-                body = '<p class="eyebrow">Implementation</p>' + body
+                body = '<p class="eyebrow">Implementation of ' + self.link(self.pages['algorithm:' + page.meta['algorithm']]) + '</p>' + body
             if page.meta.get('renderer') == 'cg' and page.meta.get('source_variant') in self.cg:
                 body += '<p class="record-link">Implementation preview from the current computational core · <a href="/explore/api/v1/cg-pilot.json">Source metadata</a></p>'
             if self.status(page) == 'placeholder':

@@ -2,14 +2,19 @@
 kind: implementation
 id: rounded-shifted-qr
 algorithm: qr-iteration
-title: Rounded shifted QR solver
+title: Finite precision (BGS II)
 summary: The shifted QR program in rounded arithmetic, with a randomized small-eigenvalue kernel and a random tape.
 status: outline
 library_algorithm: shifted-qr-rounded
 library_results: false
+arithmetic_models:
+- id: standard
+  arithmetic: standard
+search_aliases:
+- Rounded shifted QR solver
 ---
 
-The library certifies a second shifted QR program, for rounded arithmetic. It is a different program from the [exact solver](/explore/algorithms/qr-iteration/implementations/shifted-qr/), over a different operation model: scalar arithmetic is the arithmetic of a machine, terminal blocks are solved by a randomized kernel that may fail on a bad window of the tape, and the program draws shifts from the tape. Its accuracy holds with a probability over the tape, not on every run.
+The library certifies a second shifted QR program, for rounded arithmetic. It is a different program from the [exact-arithmetic program](/explore/algorithms/qr-iteration/implementations/shifted-qr/), over a different operation model: scalar arithmetic is the arithmetic of a machine, terminal blocks are solved by a randomized kernel that may fail on a bad window of the tape, and the program draws shifts from the tape. Its accuracy holds with a probability over the tape, not on every run.
 
 This page states the certificate and its accuracy theorem. It does not yet present pseudocode, the parameter words, or the explicit precision threshold; see [what is not presented](#section-not-yet-presented).
 
@@ -26,6 +31,12 @@ The program is the rounded deflation worklist with the decoupling loop and a `Sm
 | Failure | One failure word |
 
 The shift degree, the parameter words, the threshold word and the cap are determined by five reals of the input: a condition bound $B$, a separation $\Gamma$, a norm bound $\Sigma$, a backward error $\delta$ and a failure probability $\varphi$.
+
+## Model of arithmetic
+
+{{ generated:arithmetic-model-selector }}
+
+The standard model is a hypothesis of the accuracy theorem. The certificate itself holds for any machine arithmetic. The accuracy is a probability over a random tape.
 
 ## Operation model
 

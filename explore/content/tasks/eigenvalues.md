@@ -37,8 +37,9 @@ groups:
       a dominant invariant subspace.
 - id: qr-iteration
   title: QR eigenvalue methods
-  summary: Apply orthogonal similarities to a square matrix. QR iteration is distinct from computing a
-    QR factorization.
+  summary: Apply unitary similarities to a square matrix until its eigenvalues can be read off. Each
+    algorithm in this group fixes a shift strategy and a deflation rule; QR iteration is distinct from
+    computing a QR factorization.
   algorithms:
   - qr-iteration
 - id: jacobi
