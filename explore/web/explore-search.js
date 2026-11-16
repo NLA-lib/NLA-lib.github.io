@@ -14,9 +14,11 @@
       name: lower(e.id), title: lower(e.title),
       aliases: (e.aliases || []).map(lower),
       text: lower([e.id, e.title, e.summary, e.signature, e.module, e.search_text].join(' '))}));
-    return function search(query, kind = '') {
+    return function search(query, kind = '', facets = []) {
       const q = lower(query).trim();
-      if (!q) return {entries: [], related: false};
+      // Model facts are exact filters: an entry must carry every requested `facet:value`.
+      const admitted = d => (!kind || d.e.kind === kind) && facets.every(tag => (d.e.facets || []).includes(tag));
+      if (!q) return {entries: facets.length ? documents.filter(admitted).map(d => d.e).sort((a, b) => a.id.localeCompare(b.id)) : [], related: false};
       let remaining = q;
       const groups = [];
       for (const phrase of Object.keys(aliases).sort((a, b) => b.length - a.length)) {
@@ -29,7 +31,7 @@
       }
       for (const word of words(remaining)) if (!stop.has(word)) groups.push([...new Set([word, stem(word)])]);
       if (!groups.length) return {entries: [], related: false};
-      let ranked = documents.filter(d => !kind || d.e.kind === kind).map(d => {
+      let ranked = documents.filter(admitted).map(d => {
         let hits = 0, score = ['result', 'algorithm'].includes(d.e.kind) ? 2 : 0;
         for (const group of groups) {
           const weight = Math.max(0, ...group.map(term => d.aliases.includes(term) ? 8 : contains(d.name, term) ? 6 : contains(d.title, term) ? 5 : contains(d.text, term) ? 1 : 0));

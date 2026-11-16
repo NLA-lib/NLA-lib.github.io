@@ -12,6 +12,7 @@ from pathlib import Path
 import re
 import subprocess
 from cg_presentation import variant_page
+from rendering import record_component
 
 BASE = '/explore/algorithms/conjugate-gradient/'
 CG = 'NLAlib/Krylov/CG/'
@@ -123,6 +124,14 @@ VARIANTS = [
          state='x, r, p + history', dots='History-dependent', scratch='See source budget', code='Alg.lean', step='sweep', solver='Solver.lean',
          result='The stored iterate is the exact CG iterate at the cap or its earlier grade; a sufficiently large cap returns a solution.'),
 ]
+# Rounded results of the other variants. They are stated for their own programs and operation
+# models, so the pages link them instead of presenting them under the ordinary-CG selector. A
+# name that is not a declaration of the snapshot is left out; no page says the library has none.
+ROUNDED = {
+    'pcg': ['NLAlib.Krylov.CG.HSPCG.Rounded.solve_writes',
+            'NLAlib.Krylov.CG.HSPCG.Rounded.Stored.algorithm',
+            'NLAlib.Krylov.CG.HSPCG.Rounded.Stored.countedAlgorithm'],
+}
 
 
 def esc(value):
@@ -188,6 +197,16 @@ class Sources:
         return '<pre class="definition"><code>' + esc(declaration['text']) + '</code></pre><p class="source-label">' + self.link(declaration) + esc(note) + '</p>'
 
 
+def rounded_declarations(site, variant):
+    """The declarations of `ROUNDED` for the variant that have a record in the built library."""
+    found = []
+    for name in ROUNDED.get(variant, []):
+        record = Path(site) / 'api/v1/declarations' / (record_component(name) + '.json')
+        if record.is_file():
+            found.append({'name': name, 'url': json.loads(record.read_text())['record']['url']})
+    return found
+
+
 def build(site, source, published_revision=None, source_hashes=None):
     site = Path(site)
     sources = Sources(source, site, published_revision, source_hashes)
@@ -201,7 +220,8 @@ def build(site, source, published_revision=None, source_hashes=None):
             step_source=sources.declaration(folder + variant['code'], variant['step'], 'def'),
             solver_source=sources.declaration(folder + variant['solver'], 'solve', 'def'),
             exact_theorem=sources.declaration(folder + 'Solve.lean', 'runs_solve'),
-            models=[key for key, _ in MODELS] if carried else ['exact'])
+            models=[key for key, _ in MODELS] if carried else ['exact'],
+            rounded_declarations=[d['name'] for d in rounded_declarations(site, variant['id'])])
         if carried:
             record['convergence_theorem'] = sources.declaration(folder + 'Bounds.lean', 'runs_solve_chebyshev')
         if carried:
@@ -210,7 +230,8 @@ def build(site, source, published_revision=None, source_hashes=None):
                 for file, name in [('Solve.lean', 'runs_solve'), ('Stability.lean', 'Output.stable')]]
         records.append(record)
         body = variant_page(variant, sources, MODELS, PSEUDOCODE[variant['id']],
-                            OPERATIONS[variant['id']], MEMORY[variant['id']])
+                            OPERATIONS[variant['id']], MEMORY[variant['id']],
+                            rounded_declarations(site, variant['id']))
         definition = re.search(r'(<section id="shared-algorithm">.*?</section>)', body, re.S)[1]
         resources = re.search(r'(<section id="shared-theorems">.*?</section>)', body, re.S)[1]
         resources = resources.replace('<h2>Operations and Storage</h2>', '')

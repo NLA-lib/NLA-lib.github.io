@@ -108,6 +108,8 @@
   const more = document.getElementById('more-results');
   form.elements.q.value = params.get('q') || '';
   form.elements.kind.value = params.get('kind') || '';
+  const facetFilters = [...form.querySelectorAll('select[data-facet]')];
+  for (const filter of facetFilters) filter.value = params.get(filter.dataset.facet) || '';
   let index;
   try { index = await getSearch(); }
   catch (_) { status.textContent = 'Search data could not be loaded. Reload to retry.'; return; }
@@ -120,14 +122,16 @@
       li.append(link, summary); output.append(li);
     }
     shown = Math.min(shown + 40, matched.length); more.hidden = shown >= matched.length;
-    status.textContent = !form.elements.q.value.trim() ? 'Enter a mathematical term or Lean name.' : `${matched.length} ${related ? 'related ' : ''}results; showing ${shown}.`;
+    status.textContent = !form.elements.q.value.trim() && !facetFilters.some(filter => filter.value) ? 'Enter a mathematical term or Lean name.' : `${matched.length} ${related ? 'related ' : ''}results; showing ${shown}.`;
   }
   function search() {
     const q = form.elements.q.value.trim();
     const kind = form.elements.kind.value;
-    const result = index(q, kind); matched = result.entries; related = result.related;
+    const chosen = facetFilters.filter(filter => filter.value);
+    const result = index(q, kind, chosen.map(filter => filter.dataset.facet + ':' + filter.value)); matched = result.entries; related = result.related;
     output.replaceChildren(); shown = 0; append();
     const query = new URLSearchParams(); if (q) query.set('q', q); if (kind) query.set('kind', kind);
+    for (const filter of chosen) query.set(filter.dataset.facet, filter.value);
     history.replaceState(null, '', location.pathname + (query.size ? '?' + query : ''));
   }
   let timer;

@@ -87,7 +87,7 @@ with sync_playwright() as p:
     page.get_by_role('link', name='Preconditioned CG (PCG)', exact=True).click()
     page.get_by_role('link', name='Standard PCG recurrence', exact=True).click()
     assert page.locator('#computation-model').input_value() == 'pairwise'
-    assert 'no rounded execution theorem' in page.locator('[data-cg-model="pairwise"]').inner_text()
+    assert 'No rounded execution theorem is presented' in page.locator('[data-cg-model="pairwise"]').inner_text()
     page.select_option('#computation-model', 'exact')
     assert 'preconditioner' in page.locator('[data-cg-model="exact"]').inner_text()
     # Every local link in pilot pages resolves, including line-linked source viewers.

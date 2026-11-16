@@ -1,6 +1,8 @@
 # Optional per-result additions, keyed by the `Result:` id in NLAlib docstrings.
 # Everything here is optional; without an entry a result's title is the bold name in its first
-# docstring (or the id), and its statement is that docstring.
+# docstring (or the id), and its statement is that docstring, up to its `Note:` block.
+# A result with several declarations should name its `primary`; without one the build takes
+# the first theorem by name and `audit_primaries.py` lists the result.
 #
 #   [weyl-inequality]
 #   title = "Weyl's inequality"
@@ -199,16 +201,6 @@ title = "Filtered range finder: expected error"
 [reverse-eckart-young]
 title = "Reverse Eckart–Young for late-truncated Nyström"
 
-[cg-program]
-title = "CG: exact stored-entry implementation"
-aliases = ["square-root-free CG program", "CG operation counts", "CG memory bound"]
-primary = "NLAlib.storedEntriesConjugateGradient"
-
-[lanczos-program]
-title = "Lanczos: exact stored-entry implementation"
-aliases = ["Paige-order Lanczos program", "Lanczos operation counts", "Lanczos memory bound"]
-primary = "NLAlib.storedEntriesLanczos"
-
 [lanczos-quadrature-finite-precision]
 title = "Lanczos quadrature in finite precision"
 primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of_continuousOn"
@@ -217,3 +209,19 @@ primary = "NLAlib.LanczosRun.abs_dotProduct_cfc_mulVec_sub_cfc_tridiagonal_le_of
 title = "Lanczos matrix functions: Chebyshev recurrence bound"
 aliases = ["Druskin–Knizhnerman", "finite precision Lanczos-FA"]
 primary = "NLAlib.LanczosRun.norm_cfc_mulVec_sub_basis_mulVec_le_of_continuousOn"
+
+[one-pass-low-rank-lower-bound]
+title = "One-pass low-rank approximation needs $\\Omega(k/\\varepsilon)$ matrix–vector products"
+primary = "NLAlib.natCast_div_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le_of_lt_one"
+
+[two-pass-low-rank-lower-bound]
+title = "Two-pass low-rank approximation needs $\\Omega(k/\\varepsilon)$ matrix–vector products"
+primary = "NLAlib.natCast_div_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le"
+
+[fixed-batch-low-rank-lower-bound]
+title = "Chebyshev fixed-batch Frobenius query lower bound"
+primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureReal_frobNorm_sub_mul_sq_le_of_pass_lt"
+
+[fixed-batch-nuclear-lower-bound]
+title = "Chebyshev fixed-batch nuclear-norm query lower bound"
+primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureReal_nuclearNorm_sub_mul_le_of_pass_lt"

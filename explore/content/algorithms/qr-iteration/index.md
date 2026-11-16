@@ -42,7 +42,9 @@ For multiple shifts $s_1,\ldots,s_k$, the shift polynomial is $p(z)=\prod_{j=1}^
 
 The library proves normal-matrix and conditioned nonnormal-matrix decoupling results, together with the Ritz-quality or early-decoupling dichotomy. The concrete exact solver connects scalar execution to backward error, a directed forward-error bound, and resource accounting.
 
-The exact solver uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. Approximate small eigensolvers and rounded QR analysis belong to the finite-arithmetic extension. See the implementation for the precise current boundary and input hypotheses.
+The exact solver uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. See that implementation for its precise boundary and input hypotheses.
+
+The rounded solver is a separate program with its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks are solved by a randomized small-eigenvalue kernel specified by its accuracy and failure probability, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The kernel is assumed, not implemented.
 
 ## Implementations
 

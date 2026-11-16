@@ -4,6 +4,7 @@ id: linear-systems
 title: Linear systems
 summary: Solve $A x=b$, including preconditioned and matrix-free methods.
 status: ready
+sections_collapsed: true
 order: 0
 theory:
 - matrix-analysis

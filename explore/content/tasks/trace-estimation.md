@@ -4,6 +4,7 @@ id: trace-estimation
 title: Trace estimation and spectral statistics
 summary: Estimate $\operatorname{tr}(A)$, $\operatorname{tr}(f(A))$, and related quantities.
 status: ready
+sections_collapsed: true
 order: 5
 theory:
 - probability

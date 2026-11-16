@@ -4,6 +4,7 @@ id: matrix-factorizations
 title: Matrix factorizations and bases
 summary: Construct orthogonal bases, triangular factors, or spectral factorizations.
 status: ready
+sections_collapsed: true
 order: 8
 theory:
 - matrix-analysis

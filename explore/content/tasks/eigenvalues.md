@@ -4,6 +4,7 @@ id: eigenvalues
 title: Eigenvalues
 summary: Approximate extremal or interior eigenvalues and their invariant subspaces.
 status: ready
+sections_collapsed: true
 order: 1
 theory:
 - spectral-theory

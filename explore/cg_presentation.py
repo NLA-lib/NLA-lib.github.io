@@ -60,7 +60,19 @@ def pseudocode_html(phases):
         for title, steps in phases) + '</div>'
 
 
-def variant_page(v, sources, models, pseudocode, operations, memory):
+def coverage_note(rounded):
+    """What a variant without a presented rounded theorem says under a rounded model. It describes
+    this page; it names the library's rounded results for the variant when the snapshot has them."""
+    note = '<p>No rounded execution theorem is presented for this variant under this model. Ordinary CG has one.</p>'
+    if rounded:
+        note += ('<p>The library has rounded results for this variant. They are stated for their own programs '
+                 'and operation models, which their statements give:</p><ul>' + ''.join(
+                     '<li><a href="' + html.escape(d['url'], quote=True) + '"><code>' +
+                     html.escape(d['name'].removeprefix('NLAlib.')) + '</code></a></li>' for d in rounded) + '</ul>')
+    return note
+
+
+def variant_page(v, sources, models, pseudocode, operations, memory, rounded=()):
     folder = CG + v['folder'] + '/'
     get = lambda file, name, kind='theorem': sources.declaration(folder + file, name, kind)
     rounded_folder = CG + 'HSCG/Carried/FinitePrecision/'
@@ -99,7 +111,7 @@ def variant_page(v, sources, models, pseudocode, operations, memory):
     for key, label in models:
         body += '<section data-cg-model="' + key + '" aria-label="' + html.escape(label, quote=True) + '">'
         if key != 'exact' and not carried:
-            body += card('Implementation coverage', '<p>This pilot has no rounded execution theorem for this variant. Ordinary CG has one for this model.</p><p><a data-model-link href="' + BASE + 'variants/carried/">Open ordinary CG</a></p>', 'note') + '</section>'
+            body += card('Implementation coverage', coverage_note(rounded) + '<p><a data-model-link href="' + BASE + 'variants/carried/">Open ordinary CG</a></p>', 'note') + '</section>'
             continue
         if key == 'exact':
             assumptions = r'Assume exact scalar operations, dot products, vector updates, and matrix–vector products, correct comparisons, admissible distinct buffers, and enough working memory. '
