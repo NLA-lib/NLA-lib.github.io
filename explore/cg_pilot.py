@@ -11,19 +11,25 @@ import json
 from pathlib import Path
 import re
 import subprocess
-from cg_presentation import variant_page
+from cg_presentation import coverage_note, variant_page
+from models import model_title
 from rendering import record_component
 
 BASE = '/explore/algorithms/conjugate-gradient/'
 CG = 'NLAlib/Krylov/CG/'
-MODELS = [('exact', 'Exact arithmetic'), ('relative', 'Relative-error BLAS + matvec'),
-          ('sequential', 'Standard rounding · sequential'),
-          ('pairwise', 'Standard rounding · pairwise')]
+# The models of the matrix-free solver, named from the vocabulary of models.py. The pages declare
+# them in their headers; the adapter supplies one accuracy fragment for each.
+MODELS = [(key, model_title(arithmetic, program)) for key, arithmetic, program in [
+    ('exact', 'exact', 'blas-matvec'), ('relative', 'standard', 'relative-blas-matvec'),
+    ('sequential', 'standard', 'sequential-blas-matvec'), ('pairwise', 'standard', 'pairwise-blas-matvec')]]
 PSEUDOCODE = {
     'carried': [
-        ('Initialize:', [
+        ('Initialize from the starting iterate:', [
             r'Copy $b$ into $r$.',
-            r'Copy $b$ into $p$.',
+            r'Compute $q\leftarrow Ax$.',
+            r'Set $\alpha\leftarrow-1$.',
+            r'Update $r\leftarrow r+\alpha q$.',
+            r'Copy $r$ into $p$.',
             r'Compute $\rho\leftarrow\langle r,r\rangle$.',
         ]),
         (r'Repeat while $\rho>0$, up to the iteration cap:', [
@@ -235,8 +241,11 @@ def build(site, source, published_revision=None, source_hashes=None):
         definition = re.search(r'(<section id="shared-algorithm">.*?</section>)', body, re.S)[1]
         resources = re.search(r'(<section id="shared-theorems">.*?</section>)', body, re.S)[1]
         resources = resources.replace('<h2>Operations and Storage</h2>', '')
-        accuracy = body.split('<h2>Accuracy</h2>', 1)[1].split('<p class="record-link">', 1)[0]
-        fragments[variant['id']] = {'cg-definition': definition, 'cg-resources': resources, 'cg-accuracy': accuracy}
+        fragments[variant['id']] = {'cg-definition': definition, 'cg-resources': resources}
+        fragments[variant['id']]['cg-coverage'] = coverage_note(rounded_declarations(site, variant['id']))
+        # One fragment for each model; the page's own model blocks place them.
+        for key, content in re.findall(r'<section data-cg-model="([a-z-]+)"[^>]*>(.*?)</section>', body, re.S):
+            fragments[variant['id']]['cg-accuracy-' + key] = content
     commit = published_revision or subprocess.run(['git', '-C', str(source), 'rev-parse', 'HEAD'],
                                                  capture_output=True, text=True).stdout.strip() or None
     snapshot = published_revision and all(sources.source_revisions[p] == published_revision
