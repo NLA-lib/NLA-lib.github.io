@@ -62,7 +62,7 @@ The result below uses exact real scalar arithmetic, exact dot products, vector u
 ::: end-model
 
 ::: model standard
-The operations form a standard operation model (`Ops.Standard.Model`): a scalar machine in the standard model with unit roundoff $u$, level-one vector operations in the exact, sequential or pairwise scheme, and a matrix–vector product with a normwise error allowance. The program is the same as in exact arithmetic.
+The operations form a standard operation model (`Ops.Standard.Model`): a scalar machine in the standard model with unit roundoff $u$, level-one vector operations whose dot products are [summed sequentially](/explore/arithmetic-models/#sequential), and a matrix–vector product with a normwise error allowance. The program is the same as in exact arithmetic. The Lean certificate is stated for any scheme of the standard profiles.
 ::: end-model
 
 ::: model stored-scalar

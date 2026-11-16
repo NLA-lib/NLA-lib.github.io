@@ -15,12 +15,10 @@ arithmetic_models:
 - id: relative
   arithmetic: standard
   program: relative-blas-matvec
-- id: sequential
+- id: standard
   arithmetic: standard
-  program: sequential-blas-matvec
-- id: pairwise
-  arithmetic: standard
-  program: pairwise-blas-matvec
+  program: blas-matvec
+  aliases: [sequential, pairwise]
 - id: stored-scalar
   arithmetic: standard
   program: stored-scalar
@@ -40,11 +38,11 @@ The standard carried-residual implementation of CG.
 
 {{ generated:arithmetic-model-selector }}
 
-The first four models are for the program of the listing, built from vector operations and a matrix–vector product that is a primitive. They differ in what those operations may return. The last model is for a program lowered from it: the matrix is stored entry by entry, and every matrix–vector product and vector operation is written out as scalar loops, so its only primitives are scalar operations and comparisons.
+The first three models are for the program of the listing, built from vector operations and a matrix–vector product that is a primitive. They differ in what those operations may return. The last model is for a program lowered from it: the matrix is stored entry by entry, and every matrix–vector product and vector operation is written out as scalar loops, so its only primitives are scalar operations and comparisons.
 
 ## Operations and Storage
 
-These counts are at the level of vector operations and hold for the four models built from BLAS and matvec calls. The stored scalar program has its own instruction count, stated with its theorem.
+These counts are at the level of vector operations and hold for the three models built from BLAS and matvec calls. The stored scalar program has its own instruction count, stated with its theorem.
 
 {{ generated:cg-resources }}
 
@@ -58,12 +56,8 @@ These counts are at the level of vector operations and hold for the four models 
 {{ generated:cg-accuracy-relative }}
 ::: end-model
 
-::: model sequential
-{{ generated:cg-accuracy-sequential }}
-::: end-model
-
-::: model pairwise
-{{ generated:cg-accuracy-pairwise }}
+::: model standard
+{{ generated:cg-accuracy-standard }}
 ::: end-model
 
 ::: model stored-scalar
@@ -80,7 +74,7 @@ Then, for every such input and every tape, the run succeeds, and:
 - it performs some number $m\le k$ of rounds and stores an iterate $\widehat{\mathbf x}$ and a residual vector $\widehat{\mathbf r}$; if $m<k$, then $\widehat{\mathbf r}=\mathbf 0$;
 - for every solution $\mathbf x$ of $\mathbf A\mathbf x=\mathbf b$,
 
-$$\begin{aligned}\|\mathbf x-\widehat{\mathbf x}\|_{\mathbf A}^2\le{}&4\Bigl(\frac{\sqrt{2\kappa+1}-1}{\sqrt{2\kappa+1}+1}\Bigr)^{2m}\|\mathbf x\|_{\mathbf A}^2\\&+\frac{12000\,m^2\sqrt m\,E\,\kappa\,a^{\prime}\,\|\mathbf b\|_2^2}{a^2}\\&+\frac{135\,m^2E\,\kappa\,\|\mathbf b\|_2^2}{a}.\end{aligned}$$
+$$\begin{aligned}&\|\mathbf x-\widehat{\mathbf x}\|_{\mathbf A}^2\\&\quad\le4\Bigl(\frac{\sqrt{2\kappa+1}-1}{\sqrt{2\kappa+1}+1}\Bigr)^{2m}\|\mathbf x\|_{\mathbf A}^2\\&\quad+\frac{12000\,m^2\sqrt m\,E\,\kappa\,a^{\prime}\,\|\mathbf b\|_2^2}{a^2}\\&\quad+\frac{135\,m^2E\,\kappa\,\|\mathbf b\|_2^2}{a}.\end{aligned}$$
 
 Here $\|\mathbf v\|_{\mathbf A}^2=\mathbf v^{\mathsf T}\mathbf A\mathbf v$. The first term is the exact CG rate at the condition number $2\kappa+1$; the other two are the accumulated rounding. The bound is in the number $m$ of rounds performed: reaching the cap is not a convergence claim. The instruction count is an upper bound read off the fixed program.
 :::

@@ -42,7 +42,7 @@ Exact arithmetic is the case $u=0$.
 The model constrains the scalar operations only. A program whose only primitives are
 scalar operations and comparisons, such as the stored scalar programs of CG and Lanczos,
 needs nothing else. A program that calls vector or matrix operations also needs their
-contracts, as in the next three definitions.
+contracts, as in the next two definitions.
 :::
 
 ::: definition name="Relative-error BLAS + matvec" id=relative
@@ -71,32 +71,24 @@ Scalar arithmetic has unit roundoff $u$. Copies and decoded comparisons are exac
 The solver theorem requires the supplied coefficients to satisfy its accuracy budget.
 :::
 
-::: definition name="Standard rounding with sequential BLAS" id=sequential
-Scalar operations obey the standard relative-rounding model with unit roundoff $u$
-and unbounded exponents. Dot products form rounded products and accumulate them
-sequentially, giving
+::: definition name="Sequential summation in standard rounding" id=sequential
+The standard-rounding model of the solver pages sums sequentially. Scalar operations obey
+standard rounding with unit roundoff $u$. A sum of $n$ terms accumulated in order has the
+error coefficient $(1+u)^{n-1}-1$ (`Ops.Blas.seqSumErr`), and a dot product, which forms
+rounded products and sums them, has
 
-$$d_n=(1+u)^n-1.$$
+$$d_n=(1+u)^n-1$$
 
-The BLAS implementation supplies the vector-update bounds. All vector lengths are
-admitted. Matvec error is supplied separately; this choice does not assume exact matvecs.
-In Lean the coefficients are `Ops.Blas.seq.err u`.
-:::
+(`Ops.Blas.seq.err`). The same profile supplies the vector-update bounds. All vector lengths
+are admitted. Matvec error is supplied separately; this model does not assume exact matvecs.
 
-::: definition name="Standard rounding with pairwise BLAS" id=pairwise
-Scalar arithmetic has the same relative-rounding contract, while reductions use a
-pairwise summation tree:
-
-$$d_n=(1+u)^{\lceil\log_2 n\rceil+1}-1.$$
-
-The implementation requires $\lceil\log_2 n\rceil<\mathrm{depth}$. Pairwise summation
-specifies the reduction order; it does not by itself certify parallel execution.
-Matvec error is supplied separately. In Lean the coefficients are `Ops.Blas.pairwise.err u`.
-
-A solver theorem for the standard profiles is one statement for both reduction orders.
-Between them the dot-product coefficient $d_n$ changes, the pairwise order adds the depth
-condition, and the declared workspace of the vector operations is that of the chosen
-profile. The program, the other error coefficients, and the work and span weights are the same.
+The library also has pairwise summation (`Ops.Blas.pairwise.err`). It improves the sum
+coefficient to $(1+u)^{\lceil\log_2 n\rceil}-1$ (`Ops.Blas.pairSumErr`), so that
+$d_n=(1+u)^{\lceil\log_2 n\rceil+1}-1$. It needs the depth condition
+$\lceil\log_2 n\rceil<\mathrm{depth}$ (`Nat.clog 2 n < depth`) and declares a different
+workspace for the vector operations. The solver theorems are stated for either scheme; the
+pages present the sequential one. Pairwise summation specifies the reduction order; it does
+not by itself certify parallel execution.
 :::
 
 ::: definition name="Accuracy budgets" id=accuracy
@@ -108,8 +100,8 @@ $$u,d_n,e_a,e_m\le E\le10^{-2}.$$
 The named standard profiles use a stricter envelope (`Ops.Standard.Accuracy`), which
 the CG and Lanczos operation budgets share:
 
-$$0\le E\le10^{-2},\qquad e_m,e_a\le E,\qquad
-u,d_n,e_{\mathrm{scal}}\le E/16.$$
+$$\begin{gathered}0\le E\le10^{-2},\qquad e_m,e_a\le E,\\
+u,d_n,e_{\mathrm{scal}}\le E/16.\end{gathered}$$
 
 Here $e_{\mathrm{scal}}$ bounds componentwise vector division. Each solver theorem also
 has its own assumptions, such as the spectral and iteration-window assumptions of CG,

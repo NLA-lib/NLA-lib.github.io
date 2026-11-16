@@ -132,7 +132,7 @@ def rounded_results(key, sources, get):
         bounds = r'Choose a nonnegative common allowance $E$ with $$\max\{u,d_n,e_a,e_m\}\le E\le 10^{-2}.$$'
         evidence = [get('Solve.lean', 'runs_solve'), get('Stability.lean', 'Output.stable')]
     else:
-        description = (r'Scalar operations have unit roundoff $u$, and dot products accumulate sequentially. Their error coefficient is $$d_n=(1+u)^n-1.$$' if key == 'sequential' else r'Scalar operations have unit roundoff $u$, and dot products use pairwise reductions. Their error coefficient is $$d_n=(1+u)^{\lceil\log_2n\rceil+1}-1.$$ The reduction depth must satisfy $\lceil\log_2n\rceil<\mathrm{depth}$.')
+        description = r'Scalar operations have unit roundoff $u$, and dot products are summed sequentially. Their error coefficient is $$d_n=(1+u)^n-1.$$'
         bounds = r'Choose $0\le E\le10^{-2}$ large enough for the scalar, dot-product, vector-update and matvec error budgets. The named standard profile uses the common accuracy conditions documented on the arithmetic-models page.'
         evidence = [get('Standard.lean', 'runs_solve_of_model')]
     # The rounded solver differs from the listing in its initialization only.
@@ -140,7 +140,8 @@ def rounded_results(key, sources, get):
              r'and computes $\rho$, and its rounds are those of the listing. A certificate for a general starting guess is '
              r'not presented in this model.')
     model = prose(description + ' ' + bounds + start)
-    model += '<p><a href="' + MODELS_URL + '#relative">What these error bounds mean</a></p>'
+    model += ('<p><a href="' + MODELS_URL + '#relative">What these error bounds mean</a></p>' if key == 'relative' else
+              '<p><a href="' + MODELS_URL + '#sequential">Sequential summation and its coefficient</a></p>')
     body = card('Arithmetic assumptions', model, 'model')
     conditions = r'Let $A$ be symmetric positive definite, with eigenvalues in $[a,a^{\prime}]$, $a>0$, and put $\kappa=a^{\prime}/a$. Start at $x_0=0$ and use cap $k$. If the operations satisfy the selected error budgets and $$3Ea^{\prime}\le a,\qquad k^2\sqrt k\,E\kappa^2\le10^{-5},$$ the solver executes successfully. It performs at most $k$ rounds, stopping early if the computed residual becomes zero.'
     body += result('Successful execution', conditions, evidence, sources,

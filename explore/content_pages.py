@@ -168,6 +168,11 @@ def load_pages(directory):
                 elif not isinstance(model.get('title'), str) or not model['title'].strip() or 'program' in model:
                     raise ValueError(f'{file}: invalid or duplicate arithmetic model')
                 ids.add(model['id'])
+            # Retired ids keep selecting the model that replaced them.
+            aliases = [alias for model in models for alias in model.get('aliases', [])]
+            if (any(not isinstance(model.get('aliases', []), list) for model in models) or len(set(aliases)) != len(aliases)
+                    or any(not isinstance(a, str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', a) or a in ids for a in aliases)):
+                raise ValueError(f'{file}: invalid or duplicate arithmetic model alias')
         page = Page(file, meta, match[2])
         if page.key in pages or page.path in routes:
             raise ValueError(f'{file}: duplicate identity or route')
@@ -422,8 +427,9 @@ class Explorer:
                 raise ValueError(f'{page.source}: arithmetic-model-selector requires arithmetic_models')
             # Same place, same frame: a selector for several models, a plain line for one.
             if len(models) > 1:
-                options = ''.join('<option value="' + model['id'] + '">' +
-                                  html.escape(model['title']) + '</option>' for model in models)
+                options = ''.join('<option value="' + model['id'] + '"' +
+                                  (' data-aliases="' + ' '.join(model['aliases']) + '"' if model.get('aliases') else '') +
+                                  '>' + html.escape(model['title']) + '</option>' for model in models)
                 control = ('<label for="computation-model">Show the statements for</label>'
                            '<select id="computation-model">' + options + '</select>'
                            '<p id="model-status" class="visually-hidden" role="status"></p>')

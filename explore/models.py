@@ -72,8 +72,6 @@ FACETS = {'arithmetic': 'Arithmetic', 'access': 'Access', 'randomness': 'Randomn
 PROGRAMS = {
     'blas-matvec': 'BLAS + matvec',
     'relative-blas-matvec': 'relative-error BLAS + matvec',
-    'sequential-blas-matvec': 'sequential BLAS + matvec',
-    'pairwise-blas-matvec': 'pairwise BLAS + matvec',
     'relative-blas': 'relative-error BLAS',
     'stored-scalar': 'stored scalar',
 }

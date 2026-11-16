@@ -242,7 +242,7 @@ Rounded-model explanation.
                   '::: model stored-scalar\nFirst.\n::: end-model\n\n::: model stored-scalar\nSecond.\n::: end-model\n',
                   kind='implementation', id='stored', algorithm='lanczos', title='Stored Lanczos', arithmetic_models=[
                       {'id': 'exact', 'arithmetic': 'exact', 'program': 'blas-matvec'},
-                      {'id': 'stored-scalar', 'arithmetic': 'standard', 'program': 'stored-scalar'}])
+                      {'id': 'stored-scalar', 'arithmetic': 'standard', 'program': 'stored-scalar', 'aliases': ['scalar', 'old-id']}])
         self.page('lanczos.md', '{{ generated:implementations }}', kind='algorithm', id='lanczos', title='Lanczos')
         Explorer(self.site, self.content).build()
         single = (self.site / 'algorithms/lanczos/implementations/ordinary/index.html').read_text()
@@ -255,7 +255,12 @@ Rounded-model explanation.
         self.assertIn('Other programs of this algorithm: <a href="/explore/algorithms/lanczos/implementations/stored/" data-model-link>'
                       'Stored Lanczos</a> (Exact arithmetic · BLAS + matvec; Standard rounding · stored scalar)', single)
         several = (self.site / 'algorithms/lanczos/implementations/stored/index.html').read_text()
-        self.assertIn('<option value="stored-scalar">Standard rounding · stored scalar</option>', several)
+        # Retired ids travel with the option; the page script maps them to the model.
+        self.assertIn('<option value="exact">Exact arithmetic · BLAS + matvec</option>'
+                      '<option value="stored-scalar" data-aliases="scalar old-id">Standard rounding · stored scalar</option>', several)
+        script = (Path(__file__).resolve().parents[1] / 'web/cg-pilot.js').read_text()
+        self.assertIn("option.dataset.aliases", script)
+        self.assertIn("models.includes(asked) ? asked : (targetModel || models[0])", script)
         # A model can have several blocks, for parts of the page that differ by model.
         self.assertEqual(several.count('data-cg-model="stored-scalar"'), 2)
         overview = (self.site / 'algorithms/lanczos/index.html').read_text()
@@ -263,7 +268,10 @@ Rounded-model explanation.
         self.assertIn('Models: Exact arithmetic · BLAS + matvec; Standard rounding · stored scalar', overview)
         for models in [[{'id': 'exact', 'arithmetic': 'precise'}], [{'id': 'exact', 'arithmetic': 'exact', 'program': 'dense'}],
                        [{'id': 'exact', 'arithmetic': 'exact', 'title': 'My own name'}], [{'id': 'exact'}],
-                       [{'id': 'exact', 'title': 'Named', 'program': 'stored-scalar'}]]:
+                       [{'id': 'exact', 'title': 'Named', 'program': 'stored-scalar'}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': ['exact']}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': ['old']}, {'id': 'standard', 'arithmetic': 'standard', 'aliases': ['old']}],
+                       [{'id': 'exact', 'arithmetic': 'exact', 'aliases': 'old'}]]:
             self.page('ordinary.md', '{{ generated:arithmetic-model-selector }}', kind='implementation', id='ordinary',
                       algorithm='lanczos', title='Ordinary Lanczos', arithmetic_models=models)
             with self.subTest(models=models), self.assertRaisesRegex(ValueError, 'arithmetic model'):

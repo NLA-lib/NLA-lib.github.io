@@ -21,7 +21,9 @@ CG = 'NLAlib/Krylov/CG/'
 # them in their headers; the adapter supplies one accuracy fragment for each.
 MODELS = [(key, model_title(arithmetic, program)) for key, arithmetic, program in [
     ('exact', 'exact', 'blas-matvec'), ('relative', 'standard', 'relative-blas-matvec'),
-    ('sequential', 'standard', 'sequential-blas-matvec'), ('pairwise', 'standard', 'pairwise-blas-matvec')]]
+    ('standard', 'standard', 'blas-matvec')]]
+# Ids of the former selector. They select `standard`, and cg-pilot.json keeps listing them.
+RETIRED = {'sequential': 'standard', 'pairwise': 'standard'}
 PSEUDOCODE = {
     'carried': [
         ('Initialize from the starting iterate:', [
@@ -226,7 +228,7 @@ def build(site, source, published_revision=None, source_hashes=None):
             step_source=sources.declaration(folder + variant['code'], variant['step'], 'def'),
             solver_source=sources.declaration(folder + variant['solver'], 'solve', 'def'),
             exact_theorem=sources.declaration(folder + 'Solve.lean', 'runs_solve'),
-            models=[key for key, _ in MODELS] if carried else ['exact'],
+            models=[key for key, _ in MODELS] + list(RETIRED) if carried else ['exact'],
             rounded_declarations=[d['name'] for d in rounded_declarations(site, variant['id'])])
         if carried:
             record['convergence_theorem'] = sources.declaration(folder + 'Bounds.lean', 'runs_solve_chebyshev')
@@ -253,7 +255,9 @@ def build(site, source, published_revision=None, source_hashes=None):
     payload = dict(schema_version=1, source=dict(commit=commit if snapshot else None,
                    base_commit=None if snapshot else commit, kind='published-snapshot' if snapshot else 'working-tree-preview',
                    files={p: {'sha256': r['sha256']} for p, r in sources.files.items()}),
-                   models=[dict(id=k, title=v) for k, v in MODELS], variants=records)
+                   models=[dict(id=k, title=v, aliases=[old for old, new in RETIRED.items() if new == k]) for k, v in MODELS] +
+                          [dict(id=old, title=dict(MODELS)[new], alias_of=new) for old, new in RETIRED.items()],
+                   variants=records)
     (site / 'api/v1/cg-pilot.json').write_text(json.dumps(payload, ensure_ascii=False, indent=2) + '\n')
     (site / 'api/v1/cg-pilot-fragments.json').write_text(json.dumps(fragments, ensure_ascii=False) + '\n')
     print(f'CG pilot: {len(records)} variants, {len(sources.files)} fingerprinted source files → {site}')
