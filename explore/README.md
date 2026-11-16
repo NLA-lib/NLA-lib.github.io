@@ -106,7 +106,7 @@ on them. `models.py` has one detector per fact, and a fact has one of three sour
 | Facet | Value | Established by |
 |---|---|---|
 | `arithmetic` | `exact` | a hypothesis `(h : Ops.ExactModel dec M)`, or `(h : model.scheme = Ops.Standard.Scheme.exact)` |
-| `arithmetic` | `standard` | a hypothesis `(h : Ops.StdModel u dec M)`, or a binder `(model : Ops.Standard.Model …)` without the exact scheme |
+| `arithmetic` | `standard` ("Standard rounding") | a hypothesis `(h : Ops.StdModel u dec M)`, or a binder `(model : Ops.Standard.Model …)` without the exact scheme |
 | `arithmetic` | `relative-error` | a hypothesis `(h : Ops.IsBlas1 dec ε ok I)` |
 | `access` | `oracle` | a hypothesis `Ops.IsMatvec …` or `Ops.IsExactMatvec …`, or a binder `Ops.Standard.Model …` |
 | `access` | `uniform` | `uniform=yes` in the certificate record: an `Ops.AccessModel.Uniform` instance |

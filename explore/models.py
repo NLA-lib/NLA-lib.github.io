@@ -24,10 +24,10 @@ FACTS = {
         'exact': ('Exact arithmetic',
                   'The statement assumes exact arithmetic: a scalar machine whose operations return the '
                   'exact values (Ops.ExactModel), or the exact scheme of a standard operation model.'),
-        'standard': ('Standard model, unit roundoff u',
-                     'The statement assumes the standard model of rounded arithmetic (Ops.StdModel): every '
-                     'scalar operation has relative error at most the unit roundoff, with no overflow or '
-                     'underflow. A standard operation model (Ops.Standard.Model) fixes such a machine.'),
+        'standard': ('Standard rounding',
+                     'The statement assumes the standard model of rounded arithmetic with unit roundoff u '
+                     '(Ops.StdModel): every scalar operation has relative error at most u, with no overflow '
+                     'or underflow. A standard operation model (Ops.Standard.Model) fixes such a machine.'),
         'relative-error': ('Relative-error BLAS',
                            'The statement assumes level-1 vector operations that meet relative error '
                            'coefficients supplied by the caller (Ops.IsBlas1), not a reduction order.'),
@@ -66,6 +66,23 @@ FACTS = {
     },
 }
 FACETS = {'arithmetic': 'Arithmetic', 'access': 'Access', 'randomness': 'Randomness', 'work': 'Work'}
+
+# What the program of a model is built from. Together with the arithmetic labels above this is
+# the whole vocabulary of model names: implementation pages, badges and search filters share it.
+PROGRAMS = {
+    'blas-matvec': 'BLAS + matvec',
+    'relative-blas-matvec': 'relative-error BLAS + matvec',
+    'sequential-blas-matvec': 'sequential BLAS + matvec',
+    'pairwise-blas-matvec': 'pairwise BLAS + matvec',
+    'relative-blas': 'relative-error BLAS',
+    'stored-scalar': 'stored scalar',
+}
+
+
+def model_title(arithmetic, program=None):
+    """The name of a model of an implementation page: the arithmetic label and, where the page
+    needs it to tell its models apart, what the program is built from, after a middle dot."""
+    return FACTS['arithmetic'][arithmetic][0] + (' · ' + PROGRAMS[program] if program else '')
 
 
 def binders(signature):

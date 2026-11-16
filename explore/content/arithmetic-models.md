@@ -28,8 +28,9 @@ with the mathematical method. For CG, the recurrence agrees with mathematical CG
 classical convergence and finite-termination results apply under their matrix assumptions.
 :::
 
-::: definition name="Standard model of rounded arithmetic" id=standard
-A scalar machine is in the standard model with unit roundoff $u$ (`Ops.StdModel`) when
+::: definition name="Standard rounding" id=standard
+Standard rounding is the standard model of rounded arithmetic with unit roundoff $u$
+(`Ops.StdModel`). A scalar machine is in it when
 each operation returns its exact result with relative error at most $u$:
 
 $$|\widehat{a\circ b}-a\circ b|\le u\,|a\circ b|,\qquad\circ\in\{+,-,\times,/\},$$
