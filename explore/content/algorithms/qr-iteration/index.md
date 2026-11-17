@@ -11,6 +11,7 @@ status: ready
 theory:
 - spectral-theory
 - perturbation-theory
+- pseudospectral-shattering
 result_ids:
 - shifted-qr-ritz-dichotomy
 - shifted-qr-normal-decoupling
@@ -50,7 +51,7 @@ The library proves normal-matrix and conditioned nonnormal-matrix decoupling res
 
 The exact-arithmetic program uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. See that implementation for its precise boundary and input hypotheses.
 
-The finite-precision program has its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks are solved by a randomized small-eigenvalue kernel specified by its accuracy and failure probability, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The kernel is assumed, not implemented.
+The finite-precision program has its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks and Ritz values are computed by a randomized small-eigenvalue solver, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The page of that program has two models. In one the small-eigenvalue solver is an oracle, specified by its accuracy and failure probability. In the other it is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), and the theorem has no oracle hypothesis. That theorem is unconditional: the random-matrix tails it needs are proved.
 
 ## Programs
 

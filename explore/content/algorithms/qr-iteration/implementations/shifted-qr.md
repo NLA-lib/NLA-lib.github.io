@@ -62,7 +62,7 @@ Every spectral problem used by the full driver has order at most $k$. The `ritz`
 The routine collection specifies the output lengths, Ritz optimality, and complete eigenvalue listing. The exact reference realization uses noncomputable root selection. It establishes consistency of the operation model; it is not an executable small eigensolver.
 :::
 
-The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is a randomized kernel specified by its accuracy and failure probability, and the guarantee holds with a probability over a random tape. It assumes such a kernel; it does not implement one.
+The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is randomized, and the guarantee holds with a probability over a random tape. Its page has two models: the solver is either an oracle specified by its accuracy and failure probability, or the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle.
 
 ## Input assumptions
 
