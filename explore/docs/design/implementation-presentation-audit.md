@@ -48,7 +48,26 @@ refers to the core named at the top.
   the theory page `finite-precision-krylov` and on no implementation page. Stating one on an
   implementation needs its bridge from that program's execution to the run model.
 
-There are 19 implementation pages: 7 marked ready and 12 outline/placeholder pages. The latter
+### Changes against library `cleanup/smalleig` at `2abd9136`
+
+These points were checked against that snapshot only (the SMALLEIG stage, not yet on main).
+
+- Finite-precision shifted QR (BGS II) is now ready, with two models. "SmallEig oracle" states
+  `shifted-qr-rounded-backward-error`, the certificate `roundedShQRAlgorithm` and its one-run
+  theorem. "SmallEig = BGS III program" states the unconditional
+  `roundedShQRSmallEig_measureReal_not_spectrum_le_unconditional`, the certificate
+  `roundedShQRSmallEigAlgorithm` (work $675307\,(n+1)^3(k+1)^4(n_p+1)(F+1)(T+1)^2$) and its
+  one-run theorem. Algorithm, buffers, parameters and the shape of the guarantee are above the
+  selector. Still missing: the per-block precision terms (only bit counts are given), the
+  threshold words, closed budget/scratch/memory bounds, the relative and Hermitian corollaries.
+- Randomized shifted inverse iteration (BGS III), a new implementation of inverse iteration:
+  Theorem 1.1 (`small-eig-backward-error`, unconditional), Corollary 1.3
+  (`small-eig-forward-error`), the certificate `smallEigAlgorithm` and its one-run theorem. The
+  guarantees of its blocks (`RHess`, `OneEig`, `DistSpec`, `Decouple`) are not presented.
+- Theory: `pseudospectral-shattering` (new) and Ostrowski–Elsner on `perturbation-theory`. The
+  shattering ingredients carry no `Result:` ids in the library, so they are placed by declaration.
+
+There are 23 implementation pages: 9 marked ready in their headers and 14 outline/placeholder pages. The latter
 are not evidence of missing proofs by themselves: some have mathematical results without a
 matching certified execution, and some have existing certificates awaiting presentation.
 The review above identifies concrete gaps; it is not an assertion that every prose statement
