@@ -213,21 +213,23 @@ ul.posts > li:first-child {
     line-height: 1.4;
 }
 
+/* code as in the explorer (explore/web/explore.css) */
 code {
-    font-family: monospace;
-    font-size: 85%;
+    font-family: 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+    font-size: 82%;
     overflow-wrap: anywhere;
 }
 
 /* code blocks keep their lines and scroll sideways rather than wrap */
 pre {
-    margin: 0.8em 0;
-    padding: 0.6em 0.8em;
+    margin: 1em 0;
+    padding: 1rem;
     background: #f6f6f4;
-    border: 1px solid #d6d6d6;
+    border-left: 2px solid #d6d6d6;
     overflow-x: auto;
-    font-size: 72%;
-    line-height: 1.45;
+    font-family: 'DejaVu Sans Mono', Menlo, Consolas, monospace;
+    font-size: .8rem;
+    line-height: 1.5;
 }
 
 /* the block, not the code inside it, carries the size, so the lines are spaced for the code */
@@ -235,6 +237,37 @@ pre code {
     font-size: inherit;
     overflow-wrap: normal;
 }
+
+/* definitions and theorems, written in the markdown as a fenced div:
+       ::: theorem
+       **Theorem.** ...
+       :::
+   boxed like the explorer's theorem cards (explore/web/cg-pilot.css) */
+.definition, .theorem {
+    box-sizing: border-box;
+    margin: 1.15rem 0;
+    padding: 1.1rem 1.25rem;
+    border-left: 4px solid #111;
+    background: #f4f4f4;
+}
+
+.definition > p, .theorem > p { margin: .65rem 0; }
+.definition > :first-child, .theorem > :first-child { margin-top: 0; }
+.definition > :last-child, .theorem > :last-child { margin-bottom: 0; }
+
+/* the label in italics, as the explorer's "Theorem (Name)." */
+.definition > p:first-child > strong:first-child,
+.theorem > p:first-child > strong:first-child { font-style: italic; }
+
+/* code inside a box, as code inside the explorer's cards */
+.definition pre, .theorem pre { background: #ededed; }
+
+@media (max-width: 600px) {
+    .definition, .theorem { padding-inline: .9rem; }
+}
+
+/* wide display maths scrolls inside the box instead of overflowing it */
+.definition .katex-display, .theorem .katex-display { overflow-x: auto; overflow-y: hidden; }
 
 img {
     width: 100%;

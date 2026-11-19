@@ -5,7 +5,8 @@ The NLA-lib website, deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 - **Homepage** (`index.md`) and **Design page** (`design/index.md`, how NLA-lib defines things):
   Markdown converted by `python3 md2html.py index.md design/index.md` (needs pandoc). Commit the
   `.md` and the `.html`. A page's menu is the `menu:` list in its front matter; a page with
-  mathematics loads KaTeX.
+  mathematics loads KaTeX. A citation `[@Key]` becomes a sidenote with the reference of that
+  key in NLAlib's `docs/references.bib`, found in a checkout at `../nlalib` or given with `--bib`.
 - **Explorer** (`explore/`, served at nla-lib.org/explore/): the static viewer of the NLAlib
   library, built from NLAlib's extracted data at every deploy. See `explore/README.md`. It was
   the repository `NLA-lib/explore` until 2026-11-06; its history is kept here.

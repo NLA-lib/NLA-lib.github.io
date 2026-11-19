@@ -36,6 +36,13 @@ item whose address is the page itself (`./`) is marked as the current page:
 The markdown itself is read by pandoc, which must be installed, so all of
 standard markdown works. Footnotes ([^1] ... [^1]: text) become sidenotes.
 
+A citation `[@Key]` becomes a sidenote holding the reference with that key in
+the BibTeX file, formatted by pandoc; `[@Key, Theorem 2]` adds where to look,
+and `[@Key1; @Key2]` puts several references in one note. The BibTeX file is
+NLAlib's docs/references.bib: the one given with --bib, or else the first of
+explore/data/references.bib and ../nlalib/docs/references.bib that exists.
+A key that is not in the file is an error.
+
 A page can list other posts. A fenced div holding a bullet list of their
 folders (or markdown files), relative to the page, is replaced by a list
 showing each post's title, author, date and tldr, read from its header:
@@ -101,6 +108,10 @@ ICONS = [('icon', 'favicon.ico', ' sizes="any"'), ('apple-touch-icon', 'apple-to
 # the faces seen at first paint, fetched before the stylesheet asks for them
 FONTS = [Path(__file__).resolve().parent / 'font' / 'source-sans' / ('SourceSans3-%s.woff2' % face)
          for face in ('Regular', 'It', 'Semibold')]
+# where NLAlib's bibliography is looked for when --bib is not given: the copy the
+# explorer's build fetches, then a checkout of NLAlib beside this repository
+BIBS = [Path(__file__).resolve().parent / 'explore' / 'data' / 'references.bib',
+        Path(__file__).resolve().parent.parent / 'nlalib' / 'docs' / 'references.bib']
 NOTE_DEF = re.compile(r'^\[\^([^\]]+)\]:', re.M)
 NOTE_REF = re.compile(r'\[\^([^\]]+)\](?!:)')
 
@@ -121,20 +132,56 @@ def plain(node):
         return ''.join(plain(child) for child in node)
     if not isinstance(node, dict):
         return ''
-    if node['t'] in ('Str', 'Code', 'Math'):
+    if node.get('t') in ('Str', 'Code', 'Math'):
         return node['c'] if node['t'] == 'Str' else node['c'][1]
-    if node['t'] in ('Space', 'SoftBreak', 'LineBreak'):
+    if node.get('t') in ('Space', 'SoftBreak', 'LineBreak'):
         return ' '
     return plain(node.get('c', []))
 
 
+def cited(node):
+    """The keys cited in a piece of pandoc's document tree, in order."""
+    if isinstance(node, list):
+        return [key for child in node for key in cited(child)]
+    if not isinstance(node, dict):
+        return []
+    if node.get('t') == 'Cite':
+        return [citation['citationId'] for citation in node['c'][0]]
+    return [key for value in node.values() for key in cited(value)]
+
+
+def references(keys, bib):
+    """The formatted reference of each key, as pandoc inlines, from a BibTeX file."""
+    if bib is None:
+        bib = next((path for path in BIBS if path.exists()), None)
+    if bib is None or not Path(bib).exists():
+        sys.exit('error: the page cites %s but there is no BibTeX file; pass --bib '
+                 '(looked for %s)' % (', '.join('@' + key for key in keys),
+                                      bib or ', '.join(str(path) for path in BIBS)))
+    header = '---\nnocite: "%s"\n---\n' % ', '.join('@' + key for key in keys)
+    doc = json.loads(pandoc(header, '--from=markdown', '--to=json', '--citeproc',
+                            '--bibliography=%s' % bib))
+    found = {}
+    for block in doc['blocks']:
+        if block['t'] == 'Div' and block['c'][0][0] == 'refs':
+            for entry in block['c'][1]:
+                found[entry['c'][0][0][len('ref-'):]] = [
+                    inline for inner in entry['c'][1] for inline in inner['c']]
+    for key in keys:
+        if key not in found:
+            sys.exit('error: citation @%s is not in %s' % (key, bib))
+    return found
+
+
 class Sidenotes:
     """Rewrites pandoc's document tree: footnotes become inline sidenotes,
+    citations become sidenotes holding their references,
     and a divider (***, escaped or not, or -.-) becomes a -.- paragraph, which
     the stylesheet centres as a section break and which still copies as text."""
 
-    def __init__(self):
+    def __init__(self, refs=None):
         self.count = 0
+        self.refs = refs or {}
 
     def walk(self, node):
         if isinstance(node, list):
@@ -152,12 +199,22 @@ class Sidenotes:
             return node
         if node.get('t') == 'Note':
             return self.sidenote(node['c'])
+        if node.get('t') == 'Cite':
+            return self.sidenote([self.reference(citation) for citation in node['c'][0]])
         if node.get('t') == 'HorizontalRule' or (
                 node.get('t') == 'Para'
                 and re.fullmatch(r'([*\-_] ?){3,}|-\.-', plain(node).strip())):
             return {'t': 'Div', 'c': [['', ['divider'], []],
                                       [{'t': 'Plain', 'c': [{'t': 'Str', 'c': '-.-'}]}]]}
         return {key: self.walk(value) for key, value in node.items()}
+
+    def reference(self, citation):
+        """One cited reference as a paragraph, with where to look after it."""
+        inlines = list(self.refs[citation['citationId']])
+        where = plain(citation['citationSuffix']).strip(' ,')
+        if where:
+            inlines += [{'t': 'Space'}, {'t': 'Str', 'c': '(%s)' % where}]
+        return {'t': 'Para', 'c': inlines}
 
     def sidenote(self, blocks):
         self.count += 1
@@ -245,9 +302,10 @@ def front_matter(markdown):
     return fields, markdown[m.end():]
 
 
-def convert(markdown, title=None, base=Path('.')):
+def convert(markdown, title=None, base=Path('.'), bib=None):
     """Return (title, body html) for a markdown article; base is the folder
-    the article is in, which post lists are relative to."""
+    the article is in, which post lists are relative to, and bib the BibTeX
+    file its citations are looked up in."""
     defined = set(NOTE_DEF.findall(markdown))
     used = set(NOTE_REF.findall(markdown))
     for key in sorted(used - defined):
@@ -262,7 +320,8 @@ def convert(markdown, title=None, base=Path('.')):
         blocks = blocks[1:]
     blocks = [post_list(block, base) if block['t'] == 'Div' and 'posts' in block['c'][0][1]
               else block for block in blocks]
-    doc['blocks'] = Sidenotes().walk(blocks)
+    keys = list(dict.fromkeys(cited(blocks)))
+    doc['blocks'] = Sidenotes(references(keys, bib) if keys else {}).walk(blocks)
     doc['meta'] = {}
 
     body = pandoc(json.dumps(doc), '--from=json', '--to=html', '--wrap=none', '--katex')
@@ -277,6 +336,10 @@ def main():
     parser.add_argument('--css', type=Path, default=STYLESHEET,
                         help='stylesheet file (default: css/landing.css '
                         'next to this script)')
+    parser.add_argument('--bib', type=Path,
+                        help='BibTeX file that citations [@Key] are looked up in '
+                        '(default: explore/data/references.bib next to this script, '
+                        'or ../nlalib/docs/references.bib)')
     args = parser.parse_args()
 
     # a page is written over <name>.html, so never take one as input
@@ -287,7 +350,7 @@ def main():
 
     for source in args.input:
         fields, markdown = front_matter(source.read_text(encoding='utf-8'))
-        title, body = convert(markdown, args.title or fields.get('title'), source.parent)
+        title, body = convert(markdown, args.title or fields.get('title'), source.parent, args.bib)
         if title is None:
             title = source.stem
         title = html.escape(title, quote=False)
