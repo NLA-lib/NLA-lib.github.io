@@ -18,7 +18,7 @@ search_aliases:
 
 The library certifies the small-eigenvalue solver of Banks, Garza-Vargas and Srivastava, *Global convergence of Hessenberg shifted QR III* (Theorem 1.1, the algorithm `Eig`). It computes all eigenvalues of a complex matrix, with a backward error $\delta$ and a failure probability $\varphi$ over a random tape, in rounded arithmetic. It has no eigenvalue oracle: its primitives are scalar operations, comparisons, index operations and draws. It finds one eigenvalue at a time by shifted inverse iteration, carried out as repeated shifted QR steps with one shift, and deflates it.
 
-The [finite-precision shifted QR program (BGS II)](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/?model=small-eig-program) runs this program in place of its small-eigenvalue oracle.
+The [finite-precision shifted QR program (BGS II)](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/?model=small-eig-program) runs this program as its small-block solver.
 
 ## Algorithm
 
@@ -71,10 +71,10 @@ This is `logb_inv_uSmallEig_le`: $O(\log^2)$ bits, as in Theorem 1.1. The consta
 ::: definition decl:NLAlib.SmallEig.smallEigAlgorithm name="Certificate of the small-eigenvalue solver" id=certificate
 The fixed program `smallEigProgram`, with unit costs and no oracle, succeeds on every admitted input, every interpretation of the model and every tape. It stays within the static budget, scratch and memory, writes only the output, and leaves the output stored. At the sizes $(n,n_q,T)$, for a matrix of order $n+1$, $n_q$ parameter words and the loop cap $T$, its work and span are at most
 
-$$373483\,(n+1)^4(T+1)^2.$$
+$$517058\,(n+1)^4(T+1)^2.$$
 :::
 
-The bound counts every instruction at unit cost: scalar operations, comparisons, index operations, draws, address computations, loop control and allocation. The constant is larger than the $3473\,(n+1)^4(T+1)^2$ operations and tests of `smallEig_work_le`, because the certificate also counts the structural instructions. The cap $T$ is a logarithm of $n_{\max}\Sigma/(\delta\varphi)$ up to constants. So the work is of order $n^4$ up to logarithmic factors. The paper's count is of order $n^4+n^3\log^2$.
+The bound counts every instruction at unit cost: scalar operations, comparisons, index operations, draws, address computations, loop control and allocation. The constant is larger than the $80390\,(n+1)^4(T+1)^2$ operations and tests of `smallEig_work_le`, because the certificate also counts the structural instructions. The cap $T$ is a logarithm of $n_{\max}\Sigma/(\delta\varphi)$ up to constants. So the work is of order $n^4$ up to logarithmic factors. The paper's count is of order $n^4+n^3\log^2$.
 
 The factor $n^4$ comes from re-randomizing the Hessenberg form after each deflation: `RHess` runs at every node of the worklist, with fresh randomness, at a cost of order $d^3$ for a block of order $d$. One random Hessenberg form followed by one-step decoupling would cost of order $n^3$, but no proof is known for it. The library keeps the per-node re-randomization, and it is open whether it is needed.
 
@@ -88,14 +88,18 @@ $$\mathbb P\bigl[\text{the run fails, writes outside its output, or lists no }\o
 
 The error is absolute and $\Sigma$ is an input. The paper's form is relative; it is `smallEig_relative` and its unconditional form, with $\|\mathbf M\|_2\le\Sigma\le c\|\mathbf M\|_2$ and error $\varepsilon\|\mathbf M\|_2$. The failure probability is split in four parts: the eigenvalue gap, the condition number, the norm of the perturbation and the worklist.
 
-::: theorem decl:NLAlib.SmallEig.smallEigProg_randomSmallEigContract_unconditional name="Corollary 1.3: a forward-error routine" id=forward
-Let the machine and the streams be as above, with exact natural literals up to $k'_{\max}\le k_{\max}$, and let $0<\beta\le\Sigma$ and $0<\varphi\le1$. Let $u\le u^{\mathrm{fwd}}_{\mathrm{SmallEig}}$ at the proved tail records. Take the parameter words and the cap of the forward form at $k_{\max}$. Then `smallEigProg` is a randomized small-eigenvalue routine for upper Hessenberg blocks $\mathbf B$ of order $d\le k'_{\max}$ with $\|\mathbf B\|_2\le\Sigma$. Except with probability at most $\varphi$, it writes only its $2d$ output words and stores values $\mu_1,\dots,\mu_d$ with $|\mu_i-\lambda_i|\le\beta$ for a listing $\lambda_1,\dots,\lambda_d$ of the eigenvalues of $\mathbf B$ with multiplicity.
+::: theorem result:small-eig-forward-error name="Corollary 1.3: forward error" id=forward
+Let the machine and the streams be as above, with exact natural literals up to $k_{\max}$, and let $0<\beta\le\Sigma$ and $0<\varphi\le1$. Let $u\le u^{\mathrm{fwd}}_{\mathrm{SmallEig}}$ at the proved tail records. For $\mathbf M$ of order $n+1\le k_{\max}$ with $\|\mathbf M\|_2\le\Sigma$, start `smallEigProg` from a memory holding $\mathbf M$ and the parameter words of the forward form at $k_{\max}$. Then
+
+$$\mathbb P\bigl[\text{the run fails, writes outside its output, or lists no }\boldsymbol\mu\text{ with }|\mu_i-\lambda_i|\le\beta\bigr]\le\varphi$$
+
+for a listing $\lambda_1,\dots,\lambda_{n+1}$ of the eigenvalues of $\mathbf M$ with multiplicity.
 :::
 
-One list of words, chosen at $k_{\max}$, serves every order up to $k'_{\max}$; in the paper the order is fixed. The proof runs the backward form at $\delta_b=\Sigma\bigl(\beta/(4(2k_{\max}+1)\Sigma)\bigr)^{k_{\max}}$ and converts the backward error to a forward one by the [Ostrowski–Elsner matching](/explore/theory/perturbation-theory/#ostrowski-elsner), which costs the exponent $k_{\max}$. The form on one input is `smallEig_measureReal_not_forward_le` and its unconditional form. This contract is the hypothesis that the [shifted QR program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/?model=small-eig-program) discharges with this program.
+One list of words, chosen at $k_{\max}$, serves every order up to $k_{\max}$; in the paper the order is fixed. The proof runs the backward form at the accuracy `forwardBackwardError` and converts the backward error to a forward one by the [Ostrowski–Elsner matching](/explore/theory/perturbation-theory/#ostrowski-elsner), which costs the exponent $k_{\max}$. The [shifted QR program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) uses this program through its small-block Schur contract, `smallEigProg_randomSchurLeafContract`.
 
 ::: theorem result:small-eig-certificate-accuracy name="On one counted run" id=one-run
-Under the hypotheses of Theorem 1.1, the probability is at most $\varphi$ that the counted run of `smallEigAlgorithm` fails, exceeds its budget, scratch, memory, work or span, writes outside its output, or lists no spectrum of a matrix $\mathbf M+\mathbf E$ with $\|\mathbf E\|_2\le\delta$. The work and span bound is the certificate's $373483\,(n+1)^4(T+1)^2$.
+Under the hypotheses of Theorem 1.1, the probability is at most $\varphi$ that the counted run of `smallEigAlgorithm` fails, exceeds its budget, scratch, memory, work or span, writes outside its output, or lists no spectrum of a matrix $\mathbf M+\mathbf E$ with $\|\mathbf E\|_2\le\delta$. The work and span bound is the certificate's $517058\,(n+1)^4(T+1)^2$.
 :::
 
 ## Not yet presented

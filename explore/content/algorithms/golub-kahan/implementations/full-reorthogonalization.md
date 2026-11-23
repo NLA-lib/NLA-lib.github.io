@@ -70,7 +70,7 @@ At the sizes $(m,n,\ell,q)$, the primitive part of the static budget of the fixe
 The full budget also counts the structural instructions (index arithmetic, addressing, allocation, and control); the library records it as the instruction count of the program, not as a closed formula.
 :::
 
-::: theorem decl:NLAlib.Krylov.GolubKahan.Band.Certification.staticPeak_program_le_solvePeak name="Scratch storage" id=scratch
+::: theorem decl:NLAlib.Krylov.GolubKahan.Band.Certification.staticPeak_solveProgram_le_solvePeak name="Scratch storage" id=scratch
 For every resource model, the scratch of the fixed program at the sizes $(m,n,\ell,q)$ is at most
 
 $$\max(m,n)\,\ell+w+w_{\mathrm q},$$

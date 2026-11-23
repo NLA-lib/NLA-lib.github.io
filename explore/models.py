@@ -16,6 +16,7 @@ CERTIFICATES = 'scripts/ops_certificates.txt'
 ALGORITHM = 'NLAlib.Ops.Algorithm'
 FLAGS = ('uniform', 'confined', 'charged')
 BOUNDS = ('budget', 'work', 'scratch')
+PROBLEM_FIELDS = ('problem', 'derived', 'unstored', 'oracles', 'claim')
 OPENERS, CLOSERS = '([{⦃', ')]}⦄'
 
 # facet -> value -> (badge label, explanation). The explanation says what was detected.
@@ -158,17 +159,24 @@ def tape_law(signature, dependencies):
 
 def parse_certificates(text):
     """`{name: line}` of `scripts/ops_certificates.txt`. A line is `name hyps=N uniform=yes|no
-    confined=yes|no charged=yes|no budget=closed|manifest work=… scratch=…`; anything else is an
-    error, so a record in another format is not read as this one."""
+    confined=yes|no charged=yes|no budget=closed|manifest work=… scratch=…`, optionally followed
+    by all of `problem=derived|handwritten derived=N|?|- unstored=yes|no|- oracles=… claim=…`,
+    which are validated and not used; anything else is an error, so a record in another format
+    is not read as this one."""
     lines = {}
     for raw in text.splitlines():
         if not raw.strip():
             continue
         name, *fields = raw.split()
         values = dict(field.split('=', 1) for field in fields if '=' in field)
-        if (len(values) != len(fields) or set(values) != {'hyps', *FLAGS, *BOUNDS} or name in lines
+        base = {'hyps', *FLAGS, *BOUNDS}
+        if (len(values) != len(fields) or set(values) not in (base, base | set(PROBLEM_FIELDS)) or name in lines
                 or not values['hyps'].isdigit() or any(values[key] not in {'yes', 'no'} for key in FLAGS)
-                or any(values[key] not in {'closed', 'manifest'} for key in BOUNDS)):
+                or any(values[key] not in {'closed', 'manifest'} for key in BOUNDS)
+                or ('problem' in values and (values['problem'] not in {'derived', 'handwritten'}
+                                             or not re.fullmatch(r'\d+|\?|-', values['derived'])
+                                             or values['unstored'] not in {'yes', 'no', '-'}
+                                             or not values['oracles'] or not values['claim']))):
             raise ValueError('unrecognized certificate line: ' + raw)
         lines[name] = {'hyps': int(values['hyps']), **{key: values[key] == 'yes' for key in FLAGS},
                        **{key: values[key] for key in BOUNDS}}

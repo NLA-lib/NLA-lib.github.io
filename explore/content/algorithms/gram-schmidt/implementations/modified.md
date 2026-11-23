@@ -19,7 +19,7 @@ The checked program overwrites an $n\times m$ input matrix with the mathematical
 
 ## Algorithm
 
-::: definition decl:NLAlib.MGS.program name="In-place modified Gram–Schmidt" id=algorithm
+::: definition decl:NLAlib.MGS.factorProgram name="In-place modified Gram–Schmidt" id=algorithm
 1. Allocate two scalar scratch cells.
 2. For each column $j=0,\ldots,m-1$:
    1. Use the stored column as the current residual $\mathbf v$.
@@ -58,7 +58,7 @@ With zero primitive workspace, the scoped scratch allocation is exactly two cell
 
 ## Accuracy
 
-::: theorem decl:NLAlib.MGS.writes_factor name="Exact execution correspondence" id=execution
+::: theorem decl:NLAlib.MGS.factorRoutine_meets name="Exact execution correspondence" id=execution
 Under the exact primitive contracts and the theorem's live, readable, writable matrix-buffer conditions, the program terminates and overwrites the matrix with exactly the mathematical `gramSchmidtQ` of the input. No full-rank or successful-execution premise is assumed. Rectangular matrices, dependent columns, and zero dimensions are admitted.
 
 The shared mathematical method describes how the nonzero columns span the original range. Rounded orthogonality bounds for two classical passes concern a different implementation and are not substituted for this exact MGS statement.
