@@ -251,3 +251,18 @@ primary = "NLAlib.SmallEig.smallEig_measureReal_not_forward_le_unconditional"
 [small-eig-certificate-accuracy]
 title = "Small-eigenvalue solver (BGS III): one counted run"
 primary = "NLAlib.SmallEig.smallEig_algorithm_measureReal_not_accepts_le_unconditional"
+
+[cholesky-backward-error]
+title = "Cholesky in the standard model: no breakdown and backward error"
+aliases = ["Higham Theorem 10.3", "Higham Theorem 10.7"]
+primary = "NLAlib.Computation.IsCholTrace.pos_and_specNorm_sub_le"
+
+[three-precision-iterative-refinement]
+title = "Certified three-precision iterative refinement"
+aliases = ["Iterative refinement in three precisions, certified"]
+primary = "NLAlib.LinearSystems.Refinement.Rounded.Certification.algorithm_checked"
+
+[iterative-refinement-forward-error]
+title = "Forward error of iterative refinement"
+aliases = ["Iterative refinement in three precisions", "Carson-Higham forward error"]
+primary = "NLAlib.RefinementRun.norm_sub_x_le"

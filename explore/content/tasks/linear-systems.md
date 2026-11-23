@@ -37,6 +37,12 @@ groups:
   - plu
   - lu
   family: matrix-factorizations
+- id: refinement
+  title: Iterative refinement
+  summary: Improve a computed solution through its residual, with the factorization, residual and update
+    each in its own precision.
+  algorithms:
+  - iterative-refinement
 - id: stationary
   title: Stationary iterations
   summary: Apply a fixed correction map to successive residuals.
