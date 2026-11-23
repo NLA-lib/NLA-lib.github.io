@@ -29,7 +29,7 @@ The [precision bound](#precision) grows logarithmically in dimension, inverse er
 
 ## Algorithm
 
-::: definition decl:NLAlib.SpectralBisection.program name="Stored spectral bisection" id=algorithm
+::: definition decl:NLAlib.SpectralBisection.bisectionProgram name="Stored spectral bisection" id=algorithm
 Supply a radius bound $R_0$, tolerance $\varepsilon$, precision parameter $\beta$, depth budget $L$, sign-iteration cap $c$, and a random tape. Store complex entries as adjacent real and imaginary words.
 
 1. Store the root matrix and parameters in the root arena.
@@ -93,7 +93,7 @@ The supplied buffers contribute $4n^2+n+3$ cells.
 
 ## Accuracy
 
-::: theorem decl:NLAlib.SpectralBisection.writes_solve name="Execution agrees with the word algorithm" id=execution
+::: theorem decl:NLAlib.SpectralBisection.bisectionRoutine_meets name="Execution agrees with the word algorithm" id=execution
 Under the primitive contracts, readable inputs, sufficient separated output capacity, and exact bounded dimension literals, the solver terminates and stores exactly the basis and values returned by the mathematical word algorithm with the same arithmetic and random tape. It consumes exactly
 
 $$(L+1)(n+4n^2)$$

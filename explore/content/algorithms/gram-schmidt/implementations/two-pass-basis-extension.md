@@ -32,7 +32,7 @@ This implementation extends a stored basis $\mathbf Q$ ($k$ columns of length $n
 
 ## Algorithm
 
-::: definition decl:NLAlib.CGS2.cgs2ExtendImpl name="Column-wise two-pass classical Gram–Schmidt with threshold deflation" id=algorithm
+::: definition decl:NLAlib.CGS2.cgs2ExtendRoutine name="Column-wise two-pass classical Gram–Schmidt with threshold deflation" id=algorithm
 The dimensions are $[n,k,\ell]$; the inputs are the stored basis $\mathbf Q$ and the block $\mathbf W$; the outputs are the new block $\mathbf Q'$, the reduced block (overwriting $\mathbf W$), and the coefficient block $\mathbf C$ with $k+\ell$ rows. The threshold $\tau$ is a rational literal of the implementation. The new block is stored directly after the basis, so the basis and the new columns already written form one contiguous block.
 
 For each column $c=0,\ldots,\ell-1$:
@@ -72,7 +72,7 @@ and that each column of $\mathbf Q'$ is the corresponding column $\mathbf w$ of 
 No hypothesis is made on $\mathbf Q$. Orthonormality of its nonzero columns enters only through the clause of the contract that preserves it.
 :::
 
-::: theorem decl:NLAlib.CGS2.cgs2Extend_exact_spec name="The program meets the exact contract at threshold zero" id=exact-execution
+::: theorem decl:NLAlib.CGS2.cgs2ExtendRoutine_meets_exact name="The program meets the exact contract at threshold zero" id=exact-execution
 Under exact scalar arithmetic, exact level-one operations at every length, and exact comparisons, the implementation with threshold $\tau=0$ runs on all admitted operands of the extension operation, and its decoded basis, block, new block, and coefficients satisfy the exact extension contract. The stored basis is arbitrary: it may contain zero columns and need not be orthonormal on its support.
 :::
 
@@ -94,8 +94,8 @@ $$\mu=2\varepsilon_1+\frac{4\varepsilon_3}{\tau}+5E,\qquad\varepsilon=\varepsilo
 The two thresholds in the fourth assumption allow for rounding in the deflation test.
 :::
 
-::: theorem decl:NLAlib.CGS2.cgs2Extend_spec name="The program meets the rounded contract" id=rounded-execution
-Assume the standard model of rounded arithmetic with unit roundoff $u$, the level-one contracts with dot-product error $e_d(n)$, update error $e_a$, square-root error $e_s$, and scaling error $e_c$, with $e_a,e_s,e_c\ge0$, and exact comparisons. Let $0\le\eta_0\le1/100$, $c\le1/100$, $u\ge0$, $4u\le c$, $0\le E\le1/100$, and let $\tau>0$ be the rational threshold of the implementation. At every admitted dimension $(n,k,\ell)$ assume that the level-one operations admit the length $n$, that $e_d(n)\ge0$, that the pass budget of $k+\ell$ columns holds,
+::: theorem decl:NLAlib.CGS2.cgs2ExtendRoutine_meets name="The program meets the rounded contract" id=rounded-execution
+Assume the standard model of rounded arithmetic with unit roundoff $u$, the level-one contracts with dot-product error $e_d(n)$, update error $e_a$, square-root error $e_s$, and scaling error $e_c$, with $e_a,e_s\ge0$, and exact comparisons. Let $0\le\eta_0\le1/100$, $c\le1/100$, $u\ge0$, $4u\le c$, $0\le E\le1/100$, and let $\tau>0$ be the rational threshold of the implementation. At every admitted dimension $(n,k,\ell)$ assume that the level-one operations admit the length $n$, that $e_d(n)\ge0$, that the pass budget of $k+\ell$ columns holds,
 
 $$(k+\ell+1)\,e_d(n)(1+\eta_0)^2+\bigl((1+e_a)^{k+\ell}-1\bigr)\bigl(1+(k+\ell)(1+e_d(n))(1+\eta_0)^2\bigr)\le c,$$
 

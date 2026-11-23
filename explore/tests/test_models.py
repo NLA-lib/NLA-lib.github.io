@@ -72,6 +72,13 @@ class DetectorTests(unittest.TestCase):
         self.assertEqual(lines['N.a'], {'hyps': 2, 'uniform': True, 'confined': True, 'charged': False,
                                         'budget': 'manifest', 'work': 'closed', 'scratch': 'manifest'})
         self.assertFalse(lines['N.b']['uniform'])
+        problem = ' problem=derived derived=0 unstored=yes oracles=declared claim=related:N.c'
+        self.assertEqual(models.parse_certificates('N.a' + LINE + problem)['N.a'],
+                         models.parse_certificates('N.a' + LINE)['N.a'])
+        for bad_problem in [' problem=derived', problem.replace('derived derived', 'other derived'),
+                            problem.replace('derived=0', 'derived=x'), problem.replace('unstored=yes', 'unstored=maybe')]:
+            with self.assertRaisesRegex(ValueError, 'unrecognized certificate line'):
+                models.parse_certificates('N.a' + LINE + bad_problem)
         for bad in ['N.a hyps=2 uniform=yes', 'N.a' + LINE.replace('closed', 'polynomial'),
                     'N.a' + LINE + ' kernel=yes', 'N.a' + LINE + '\nN.a' + LINE, 'N.a' + LINE.replace('hyps=2', 'hyps=two')]:
             with self.assertRaisesRegex(ValueError, 'unrecognized certificate line'):

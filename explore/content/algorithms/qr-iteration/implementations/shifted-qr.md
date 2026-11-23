@@ -62,7 +62,7 @@ Every spectral problem used by the full driver has order at most $k$. The `ritz`
 The routine collection specifies the output lengths, Ritz optimality, and complete eigenvalue listing. The exact reference realization uses noncomputable root selection. It establishes consistency of the operation model; it is not an executable small eigensolver.
 :::
 
-The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is randomized, and the guarantee holds with a probability over a random tape. Its page has two models: the solver is either an oracle specified by its accuracy and failure probability, or the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle.
+The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is randomized, and the guarantee holds with a probability over a random tape. Its small eigensolver is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle.
 
 ## Input assumptions
 
@@ -81,7 +81,7 @@ The exact budget and grid inequalities, along with storage-shape conditions, are
 
 ## Output guarantees
 
-::: definition decl:NLAlib.ShiftedQR.exactForwardAlgorithm name="Backward and forward error certificate"
+::: definition decl:NLAlib.ShiftedQR.forwardDeflationAlgorithm name="Backward and forward error certificate"
 Under the stated input assumptions, execution terminates and initializes all $N$ stored complex outputs. Their multiset is exactly the characteristic-polynomial roots of $\mathbf H+\mathbf E$, including algebraic multiplicities, for a perturbation satisfying
 $$\|\mathbf E\|_2\le (N-1)\delta\|\mathbf H\|_{\mathrm F}.$$
 Every stored output is also within
@@ -91,7 +91,7 @@ of some eigenvalue of $\mathbf H$. This forward bound is directed from outputs t
 
 ## Cost and storage
 
-::: definition decl:NLAlib.ShiftedQR.exactAlgorithmWithPolynomialWork name="Full program work and span certificate"
+::: definition decl:NLAlib.ShiftedQR.countedDeflationAlgorithm name="Full program work and span certificate"
 The same program has both numerical guarantees above. Write $W$ for work and $S$ for sequential span. Their conservative bound is
 $$W,\ S\le17109\,b^{14}\bigl(1+K(b^5)\bigr),$$
 where $b=N+m+k+F+M+1$.
@@ -112,7 +112,7 @@ Primitive workspace is accounted for separately by the model and included in the
 
 ## Full solver interface
 
-::: definition decl:NLAlib.ShiftedQR.exactAlgorithm name="Exact shifted-QR solver interface"
+::: definition decl:NLAlib.ShiftedQR.exactDeflationAlgorithm name="Exact shifted-QR solver interface"
 This is the original backward-error certificate for the fixed program. The stronger interfaces above preserve its program, operation model, and resource guarantees. Expand the Lean details for the exact specification and input domain.
 :::
 
