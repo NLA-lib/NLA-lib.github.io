@@ -51,6 +51,8 @@
 /* a page with a scrollbar and one without keep the column in the same place */
 html {
     scrollbar-gutter: stable;
+    /* set explicitly, so no viewer shows its own default behind the page */
+    background: #fff;
 }
 
 body {

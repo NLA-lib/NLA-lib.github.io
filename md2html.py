@@ -56,6 +56,7 @@ This script was written with Claude, Anthropic's AI model.
 """
 
 import argparse
+import hashlib
 import html
 import os
 import json
@@ -302,6 +303,34 @@ def front_matter(markdown):
     return fields, markdown[m.end():]
 
 
+# light highlighting for the Lean in code blocks: keywords in bold, comments in grey
+KEYWORDS = ('theorem', 'lemma', 'def', 'noncomputable', 'abbrev', 'inductive', 'structure',
+            'where', 'let', 'fun', 'match', 'with', 'by', 'if', 'then', 'else', 'for', 'in',
+            'call', 'run', 'alloc', 'sorry', 'ops%', 'opsImpl%')
+KEYWORD = re.compile(r'(?<![\w.%%])(%s)(?![\w%%])' % '|'.join(re.escape(k) for k in KEYWORDS))
+CODE_BLOCK = re.compile(r'(<pre[^>]*><code[^>]*>)(.*?)(</code></pre>)', re.S)
+
+
+def highlight_line(line):
+    code, dash, comment = line.partition('--')
+    code = KEYWORD.sub(r'<span class="kw">\1</span>', code)
+    return code + ('<span class="co">--%s</span>' % comment if dash else '')
+
+
+BLOCK_COMMENT = re.compile(r'(/-.*?-/)', re.S)
+
+
+def highlight_code(code):
+    """Block comments /- ... -/ whole; the rest line by line."""
+    return ''.join('<span class="co">%s</span>' % part if i % 2 else
+                   '\n'.join(highlight_line(line) for line in part.split('\n'))
+                   for i, part in enumerate(BLOCK_COMMENT.split(code)))
+
+
+def highlight(body):
+    return CODE_BLOCK.sub(lambda m: m.group(1) + highlight_code(m.group(2)) + m.group(3), body)
+
+
 def convert(markdown, title=None, base=Path('.'), bib=None):
     """Return (title, body html) for a markdown article; base is the folder
     the article is in, which post lists are relative to, and bib the BibTeX
@@ -325,7 +354,12 @@ def convert(markdown, title=None, base=Path('.'), bib=None):
     doc['meta'] = {}
 
     body = pandoc(json.dumps(doc), '--from=json', '--to=html', '--wrap=none', '--katex')
-    return title, body.strip()
+    return title, highlight(body.strip())
+
+
+def version(path):
+    """A short hash of a stylesheet, added to its link so browsers fetch it again when it changes."""
+    return hashlib.sha1(path.read_bytes()).hexdigest()[:8] if path.exists() else '0'
 
 
 def main():
@@ -385,8 +419,9 @@ def main():
         # print.css, if there is one beside the stylesheet, is used for printing
         sheets = [(SHARED_CSS, ''), (args.css, ''), (args.css.with_name('print.css'), ' media="print"')]
         css = '\n'.join(
-            '  <link rel="stylesheet" href="%s"%s>'
-            % (Path(os.path.relpath(sheet.resolve(), output.resolve().parent)).as_posix(), media)
+            '  <link rel="stylesheet" href="%s?v=%s"%s>'
+            % (Path(os.path.relpath(sheet.resolve(), output.resolve().parent)).as_posix(),
+               version(sheet), media)
             for sheet, media in sheets if sheet == args.css or sheet.exists())
         if 'class="math' in body:
             rel = lambda f: Path(os.path.relpath(KATEX / f, output.resolve().parent)).as_posix()

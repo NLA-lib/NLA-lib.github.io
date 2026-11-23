@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>NLA-lib · Routines</title>
+  <meta name="description" content="How NLA-lib states what an algorithm costs and how accurate it is, built up for one small example.">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="preload" href="../font/source-sans/SourceSans3-Regular.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../font/source-sans/SourceSans3-It.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="../font/source-sans/SourceSans3-Semibold.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="icon" href="../favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="../apple-touch-icon.png">
+  <link rel="stylesheet" href="../css/site.css?v=380416d2">
+  <link rel="stylesheet" href="../css/landing.css?v=f2987ea3">
+  <link rel="stylesheet" href="../css/print.css?v=fa3a3618" media="print">
+  <link rel="stylesheet" href="../vendor/katex/katex.min.css">
+  <script defer src="../vendor/katex/katex.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      for (const el of document.querySelectorAll('.math')) {
+        katex.render(el.textContent, el, { displayMode: el.classList.contains('display'), throwOnError: false });
+      }
+    });
+  </script>
+<script data-goatcounter="https://nlalib.goatcounter.com/count"
+        async src="//gc.zgo.at/count.js"></script>
+</head>
+<body>
+<div id="contentContainer">
+
+
+<h1>Routines, models and certificates</h1>
+<nav class="menu">
+  <a href="../">Home</a>
+  <a href="../explore/">Explorer</a>
+  <a href="./" class="here">Design</a>
+  <a href="https://github.com/NLA-lib/nlalib">GitHub</a>
+</nav>
+<p>As we observed, a cost or accuracy theorem about an algorithm is only meaningful if it is clear what the algorithm is allowed to do and what each of its steps costs. NLA-lib makes this explicit with three pieces:</p>
+<ul>
+<li>a <strong>routine</strong>: a fixed tree of calls and control flow, which can call only operations from a closed list, together with its interface: its dimensions and how it uses each operand;</li>
+<li>an <strong>operation model</strong>: for each operation, a <em>contract</em> saying what a call guarantees, and an associated <em>cost</em>;</li>
+<li>a <strong>certificate</strong>: a theorem that for every implementation of the operations that satisfies the contracts, the routine, run on the buffers of a problem, runs to completion, within its cost budget, and its output satisfies its specification.</li>
+</ul>
+<p>A fourth piece, <strong>linking</strong>, replaces an operation by a routine written in smaller operations and carries the certificate down with it.</p>
+<p>This page provides an introduction to these concepts the explicit integrator <span class="math display">
+\mathbf{x}_{t+1} = \mathbf{x}_t + h\mathbf{A}\mathbf{x}_t, \qquad t = 0, 1, \ldots, N-1,
+</span> as an example. <strong>This page is an explanation of how NLA-lib works, not an example of how to use NLA-lib!!</strong></p>
+<p>Everything named <code>My…</code> or <code>my…</code> below is ours, written for this example; everything else is NLA-lib’s. The example is in the library and checked by Lean, with every proof complete: <a href="https://github.com/NLA-lib/nlalib/blob/main/NLAlib/Ops/Examples/Integrator.lean"><code>NLAlib/Ops/Examples/Integrator.lean</code></a> for steps 1–4 and <a href="https://github.com/NLA-lib/nlalib/blob/main/NLAlib/Ops/Examples/IntegratorLink.lean"><code>IntegratorLink.lean</code></a> for step 5. The code below is quoted from those files; <code>…</code> marks a proof or a field left out of this page.</p>
+<h2 id="name-the-operations">1. Name the operations</h2>
+<p>The integrator needs a product with <span class="math inline">\mathbf{A}</span> and a vector update. We list them, and nothing else, as a closed type:</p>
+<pre><code><span class="kw">inductive</span> MyOperation <span class="kw">where</span>
+  | matvec   <span class="co">-- matvec [n, n] (x) → (y)</span>
+  | axpy     <span class="co">-- axpy [n] (α, x, y) → (y)</span></code></pre>
+<p>These are names only: <code>MyOperation.matvec</code> has no fields, so it carries no matrix, no error bound and no cost. Its meaning is attached in step 3.</p>
+<h2 id="write-the-routines">2. Write the routines</h2>
+<p>A routine is written with NLA-lib’s <code>routine%</code> notation. Its header is its interface: the dimensions in brackets, then each operand with its length. An operand named only on the left of <code>→</code> is <em>read</em>; one named only on the right is <em>written</em>; one named on both sides is <em>updated in place</em>.</p>
+<p>A step is a call of each operation; the integrator is <span class="math inline">N</span> steps.</p>
+<pre><code><span class="co">/-- One step: X ← X + h · (A X). -/</span>
+<span class="kw">def</span> myStep : Routine MyOperation Empty := noted% routine% [n] (h : 1, X : n) → (X) {
+  <span class="kw">let</span> Y ← <span class="kw">alloc</span> n;
+  <span class="kw">call</span> MyOperation.matvec [n, n] (X) → (Y);
+  <span class="kw">call</span> MyOperation.axpy [n] (h, Y, X) → (X)
+}
+
+<span class="co">/-- N steps. -/</span>
+<span class="kw">def</span> myIntegrate : Routine MyOperation Empty := noted% routine% [n, N] (h : 1, X : n) → (X) {
+  <span class="kw">for</span> t &lt; N { <span class="kw">run</span> myStep [n] (h, X) }
+}</code></pre>
+<p><code>Empty</code> is the type of tests: these routines never branch on data. <code>run myStep [n] (h, X)</code> runs the tree of <code>myStep</code> on those operands, and <code>noted%</code> keeps the names in the tree for printing, with no effect on a run. The tree is the same for every <span class="math inline">n</span> and <span class="math inline">N</span>, and apart from control flow and the scratch vector <code>Y</code>, everything it does is a call of an operation: it never sees a number except through what those calls write.</p>
+<p>The interface is not a comment: it fixes what a caller must supply and what the routine may touch. <code>myIntegrate</code> reads one cell <code>h</code>, reads and writes <span class="math inline">n</span> cells <code>X</code>, writes nothing else and draws no random numbers; an operand that is written is in a different buffer from every other operand.</p>
+<p><strong>The program.</strong> A <em>program</em> is a routine run on the buffers of a problem: the sizes are its dimensions and the supplied buffers, in order, are its operands.</p>
+<pre><code><span class="co">/-- The program: sizes n and N, buffers h and X. -/</span>
+<span class="kw">def</span> myProgram : Program MyOperation Empty 2 2 := myIntegrate.close 2 2</code></pre>
+<p><strong>The problem</strong> is derived from the routine: we state the mathematical inputs, which of them are accepted, and what each buffer holds.</p>
+<pre><code><span class="kw">def</span> myDomain : myIntegrate.Domain ℝ 2 2 <span class="kw">where</span>
+  valid _ := True                              <span class="co">-- every n and N</span>
+  In d := ℝ × (Fin (d 0) → ℝ)                  <span class="co">-- the inputs: a step h and a vector x₀</span>
+  accepts _ _ := True                          <span class="co">-- all of them</span>
+  slot d := ![.stored Codec.scalar Prod.fst,   <span class="co">-- the buffer h holds the step</span>
+              .stored (Codec.vector (d 0)) Prod.snd]   <span class="co">-- the buffer X holds the vector</span>
+  …  <span class="co">-- each slot fits its operand; the inputs are determined by the buffers</span>
+
+<span class="kw">def</span> myProblem : Problem ℝ 2 2 := myDomain.problem</code></pre>
+<p>A slot is <code>stored</code> (an encoded input), <code>derived</code> (words computed from the inputs by a stated formula) or <code>blank</code> (uninitialised cells, for an operand that is only written). There is no other way to fill a buffer, so a problem cannot quietly supply part of the answer.</p>
+<h2 id="define-the-model">3. Define the model</h2>
+<p><strong>Contracts.</strong> A contract of an operation has two parts: a relation between the blocks a call reads and the blocks it writes, a <code>BlockRel</code>, and an <em>admission</em> saying which operands a call may be given. For matvec we promise a product with <span class="math inline">\mathbf{A}</span> accurate to <span class="math inline">\delta</span> in norm; for axpy, an update accurate to <span class="math inline">e</span> in each entry.</p>
+<pre><code><span class="co">/-- matvec [n, n] (x) → (y):  ‖A x − y‖ ≤ δ ‖x‖. -/</span>
+<span class="kw">def</span> myMatvecRel (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ : ℝ) : BlockRel ℝ <span class="kw">where</span>
+  nd := 2
+  inLens d := [d.headD 0]
+  outLens d := [d.headD 0]
+  rel d X _ Y := <span class="kw">match</span> X, Y <span class="kw">with</span>
+    | [x], [y] =&gt; <span class="kw">let</span> n := d.headD 0
+        ‖WithLp.toLp 2 (A n *ᵥ decv id n x - decv id n y)‖ ≤
+          δ * ‖WithLp.toLp 2 (decv id n x)‖
+    | _, _ =&gt; False
+
+<span class="co">/-- axpy [n] (α, x, y) → (y):  |zᵢ − (yᵢ + α xᵢ)| ≤ e (|yᵢ| + |α xᵢ|). -/</span>
+<span class="kw">def</span> myAxpyRel (e : ℝ) : BlockRel ℝ <span class="kw">where</span>
+  nd := 1
+  inLens d := [1, d.headD 0, d.headD 0]
+  outLens d := [d.headD 0]
+  rel d X _ Y := <span class="kw">match</span> X, Y <span class="kw">with</span>
+    | [[a], x, y], [z] =&gt; ∀ i &lt; d.headD 0,
+        |vec z i - (vec y i + a * vec x i)| ≤ e * (|vec y i| + |a * vec x i|)
+    | _, _ =&gt; False</code></pre>
+<p>The matrix <span class="math inline">\mathbf{A}</span> and the allowances <span class="math inline">\delta</span> and <span class="math inline">e</span> are parameters of the contracts, not of the routines: the tree never reads the entries of <span class="math inline">\mathbf{A}</span>. Norms of vectors are Euclidean, and <span class="math inline">\|\mathbf{A}\|</span> is the operator norm they induce.</p>
+<p>The admissions are NLA-lib’s (<code>NLAlib/Ops/Catalog/Blas1.lean</code>): matvec writes its result apart from its input (<code>OutApart</code>), and axpy updates its last input in place, with the other two in other buffers (<code>InPlace</code>). An admission is the operation-side form of a routine’s interface, and step 5 uses it that way.</p>
+<p><strong>Costs.</strong> NLA-lib <em>counts</em> every call of each operation at its dimensions and every structural instruction (loop round, frame, allocation, index evaluation); the count comes from the tree alone. The model then <em>weighs</em> the count with a <code>ResourceModel</code>, and the <em>work</em> is the weighted sum. We weigh a matvec at <span class="math inline">[n, n]</span> as <span class="math inline">2n^2</span>, an axpy at <span class="math inline">[n]</span> as <span class="math inline">2n</span>, and each structural instruction as <span class="math inline">1</span>.</p>
+<pre><code><span class="kw">def</span> myWork : MyOperation → List ℕ → ℕ
+  | .matvec, d =&gt; 2 * d.headD 0 ^ 2
+  | .axpy, d =&gt; 2 * d.headD 0
+
+<span class="kw">def</span> myResources : ResourceModel MyOperation Empty <span class="kw">where</span>
+  formats := [.cell]
+  operation
+    | .matvec =&gt; ⟨[.cell], [.cell]⟩
+    | .axpy =&gt; ⟨[.cell, .cell, .cell], [.cell]⟩
+  <span class="co">-- neither operation needs scratch space of its own</span>
+  workspace _ _ := 0
+  operationWork := myWork
+  operationSpan := myWork
+  coreWork _ _ := 1
+  coreSpan _ _ := 1
+  …  <span class="co">-- the (empty) tests, and three proofs that a span is at most the work</span></code></pre>
+<p><strong>Memory</strong> is tracked separately, as the <em>peak</em> scratch space in use above the input buffers. It comes from allocations in the tree (<code>let Y ← alloc n</code> holds its cells while its body runs) and from each call’s <code>workspace</code>, which the model declares; here it is <span class="math inline">0</span>. Each buffer has a <em>format</em> giving the bytes a cell is charged; here every buffer is the one-byte <code>.cell</code>, so bytes and cells coincide. Space used one statement after another, including every round of a loop, is reused, so <code>Y</code> costs <span class="math inline">n</span> cells, not <span class="math inline">Nn</span>; only nesting adds. NLA-lib computes this bound from the tree as <code>staticPeak</code>, as it computes the count as <code>staticCost</code>.</p>
+<p><strong>The model.</strong> An <code>AccessModel</code> attaches a contract to every name, fixes the costs, and carries a <em>witness</em>: a proof that at every input some implementation satisfies all the contracts at once.</p>
+<pre><code><span class="kw">noncomputable</span> <span class="kw">def</span> myModel (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ)
+    (hδ : 0 ≤ δ) (he : 0 ≤ e) : AccessModel MyOperation Empty myProblem <span class="kw">where</span>
+  word := 0
+  operation _ _
+    | .matvec =&gt; (myMatvecRel A δ).spec (OutApart <span class="kw">fun</span> _ =&gt; True)
+    | .axpy =&gt; (myAxpyRel e).spec (InPlace <span class="kw">fun</span> _ =&gt; True)
+  query _ _ q := nomatch q
+  resources := myResources
+  <span class="co">-- the witness: the exact product and the exact update</span>
+  realize _ _ _ := ⟨Interp.ofFns (myExact A), <span class="kw">fun</span> o =&gt; <span class="kw">by</span>
+    cases o
+    · exact myExact_matvec A hδ
+    · exact myExact_axpy A he, <span class="kw">fun</span> q =&gt; nomatch q⟩</code></pre>
+<p>An implementation of the operations is an <em>interpretation</em>, <code>Interp</code>; <code>I.Satisfies … o C</code> says that <code>I</code>’s version of the operation <code>o</code> satisfies the contract <code>C</code>.</p>
+<p><strong>The witness.</strong> <code>realize</code> is a proof obligation: here, the exact product and update (<code>myExact A</code>) satisfy both contracts, since their errors are <span class="math inline">0</span> and <span class="math inline">\delta, e \ge 0</span>; that is why <code>myModel</code> takes <code>hδ</code> and <code>he</code>. It matters because a certificate says “for every implementation satisfying the contracts”: with <span class="math inline">\delta = -1</span> no implementation would, and every bound would be provable.</p>
+<h2 id="state-what-the-routine-does-and-certify-it">4. State what the routine does, and certify it</h2>
+<p>There are two statements: a judgment about the routine wherever it is called, and a certificate about one run from the problem’s initial memory, with its cost. The second follows from the first.</p>
+<h3 id="the-routine-meets-its-specification">The routine meets its specification</h3>
+<p>A routine’s <em>specification</em> is a precondition and a postcondition on the contents of its operands. It mentions no memory, no addresses and no tree. The error of one step, relative to the norm of the vector, is <span class="math display">
+\eta = |h|\delta + e\bigl(1 + |h|(\|\mathbf{A}\| + \delta)\bigr),
+</span> <code>myEta A δ e h</code> in the code, and the specification of the integrator is</p>
+<pre><code><span class="kw">noncomputable</span> <span class="kw">def</span> myIntegrateSpec (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ) :
+    Routine.Spec ℝ :=
+  spec% [n, N] ([h], x₀) → (xT) ensures
+    ‖WithLp.toLp 2 (decv id n xT - ((1 + h • A n) ^ N) *ᵥ decv id n x₀)‖ ≤
+      ((‖1 + h • A n‖ + myEta (A n) δ e h) ^ N - ‖1 + h • A n‖ ^ N) *
+        ‖WithLp.toLp 2 (decv id n x₀)‖</code></pre>
+<p><code>R.Meets I S</code> is NLA-lib’s one judgment about a routine: under the interpretation <code>I</code>, on any memory and any operands that fit the interface, the tree of <code>R</code> runs to completion, changes nothing outside the operands it writes, draws exactly the random numbers it declares, and leaves contents that satisfy the postcondition of <code>S</code>.</p>
+<div class="theorem">
+<p><strong>Theorem (<code>myIntegrate_meets</code>).</strong> Let <span class="math inline">\mathbf{G} = \mathbf{I} + h\mathbf{A}</span> and <span class="math inline">g = \|\mathbf{G}\|</span>. For every implementation of matvec and axpy that satisfies the contracts, the integrator, called at any <span class="math inline">n</span>, <span class="math inline">N</span> and operands <span class="math inline">h</span>, <span class="math inline">\mathbf{x}_0</span>, runs to completion, writes only <span class="math inline">\mathbf{x}</span>, and leaves there <span class="math inline">\mathbf{x}_N</span> with <span class="math display">
+\|\mathbf{x}_N - \mathbf{G}^N\mathbf{x}_0\| \le \bigl((g + \eta)^N - g^N\bigr)\|\mathbf{x}_0\|.
+</span></p>
+<pre><code><span class="kw">theorem</span> myIntegrate_meets (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ) (hδ : 0 ≤ δ)
+    (he : 0 ≤ e) {I : Interp MyOperation Empty ℝ}
+    (hmatvec : I.Satisfies .total .matvec ((myMatvecRel A δ).spec (OutApart <span class="kw">fun</span> _ =&gt; True)))
+    (haxpy : I.Satisfies .total .axpy ((myAxpyRel e).spec (InPlace <span class="kw">fun</span> _ =&gt; True))) :
+    myIntegrate.Meets I (myIntegrateSpec A δ e) := <span class="kw">by</span>
+  routine_intro [n, N] (h, X) reads (hs, xs)
+  …  <span class="co">-- the loop, with one `call` of the step&#39;s judgment in each round</span></code></pre>
+</div>
+<p><em>Proof sketch.</em> The bound uses the two contracts and nothing else. <code>myStep</code> has its own judgment, <code>myStep_meets</code>: one step computes <span class="math inline">\mathbf{G}\mathbf{x}_t</span> plus an error of norm at most <span class="math inline">\eta\|\mathbf{x}_t\|</span>. That error is <span class="math inline">h</span> times the matvec error, at most <span class="math inline">|h|\delta\|\mathbf{x}_t\|</span>, plus the axpy error, whose entries are at most <span class="math inline">e(|x_i| + |h||(\mathbf{A}\mathbf{x}_t)_i + \text{matvec error}_i|)</span> and whose norm is therefore at most <span class="math inline">e\bigl(1 + |h|(\|\mathbf{A}\| + \delta)\bigr)\|\mathbf{x}_t\|</span>. The integrator’s proof never looks inside <code>myStep</code>: each round <em>calls</em> <code>myStep_meets</code> and receives the block it wrote with its postcondition; the errors then propagate through <span class="math inline">\mathbf{G}</span>.</p>
+<p>This is what makes routines plug together: the judgment holds on any memory and operands, and says what the routine does <em>not</em> touch, so the same theorem serves a caller and the certificate below.</p>
+<h3 id="the-certificate">The certificate</h3>
+<p>A <code>Specification</code> lists the claims about one run: a bound for each resource, and a condition on the final memory. Here <code>d</code> holds the sizes (<span class="math inline">n</span> is <code>d 0</code>, <span class="math inline">N</span> is <code>d 1</code>), <code>x</code> the input (<span class="math inline">h</span> is <code>x.val.1.1</code>, <span class="math inline">\mathbf{x}_0</span> is <code>x.val.1.2</code>), and <code>μ</code> the final memory:</p>
+<pre><code><span class="co">-- accuracy: the buffer X holds a vector x_N within the bound of myIntegrateSpec</span>
+<span class="kw">def</span> myGood (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ) (d : Fin 2 → ℕ)
+    (x : myProblem.Input d) (μ : Mem ℝ) : Prop :=
+  ∃ xT, μ.store.readBlock 1 0 (d 0) = some xT ∧
+    <span class="kw">let</span> G := 1 + x.val.1.1 • A (d 0)
+    ‖WithLp.toLp 2 (decv id (d 0) xT - (G ^ d 1) *ᵥ x.val.1.2)‖ ≤
+      ((‖G‖ + myEta (A (d 0)) δ e x.val.1.1) ^ d 1 - ‖G‖ ^ d 1) * ‖WithLp.toLp 2 x.val.1.2‖
+
+<span class="co">-- work: N products weighing 2n², N updates weighing 2n, 28 structural instructions in</span>
+<span class="co">-- each round and 11 outside the loop</span>
+<span class="kw">def</span> myProgramWork (d : Fin 2 → ℕ) : ℕ := 2 * d 1 * d 0 ^ 2 + 2 * d 1 * d 0 + 28 * d 1 + 11
+
+<span class="kw">noncomputable</span> <span class="kw">def</span> mySpec (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ) :
+    Specification MyOperation Empty myProblem <span class="kw">where</span>
+  good d x _ _ μ := myGood A δ e d x μ
+  <span class="co">-- the count of calls and structural instructions, entry by entry</span>
+  budget := staticCost myProgram
+  <span class="co">-- its weight, and the critical path: calls run one after another, so span = work</span>
+  work := myProgramWork
+  span := myProgramWork
+  <span class="co">-- scratch: the n cells of Y; memory: the scratch, h (1 cell) and X (n cells)</span>
+  scratch d := d 0
+  memory d := 1 + 2 * d 0</code></pre>
+<p><code>mySpec</code> proves nothing; it only states the claims. The budget is the tree’s own count; the other bounds are explicit polynomials in <span class="math inline">n</span> and <span class="math inline">N</span>.</p>
+<p>NLA-lib packages a program with a proof of its specification as an <code>Algorithm</code>, and builds one from a routine’s judgment on its derived problem with <code>Routine.Domain.algorithm</code>:</p>
+<pre><code><span class="kw">noncomputable</span> <span class="kw">def</span> myAlgorithm (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ) (δ e : ℝ)
+    (hδ : 0 ≤ δ) (he : 0 ≤ e) :
+    Algorithm (myModel A δ e hδ he) (mySpec A δ e) :=
+  myDomain.algorithm (<span class="kw">fun</span> _ _ =&gt; myIntegrateSpec A δ e)
+    (<span class="kw">fun</span> _ _ _ _ hI =&gt; myIntegrate_meets A δ e hδ he (hI.1 .matvec) (hI.1 .axpy))
+    (<span class="kw">fun</span> _ _ _ _ _ =&gt; trivial)   <span class="co">-- the precondition holds at every accepted input</span>
+    …  <span class="co">-- the output condition follows from the postcondition</span>
+    (<span class="kw">fun</span> _ _ =&gt; le_rfl) (<span class="kw">fun</span> d _ =&gt; myProgram_peak d) (<span class="kw">fun</span> d _ =&gt; (work_myProgram d).le)
+    (<span class="kw">fun</span> d _ =&gt; (span_myProgram d).le) …</code></pre>
+<p>That the buffers hold <span class="math inline">h</span> and <span class="math inline">\mathbf{x}_0</span> holds by construction of the problem, so what remains is that the postcondition, read on them, is <code>myGood</code>. For the cost, NLA-lib proves once that no run exceeds <code>staticCost</code> and <code>staticPeak</code> of its tree; we prove that those are the polynomials of <code>mySpec</code> (next section).</p>
+<div class="theorem">
+<p><strong>Theorem (what <code>myAlgorithm</code> states).</strong> For every <span class="math inline">n</span>, <span class="math inline">N</span>, input <span class="math inline">(h, \mathbf{x}_0)</span> and implementation of matvec and axpy that satisfies the contracts, <code>myProgram</code> runs to completion, and that one run satisfies:</p>
+<ol type="1">
+<li><em>Accuracy.</em> The bound of <code>myIntegrate_meets</code>, on the buffer <span class="math inline">\mathbf{x}</span>.</li>
+<li><em>Cost.</em> It makes no more calls and structural instructions than the tree contains, <code>staticCost myProgram</code>; its work and its span are at most <span class="math inline">2Nn^2 + 2Nn + 28N + 11</span>.</li>
+<li><em>Memory.</em> Its scratch is at most <span class="math inline">n</span> cells, and its memory, with the <span class="math inline">1 + n</span> cells of input, at most <span class="math inline">2n + 1</span>.</li>
+</ol>
+<pre><code><span class="kw">theorem</span> myProgram_certifies
+    (A : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ)
+    (δ e : ℝ) (hδ : 0 ≤ δ) (he : 0 ≤ e) :
+    myProgram.Certifies (myModel A δ e hδ he) (mySpec A δ e) :=
+  (myAlgorithm A δ e hδ he).correct</code></pre>
+</div>
+<p><code>Certifies</code> is NLA-lib’s (<code>NLAlib/Ops/Static.lean</code>); what “runs” means in it is spelled out <a href="#what-the-definitions-rest-on">below</a>. The same claim stated on the mathematical inputs, <code>Inputs.Checked</code>, follows for every certificate on a derived problem (<code>myDomain.checked_all</code>).</p>
+<p>The <code>Algorithm</code> <em>contains</em> <code>myProgram</code>: its type says “there is a program that meets <code>mySpec</code> in <code>myModel</code>”, and proving it means handing over a program with its certificate. That is how the library states its results, and what <code>Algorithm.link</code> in step 5 takes and returns. It is a <code>def</code>, not a <code>theorem</code>, because a program is data.</p>
+<h3 id="explicitly-bounding-costs">Explicitly bounding costs</h3>
+<p>The polynomials of items 2 and 3 come from theorems about the tree alone, which work out <code>staticCost</code> and <code>staticPeak</code>:</p>
+<div class="theorem">
+<p><strong>Theorem (<code>myProgram_calls</code>).</strong> For every <span class="math inline">n</span> and <span class="math inline">N</span>, the tree of <code>myProgram</code> contains <span class="math inline">N</span> matvec calls at <span class="math inline">[n, n]</span>, <span class="math inline">N</span> axpy calls at <span class="math inline">[n]</span>, and no other operation.</p>
+<pre><code><span class="kw">theorem</span> myProgram_calls (d : Fin 2 → ℕ) :
+    Count.original (staticCost myProgram d) =
+      d 1 • (Count.one MyOperation.matvec [d 0, d 0] + Count.one MyOperation.axpy [d 0]) := <span class="kw">by</span>
+  …  <span class="co">-- the proof</span></code></pre>
+</div>
+<p><code>Count.original</code> sets the structural instructions aside and keeps the calls.</p>
+<div class="theorem">
+<p><strong>Theorem (<code>myProgram_peak</code>).</strong> For every <span class="math inline">n</span> and <span class="math inline">N</span>, the scratch of the tree of <code>myProgram</code> is at most <span class="math inline">n</span> cells.</p>
+<pre><code><span class="kw">theorem</span> myProgram_peak (d : Fin 2 → ℕ) : staticPeak myResources myProgram d ≤ d 0 := <span class="kw">by</span>
+  …  <span class="co">-- the proof</span></code></pre>
+</div>
+<p>The <span class="math inline">n</span> cells are <code>Y</code>, reused by every round; it is not an equality because when <span class="math inline">N = 0</span> nothing is allocated.</p>
+<div class="theorem">
+<p><strong>Theorem (<code>work_myProgram</code>, <code>span_myProgram</code>).</strong> Weighted by <code>myResources</code>, the count of the tree is exactly <span class="math inline">2Nn^2 + 2Nn + 28N + 11</span>: the <span class="math inline">N</span> products and <span class="math inline">N</span> updates, <span class="math inline">28</span> structural instructions in each round (the round itself, the frame of the step, the allocation of <code>Y</code>, and the index and operand evaluations of the two calls) and <span class="math inline">11</span> outside the loop. Calls run one after another, so the span is the same.</p>
+<pre><code><span class="kw">theorem</span> work_myProgram (d : Fin 2 → ℕ) :
+    myResources.work (staticCost myProgram d) = myProgramWork d := <span class="kw">by</span>
+  …  <span class="co">-- the proof</span></code></pre>
+</div>
+<p>Together with the certificate: every run makes at most <span class="math inline">N</span> matvec calls and <span class="math inline">N</span> axpy calls, with work at most <span class="math inline">2Nn^2 + 2Nn + 28N + 11</span>, and uses at most <span class="math inline">n</span> cells of scratch and <span class="math inline">2n + 1</span> in all.</p>
+<p>When every operation and structural instruction weighs at most one, <code>Routine.certify</code> goes further: it takes the same judgment and returns a certificate whose work polynomial the Lean kernel computes from the tree, with no cost statement from the author.</p>
+<h2 id="go-down-a-level">5. Go down a level</h2>
+<p>The certificate holds for any implementation of matvec and axpy that satisfies the contracts. To say what happens in floating point arithmetic, we implement axpy with rounded scalar operations and link; matvec stays an operation, as for a matrix-free <span class="math inline">\mathbf{A}</span>.</p>
+<p>Implementing axpy is steps 1–4 again, one level down: new operations (scalar arithmetic, and matvec), a routine (a loop over the entries, already in the library), a model (the standard model of floating point arithmetic with unit roundoff <span class="math inline">u</span>), and a judgment:</p>
+<pre><code><span class="kw">inductive</span> MyLowOperation <span class="kw">where</span>
+  | scalar (o : ScalarOp)
+  | matvec
+
+<span class="co">/-- y ← y + α x, one rounded multiplication and one rounded addition per entry. -/</span>
+<span class="kw">def</span> myAxpy : Routine MyLowOperation Empty := axpyLoopRoutine
+
+<span class="kw">theorem</span> myAxpy_meets {M : Machine ℝ} {I : Interp MyLowOperation Empty ℝ} (hI : IsScalar M I)
+    {u : ℝ} (hM : StdModel u id M) (hu : 0 ≤ u) :
+    myAxpy.Meets I (.ofRel (myAxpyRel ((1 + u) ^ 2 - 1)) <span class="kw">fun</span> _ =&gt; True) := <span class="kw">by</span>
+  …  <span class="co">-- the library&#39;s judgment of the loop</span></code></pre>
+<p>The specification is the axpy contract itself, <code>myAxpyRel e</code> with <span class="math inline">e = (1+u)^2 - 1</span>: each entry is rounded twice, <span class="math inline">\bigl(y_i + \alpha x_i(1+\delta_1)\bigr)(1+\delta_2)</span> with <span class="math inline">|\delta_1|, |\delta_2| \le u</span>. The interface of <code>myAxpy</code> also matches the contract’s (three blocks read, the last updated in place), which NLA-lib checks (<code>myAxpy_implements</code>), so the routine’s judgment <em>is</em> the operation’s contract.</p>
+<p><strong>Linking.</strong> A table says what replaces each operation:</p>
+<pre><code><span class="kw">def</span> myTable : Table MyOperation MyLowOperation Empty
+  | .axpy =&gt; .inl myAxpy.impl
+  | .matvec =&gt; .inr .matvec</code></pre>
+<p><code>Algorithm.link</code> takes <code>myAlgorithm</code> and <code>myTable</code> and returns a certificate for <code>myProgram.link myTable</code> in the lower model. Its one real obligation is <code>myAxpy_meets</code> with <code>myAxpy_implements</code>; the analysis of the iteration is not repeated. Only the cost and memory are bounded again, since the linked program is a different tree.</p>
+<div class="theorem">
+<p><strong>Theorem (after linking: <code>myLinkedAlgorithm</code>, <code>myLinkedProgram_calls</code>, <code>myLinkedProgram_peak</code>).</strong> <code>myProgram.link myTable</code> makes at most <span class="math inline">N</span> matvec calls, <span class="math inline">Nn</span> multiplications and <span class="math inline">Nn</span> additions, and no other operation; its work is at most <span class="math inline">2Nn^2 + 22Nn + 34N + 11</span>; it uses at most <span class="math inline">n + 1</span> cells of scratch; and its output satisfies the accuracy bound of step 4 with <span class="math inline">e = (1+u)^2 - 1</span>.</p>
+<pre><code><span class="kw">theorem</span> myLinkedProgram_calls (d : Fin 2 → ℕ) :
+    Count.original (staticCost myLinkedProgram d) =
+      d 1 • (Count.one MyLowOperation.matvec [d 0, d 0] +
+        d 0 • (Count.one (MyLowOperation.scalar .mul) [] +
+          Count.one (MyLowOperation.scalar .add) [])) := <span class="kw">by</span>
+  …  <span class="co">-- the proof</span></code></pre>
+</div>
+<p>If <span class="math inline">\mathbf{A}</span> were stored as data, matvec could be implemented and linked the same way.</p>
+<h2 id="why-it-is-set-up-this-way">Why it is set up this way</h2>
+<p><strong>A routine can only call operations.</strong> A tree cannot hold a Lean function or a real number, and index expressions never read the data, so every effect on the data is a <code>call</code>. The <code>EXACT_SUM</code> trick on the <a href="./">design page</a>, adding exactly and rounding once, cannot be written as a routine.</p>
+<p><strong>A routine cannot choose its own cost or conditions.</strong> Its count comes from the tree, including the trees it calls, and the conditions for calling it come from its interface. Its only free statement is its specification, which a reader can check against the mathematics.</p>
+<p><strong>A model can still promise too much.</strong> A contract “write <span class="math inline">\mathbf{G}\mathbf{x}</span> exactly” would make the integrator exact, and a contract that depends on the input could write the answer in one call. So NLA-lib names what to check: a model is <em>confined</em> if its contracts touch only their operands, <em>uniform</em> if they do not depend on the input, and <em>charged</em> if every call costs something (<code>NLAlib/Ops/Examples/Oracles.lean</code> shows what goes wrong without each). Ours is confined and uniform; it is not charged, since an axpy of length <span class="math inline">0</span> weighs nothing, which is harmless because the work is bounded explicitly.</p>
+<p><strong>A model cannot promise the impossible.</strong> That is what the witness of step 3 is for.</p>
+<p><strong>What a reader checks.</strong> To trust a certificate, read the problem, the model and the specification; Lean checks the routine, its proof and the count. <code>scripts/OpsPrograms.lean</code> prints all three for any certificate, with a summary of its properties (here <code>uniform=yes confined=yes charged=no</code>, <code>work=closed</code>), and the library does not let that summary get weaker.</p>
+<h2 id="what-the-definitions-rest-on">What the definitions rest on</h2>
+<p>Lean checks that a certificate follows from the definitions, not that the definitions mean what a reader thinks, so NLA-lib keeps that part small:</p>
+<ul>
+<li><strong>Execution is a set of rules</strong>, one per construct with its charge (<code>NLAlib/Ops/Reference/Semantics.lean</code>, about two hundred lines); the evaluator the proofs use is proved to agree with them (<code>Program.certifies_iff_reference</code>).</li>
+<li><strong>The conventions are listed</strong>, such as one word per cell and one unit per index operation, in <a href="https://github.com/NLA-lib/nlalib/blob/main/docs/design/Ops-ReferenceReview.md"><code>docs/design/Ops-ReferenceReview.md</code></a>.</li>
+<li><strong>The trusted base is computed</strong>: the declarations a certificate’s statement depends on are recorded in <code>scripts/ops_trusted_base.txt</code>, and changing them needs sign-off.</li>
+</ul>
+<p>No theorem says a model’s costs are right: whether a matvec should weigh <span class="math inline">2n^2</span> is a modelling choice, made where the reader can see it.</p>
+<h2 id="what-nla-lib-provides">What NLA-lib provides</h2>
+<p>We wrote each piece ourselves to show how they fit. In practice you rarely need to: NLA-lib has standard operations (scalar arithmetic, level-one BLAS, matrix–vector and matrix products, QR) with their contracts, standard implementations of them as routines, such as the axpy loop we used, and standard operation models, both exact and in floating point arithmetic. Using them also means less to trust: the standard models are shared by every certificate in the library, and are proved confined, uniform (or name their oracle) and charged (<code>NLAlib/Ops/Profiles/Confined.lean</code>), so a reader who has checked them once only has to read your problem and specification.</p>
+<p>To write a routine of your own, start with <a href="https://github.com/NLA-lib/nlalib/blob/main/docs/contributing/routines.md"><code>docs/contributing/routines.md</code></a>; the library’s conjugate gradient certificate, <code>NLAlib/Krylov/CG/HSCG/Carried/Certification.lean</code>, has the same shape as the integrator’s.</p>
+
+</div>
+</body>
+</html>
