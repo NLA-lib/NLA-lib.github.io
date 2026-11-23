@@ -274,7 +274,7 @@ the page links the definitions of the models and the other programs of the algor
 filters. `arithmetic` is `exact` (Exact arithmetic), `standard` (Standard rounding) or
 `relative-error`. `program` says what the program is built from and is given only where it
 tells the models of that page apart: `blas-matvec`, `relative-blas-matvec`,
-`relative-blas`, `stored-scalar`. Use the same
+`relative-blas`, `stored-scalar`, `any-small-block`, `bgs-iii-small-block`. Use the same
 `id` for the same model on every page (`exact`, `standard`, `stored-scalar`), since `?model=<id>`
 selects a model and is carried along links between algorithm pages. A retired id listed under a model's `aliases` keeps selecting that model;
 an unknown id selects the first model. A written `title` instead

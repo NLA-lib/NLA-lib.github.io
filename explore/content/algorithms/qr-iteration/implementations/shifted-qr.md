@@ -62,7 +62,7 @@ Every spectral problem used by the full driver has order at most $k$. The `ritz`
 The routine collection specifies the output lengths, Ritz optimality, and complete eigenvalue listing. The exact reference realization uses noncomputable root selection. It establishes consistency of the operation model; it is not an executable small eigensolver.
 :::
 
-The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small eigensolver is randomized, and the guarantee holds with a probability over a random tape. Its small eigensolver is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle.
+The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small-block solver is randomized, it returns a Schur pair, and the guarantee holds with a probability over a random tape. Its page has two models: any solver meeting a small-block Schur contract, or the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle. [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/) builds on them for any dense matrix.
 
 ## Input assumptions
 
