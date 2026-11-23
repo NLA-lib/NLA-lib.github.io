@@ -13,6 +13,7 @@ families:
 library_results: false
 result_ids:
 - cholesky-existence
+- cholesky-backward-error
 ---
 
 Construct a triangular factor of a positive-definite matrix.

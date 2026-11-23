@@ -2,6 +2,9 @@
 # Phrases are matched case-insensitively inside the query.
 [synonyms]
 "pseudoinverse" = ["pinv"]
+"iterative refinement" = ["RefinementRun"]
+"mixed precision" = ["RefinementRun"]
+"three precisions" = ["RefinementRun"]
 "pseudo-inverse" = ["pinv"]
 "moore-penrose" = ["pinv"]
 "spectral norm" = ["specNorm"]
