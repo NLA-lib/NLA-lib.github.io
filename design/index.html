@@ -11,9 +11,9 @@
   <link rel="preload" href="../font/source-sans/SourceSans3-Semibold.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="icon" href="../favicon.ico" sizes="any">
   <link rel="apple-touch-icon" href="../apple-touch-icon.png">
-  <link rel="stylesheet" href="../css/site.css">
-  <link rel="stylesheet" href="../css/landing.css">
-  <link rel="stylesheet" href="../css/print.css" media="print">
+  <link rel="stylesheet" href="../css/site.css?v=380416d2">
+  <link rel="stylesheet" href="../css/landing.css?v=f2987ea3">
+  <link rel="stylesheet" href="../css/print.css?v=fa3a3618" media="print">
   <link rel="stylesheet" href="../vendor/katex/katex.min.css">
   <script defer src="../vendor/katex/katex.min.js"></script>
   <script>
@@ -39,11 +39,11 @@
 </nav>
 <p>NLA-lib aims to serve as a foundation for the formalization of new and existing numerical linear algebra results.</p>
 <p>Some results in NLA are foundational and straightforward to state formally, but do not appear in existing libraries such as <code>Mathlib</code>. This includes things like the Weyl’s inequalities, Cauchy interlacing, the Eckart–Young theorem, the Moore–Penrose pseudoinverse, Jackson’s theorem, etc. For such results, the main benefit of NLA-lib is that it helps people avoid repeatedly proving the same thing for their own work, but it would be appropriate to upstream many of these results to <code>Mathlib</code>.</p>
-<p>On the other hand, many results in NLA are much blurrier. For example, there are many slightly different statements describing how Gaussian matrices give an oblivious subspace embedding. Moreover, many natural language results in NLA are stated with implicit definitions, quantification, integrability assumptions (e.g. when using Markov’s inequality), orders of limits, etc. While a standardized library of formalized math can help simplify and clarify the landscape some, the nature of the field means that there are no single “canonical” statements of many results.</p>
+<p>On the other hand, many things in NLA are much blurrier. The most apparent issue is that natural language results in NLA are often stated with implicit definitions, quantification, integrability assumptions, orders of limits, etc. Perhaps more significant is the fact that there are often many slightly different statements describing the same general concept (e.g. describing how Gaussian matrices give an oblivious subspace embedding). While a standardized library of formalized math can help simplify and clarify the landscape some, the nature of the field means that there are no single “canonical” statements of many results.</p>
 <h2 id="algorithms">Algorithms</h2>
-<p>The main benefit of NLA-lib is in facilitate the formal verification of statements about algorithms. We aim to justify the value of such a library in what follows.</p>
+<p>The main benefit of NLA-lib is in facilitating the formal verification of statements about algorithms. Before describing how we handle this, we provide some examples highlighting some key issues that make formalizing algorithm analysis tricky.</p>
 <h3 id="mathematical-quantities">Mathematical quantities</h3>
-<p>Lots of the analyses of algorithms in NLA are essentially proving things about of simple mathematical objects. For example, we can define the conjugate gradient method (CG) for solving <span class="math inline">\mathbf{A}\mathbf{x} = \mathbf{b}</span> with <span class="math inline">\mathbf{A}</span> positive definite mathematically as a certain minimizer.</p>
+<p>Lots of the analyses of algorithms in NLA are essentially proving things about of simple mathematical objects. For example, the randomized SVD of <span class="math inline">\mathbf{A}</span> with test matrix <span class="math inline">\mathbf{\Omega}</span> is the matrix <span class="math inline">\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}\mathbf{A}</span>, where <span class="math inline">\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}</span> is the orthogonal projector onto the range of <span class="math inline">\mathbf{A}\mathbf{\Omega}</span>. Likewise, the conjugate gradient method (CG) for solving <span class="math inline">\mathbf{A}\mathbf{x} = \mathbf{b}</span> with <span class="math inline">\mathbf{A}</span> positive definite mathematically as a certain minimizer.</p>
 <div class="definition">
 <p><strong>Def.</strong> Let <span class="math inline">\mathbf{A}\in\mathbb{R}^{n\times n}</span> be positive definite and <span class="math inline">\mathbf{b}, \mathbf{x}_0\in\mathbb{R}^n</span>. Define <span class="math inline">\mathbf{x}_\star = \mathbf{A}^{-1}\mathbf{b}</span> and <span class="math inline">\mathbf{r}_0 = \mathbf{b} - \mathbf{A}\mathbf{x}_0</span>. The <span class="math inline">k</span>-th CG iterate is <span class="math display">
 \mathbf{x}_k := \argmin_{\mathbf{x} \in \mathbf{x}_0 + \mathcal{K}_k(\mathbf{A}, \mathbf{r}_0)} \|\mathbf{x}_\star - \mathbf{x}\|_{\mathbf{A}},
@@ -51,21 +51,20 @@
 \mathcal{K}_k(\mathbf{A}, \mathbf{r}_0) := \operatorname{span}\{\mathbf{r}_0, \mathbf{A}\mathbf{r}_0, \ldots, \mathbf{A}^{k-1}\mathbf{r}_0\}.
 </span></p>
 </div>
-<p>From this definition we can prove theorems such as classical condition number convergence bound for CG:</p>
+<p>From such definitions we can prove theorems such as classical condition number convergence bound for CG:</p>
 <div class="theorem">
 <p><strong>Theorem.</strong> The CG iterates satisfy <span class="math display">
 \frac{\|\mathbf{x}_\star - \mathbf{x}_k\|_{\mathbf{A}}}{\|\mathbf{x}_\star - \mathbf{x}_0\|_{\mathbf{A}}}
 \le 2 \left( \frac{\sqrt{\kappa} - 1}{\sqrt{\kappa} + 1} \right)^k,
 </span> where <span class="math inline">\kappa = \lambda_{\max}(\mathbf{A}) / \lambda_{\min}(\mathbf{A})</span> is the condition number of <span class="math inline">\mathbf{A}</span>.</p>
 </div>
-<p>Many other algorithms in NLA are analyzed in the same way. For example, the randomized SVD of <span class="math inline">\mathbf{A}</span> with test matrix <span class="math inline">\mathbf{\Omega}</span> is the matrix <span class="math inline">\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}\mathbf{A}</span>, where <span class="math inline">\mathbf{P}_{\mathbf{A}\mathbf{\Omega}}</span> is the orthogonal projector onto the range of <span class="math inline">\mathbf{A}\mathbf{\Omega}</span>. We can prove bounds about this quantity even without knowing how to compute it.</p>
-<p>In these cases, we know that these quantities can be computed efficiently, perhaps in many different ways, and so it is natural to reason about the output itself.</p>
+<p>In these cases, the interesting thing is how the mathematical objects behave, not how we compute them, so it is natural to reason about the output itself.<input type="checkbox" id="sn-1" class="sidenote-toggle"><label for="sn-1" class="sidenote-ref"></label><span class="sidenote">In fact, we often assume we can actually compute things like eigenvalues!</span> Formalizing results of this type encounters the issues described above, but ultimately is relatively straightforward.</p>
 <h3 id="specifying-an-implementation">Specifying an implementation</h3>
-<p>If we want to understand stuff about a specific algorithm, i.e. a sequence of steps that computes the quantity, then we need to know what these steps are. For CG the usual choice is the recurrence of Hestenes and Stiefel:<input type="checkbox" id="sn-1" class="sidenote-toggle"><label for="sn-1" class="sidenote-ref"></label><span class="sidenote">Hestenes, Magnus R., and Eduard Stiefel. 1952. <span>“Methods of Conjugate Gradients for Solving Linear Systems.”</span> <em>Journal of Research of the National Bureau of Standards</em> 49 (6): 409–36. <a href="https://doi.org/10.6028/jres.049.044">https://doi.org/10.6028/jres.049.044</a>.</span>.</p>
+<p>If we want to understand stuff about a computing a quantity, then we must specify an algorithm, i.e. a sequence of steps that computes the quantity. For CG the usual choice is the recurrence of Hestenes and Stiefel:<input type="checkbox" id="sn-2" class="sidenote-toggle"><label for="sn-2" class="sidenote-ref"></label><span class="sidenote">Hestenes, Magnus R., and Eduard Stiefel. 1952. <span>“Methods of Conjugate Gradients for Solving Linear Systems.”</span> <em>Journal of Research of the National Bureau of Standards</em> 49 (6): 409–36. <a href="https://doi.org/10.6028/jres.049.044">https://doi.org/10.6028/jres.049.044</a>.</span>.</p>
 <pre><code>CG(A,b,x,k):
     r = b - A x
     p = r
-    for j = 1, 2, ..., k:
+    <span class="kw">for</span> j = 1, 2, ..., k:
         α = (r, r) / (p, A p)
         x = x + α p
         r&#39; = r - α A p
@@ -75,21 +74,20 @@
     return x</code></pre>
 <p>In exact arithmetic, one can prove that <code>CG(A,b,x_0,k)</code> returns the CG iterate <span class="math inline">\mathbf{x}_k</span>, and hence enjoys any of the properties we have proved about this mathematical quantity.</p>
 <p>Of course, the above implementation is not the only way to compute <span class="math inline">\mathbf{x}_k</span>; other implementations, for instance those based on the Lanczos recurrence, can also be used to compute the same mathematical quantity. Moreover, the recurrence above is not even fully specified; it uses inner products, sums of vectors, and products with <span class="math inline">\mathbf{A}</span>, but each of these can be computed in several ways. While these implementations all produce <span class="math inline">\mathbf{x}_k</span> in exact arithmetic, their costs, and their behavior in inexact arithmetic, may differ.</p>
-<p>In NLA, we are used to implicitly choosing the level of granularity that is <sub>relevant</sub> based on informal knowledge and vibes. For example, in the implementation of CG we may not specify how inner products are performed, because we have some kind of understanding that any reasonable implementation will produce similar results. Yet, we specify the order of vector operations because these do have a large qualitative impact on the quantity computed.</p>
-<p>NLA-lib allows the base-operations, and promises about their accuracy, to be specified. For example, CG can be written at the level of vector operations, with promises about how accurately these operations are computed. Alternately, specific arithmetic routines can be used in place of generic vector operations, with promises about how accurately arithmetic is performed. In general, these choices are modular, which allows various computational kernels to be combined easily.</p>
+<p>In NLA, we are used to implicitly choosing the level of granularity that is <sub>relevant</sub> based on informal knowledge and vibes. For example, in the implementation of CG we may not specify how inner products are performed, because we have some kind of understanding that any reasonable implementation of inner products will produce similar results. Yet, we specify the order of vector operations because these do have a large qualitative impact on the output.</p>
+<p>In NLA-lib we allow any base-operations, and promises about their accuracy, to be specified. For example, CG can be written at the level of vector operations, with promises about how accurately these operations are computed. Alternately, specific arithmetic routines can be used in place of generic vector operations, with promises about how accurately arithmetic is performed. In general, these choices are modular, which allows various computational kernels to be combined easily.</p>
 <h3 id="measuring-costs">Measuring costs</h3>
 <p>Once an implementation is specified down to individual base operations, we can count costs. A typical result gives the cost and the accuracy together. Consider for example the following stylized example.</p>
 <div class="definition">
 <p><strong>Def.</strong> Let <span class="math inline">a \oplus b</span> denote floating point addition: the floating point number nearest to <span class="math inline">a + b</span>. If no overflow or underflow occurs, then <span class="math inline">a \oplus b = (a + b)(1 + \delta)</span> for some <span class="math inline">\lvert\delta\rvert \le u</span>, where <span class="math inline">u</span> is the unit roundoff.</p>
 </div>
-<div class="definition">
-<p><strong>Def.</strong> <code>SUM</code> is the program</p>
+<p>We can then define a standard summation algorithm:</p>
 <pre><code>SUM(x_1, ..., x_n):
     s = x_1
-    for i = 2, ..., n
+    <span class="kw">for</span> i = 2, ..., n
         s = s ⊕ x_i
     return s</code></pre>
-</div>
+<p>We can then prove something like the following:</p>
 <div class="theorem">
 <p><strong>Theorem.</strong> For any floating point numbers <span class="math inline">x_1, \ldots, x_n</span>, if no overflow or underflow occurs, <code>SUM</code> uses <span class="math inline">n-1</span> floating point additions and returns a value <span class="math inline">s</span> satisfying <span class="math display">
 \Bigl\lvert s - \sum_{i=1}^n x_i \Bigr\rvert \le \bigl((1+u)^{n-1} - 1\bigr) \sum_{i=1}^n \lvert x_i \rvert.
@@ -97,47 +95,43 @@
 </div>
 <p>A lot of formalization of numerical algorithms has this shape. Libraries such as <a href="https://github.com/minusgix/flean">Flean</a>, <a href="https://reservoir.lean-lang.org/@Beneficial-AI-Foundation/FloatSpec">FloatSpec</a> and <a href="https://arxiv.org/abs/2609.19352">FloatLib</a> formalize floating point formats and rounding in Lean, and <a href="https://reservoir.lean-lang.org/@lecopivo/scilean">SciLean</a> is a library for writing numerical programs in Lean. With these, an algorithm is an ordinary Lean function, and a theorem is a statement about the value it returns.</p>
 <h4 id="not-so-fast">Not so fast!!</h4>
-<p>The astute reader will recognize that the theorem above is <em>meaningless</em> without the definition of <code>SUM</code>; when an algorithm is an ordinary function, Lean checks the bound on the value it returns, but the count “<span class="math inline">n-1</span> additions” is only as good as the reader’s inspection of the definition. In other words, the user needs to check what the algorithm is, and that the operations being counted are the only work it does.</p>
-<p>Consider for example the following example.</p>
-<div class="definition">
-<p><strong>Def.</strong> <code>EXACT_SUM</code> is the program</p>
+<p>The astute reader will recognize that the theorem above is <em>meaningless</em> without the definition of <code>SUM</code>. Consider for example the following example.</p>
 <pre><code>EXACT_SUM(x_1, ..., x_n):
     s = x_1
-    for i = 2, ..., n
+    <span class="kw">for</span> i = 2, ..., n
         s = s + x_i
     return fl(s) ⊕ 0</code></pre>
-</div>
 <div class="theorem">
 <p><strong>Theorem.</strong> For any floating point numbers <span class="math inline">x_1, \ldots, x_n</span>, if no overflow or underflow occurs, <code>EXACT_SUM</code> uses one floating point addition and returns a value <span class="math inline">s</span> satisfying <span class="math display">
 \Bigl\lvert s - \sum_{i=1}^n x_i \Bigr\rvert \le u \sum_{i=1}^n  x_i .
 </span></p>
 </div>
-<p>This theorem is true, and it claims an error and cost that are each seemingly impossible. The issue is that <code>EXACT_SUM</code> is not something a computer can run with one floating point addition: it adds real numbers exactly and rounds once at the end. However, nothing in Lean prevents this, since the real numbers and their exact arithmetic are available to every definition. In particular, statements about cost must also discuss what an algorithm is not allowed to do. Yet, this is only stated implicitly in essentially all numerical analysis results.</p>
+<p>This theorem is true, but it asserts an error and cost that are each seemingly too good to be true. The issue is that <code>EXACT_SUM</code> is not something a computer can compute efficiently: it adds real numbers exactly and rounds once at the end. However, nothing in Lean prevents this, since the real numbers and their exact arithmetic are available to every definition. In particular, <em>statements about cost must also discuss what an algorithm is not allowed to do</em>. Yet, this is only stated implicitly in essentially all numerical analysis results.</p>
 <h4 id="even-more">Even more!!</h4>
-<p>This is not the only way we can produce statements that are seemingly too good to be true. For example:</p>
-<div class="definition">
-<p><strong>Def.</strong> <code>OVERFLOW_SUM</code> is the program</p>
+<p>This is not the only way we can produce statements that are seemingly too good to be true. For example consider the program:</p>
 <pre><code>OVERFLOW_SUM(x_1, ..., x_n):
     a = largest floating point number
     s = a ⊕ a         // always overflows
     return 0</code></pre>
-</div>
 <div class="theorem">
 <p><strong>Theorem.</strong> For any floating point numbers <span class="math inline">x_1, \ldots, x_n</span>, if no overflow or underflow occurs, <code>OVERFLOW_SUM</code> uses one floating point addition and returns a value <span class="math inline">s</span> satisfying <span class="math display">
 \Bigl\lvert s - \sum_{i=1}^n x_i \Bigr\rvert \le u \sum_{i=1}^n  x_i .
 </span></p>
 </div>
-<p>Here, the addition in <code>OVERFLOW_SUM</code> overflows on every input, so the hypothesis “no overflow or underflow occurs” is never satisfied and the theorem is vacuous.</p>
+<p>Here, the addition in <code>OVERFLOW_SUM</code> overflows on every input, so the hypothesis “no overflow or underflow occurs” is never satisfied and the theorem is vacuously true.</p>
 <h2 id="how-nla-lib-handles-things">How NLA-lib handles things</h2>
-<p>Both of the examples above are easy to observe because the programs are simple and can be inspected directly. However, for more complicated algorithms, having to check that the implementation of an algorithm is correct by hand undermines much of the value of formal verification.</p>
-<p>In NLA-lib, we define <em>programs</em> as a fixed tree of operation calls and control flow. An <em>operation model</em> dictates which operations a program may call (e.g. scalar <code>+</code>, <code>dot</code>, a product with <span class="math inline">\mathbf{A}</span>, etc.), what each operation guarantees, and how much each call costs. The operations, guarantees, and costs are flexible so that users can prove results using subroutine that have not been anticipated. At the same time, we provide several ``standard’’ collections of base operations (e.g. BLAS1 operations to relative accuracy, the standard model of floating point arithmetic, etc.) which specify base operations, their guarantees, and their costs.</p>
+<p>Both of the examples above are easy to observe because the programs are simple and can be inspected directly. However, for more complicated algorithms, it is easy to imagine cases where very subtle issues slip through the cracks. Having to check that the implementation of an algorithm is correct by hand undermines much of the value of formal verification; in particular, it requires large levels of human trust.</p>
+<p>In NLA-lib, we define <em>routines</em> as a fixed tree of operation calls and control flow. An <em>operation model</em> dictates which operations a routine may call (e.g. scalar <code>+</code>, <code>dot</code>, a product with <span class="math inline">\mathbf{A}</span>, etc.), what each operation guarantees, and how much each call costs. The operations, guarantees, and costs are flexible so that users can prove results using subroutine that have not been anticipated by the library. At the same time, we provide several ``standard’’ collections of base operations (e.g. BLAS1 operations to relative accuracy, the standard model of floating point arithmetic, etc.) which specify base operations, their guarantees, and their costs.</p>
+<p>Our approach is modular by design. For instance, one can prove results about CG assuming that vector operations are performed to relative accuracy, and then easily extend this to a result in the standard model of floating point arithmetic by linking this with existing bounds for vector operations. Likewise, users may specify an algorithm such as the randomized SVD in terms of abstract operations like “orthogonalize” and then realize a theorem about arithmetic costs by “plugging in” a particular scheme such as Gram–Schmidt QR.</p>
+<p>A more detailed explanation is provided <a href="./routines.html">here</a>.</p>
 <h3 id="trust">Trust</h3>
-<p>The value of our approach is that users are able to outsource trust of many things to the library. In particular, a user who trusts that NLA-lib’s definition programs and standard collections of base operations are sound can have faith that some algorithm satisfies the specified accuracy and runtime guarantees. We hope that as more users adopt NLA-lib for their own work, that this will help identify any bugs in our implementations, and increase the overall trust in the library.</p>
+<p>We believe the main value of NLA-lib is that it allows users to outsource trust of many things to the library itself. In particular, a user who trusts that NLA-lib’s definition routines and standard collections of base operations are sound can have faith in statements about cost and accuracy proved using NLA-lib. As more users adopt NLA-lib for their own work, issues with the library are more likely to be identified, and the overall trust in the library will increase.</p>
+<p>Our approach does not guarantee that the way a particular algorithm is defined in NLA-lib matches any natural language or software definitions. However, we again hope that centralization will increase trust in the NLA-lib provided algorithms, since users can identify and fix bugs.</p>
 <h2 id="formalizing-software">Formalizing software</h2>
-<p>Our approach for formalization differs from other related formalization projects in aim. In particular, we aim to be able to reason about the theoretical analysis of algorithms, including in models of inexact arithmetic.</p>
-<p>One might argue that what we should care about is whether the “real-world” implementations work. For example, it would be wonderful if when you called an eigensolver in LAPACK, it would be guaranteed to succeed and produce an accurate output. However, doing so would require reasoning about FORTRAN, the compiler, whatever implementation of BLAS is being used, and the system the code is being run on.</p>
-<p>An intermediate approach is to write the software in Lean itself. Lean is a programming language as well as a proof assistant, and projects such as <a href="https://github.com/lecopivo/SciLean">SciLean</a> (scientific computing in Lean) and <a href="https://arxiv.org/abs/2609.19352">FloatLib</a> (verified floating point arithmetic in Lean) make it possible to write numerical code that runs reasonably fast. One can then use Lean to reason about the outputs of these codes.</p>
-<p>Such algorithms can inherent much of the error bounds from NLA-lib. In particular, the way we define error bounds typically involve showing that our programs satisfy certain mathematical conditions, which then imply error bounds. A bridge showing that other software satisfies the relevant mathematical conditions allows the error bounds to be applied.</p>
+<p>Our approach for formalization differs from some other related formalization projects in aim. In particular, we aim to be able to reason about the theoretical analysis of algorithms, including in models of inexact arithmetic.</p>
+<p>One might argue that what we should care about is whether the “real-world” implementations work. For example, it would be wonderful if when you called an eigensolver in LAPACK, it would be guaranteed to succeed and produce an accurate output. However, doing so would require reasoning about FORTRAN, the compiler, whatever implementation of BLAS is being used, and the physical system the code is being run on.</p>
+<p>An intermediate approach is to write the software in Lean itself and then reason about this software. Lean is a programming language as well as a proof assistant, and projects such as <a href="https://github.com/lecopivo/SciLean">SciLean</a> (scientific computing in Lean) and <a href="https://arxiv.org/abs/2609.19352">FloatLib</a> (verified floating point arithmetic in Lean) make it possible to write numerical code that runs reasonably fast. One can then use Lean to prove stuff about the outputs of these codes.</p>
+<p>Such algorithms can inherent much of the error bounds from NLA-lib. In particular, the way we define error bounds typically involve showing that our routines satisfy certain mathematical conditions, which then imply error bounds. A bridge showing that other software satisfies the relevant mathematical conditions allows the error bounds to be applied.</p>
 <h2 id="where-to-read-more">Where to read more</h2>
 <ul>
 <li><a href="https://github.com/NLA-lib/nlalib/blob/main/CONTRIBUTING.md">CONTRIBUTING.md</a>: the library’s full rules and the checks that enforce them.</li>

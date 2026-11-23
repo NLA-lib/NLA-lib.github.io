@@ -279,3 +279,69 @@ img {
     width: auto;
     height: 5em;
 }
+
+/* the interactive program figure (design/ops-figure.js): <div class="opsfig" data-opsfig> */
+.opsfig { margin: 1.5em 0 2em; }
+.opsfig h4 { margin: 1.3em 0 .45em; font-size: 1em; font-weight: 600; }
+.opsfig h4 .opsfig-sub { font-weight: 400; color: #6b6b6b; }
+.opsfig code { font-size: 82%; }
+
+.opsfig-controls { display: flex; flex-wrap: wrap; gap: .75rem 1.5rem; align-items: center;
+    padding-bottom: .75rem; border-bottom: 1px solid #d6d6d6; }
+.opsfig button { font: inherit; color: #1d1d1d; background: #fff; border: 1px solid #1d1d1d;
+    border-radius: 0; cursor: pointer; }
+.opsfig button:disabled { color: #b8b8b8; border-color: #d6d6d6; cursor: default; }
+.opsfig-tabs { display: flex; }
+.opsfig-tabs button { padding: .3rem .8rem; }
+.opsfig-tabs button + button { border-left: 0; }
+.opsfig-tabs button.on { background: #1d1d1d; color: #fff; }
+.opsfig pre.opsfig-prog { margin: 0; }
+
+/* theorem cards, as .theorem above */
+.opsfig-thm { margin: .8rem 0; padding: .9rem 1.1rem; border-left: 4px solid #111; background: #f4f4f4; }
+.opsfig-thm p { margin: .45rem 0; }
+.opsfig-thm > :first-child { margin-top: 0; }
+.opsfig-thm > :last-child { margin-bottom: 0; }
+.opsfig-thm > p:first-child > b:first-child { font-style: italic; }
+.opsfig-thm .katex-display { margin: .7rem 0; overflow-x: auto; overflow-y: hidden; }
+/* the Lean statement, an expansion as in the explorer's cards */
+.opsfig-lean-details { margin-top: .7rem; font-size: .85rem; }
+.opsfig-lean-details > summary { color: #6b6b6b; cursor: pointer; }
+.opsfig-lean-details[open] > summary { color: #1d1d1d; }
+.opsfig-lean-details pre { margin: .5rem 0 0; background: #ededed; }
+.opsfig-prog span { display: inline-block; min-width: 100%; }
+.opsfig-prog .opsfig-comment { color: #6b6b6b; }
+
+.opsfig table { width: 100%; border-collapse: collapse; font-size: 92%; }
+.opsfig td { padding: .4em .5em .4em 0; border-bottom: 1px solid #d6d6d6; vertical-align: top; }
+.opsfig-ops code { font-weight: 600; }
+.opsfig-f { display: block; margin-top: .15em; font-family: 'DejaVu Sans Mono', Menlo, Consolas, monospace; font-size: 82%; }
+.opsfig-lean { color: #6b6b6b; font-size: 85%; }
+.opsfig-ops .opsfig-lean { display: block; }
+.opsfig-note { color: #6b6b6b; font-size: 92%; margin: .6em 0 0; }
+
+/* one operation, highlighted wherever it appears */
+.opsfig [data-op] { cursor: default; }
+.opsfig tr.hl td, .opsfig-prog span.hl { background: #f6dff7; }
+.opsfig-prog span.hl { color: #1d1d1d; }
+
+/* the implementation table of the linked program */
+.opsfig-impl td { padding: .55em 0; }
+.opsfig-proves { display: block; margin-top: .15em; }
+.opsfig-impl .opsfig-lean { display: block; }
+.opsfig [data-op]:focus { outline: 1px dotted #a813ae; outline-offset: 1px; }
+.opsfig-caption { min-height: 3em; margin: 1em 0 0; padding: .6em .9em; background: #f4f4f4;
+    border-left: 4px solid #1d1d1d; font-size: 95%; }
+.opsfig-caption code { background: none; }
+.opsfig-switch { display: inline-flex; margin-left: .6rem; vertical-align: 1px; font-weight: 400; }
+.opsfig-switch button { padding: .05rem .5rem; font-size: 85%; }
+.opsfig-switch button + button { border-left: 0; }
+.opsfig-switch button.on { background: #1d1d1d; color: #fff; }
+.opsfig-entry { display: block; font-weight: 600; }
+.opsfig-cost { display: block; margin-top: .1em; }
+.opsfig-prog .opsfig-comment.hl { color: #6b6b6b; }
+.opsfig-model { margin: 0 0 .4em; font-size: 95%; }
+
+/* highlighting in code blocks (md2html.py): keywords and comments */
+pre .kw { font-weight: 600; }
+pre .co { color: #9a9a9a; font-style: italic; }
