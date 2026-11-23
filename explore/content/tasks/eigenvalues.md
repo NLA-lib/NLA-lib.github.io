@@ -42,6 +42,9 @@ groups:
     computing a QR factorization.
   algorithms:
   - qr-iteration
+  summaries:
+    qr-iteration: Shifted QR on Hessenberg matrices (BGS I, II), and BGS + Dense Schur (end-to-end) for any
+      dense matrix.
 - id: jacobi
   title: Jacobi methods
   summary: Diagonalize a Hermitian matrix using successive plane rotations.
@@ -55,7 +58,7 @@ groups:
   - hessenberg-reduction
 ---
 
-Approximate extremal or interior eigenvalues and their invariant subspaces.
+Approximate extremal or interior eigenvalues and their invariant subspaces. For all eigenvalues and a Schur form of any dense matrix, with backward-error, precision and work guarantees, see [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/).
 
 {{ generated:task-groups }}
 

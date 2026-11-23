@@ -34,10 +34,10 @@ The library proves the two tails in an elementary polynomial form. Its exponents
 ::: theorem decl:NLAlib.measureReal_not_exists_isEigenvalueListing_le_le_log_sq_of_hasLaw_complexGaussianMatrix name="Eigenvalue gap of a Ginibre perturbation" id=gap-tail
 Let $\mathbf G$ be a standard complex Gaussian matrix of order $n$, $\mathbf M$ deterministic, $0<2\gamma\le\|\mathbf M\|_2$ and $0<t\le\gamma$. Then
 
-$$\mathbb P\bigl[\text{no eigenvalue listing of }\mathbf M+\gamma n^{-1/2}\mathbf G\text{ has }|\lambda_i-\lambda_j|>t\text{ for all }i\ne j\bigr]\le10000e\,n^5\sqrt{t/\gamma}\Bigl(\frac{\|\mathbf M\|_2}{\gamma}+\log\frac{\gamma}{t}\Bigr)^2.$$
+$$\mathbb P\bigl[\text{no eigenvalue listing of }\mathbf M+\gamma n^{-1/2}\mathbf G\text{ has }|\lambda_i-\lambda_j|>t\text{ for all }i\ne j\bigr]\le2048e\,n^{11/3}\Bigl(\frac t\gamma\Bigr)^{2/3}\Bigl(\frac{\|\mathbf M\|_2}{\gamma}+\log\frac{\gamma}{t}\Bigr)^2.$$
 :::
 
-This is a weaker polynomial form of Lemma B.1 of BGS III. The exponent of $t/\gamma$ is $1/2$ here and $2$ in the source. The proof covers a disk containing the spectrum by a net of $36(R/t)^2$ points. Two eigenvalues close to a net point force a small second-smallest singular value (see [eigenvalue clustering](#clustering) below), whose tail is of fourth order. The proof then combines the condition tail below at the cutoff $(\gamma/t)^{1/4}$ with a norm cutoff.
+This is a weaker polynomial form of Lemma B.1 of BGS III. The exponent of $t/\gamma$ is $2/3$ here and $2$ in the source. The proof covers a disk containing the spectrum by a net of $36(R/t)^2$ points. Two eigenvalues close to a net point force a small second-smallest singular value (see [eigenvalue clustering](#clustering) below), whose tail is of fourth order. The proof then combines the condition tail below at the cutoff $(\gamma/(nt))^{1/3}$, which balances the net term against the condition tail, with a norm cutoff.
 
 ::: theorem decl:NLAlib.measureReal_not_exists_pseudoConditionNumber_le_le_log_sq_of_hasLaw_complexGaussianMatrix name="Eigenvector condition number of a Ginibre perturbation" id=condition-tail
 Let $\mathbf G$ be a standard complex Gaussian matrix of order $n$, $\mathbf M$ deterministic, $0<2\gamma\le\|\mathbf M\|_2$ and $0<t\le1$. Then
@@ -55,7 +55,7 @@ $$\bar C_1n^{\bar a_1}(t_1/\gamma)^{\bar b_1}\bigl(K+\log(\gamma/t_1)\bigr)^{\ba
 where $(\bar C_i,\bar a_i,\bar b_i,\bar c_i)$ is the record $c_i$ normalized. No norm condition is needed: when $\|\mathbf M\|_2<2\gamma$ the tails are applied to $\mathbf M+4\gamma\mathbf I$.
 :::
 
-The tails are recorded as four numbers $(C,a,b,c)$, the bound $C\,n^a\,s^b\,(K+\log(1/s))^c$ (`PolyLogTail`). The predicates `BoundsGinibreGap` and `BoundsGinibreCondition` say that a record bounds the gap or the condition tail. The library proves them for the records `ginibreGapTail` $=(10000e,5,1/2,2)$ and `ginibreConditionTail` $=(128e,3,2,2)$ (`boundsGinibreGap_ginibreGapTail`, `boundsGinibreCondition_ginibreConditionTail`). The theorems that use the tails take a record as a hypothesis, and each has an unconditional corollary at the proved records. So a sharper tail, such as the printed gap exponent $2$, plugs in without changing them.
+The tails are recorded as four numbers $(C,a,b,c)$, the bound $C\,n^a\,s^b\,(K+\log(1/s))^c$ (`PolyLogTail`). The predicates `BoundsGinibreGap` and `BoundsGinibreCondition` say that a record bounds the gap or the condition tail. The library proves them for the records `ginibreGapTail` $=(2048e,11/3,2/3,2)$ and `ginibreConditionTail` $=(128e,3,2,2)$ (`boundsGinibreGap_ginibreGapTail`, `boundsGinibreCondition_ginibreConditionTail`). The theorems that use the tails take a record as a hypothesis, and each has an unconditional corollary at the proved records. So a sharper tail, such as the printed gap exponent $2$, plugs in without changing them.
 
 ## Ingredients
 

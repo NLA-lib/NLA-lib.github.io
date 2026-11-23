@@ -75,6 +75,8 @@ PROGRAMS = {
     'relative-blas-matvec': 'relative-error BLAS + matvec',
     'relative-blas': 'relative-error BLAS',
     'stored-scalar': 'stored scalar',
+    'any-small-block': 'any small-block Schur solver',
+    'bgs-iii-small-block': 'BGS III small-block program',
 }
 
 

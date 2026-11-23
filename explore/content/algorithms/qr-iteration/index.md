@@ -2,7 +2,7 @@
 kind: algorithm
 id: qr-iteration
 title: Hessenberg shifted QR (BGS)
-summary: The shifted QR algorithm of Banks, Garza-Vargas and Srivastava on Hessenberg matrices, with an exact-arithmetic program and a finite-precision program.
+summary: The shifted QR algorithm of Banks, Garza-Vargas and Srivastava on Hessenberg matrices, with exact-arithmetic and finite-precision programs and BGS + Dense Schur (end-to-end).
 search_aliases:
 - QR eigenvalue iteration
 - QR algorithm
@@ -26,13 +26,13 @@ source_guides:
 
 A QR eigenvalue method preserves the spectrum through unitary similarities and exposes small subdiagonal couplings that can be discarded to split the eigenvalue problem. A shifting strategy chooses which similarities to apply; a deflation rule decides when to split. Different strategies give different algorithms.
 
-This page is the Hessenberg shifted QR algorithm of Banks, Garza-Vargas and Srivastava (BGS): a shifting strategy with exceptional shifts for upper Hessenberg matrices that are diagonalizable with a bounded eigenvector condition number. The library has two certified programs for it, one in exact arithmetic (BGS I) and one in finite precision (BGS II). They are different programs, not one program under two models.
+This page is the Hessenberg shifted QR algorithm of Banks, Garza-Vargas and Srivastava (BGS): a shifting strategy with exceptional shifts for upper Hessenberg matrices that are diagonalizable with a bounded eigenvector condition number. The library has certified programs for it in exact arithmetic (BGS I) and in finite precision (BGS II); they are different programs, not one program under two models. [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/) runs the finite-precision program inside a pipeline that accepts any dense matrix.
 
 ::: definition name="Shifted QR step"
 Choose a shift $\mu_j$ and factor $\mathbf A_j-\mu_j\mathbf I=\mathbf Q_j\mathbf R_j$. Set $\mathbf A_{j+1}=\mathbf R_j\mathbf Q_j+\mu_j\mathbf I=\mathbf Q_j^{\mathsf{H}}\mathbf A_j\mathbf Q_j$. Thus each exact step preserves eigenvalues. Shift selection, deflation tests, and explicit or implicit execution belong to concrete variants. The target for a general matrix is Schur form, rather than necessarily a diagonal matrix.
 :::
 
-## Outline shared by the two programs
+## Outline shared by the programs
 
 ```text
 start from an upper Hessenberg matrix
@@ -51,7 +51,9 @@ The library proves normal-matrix and conditioned nonnormal-matrix decoupling res
 
 The exact-arithmetic program uses local spectral primitives for Ritz candidates and terminal blocks of order at most the shift degree $k$. These are explicit operation-model assumptions with declared costs. See that implementation for its precise boundary and input hypotheses.
 
-The finite-precision program has its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks and Ritz values are computed by a randomized small-eigenvalue solver, and it stores the eigenvalues of a nearby matrix with probability at least $1-\varphi$ over a random tape. The page of that program has two models. In one the small-eigenvalue solver is an oracle, specified by its accuracy and failure probability. In the other it is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), and the theorem has no oracle hypothesis. That theorem is unconditional: the random-matrix tails it needs are proved.
+The finite-precision program has its own certificate. Its arithmetic is a machine in the standard model with unit roundoff $u$, its terminal blocks are solved by a randomized small-block Schur solver, and with probability at least $1-\varphi$ over a random tape it stores a Schur pair of a nearby matrix; the eigenvalues are the diagonal. The page of that program has two models. In one the small-block solver is any routine meeting a Schur contract. In the other it is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), and no hypothesis on a solver or on random matrices remains.
+
+[BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/) removes the Hessenberg and conditioning hypotheses: for any dense $\mathbf A$ it computes $\widehat{\mathbf U}$ and an exactly upper triangular $\widehat{\mathbf T}$.
 
 ## Programs
 

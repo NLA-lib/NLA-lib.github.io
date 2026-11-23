@@ -226,17 +226,60 @@ primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureRe
 title = "Chebyshev fixed-batch nuclear-norm query lower bound"
 primary = "NLAlib.natCast_div_chebyshevQueryFactor_mul_lt_of_forall_le_measureReal_nuclearNorm_sub_mul_le_of_pass_lt"
 
-# Hessenberg shifted QR in finite precision (BGS II) and the small-eigenvalue solver (BGS III).
-# The headlines are the unconditional forms, at the proved Ginibre tail records.
+# Hessenberg shifted QR in finite precision (BGS II), the small-eigenvalue solver (BGS III) and the
+# end-to-end dense Schur solver. Schur pairs are the output; eigenvalues are corollaries. The
+# headlines with the BGS III program are the unconditional forms, at the proved Ginibre tail records.
+
+[shifted-qr-rounded-schur-any-leaf]
+title = "Rounded shifted QR with any small-block Schur solver: Schur pair"
+aliases = ["BGS II Theorem 6.3 in Schur form"]
+primary = "NLAlib.ShiftedQR.roundedShQRSchurWith_randomSchurCoreContract"
+
+[shifted-qr-rounded-schur]
+title = "Rounded shifted QR with the BGS III program: Schur pair"
+primary = "NLAlib.ShiftedQR.roundedShQRSchur_measureReal_not_schur_le"
 
 [shifted-qr-rounded-small-eig-backward-error]
-title = "Rounded shifted QR with the BGS III program: backward error"
+title = "Rounded shifted QR with the BGS III program: eigenvalues"
 aliases = ["Shifted QR without an oracle", "BGS II Theorem 6.3", "BGS II Theorem 1.4"]
 primary = "NLAlib.ShiftedQR.roundedShQRSmallEig_measureReal_not_spectrum_le_unconditional"
 
 [shifted-qr-rounded-small-eig-certificate-accuracy]
 title = "Rounded shifted QR with the BGS III program: one counted run"
 primary = "NLAlib.ShiftedQR.roundedShQRSmallEig_algorithm_measureReal_not_accepts_le_unconditional"
+
+[dense-schur-backward-error]
+title = "End-to-end dense Schur: backward error and orthogonality"
+aliases = ["Dense Schur theorem"]
+primary = "NLAlib.Schur.denseSchur_measureReal_not_schur_le"
+
+[dense-schur-small-block-oracle]
+title = "End-to-end dense Schur with any small-block Schur solver"
+primary = "NLAlib.Schur.denseSchurWith_measureReal_not_schur_le"
+
+[dense-schur-eigenvalues]
+title = "End-to-end dense Schur: eigenvalues of a nearby matrix"
+primary = "NLAlib.Schur.denseSchur_measureReal_not_spectrum_le"
+
+[dense-schur-exact-unitary]
+title = "End-to-end dense Schur: exact-unitary form"
+primary = "NLAlib.Schur.denseSchur_measureReal_not_exact_schur_le"
+
+[dense-schur-certificate-accuracy]
+title = "End-to-end dense Schur: one counted run"
+primary = "NLAlib.Schur.denseSchur_algorithm_measureReal_not_accepts_le"
+
+[verified-schur-every-tape]
+title = "Verified dense Schur: flag 0 implies accuracy on every tape"
+primary = "NLAlib.Schur.verifiedSchur_writes"
+
+[verified-schur-failure]
+title = "Verified dense Schur: failure probability of the flag"
+primary = "NLAlib.Schur.verifiedSchur_measureReal_not_schur_le"
+
+[verified-schur-certificate]
+title = "Verified dense Schur: one counted run"
+primary = "NLAlib.Schur.verifiedSchur_algorithm_measureReal_not_accepts_le"
 
 [small-eig-backward-error]
 title = "Small-eigenvalue solver (BGS III): backward error"
