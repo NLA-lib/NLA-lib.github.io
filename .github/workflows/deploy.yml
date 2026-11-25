@@ -94,12 +94,14 @@ jobs:
         with:
           script: |
             const artifactId = process.env.PAGES_ARTIFACT_ID;
-            if (!/^\d+$/.test(artifactId)) throw new Error('Missing Pages artifact ID');
+            if (!/^\d+$/.test(artifactId) || !Number.isSafeInteger(Number(artifactId))) {
+              throw new Error('Missing or invalid Pages artifact ID');
+            }
             const { owner, repo } = context.repo;
             const oidcToken = await core.getIDToken();
             const { data: deployment } = await github.request(
               'POST /repos/{owner}/{repo}/pages/deployments', {
-                owner, repo, artifact_id: artifactId,
+                owner, repo, artifact_id: Number(artifactId),
                 pages_build_version: context.sha, oidc_token: oidcToken
               }
             );
