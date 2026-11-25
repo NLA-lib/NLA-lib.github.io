@@ -22,7 +22,8 @@ jobs:
       - name: Renderer and documentation MCP test dependencies
         run: python3 -m pip install -r requirements.txt -r search/requirements-docs.txt
       - name: Authentication backend dependencies
-        run: python3 -m pip install --require-hashes --only-binary=:all: --platform manylinux_2_28_x86_64 --platform manylinux2014_x86_64 --implementation cp --python-version 3.12 --target /tmp/nlalib-auth-test -r backend/requirements.lock
+        run: |
+          python3 -m pip install --require-hashes --only-binary=:all: --platform manylinux_2_28_x86_64 --platform manylinux2014_x86_64 --implementation cp --python-version 3.12 --target /tmp/nlalib-auth-test -r backend/requirements.lock
       - name: Authentication backend tests
         run: PYTHONPATH=/tmp/nlalib-auth-test python3 -m unittest discover -s backend/tests -v
       - name: Build metadata regressions
