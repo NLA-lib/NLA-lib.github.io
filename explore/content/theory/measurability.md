@@ -1,4 +1,5 @@
 ---
+uid: 1ff74c60-51b1-5a00-b008-b28e5b9d4644
 kind: theory
 id: measurability
 title: Measurability of randomized constructions

@@ -1,4 +1,5 @@
 ---
+uid: a499adb0-8d58-5c65-ab80-2000c6101ac1
 kind: theory
 id: polynomial-error-bounds
 title: Polynomial approximation and interpolation bounds

@@ -1,4 +1,5 @@
 ---
+uid: f87e0c84-54c6-5a82-94bd-a9e5d865719c
 kind: implementation
 id: standard
 algorithm: early-truncated-rsvd

@@ -1,4 +1,5 @@
 ---
+uid: a01fcb9b-3883-5a10-9258-413fe4b48f9d
 kind: algorithm
 id: arnoldi
 title: Arnoldi process
@@ -28,21 +29,13 @@ Build an orthonormal Krylov basis and an upper-Hessenberg compression. This is a
 
 ## Definition
 
-::: definition decl:NLAlib.arnoldiMatrix name="Arnoldi process"
-For a square matrix $\mathbf A$ and starting vector $\mathbf b$, construct a graded orthonormal basis $\mathbf Q_k$ of $\mathcal K_k(\mathbf A,\mathbf b)$. Orthogonalize $\mathbf A\mathbf q_j$ against the current basis to obtain the next column. The compression $\mathbf H_k=\mathbf Q_k^{\mathsf{H}}\mathbf A\mathbf Q_k$ is upper Hessenberg. A zero residual signals that the Krylov space has stopped growing; no further nonzero basis column is available.
-:::
+{{ statement:nlalib-arnoldimatrix-1ebd9712 }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:arnoldi-relation name="Arnoldi relation"
-For the library's canonical Krylov bases $\mathbf Q_j$, including their zero-column convention after breakdown,
-
-$$\mathbf A\mathbf Q_k=\mathbf Q_{k+1}(\mathbf Q_{k+1}^{\mathsf{H}}\mathbf A\mathbf Q_k).$$
-
-Thus applying the full operator to the current basis is represented in the next Krylov space by a small coefficient matrix.
-:::
+{{ statement:arnoldi-relation }}
 
 ## Further results
 

@@ -1,4 +1,5 @@
 ---
+uid: c11de4b7-2193-5a6c-a908-a885095232c7
 kind: family
 id: residual-minimization-methods
 title: Residual-minimization methods

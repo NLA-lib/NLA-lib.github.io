@@ -1,4 +1,5 @@
 ---
+uid: bd21d04e-8da7-55d7-a544-23c5f8277cbc
 kind: theory
 id: subspaces
 title: Subspaces and projectors
@@ -13,9 +14,7 @@ module_prefixes:
 
 Many numerical methods first select a subspace and then solve or approximate within it. The projector describes that choice independently of the basis used to represent it.
 
-::: definition name="Orthogonal projection"
-If $\mathbf Q$ has orthonormal columns, then $\mathbf P=\mathbf Q\mathbf Q^{\mathsf{H}}$ is the orthogonal projector onto their range: $\mathbf P^{\mathsf{H}}=\mathbf P$ and $\mathbf P^2=\mathbf P$. For any vector $\mathbf x$, the projected vector lies in the subspace and the residual $\mathbf x-\mathbf P\mathbf x$ is orthogonal to it. Principal angles compare two subspaces rather than particular choices of basis.
-:::
+{{ statement:orthogonal-projection-2fa76a05 }}
 
 ## Results
 

@@ -1,4 +1,5 @@
 ---
+uid: 511ade49-679d-5365-9f22-16a91454869a
 kind: algorithm
 id: cgls
 title: CGLS
@@ -25,9 +26,7 @@ Apply a conjugate-gradient recurrence to a least-squares problem.
 
 ## Definition
 
-::: definition name="CGLS"
-For $\min_{\mathbf x}\|\mathbf A\mathbf x-\mathbf b\|_2$, apply the mathematical CG iteration to the normal equations $\mathbf A^{\mathsf{H}}\mathbf A\mathbf x=\mathbf A^{\mathsf{H}}\mathbf b$. Compute products through $\mathbf A$ and its adjoint rather than explicitly forming their Gram matrix. Full column rank makes the normal-equation matrix positive definite. Rank-deficient inputs require the corresponding breakdown and solution-selection conventions.
-:::
+{{ statement:cgls-d881b1fc }}
 
 
 

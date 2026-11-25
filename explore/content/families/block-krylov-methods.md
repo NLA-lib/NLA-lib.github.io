@@ -1,4 +1,5 @@
 ---
+uid: 6760009f-4ad5-5e18-b867-ac458c1da459
 kind: family
 id: block-krylov-methods
 title: Block Krylov methods

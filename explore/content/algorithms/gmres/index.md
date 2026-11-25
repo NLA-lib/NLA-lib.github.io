@@ -1,4 +1,5 @@
 ---
+uid: 24737f40-cc38-5c2b-83d0-313c2dc5448c
 kind: algorithm
 id: gmres
 title: GMRES
@@ -33,13 +34,7 @@ Minimize the residual over a Krylov space for a general square system.
 
 ## Definition
 
-::: definition name="GMRES"
-For $\mathbf A\mathbf x=\mathbf b$, set $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$. Choose
-
-$$\mathbf x_k\in\operatorname*{arg\,min}_{\mathbf y\in\mathbf x_0+\mathcal K_k(\mathbf A,\mathbf r_0)}\|\mathbf b-\mathbf A\mathbf y\|_2.$$
-
-Arnoldi reduces this minimization to a small least-squares problem. Restarting changes the sequence of search spaces and is a distinct concrete variant.
-:::
+{{ statement:gmres-7d1681b7 }}
 
 
 
@@ -49,13 +44,7 @@ Arnoldi reduces this minimization to a small least-squares problem. Restarting c
 
 ## Mathematical guarantees
 
-::: theorem result:gmres-optimality name="Minimum residual"
-For any square $\mathbf A$, right-hand side $\mathbf b$, starting point $\mathbf x_0$, and $k\ge0$, the mathematical GMRES iterate satisfies
-
-$$\|\mathbf b-\mathbf A\mathbf x_k\|_2\le\|\mathbf b-\mathbf A\mathbf y\|_2\quad\text{for every }\mathbf y\in\mathbf x_0+\mathcal K_k(\mathbf A,\mathbf r_0),$$
-
-where $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$. No positive-definiteness assumption is required for this optimality statement.
-:::
+{{ statement:gmres-optimality }}
 
 ## Further results
 

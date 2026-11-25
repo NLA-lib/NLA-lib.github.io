@@ -1,4 +1,5 @@
 ---
+uid: e7cd95aa-3e85-5653-99bc-9be0b33f2682
 kind: algorithm
 id: plu
 title: PLU factorization
@@ -21,9 +22,7 @@ search_aliases:
 - GEPP
 ---
 
-::: definition name="PLU factorization"
-With the row-permutation convention used here, $\mathbf P\mathbf A=\mathbf L\mathbf U$, where $\mathbf P$ is a permutation matrix, $\mathbf L$ is unit lower triangular, and $\mathbf U$ is upper triangular. Pivot-selection rules are implementation choices.
-:::
+{{ statement:plu-factorization-a6e9180a }}
 
 ## Implementations
 

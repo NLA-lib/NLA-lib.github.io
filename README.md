@@ -34,6 +34,18 @@ Build the Explorer into `_site/explore` using `explore/build.py` and matching pu
 then add the homepage and shared assets as in the deployment workflow. Run `python3 preview.py`
 from this repository root (with `--port 8081` for the current demo).
 
+## Local collaborative editor prototype
+
+The opt-in [editor prototype](explore/editor/README.md) adds page and individual
+statement editing, mathematical preview, diffs, local drafts and revision history,
+discussion, reactions, and a research feedback queue. Start it with
+`python3 explore/editor_server.py --site /path/to/built/explorer`. It stores work in
+a separate local database and never commits, publishes, or changes Lean sources.
+
+The [notation standard](explore/docs/notation.md) describes source conventions and
+validation. The [authentication and hosting plan](explore/docs/authentication-and-hosting.md)
+sets out the next AWS/ORCID slice while retaining GitHub Pages.
+
 ## Analytics
 
 All content pages load the asynchronous GoatCounter script for
@@ -42,10 +54,12 @@ Explorer shell (`explore/web/template.html`) supply it to generated pages. The
 standalone lemma-search page also includes it. Keep the committed homepage and
 Design HTML in sync with the Markdown generator.
 
-## Researcher sign-in
+## Collaborative research platform
 
-The Explorer uses the ORCID sign-in/profile service at `api.nla-lib.org`.
-See [backend deployment and security](explore/backend/README.md) and the
-[setup record](explore/docs/aws-setup.md). Static mathematical content remains
-readable without a session or the AWS backend. Hosted content editing and
-discussion are a separate phase.
+The Explorer build publishes the shared statement pages, minimalist discussion
+interface, source snapshots and editing assets. The optional AWS backend supplies
+ORCID identities, private drafts, review, reactions and discussions. Accepted
+mathematical content stays in Git; a restricted GitHub App publishes through
+checked pull requests. See [setup and publication](explore/backend/COLLABORATION.md).
+The loopback-only [local editor](explore/editor/README.md) remains available for
+preview without AWS and never publishes its SQLite workspace.

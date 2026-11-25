@@ -1,4 +1,5 @@
 ---
+uid: 1dfcbbce-2847-5912-87b0-9bb6ba13a3de
 kind: theory
 id: matrix-factorization-theory
 title: Factorization identities and existence

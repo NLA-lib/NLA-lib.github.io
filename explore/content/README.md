@@ -378,3 +378,11 @@ This checks every source module and fingerprint, public declaration record,
 comparisons require explicit rename mappings for removed declarations and report
 changed signatures. A result selector with no generated results slot does not count
 as a visible placement. Unplaced named results or methods fail the audit.
+
+## Shared theorem files
+
+Authored theorems live individually under [`statements/`](statements/README.md).
+Place a standalone `{{ statement:cg-chebyshev-bound }}` in any page to include that
+statement. Its text, Lean evidence link, and permanent editor identity are shared;
+the connecting exposition remains in the containing page. Existing inline blocks
+are supported for compatibility, including explanatory definitions.

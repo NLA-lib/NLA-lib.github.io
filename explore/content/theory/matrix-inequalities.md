@@ -1,4 +1,5 @@
 ---
+uid: 38dd15e7-2be1-5398-aac8-34bce836fbca
 kind: theory
 id: matrix-inequalities
 title: Matrix inequalities and majorization
@@ -16,9 +17,7 @@ module_prefixes:
 
 Matrix inequalities compare operators, their spectra, or scalar quantities such as trace and determinant. Keeping these comparisons distinct makes their hypotheses easier to read.
 
-::: definition name="Loewner order and majorization"
-For Hermitian matrices, $\mathbf A\preceq\mathbf B$ means $\mathbf x^{\mathsf{H}}(\mathbf B-\mathbf A)\mathbf x\ge0$ for every vector $\mathbf x$. Majorization instead compares partial sums of ordered scalar lists, such as eigenvalues or singular values. A statement about one of these orders does not automatically imply a statement about every other matrix quantity.
-:::
+{{ statement:loewner-order-and-majorization-94212462 }}
 
 ## Background
 

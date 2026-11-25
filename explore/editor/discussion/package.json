@@ -1,0 +1,17 @@
+{
+  "name": "nlalib-discussion-ui",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@primer/primitives": "11.10.0",
+    "@primer/react": "38.47.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

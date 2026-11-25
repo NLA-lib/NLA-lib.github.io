@@ -1,4 +1,5 @@
 ---
+uid: 7f468410-c49a-58ee-bc27-fc67b6050bfd
 kind: theory
 id: probability
 title: Probability for numerical linear algebra

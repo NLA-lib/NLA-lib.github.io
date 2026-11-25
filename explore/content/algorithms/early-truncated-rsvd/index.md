@@ -1,4 +1,5 @@
 ---
+uid: 091a6f81-4f69-5d94-8c72-f8c713b90a09
 kind: algorithm
 id: early-truncated-rsvd
 title: Early-truncated RSVD
@@ -20,9 +21,7 @@ result_ids:
 library_results: false
 ---
 
-::: definition decl:NLAlib.earlyTruncatedRSVD name="Early-truncated RSVD"
-Form the sketch $\mathbf Y=\mathbf A\mathbf\Omega$, retain its best rank-at-most-$k$ approximation $[\mathbf Y]_k$, then return $\mathbf P_{[\mathbf Y]_k}\mathbf A$. The retained subspace is chosen from the sketch, rather than from the full projected matrix.
-:::
+{{ statement:nlalib-earlytruncatedrsvd-a10be3ad }}
 
 ## Implementations
 

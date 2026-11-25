@@ -18,6 +18,31 @@
       location.assign(link.href);
     }
   });
+  for (const card of document.querySelectorAll('.statement-overview')) {
+    const details = card.querySelector('.explorer-result-details');
+    const summary = details.querySelector('summary');
+    const toggle = summary.querySelector('.statement-expand');
+    const link = summary.querySelector('a');
+    toggle.addEventListener('click', event => {
+      event.preventDefault(); event.stopPropagation(); details.open = !details.open;
+    });
+    details.addEventListener('toggle', () => {
+      toggle.setAttribute('aria-expanded', String(details.open));
+      toggle.setAttribute('aria-label', details.open ? 'Collapse statement' : 'Expand statement');
+      toggle.querySelector('span').textContent = details.open ? '↑' : '↓';
+    });
+    card.addEventListener('click', event => {
+      if (event.defaultPrevented || event.target.closest('button,a,input,select,textarea') || window.getSelection()?.toString()) return;
+      if (event.button !== 0 || event.ctrlKey || event.metaKey || event.shiftKey || event.altKey) return;
+      location.assign(link.href);
+    });
+    // Keep native links (including modified clicks) and buttons independent.
+    summary.addEventListener('click', event => {
+      if (event.target.closest('a,button,input,select,textarea')) return;
+      event.preventDefault();
+      if (!event.ctrlKey && !event.metaKey && !event.shiftKey && !event.altKey) location.assign(link.href);
+    });
+  }
   function fragmentTarget() {
     try { return document.getElementById(decodeURIComponent(location.hash.slice(1))); }
     catch { return null; }

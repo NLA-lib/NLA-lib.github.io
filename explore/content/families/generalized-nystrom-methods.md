@@ -1,4 +1,5 @@
 ---
+uid: ae1cbfe1-ee46-5ccf-9771-0c0f701eef29
 kind: family
 id: generalized-nystrom-methods
 title: Generalized Nyström methods

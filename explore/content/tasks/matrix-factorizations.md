@@ -1,4 +1,5 @@
 ---
+uid: 3167e31e-d610-5fd2-a00b-a65764d0904b
 kind: task
 id: matrix-factorizations
 title: Matrix factorizations and bases

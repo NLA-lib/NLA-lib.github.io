@@ -1,4 +1,5 @@
 ---
+uid: 9726b8e2-b25a-548c-9a8d-eb73704b9160
 kind: algorithm
 id: iterative-sketching
 title: Iterative sketching
@@ -11,9 +12,7 @@ theory:
 - pseudoinverses
 ---
 
-::: definition name="Iterative sketching"
-Fix a sketch $\mathbf S$, form $\mathbf G=(\mathbf S\mathbf A)^{\mathsf{H}}\mathbf S\mathbf A$, and update $\mathbf x_{j+1}=\mathbf x_j+\omega\mathbf G^\dagger\mathbf A^{\mathsf{H}}(\mathbf b-\mathbf A\mathbf x_j)$. The same sketch is reused in every step. A positive step alone does not ensure convergence; the embedding bounds and damping parameter must give a contraction.
-:::
+{{ statement:iterative-sketching-4d02220c }}
 
 ## Results
 

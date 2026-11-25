@@ -1,4 +1,5 @@
 ---
+uid: 69968ec6-210b-5b5f-813f-dc8dd9f01b9c
 kind: theory
 id: sketching-theory
 title: Embeddings and sketch guarantees
@@ -21,13 +22,7 @@ module_prefixes:
 
 The right sketch property depends on what the algorithm must preserve. A subspace embedding preserves all vector norms in one subspace. Approximate matrix multiplication controls a product, while projection-cost preservation supports comparisons between low-rank subspaces.
 
-::: definition name="Subspace embedding"
-A matrix $\mathbf S$ is an embedding of a subspace $V$ with squared-norm distortion $\varepsilon$ if
-
-$$(1-\varepsilon)\|\mathbf x\|_2^2\le\|\mathbf S\mathbf x\|_2^2\le(1+\varepsilon)\|\mathbf x\|_2^2\qquad\text{for every }\mathbf x\in V.$$
-
-An oblivious distribution chooses $\mathbf S$ independently of the fixed target subspace, with a stated success probability. The dimension and probability requirements differ among sketch laws.
-:::
+{{ statement:subspace-embedding-dd0c654f }}
 
 ## Background
 

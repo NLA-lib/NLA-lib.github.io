@@ -1,4 +1,5 @@
 ---
+uid: acd53eb0-5ea9-512c-a354-c04b05e6d5b5
 kind: index
 id: search
 title: Search the explorer

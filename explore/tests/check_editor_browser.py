@@ -1,0 +1,61 @@
+"""Browser regression for the minimalist Explorer and the isolated Primer discussion UI."""
+import argparse
+from pathlib import Path
+import sys,tempfile,threading
+sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
+from editor_server import make_server
+from playwright.sync_api import expect,sync_playwright
+p=argparse.ArgumentParser(description=__doc__);p.add_argument('--site',required=True,type=Path);p.add_argument('--chromium',required=True);p.add_argument('--screenshots',type=Path,default=Path('/tmp/nlalib-editor-screenshots'));args=p.parse_args();args.screenshots.mkdir(parents=True,exist_ok=True)
+with tempfile.TemporaryDirectory() as tmp:
+ server=make_server(args.site,Path(__file__).resolve().parents[1]/'content',Path(tmp)/'workspace.sqlite3');threading.Thread(target=server.serve_forever,daemon=True).start()
+ try:
+  with sync_playwright() as pw:
+   browser=pw.chromium.launch(executable_path=args.chromium,args=['--no-sandbox']);page=browser.new_page(viewport={'width':1440,'height':1050});errors=[];page.on('pageerror',lambda error:errors.append(str(error)));page.on('dialog',lambda dialog:dialog.accept())
+   def dialog():return page.locator('dialog[open]').last
+   def click(scope,name):scope.get_by_role('button',name=name,exact=True).click()
+   def tools(name):page.get_by_label('Page actions',exact=True).click();click(page.locator('.page-tools-menu'),name)
+   def close():click(dialog(),'Close')
+   route=server.origin+'/explore/algorithms/conjugate-gradient/'
+   assert page.goto(route,wait_until='domcontentloaded').status==200
+   expect(page.get_by_role('navigation',name='Primary')).to_have_count(1);expect(page.get_by_role('navigation',name='Primary').get_by_role('link')).to_have_count(4)
+   expect(page.locator('.explorer-navigation')).to_have_count(0);expect(page.locator('.editor-workspace')).to_have_count(0)
+   overview=page.locator('.statement-overview').first
+   expect(overview.get_by_role('button',name='Add reaction',exact=True)).to_have_count(0)
+   count=overview.locator('[data-discussion-count]');expect(count).to_be_visible();assert count.bounding_box()['x']+count.bounding_box()['width']<=overview.locator('.statement-expand').bounding_box()['x'];
+   before=overview.evaluate('e=>getComputedStyle(e).backgroundColor');overview.hover();assert overview.evaluate('e=>getComputedStyle(e).backgroundColor')!=before;overview.locator('summary a').hover();expect(overview.locator('summary a')).to_have_css('background-color','rgba(0, 0, 0, 0)');expect(overview.locator('.statement-expand')).to_have_css('border-top-width','0px');
+   click(overview,'Expand statement');expect(overview.locator('.explorer-disclosure-body')).to_be_visible()
+   expect(overview.locator('a[href$="#discussion"]')).to_have_count(0)
+   toggle=overview.get_by_role('button',name='Collapse statement',exact=True);expect(toggle).to_have_text('↑');card_box=overview.bounding_box();hit_box=toggle.bounding_box();assert abs(hit_box['y']-card_box['y'])<2;assert abs(hit_box['height']-card_box['height'])<2;assert abs(hit_box['x']+hit_box['width']-card_box['x']-card_box['width'])<2;toggle.click(position={'x':hit_box['width']/2,'y':hit_box['height']-5});expect(overview.locator('.explorer-disclosure-body')).not_to_be_visible();click(overview,'Expand statement');page.screenshot(path=str(args.screenshots/'overview.png'),full_page=False)
+   overview.locator('.explorer-disclosure-body p').first.click();expect(page.locator('main[data-statement-detail]')).to_be_visible();detail_url=page.url;expect(page.locator('.theorem-reaction-slot + #discussion')).to_have_count(1)
+   expect(page.locator('.theorem-statement')).to_be_visible();expect(page.locator('main .theorem-statement.explorer-card')).to_have_count(1)
+   expect(page.locator('.theorem-formal')).to_be_visible();expect(page.locator('.theorem-formal')).not_to_have_attribute('open','');expect(page.locator('.theorem-formal pre code')).not_to_be_visible();page.locator('.theorem-formal>summary').click();expect(page.locator('.theorem-formal pre code')).to_be_visible();expect(page.locator('.theorem-formal pre .lean-definition-link').first).to_be_visible();expect(page.locator('.statement-context').filter(has=page.get_by_role('heading',name='Related results',exact=True))).to_be_visible();expect(page.locator('.statement-context')).not_to_have_attribute('open','');expect(page.locator('.theorem-formal details.cg-evidence')).to_have_count(0)
+   expect(page.locator('main a[href$="#discussion"]')).to_have_count(0)
+   reactions=page.locator('.theorem-reaction-slot');click(reactions,'Add reaction');click(dialog(),'React with 👍 · Helpful');expect(reactions.get_by_role('button',name='👍 Helpful, 1 reaction',exact=True)).to_have_attribute('aria-pressed','true')
+   discussion=page.locator('#discussion');expect(discussion.locator('.primer-discussion')).to_be_visible();assert discussion.evaluate("e=>Array.from(e.shadowRoot.querySelectorAll('link[rel=stylesheet]')).every(link=>link.sheet!==null)")
+   tools('Edit statement');body=dialog().get_by_label('Statement · Markdown and LaTeX',exact=True);original=body.input_value();body.fill(original+'\n\nBrowser check: clarify $n=0$.');click(dialog(),'Preview');expect(dialog().locator('.editor-preview')).to_contain_text('Browser check');click(dialog(),'Changes');expect(dialog().locator('.editor-diff')).to_contain_text('+Browser check');click(dialog(),'Edit')
+   click(dialog(),'Save draft');expect(dialog().locator('.editor-message')).to_contain_text('Draft saved locally')
+   with page.expect_navigation(wait_until='domcontentloaded'):close()
+   tools('Edit statement');expect(dialog().get_by_label('Statement · Markdown and LaTeX',exact=True)).to_have_value(original+'\n\nBrowser check: clarify $n=0$.')
+   click(dialog(),'Add shared reference');dialog().get_by_label('Shared reference',exact=True).last.select_option('HornJohnson2013');dialog().get_by_label('Location (theorem, section, page, version)',exact=True).last.fill('Section 5.6');dialog().get_by_label('Explanation of this change',exact=True).fill('Clarify the boundary case and cite the shared reference.');click(dialog(),'Save local revision');expect(dialog().locator('.editor-message')).to_contain_text('Revision saved locally')
+   with page.expect_navigation(wait_until='domcontentloaded'):close()
+   expect(page.locator('.theorem-statement .editor-status')).to_have_count(0);expect(page.locator('.theorem-statement + .editor-status')).to_be_visible();expect(page.locator('.statement-references')).to_contain_text('Section 5.6');expect(page.locator('.statement-references')).to_contain_text('Matrix Analysis')
+   tools('Revision history');expect(dialog().locator('li')).to_have_count(2);dialog().get_by_role('button',name='View revision',exact=True).last.click();expect(page.locator('dialog[open]')).to_have_count(2);expect(dialog()).not_to_contain_text('Browser check');close();close()
+   discussion=page.locator('#discussion');expect(discussion.locator('.primer-discussion')).to_be_visible();assert discussion.evaluate("e=>Array.from(e.shadowRoot.querySelectorAll('link[rel=stylesheet]')).every(link=>link.sheet!==null)")
+   discussion.get_by_label('Contribution type',exact=True).select_option('mathematical-error');discussion.get_by_label('Message · Markdown and LaTeX',exact=True).fill('Please check $n=0$.');discussion.get_by_text('Preview',exact=True).click();expect(discussion.locator('.comment-preview .katex')).to_be_visible();discussion.get_by_text('Write',exact=True).click();click(discussion,'Comment');expect(discussion.locator('.comment-message')).to_have_count(1)
+   click(discussion.locator('.comment-message').first,'Reply');discussion.get_by_label('Message · Markdown and LaTeX',exact=True).fill('A threaded reply.');click(discussion.locator('.thread-composer'),'Reply');expect(discussion.locator('.comment-reply')).to_have_count(1)
+   discussion.scroll_into_view_if_needed();page.screenshot(path=str(args.screenshots/'discussion.png'),full_page=False)
+   page.locator('.page-heading').scroll_into_view_if_needed();page.screenshot(path=str(args.screenshots/'theorem-detail.png'),full_page=False)
+   page.reload(wait_until='domcontentloaded');expect(page.locator('#discussion .comment-message')).to_have_count(2)
+   assert page.goto(route,wait_until='domcontentloaded').status==200
+   overview=page.locator('.statement-overview').first;expect(overview.locator('[data-discussion-count]')).to_have_attribute('aria-label','Discussion, 2 messages')
+   expect(overview.locator('.editor-reaction-readonly')).to_contain_text('1');expect(overview.locator('.editor-reactions button')).to_have_count(0)
+   tools('Edit page');source=dialog().get_by_label('Page Markdown',exact=True);assert source.input_value().startswith('---\n');assert '{{ statement:cg-optimality }}' in source.input_value();source.fill(source.input_value()+'\n\nBrowser page exposition.\n');dialog().get_by_label('Explanation of this change',exact=True).fill('Improve the connecting exposition.');click(dialog(),'Save local revision');expect(dialog().locator('.editor-message')).to_contain_text('Revision saved locally')
+   with page.expect_navigation(wait_until='domcontentloaded'):close()
+   expect(page.locator('main')).to_contain_text('Browser page exposition');general=page.locator('#discussion');general.get_by_label('Message · Markdown and LaTeX',exact=True).fill('A page-level discussion.');click(general,'Comment');expect(general.locator('.comment-message')).to_have_count(1)
+   assert page.goto(server.origin+'/explore/theory/',wait_until='domcontentloaded').status==200;tools('Edit page');assert 'kind: index' in dialog().get_by_label('Page Markdown',exact=True).input_value()
+   with page.expect_navigation(wait_until='domcontentloaded'):close()
+   page.set_viewport_size({'width':390,'height':844});assert page.goto(detail_url,wait_until='domcontentloaded').status==200;expect(page.locator('#discussion .primer-discussion')).to_be_visible();assert page.evaluate('document.documentElement.scrollWidth<=innerWidth'),page.evaluate("Array.from(document.querySelectorAll('main *')).filter(e=>e.getBoundingClientRect().right>innerWidth).slice(0,12).map(e=>[e.tagName,e.className,e.getBoundingClientRect().width])");page.locator('#discussion').scroll_into_view_if_needed();page.screenshot(path=str(args.screenshots/'mobile-discussion.png'),full_page=False)
+   assert page.goto(server.origin+'/explore/people/local-researcher/',wait_until='domcontentloaded').status==200;expect(page.locator('#profile-content')).to_contain_text('Contributions');expect(page.locator('#profile-content')).to_contain_text('Notifications · private');click(page.locator('#profile-content'),'Edit profile');dialog().get_by_label('Display name',exact=True).fill('Browser Researcher');click(dialog(),'Save profile');expect(dialog().locator('.editor-message')).to_contain_text('Profile saved.');close();expect(page.locator('.page-title')).to_have_text('Browser Researcher');page.screenshot(path=str(args.screenshots/'profile-mobile.png'),full_page=True);click(page.locator('#profile-content'),'Manage bots');dialog().get_by_label('Bot name',exact=True).fill('Browser bot');dialog().get_by_label('What will this bot do?',exact=True).fill('Suggest references.');dialog().get_by_label('Comment and suggest',exact=True).check();click(dialog(),'Create bot and token');expect(dialog().get_by_label('API token',exact=True)).to_have_value(__import__('re').compile('nla_bot_.+'));click(dialog(),'Revoke token');expect(dialog().locator('.editor-message')).to_contain_text('Token revoked.');close();
+   assert page.goto(server.origin+'/',wait_until='domcontentloaded').status==200;expect(page.get_by_role('navigation',name='Primary')).to_have_count(1)
+   assert not any('search-index.json' in entry['name'] for entry in page.evaluate("performance.getEntriesByType('resource').map(r=>({name:r.name}))")), 'Search should load only on demand';assert not errors,errors;browser.close();print('Browser checks passed: card navigation and expand button, inline reactions/counts, theorem box, Lean code, contextual definitions/results, Primer threads, editing/history, profiles, bot registration/revocation, mobile.')
+ finally:server.shutdown();server.server_close();server.application.db.close()

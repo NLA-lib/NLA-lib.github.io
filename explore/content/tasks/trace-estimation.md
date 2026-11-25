@@ -1,4 +1,5 @@
 ---
+uid: 77f86c7e-1915-53f0-9ece-42d42c5f9cc4
 kind: task
 id: trace-estimation
 title: Trace estimation and spectral statistics

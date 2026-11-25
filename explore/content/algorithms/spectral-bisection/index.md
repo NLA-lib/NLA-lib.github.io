@@ -1,4 +1,5 @@
 ---
+uid: f417999f-5203-5b07-af13-e650afcc080f
 kind: algorithm
 id: spectral-bisection
 title: Hermitian spectral bisection (Shah)

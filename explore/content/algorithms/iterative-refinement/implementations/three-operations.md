@@ -1,4 +1,5 @@
 ---
+uid: 156393ee-98e4-543f-bb80-b019cc9c899e
 kind: implementation
 id: three-operations
 algorithm: iterative-refinement
@@ -37,8 +38,8 @@ The number of steps $k$ is fixed: the program has no stopping test. It is the ro
 
 | Buffer | Content |
 | --- | --- |
-| 0 | The $n$ words of $\mathbf b$, read only |
-| 1 | The $n$ words of $\mathbf x_0$, overwritten by the output |
+| 0 | The $n$ words of $\mathbf{b}$, read only |
+| 1 | The $n$ words of $\mathbf{x}_0$, overwritten by the output |
 | 2 | Room for $n$ words: the residual, not reported |
 | 3 | Room for $n$ words: the correction, not reported |
 
@@ -46,15 +47,15 @@ The number of steps $k$ is fixed: the program has no stopping test. It is the ro
 
 {{ generated:arithmetic-model-selector }}
 
-The model has three operations and no query. For the matrix $\mathbf A$ of the input and fixed $\theta,\eta,\zeta,\varepsilon\ge0$, on decoded blocks in the Euclidean norm:
+The model has three operations and no query. For the matrix $\mathbf{A}$ of the input and fixed $\theta,\eta,\zeta,\varepsilon\ge0$, on decoded blocks in the Euclidean norm:
 
 | Operation | Contract |
 | --- | --- |
-| `residual` | $\|\mathbf b-\mathbf A\mathbf x-\mathbf r\|\le\zeta\|\mathbf b-\mathbf A\mathbf x\|+\eta(\|\mathbf b\|+\|\mathbf A\|_2\|\mathbf x\|)$ |
-| `solve` | $\|\mathbf A^{-1}\mathbf r-\mathbf d\|\le\theta\|\mathbf A^{-1}\mathbf r\|$ |
-| `update` | $\|\mathbf x+\mathbf d-\mathbf x'\|\le\varepsilon\|\mathbf x+\mathbf d\|$ |
+| `residual` | $\|\mathbf{b}-\mathbf{A}\mathbf{x}-\mathbf{r}\|\le\zeta\|\mathbf{b}-\mathbf{A}\mathbf{x}\|+\eta(\|\mathbf{b}\|+\|\mathbf{A}\|_2\|\mathbf{x}\|)$ |
+| `solve` | $\|\mathbf{A}^{-1}\mathbf{r}-\mathbf{d}\|\le\theta\|\mathbf{A}^{-1}\mathbf{r}\|$ |
+| `update` | $\|\mathbf{x}+\mathbf{d}-\mathbf{x}'\|\le\varepsilon\|\mathbf{x}+\mathbf{d}\|$ |
 
-`residual` and `solve` are declared oracles for $\mathbf A$: their contracts depend on the input only through the matrix. `update` has one contract at every size and input. The model is confined, and exact arithmetic satisfies the three contracts jointly, so they are not vacuous. These contracts are assumptions of the model. In particular, a `solve` meeting its contract is assumed here, not built from a factorization.
+`residual` and `solve` are declared oracles for $\mathbf{A}$: their contracts depend on the input only through the matrix. `update` has one contract at every size and input. The model is confined, and exact arithmetic satisfies the three contracts jointly, so they are not vacuous. These contracts are assumptions of the model. In particular, a `solve` meeting its contract is assumed here, not built from a factorization.
 
 ## Operations and Storage
 
@@ -66,15 +67,7 @@ instructions, independent of $n$ because the three vector operations are primiti
 
 ## Accuracy
 
-::: theorem decl:NLAlib.LinearSystems.Refinement.Certification.algorithm_checked name="Forward error of the stored output" id=certificate
-Let $\mathbf A$ be invertible of order $n$, with
-
-$$\varphi=(1+\varepsilon)\bigl(\theta+(1+\theta)\kappa_2(\mathbf A)(\zeta+\eta)\bigr)<1,\qquad\xi=(1+\varepsilon)(1+\theta)\,2\kappa_2(\mathbf A)\eta+\varepsilon.$$
-
-For every $\mathbf b$ and $\mathbf x_0$, every interpretation satisfying the three contracts and every tape, the run of the fixed program from $\mathbf b$, $\mathbf x_0$ and two blank vectors succeeds within $25k+15$ instructions, and buffer 1 then holds $\hat{\mathbf x}$ with, for $\mathbf A\mathbf x_\star=\mathbf b$,
-
-$$\|\mathbf x_\star-\hat{\mathbf x}\|\le\varphi^k\|\mathbf x_\star-\mathbf x_0\|+\frac{\xi}{1-\varphi}\|\mathbf x_\star\|.$$
-:::
+{{ statement:nlalib-linearsystems-refinement-certification-algorithm-checked }}
 
 The condition $\varphi<1$ is part of the admitted inputs. The stored iterates form a [refinement run](/explore/algorithms/iterative-refinement/#run), so every theorem about a run applies to them.
 

@@ -1,4 +1,5 @@
 ---
+uid: 06f25396-f318-50d5-b452-4d74d9766e4c
 kind: family
 id: polar-iterations
 title: Polar decomposition methods

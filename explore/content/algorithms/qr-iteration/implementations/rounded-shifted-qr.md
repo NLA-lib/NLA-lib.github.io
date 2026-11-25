@@ -1,4 +1,5 @@
 ---
+uid: 0a0a5104-3c54-5190-8069-fd563331d2d5
 kind: implementation
 id: rounded-shifted-qr
 algorithm: qr-iteration
@@ -25,7 +26,7 @@ search_aliases:
 
 The library certifies a shifted QR program for rounded arithmetic. It is a different program from the [exact-arithmetic program](/explore/algorithms/qr-iteration/implementations/shifted-qr/): scalar arithmetic is a machine in the standard model with unit roundoff $u$, terminal blocks are solved by a randomized small-block Schur solver, and the program draws shifts from a random tape. Its accuracy holds with a probability over the tape, not on every run. The analysis follows Theorem 6.3 of Banks, Garza-Vargas and Srivastava, *Global convergence of Hessenberg shifted QR II*, which computes eigenvalues. The library's program computes a Schur form.
 
-**The output is a Schur pair.** The matrix buffer ends holding an exactly upper triangular $\widehat{\mathbf T}$, and the accumulator buffer a computed $\widehat{\mathbf U}$. The eigenvalues are the diagonal of $\widehat{\mathbf T}$, a corollary of the Schur statement.
+**The output is a Schur pair.** The matrix buffer ends holding an exactly upper triangular $\widehat{\mathbf{T}}$, and the accumulator buffer a computed $\widehat{\mathbf{U}}$. The eigenvalues are the diagonal of $\widehat{\mathbf{T}}$, a corollary of the Schur statement.
 
 This page is one algorithm under two models, which differ in the small-block solver. In the **any small-block solver** model the solver is a routine parameter, and the theorem takes its contract as a hypothesis. In the **BGS III program** model it is the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a fixed program of scalar operations and draws, and no hypothesis on a solver or on random matrices remains. To start from a general matrix, see [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/), which uses this program as its core.
 
@@ -61,7 +62,7 @@ if blocks remain after 2N rounds: Fl := 1
 output: T^ in the matrix buffer, U^ in the accumulator buffer, the failure word Fl
 ```
 
-The run is capped on every tape: the worklist by $2N$ rounds, the decoupling loop by $F$ rounds, every search by its length. A capped loop that has not finished writes the failure word. The exact zeros written at the cuts are what make $\widehat{\mathbf T}$ exactly upper triangular; the backward-error witness accounts for the discarded entries.
+The run is capped on every tape: the worklist by $2N$ rounds, the decoupling loop by $F$ rounds, every search by its length. A capped loop that has not finished writes the failure word. The exact zeros written at the cuts are what make $\widehat{\mathbf{T}}$ exactly upper triangular; the backward-error witness accounts for the discarded entries.
 
 ### Inputs and buffers
 
@@ -69,13 +70,13 @@ Complex entries are stored as adjacent real and imaginary words. The program is 
 
 | Buffer | On input | On output |
 | --- | --- | --- |
-| Matrix, $2(n+1)^2$ words | $\mathbf H$ | $\widehat{\mathbf T}$ (the input is overwritten) |
+| Matrix, $2(n+1)^2$ words | $\mathbf{H}$ | $\widehat{\mathbf{T}}$ (the input is overwritten) |
 | Threshold, $1$ word | Deflation threshold $t$ | Unchanged |
 | Parameters, $n_p$ words | Parameter words | Unchanged |
-| Accumulator, $2(n+1)^2$ words | A stored matrix $\mathbf U_0$ | $\widehat{\mathbf U}$ |
+| Accumulator, $2(n+1)^2$ words | A stored matrix $\mathbf{U}_0$ | $\widehat{\mathbf{U}}$ |
 | Failure, $1$ word | Any | $0$ on success |
 
-Its sizes are the order $n+1$, the shift degree $k$, the number $n_p$ of parameter words, the iteration cap $F$ and the cap $T$ of the small-block solver's loops. The certificate below starts from $\mathbf U_0=\mathbf I$.
+Its sizes are the order $n+1$, the shift degree $k$, the number $n_p$ of parameter words, the iteration cap $F$ and the cap $T$ of the small-block solver's loops. The certificate below starts from $\mathbf{U}_0=\mathbf{I}$.
 
 ### Parameters
 
@@ -88,11 +89,11 @@ The caller chooses five reals: a condition bound $B\ge1$, a separation $\Gamma>0
 
 ### Shape of the guarantee
 
-In both models the conclusion has the same form. Except with probability $\varphi$ over the tape, the run sets the failure word to $0$, writes only the matrix, the accumulator and the failure word, and stores an upper triangular $\widehat{\mathbf T}$ and a $\widehat{\mathbf U}$ such that, for an exact unitary $\mathbf W$ and some $\|\mathbf E\|_2\le\delta$,
+In both models the conclusion has the same form. Except with probability $\varphi$ over the tape, the run sets the failure word to $0$, writes only the matrix, the accumulator and the failure word, and stores an upper triangular $\widehat{\mathbf{T}}$ and a $\widehat{\mathbf{U}}$ such that, for an exact unitary $\mathbf{W}$ and some $\|\mathbf{E}\|_2\le\delta$,
 
-$$\widehat{\mathbf T}=\mathbf W^{\mathsf H}(\mathbf H+\mathbf E)\mathbf W,\qquad\|\widehat{\mathbf U}-\mathbf U_0\mathbf W\|_2\le\bigl((1+24u)^{R_{\mathrm{rot}}}-1\bigr)\|\mathbf U_0\|_2.$$
+$$\widehat{\mathbf{T}}=\mathbf{W}^{\mathsf{H}}(\mathbf{H}+\mathbf{E})\mathbf{W},\qquad\|\widehat{\mathbf{U}}-\mathbf{U}_0\mathbf{W}\|_2\le\bigl((1+24u)^{R_{\mathrm{rot}}}-1\bigr)\|\mathbf{U}_0\|_2.$$
 
-Here $R_{\mathrm{rot}}$ counts the rotations and rotation-equivalents accumulated on $\widehat{\mathbf U}$:
+Here $R_{\mathrm{rot}}$ counts the rotations and rotation-equivalents accumulated on $\widehat{\mathbf{U}}$:
 
 $$R_{\mathrm{rot}}=2(n+1)\bigl(F(k+1+n_p)\,k(n+1)+2k(k+2)\bigr)+(n+1)R_L,$$
 
@@ -105,11 +106,11 @@ where $R_L$ is the corresponding count of one call of the small-block solver. Th
 Both models have the same machine: the standard model with unit roundoff $u$ and no overflow or underflow, exact natural literals up to $n+1$, exact index operations and comparisons. The disk sampler is exact: it reads a radius $R$ and two entries $(t_0,t_1)$ of a uniform stream and writes $R\sqrt{t_0}\,e^{2\pi i t_1}$. The interpretation is measurable and reads the tape only in the windows of its calls.
 
 ::: model any-small-block
-**The small-block solver is a routine parameter `L`.** The program is `roundedShQRWith L`, and `roundedShQRSchurWith L` is the same program with the threshold as its first parameter word. The solver's contract (`RandomSchurLeafContract`) is a hypothesis: on every block $\mathbf B$ of order $d\le\min(k,n+1)$ with $\|\mathbf B\|_2\le4\Sigma$, reading twelve parameter words, it writes only the block and its accumulator and, except with probability $\varphi_L$, stores an upper triangular $\mathbf T_b$ and an accumulator $\mathbf U_b$ with
+**The small-block solver is a routine parameter `L`.** The program is `roundedShQRWith L`, and `roundedShQRSchurWith L` is the same program with the threshold as its first parameter word. The solver's contract (`RandomSchurLeafContract`) is a hypothesis: on every block $\mathbf{B}$ of order $d\le\min(k,n+1)$ with $\|\mathbf{B}\|_2\le4\Sigma$, reading twelve parameter words, it writes only the block and its accumulator and, except with probability $\varphi_L$, stores an upper triangular $\mathbf{T}_b$ and an accumulator $\mathbf{U}_b$ with
 
-$$\mathbf T_b=\mathbf V_b^{\mathsf H}(\mathbf B+\mathbf F)\mathbf V_b,\qquad\|\mathbf F\|_2\le\beta_L,\qquad\|\mathbf U_b-\mathbf V_b\|_2\le\varepsilon_L$$
+$$\mathbf{T}_b=\mathbf{V}_b^{\mathsf{H}}(\mathbf{B}+\mathbf{F})\mathbf{V}_b,\qquad\|\mathbf{F}\|_2\le\beta_L,\qquad\|\mathbf{U}_b-\mathbf{V}_b\|_2\le\varepsilon_L$$
 
-for an exact unitary $\mathbf V_b$. The theorem assumes
+for an exact unitary $\mathbf{V}_b$. The theorem assumes
 
 $$0\le\beta_L\le\beta_0,\qquad0\le\varphi_L\le\varphi_0,\qquad0\le\varepsilon_L\le(1+24u)^{R_L}-1.$$
 
@@ -125,7 +126,7 @@ The library states this with existential constants (`logb_inv_uShQR_le`); its pr
 ::: model bgs-iii-program
 **The small-block solver is the BGS III program.** The leaf and `Regularize` run the fixed program `smallEigProg` of [randomized shifted inverse iteration (BGS III)](/explore/algorithms/inverse-iteration/implementations/small-eig/) on the block. The operation model has no eigenvalue kernel. Its primitives are scalar arithmetic, index operations, comparisons, draws that store a tape entry, and the exact polar disk sampler. The tape has a second stream, $s_G$, with the standard real Gaussian law, from which the solver draws its Gaussian perturbations and directions. Twelve parameter words of the solver follow those of shifted QR, chosen for blocks of order at most $k$, norm at most $4\Sigma$, forward error $R$ and failure $\varphi_0$. Its rotation count is $R_L=k^2+2(k+1)\bigl((T+k)k+6\bigr)$ (`smallEigLeafRotations`).
 
-The probability bounds of the solver need tails for the eigenvalue gap and the eigenvector condition number of a Ginibre perturbation $\mathbf M+\gamma n^{-1/2}\mathbf G$. The general theorems take them as hypotheses on two tail records. The library proves the records $(2048e,11/3,2/3,2)$ for the gap and $(128e,3,2,2)$ for the condition number, so the unconditional theorems below have no such hypothesis. See [pseudospectral shattering](/explore/theory/pseudospectral-shattering/).
+The probability bounds of the solver need tails for the eigenvalue gap and the eigenvector condition number of a Ginibre perturbation $\mathbf{M}+\gamma n^{-1/2}\mathbf{G}$. The general theorems take them as hypotheses on two tail records. The library proves the records $(2048e,11/3,2/3,2)$ for the gap and $(128e,3,2,2)$ for the condition number, so the unconditional theorems below have no such hypothesis. See [pseudospectral shattering](/explore/theory/pseudospectral-shattering/).
 
 **Precision.** $u\le u_0=\min(u_{\mathrm{ShQR}},u^{\mathrm{fwd}}_{\mathrm{SmallEig}},1/100,u_{\mathrm{replay}})$ (`uShQRSchur`), with the second term taken at the parameters above and the replay term at the $R_L$ above. For fixed tail records there are constants $e_1,e_2,e_3$ such that the first two terms, whose minimum is `uShQRSmallEig`, satisfy
 
@@ -143,13 +144,7 @@ The cost of the program depends on the solver `L`, and the library has no certif
 ::: end-model
 
 ::: model bgs-iii-program
-::: definition decl:NLAlib.ShiftedQR.shqrSmallEigAlgorithm name="Certificate with the BGS III program" id=certificate-small-eig
-The fixed program `shqrSmallEigProgram`, over the model of the BGS III program (no oracle) with unit costs, succeeds on every admitted input, every interpretation of the model and every tape, within the static budget, scratch and memory, and writes only the matrix, the accumulator and the failure word. Its accumulator starts from $\mathbf I$. At the sizes $(n,k,n_p,F,T)$ its work and span are at most
-
-$$967736\,(n+1)^3(k+1)^4(n_p+1)(F+1)(T+1)^2.$$
-
-The instructions of the BGS III solver are among those counted: the bound covers the whole computation, apart from the parameter words, which are supplied.
-:::
+{{ statement:nlalib-shiftedqr-shqrsmalleigalgorithm-dfd2780d }}
 
 The cap $T$ is the largest loop count of the solver, a logarithm of $k\Sigma/(\delta\varphi)$ up to constants. The monomial is an envelope of the paper's count of order $n^4+n^3\log^2$, not its shape.
 ::: end-model
@@ -157,45 +152,23 @@ The cap $T$ is the largest loop count of the solver, a logarithm of $k\Sigma/(\d
 ## Accuracy
 
 ::: model any-small-block
-::: theorem result:shifted-qr-rounded-schur-any-leaf name="Schur pair with any small-block solver" id=accuracy
-Let $B\ge1$, $\Gamma>0$, $0<\delta\le\Sigma$, $0<\varphi\le1$, and let $k$ be the shift degree at $4B$. Let the machine and the sampler be as above, let the uniform stream have its law, and let `L` meet the small-block contract with $\beta_L$, $\varphi_L$ and $\varepsilon_L$ in the ranges above and twelve words. Let $u\le u_{\mathrm{ShQR}}$ and $u\le u_{\mathrm{replay}}$.
+{{ statement:shifted-qr-rounded-schur-any-leaf }}
 
-Then `roundedShQRSchurWith L` meets the Schur core contract. For every upper Hessenberg $\mathbf H$ of order at most $n+1$ with $\|\mathbf H\|_2\le\Sigma$ that has a diagonalization $\mathbf H\mathbf V=\mathbf V\operatorname{diag}(\mathbf d)$ with $\|\mathbf V\|_2\|\mathbf V^{-1}\|_2\le B$ and $|d_i-d_j|\ge\Gamma$ for $i\ne j$, and every stored accumulator $\mathbf U_0$, the probability is at most $\varphi$ that the run fails, writes outside the matrix, the accumulator and the failure word, or does not store the failure word $0$ and a Schur pair as in "Shape of the guarantee" above.
-:::
-
-::: theorem decl:NLAlib.ShiftedQR.roundedShQRWith_measureReal_not_spectrum_le name="Eigenvalues, with any small-block solver" id=eigenvalues-any-leaf
-Under the same hypotheses on the machine, the solver and the input, the probability is at most $\varphi$ that the run fails, writes outside the matrix, the accumulator and the failure word, or does not set the failure word to $0$ and store an upper triangular $\widehat{\mathbf T}$ whose diagonal lists $\operatorname{spec}(\mathbf H+\mathbf E)$, with multiplicity, for some $\|\mathbf E\|_2\le\delta$.
-:::
+{{ statement:nlalib-shiftedqr-roundedshqrwith-measurereal-not-spectrum-le }}
 
 With a solver that completes on every tape, the program terminates on every tape, with no rounding model (`roundedShQRWith_terminates`).
 ::: end-model
 
 ::: model bgs-iii-program
-::: theorem decl:NLAlib.ShiftedQR.roundedShQRSchur_measureReal_not_schur_le name="Schur pair with the BGS III program" id=accuracy-schur
-Let $\mathbf H$ be upper Hessenberg of order $n+1$ with
-
-- $\mathbf H\mathbf V=\mathbf V\operatorname{diag}(\mathbf d)$ for an invertible $\mathbf V$ with $\|\mathbf V\|_2\|\mathbf V^{-1}\|_2\le B$, $B\ge1$;
-- $|d_i-d_j|\ge\Gamma>0$ for $i\ne j$;
-- $\|\mathbf H\|_2\le\Sigma$, $0<\delta\le\Sigma$, $0<\varphi\le1$, and $k$ the shift degree at $4B$.
-
-Let the machine and the sampler be as above, let draws store the tape entry, let the tape have independent entries with $s_U$ uniform on $[0,1]$ and $s_G$ standard real Gaussian, and let $u\le u_0$ at tail records $c_1,c_2$ that bound the two Ginibre tails. Start the program `roundedShQRSchur` from a memory holding $\mathbf H$, an accumulator $\mathbf U_0$ and the words of `shqrSchurParams`. Then the probability is at most $\varphi$ that the run fails, writes outside the matrix, the accumulator and the failure word, or does not store the failure word $0$ and a Schur pair as in "Shape of the guarantee" above, with $R_{\mathrm{rot}}$ = `shqrSmallEigRotations`.
-:::
+{{ statement:nlalib-shiftedqr-roundedshqrschur-measurereal-not-schur-le }}
 
 This statement keeps the tail records as hypotheses, and the proved records `ginibreGapTail` and `ginibreConditionTail` satisfy them. The corollaries below are stated at those records.
 
-::: theorem result:shifted-qr-rounded-small-eig-backward-error name="Eigenvalues with the BGS III program, unconditional" id=accuracy-small-eig
-Under the hypotheses above on $\mathbf H$, the machine and the tape, with $u\le u_0$ at the proved tail records, start the program `roundedShQRSmallEig` from a memory holding $\mathbf H$, a stored accumulator, the threshold word and the parameter words. Then
-
-$$\mathbb P\bigl[\text{the run fails, writes outside the matrix, the accumulator and the failure word, or does not set the failure word to }0\text{ and store an upper triangular }\widehat{\mathbf T}\text{ whose diagonal lists }\operatorname{spec}(\mathbf H+\mathbf E)\text{ with }\|\mathbf E\|_2\le\delta\bigr]\le\varphi.$$
-
-The theorem has no hypothesis on a small-block solver and none on random matrices.
-:::
+{{ statement:shifted-qr-rounded-small-eig-backward-error }}
 
 The general form, `roundedShQRSmallEig_measureReal_not_spectrum_le`, takes the gap and condition tails as hypotheses on records $c_1,c_2$, so that other records can be used. The run terminates on every tape (`roundedShQRSmallEig_terminates`), with no unit roundoff, class or random-matrix hypothesis.
 
-::: theorem result:shifted-qr-rounded-small-eig-certificate-accuracy name="On one counted run, with the BGS III program" id=one-run-small-eig
-Under the hypotheses of the theorem above, the probability is at most $\varphi$ that the counted run of `shqrSmallEigAlgorithm` fails, exceeds its budget, scratch, memory, work or span, writes outside the matrix, the accumulator and the failure word, or does not store an upper triangular $\widehat{\mathbf T}$ whose diagonal lists the spectrum of a matrix $\mathbf H+\mathbf E$ with $\|\mathbf E\|_2\le\delta$. The work and span bound is the certificate's $967736\,(n+1)^3(k+1)^4(n_p+1)(F+1)(T+1)^2$.
-:::
+{{ statement:shifted-qr-rounded-small-eig-certificate-accuracy }}
 
 The accepted output of this certificate is the eigenvalue statement. The Schur statement is the theorem on the program above; [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/#certificate) states the Schur form on one counted run.
 ::: end-model

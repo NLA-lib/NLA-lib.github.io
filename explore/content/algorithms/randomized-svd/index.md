@@ -1,4 +1,5 @@
 ---
+uid: 0eae966e-5653-5752-9afb-1a4bd29f3029
 kind: algorithm
 id: randomized-svd
 title: Range-finder approximation (RSVD)
@@ -24,11 +25,9 @@ search_aliases:
 - RSVD
 ---
 
-Let $\mathbf Y=\mathbf A\mathbf\Omega$ and let $\mathbf P_{\mathbf Y}$ be the orthogonal projector onto its range.
+Let $\mathbf{Y}=\mathbf{A}\mathbf\Omega$ and let $\mathbf{P}_{\mathbf{Y}}$ be the orthogonal projector onto its range.
 
-::: definition decl:NLAlib.rsvd name="Range-finder approximation"
-The untruncated approximation is $\mathbf B=\mathbf P_{\mathbf Y}\mathbf A$. Its rank is at most the sketch width; a target rank $k$ is not imposed at this stage.
-:::
+{{ statement:nlalib-rsvd-15e6c9dc }}
 
 ## Implementations
 
@@ -36,13 +35,7 @@ The untruncated approximation is $\mathbf B=\mathbf P_{\mathbf Y}\mathbf A$. Its
 
 ## Mathematical guarantees
 
-::: theorem result:randomized-svd-expected-error name="Expected Frobenius error"
-For a real matrix $\mathbf A$, a standard Gaussian test matrix $\mathbf\Omega\in\mathbb R^{n\times\ell}$, and $k+2\le\ell$,
-
-$$\mathbb E\|\mathbf A-\mathbf P_{\mathbf A\mathbf\Omega}\mathbf A\|_{\mathrm F}^2\le\left(1+\frac{k}{\ell-k-1}\right)\|\mathbf A-[\mathbf A]_k\|_{\mathrm F}^2.$$
-
-Here $[\mathbf A]_k$ is a best rank-at-most-$k$ approximation. Increasing the sketch width above $k$ reduces the multiplicative excess over the optimal squared error.
-:::
+{{ statement:randomized-svd-expected-error }}
 
 The range approximation is the common starting point for late truncation. Early truncation instead selects a smaller subspace from the sketch before projecting the matrix.
 

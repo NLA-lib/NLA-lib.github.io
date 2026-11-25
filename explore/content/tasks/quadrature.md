@@ -1,8 +1,9 @@
 ---
+uid: b0adef7d-77fc-5098-bd72-9e34169c10d0
 kind: task
 id: quadrature
 title: Quadrature and quadratic forms
-summary: Approximate integrals and quantities such as $b^{\mathsf T}f(A)b$.
+summary: Approximate integrals and quantities such as $\mathbf{b}^{\mathsf{T}}f(\mathbf{A})\mathbf{b}$.
 status: ready
 sections_collapsed: true
 order: 6
@@ -30,7 +31,7 @@ groups:
     lanczos: Generate the tridiagonal recurrence underlying the quadrature rule.
 ---
 
-Approximate integrals and quantities such as $b^{\mathsf T}f(A)b$.
+Approximate integrals and quantities such as $\mathbf{b}^{\mathsf{T}}f(\mathbf{A})\mathbf{b}$.
 
 {{ generated:task-groups }}
 

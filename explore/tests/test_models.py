@@ -199,7 +199,10 @@ class ModelRecordTests(unittest.TestCase):
             self.assertIn('>' + label + '</span>', page)
         self.assertNotIn('explorer-badge', (site / 'library/declarations/N.plain/index.html').read_text())
         self.assertIn('>Exact arithmetic</span>', (site / 'library/results/run/index.html').read_text())
-        self.assertIn('>Exact arithmetic</span>', (site / 'algorithms/method/index.html').read_text())
+        overview = (site / 'algorithms/method/index.html').read_text()
+        self.assertNotIn('>Exact arithmetic</span>', overview)
+        detail = next(s for s in read('statements.json')['statements'] if s['title'] == 'A run')
+        self.assertIn('>Exact arithmetic</span>', (site / detail['url'].removeprefix('/explore/') / 'index.html').read_text())
         # The search page offers exactly the facts that occur.
         search = (site / 'search/index.html').read_text()
         self.assertIn('<select name="arithmetic" data-facet="arithmetic"><option value="">Any</option>'

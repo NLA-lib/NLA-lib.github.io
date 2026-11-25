@@ -1,4 +1,5 @@
 ---
+uid: c8c5d71e-92c8-5479-acb1-a9c0ab09856b
 kind: implementation
 id: three-precision
 algorithm: iterative-refinement
@@ -45,9 +46,9 @@ The number of steps $k$ is fixed: the program has no stopping test. It is the ro
 
 | Buffer | Content |
 | --- | --- |
-| 0 | The $n^2$ words of $\mathbf A$, read only |
-| 1 | The $n$ words of $\mathbf b$, read only |
-| 2 | The $n$ words of $\mathbf x_0$, overwritten by the output |
+| 0 | The $n^2$ words of $\mathbf{A}$, read only |
+| 1 | The $n$ words of $\mathbf{b}$, read only |
+| 2 | The $n$ words of $\mathbf{x}_0$, overwritten by the output |
 
 ## Model of arithmetic
 
@@ -74,31 +75,13 @@ instructions, so factorization is $O(n^3)$ and each refinement step $O(n^2)$. Th
 
 ## Accuracy
 
-::: theorem result:three-precision-iterative-refinement name="Forward error of the stored output" id=certificate
-Let $\mathbf A$ be positive definite of order $n$, $\kappa=\kappa_2(\mathbf A)$, $(n+1)u_r<1$, and
-
-$$\theta=48(n+1)^2\kappa u_f\le1,\qquad\eta=(1+u)(n+1)\gamma_{n+1}(u_r),\qquad\gamma_m=(1-u_r)^{-m}-1,$$
-
-$$\varphi=(1+u)\bigl(\theta+(1+\theta)\kappa(u+\eta)\bigr)<1,\qquad\xi=(1+u)(1+\theta)\,2\kappa\eta+u.$$
-
-At an admitted size, for every $\mathbf b$ and $\mathbf x_0$, every interpretation satisfying the model and every tape, the run of the fixed program succeeds within the instruction bound above, and buffer 2 then holds $\hat{\mathbf x}$ with, for $\mathbf A\mathbf x_\star=\mathbf b$,
-
-$$\|\mathbf x_\star-\hat{\mathbf x}\|\le\varphi^k\|\mathbf x_\star-\mathbf x_0\|+\frac{\xi}{1-\varphi}\|\mathbf x_\star\|.$$
-:::
+{{ statement:three-precision-iterative-refinement }}
 
 An admitted size is one where these conditions hold for the identity matrix, so that the certificate covers at least one input at each size. Success is proved, not assumed: under the hypotheses every computed pivot is positive.
 
-::: theorem result:cholesky-backward-error name="Cholesky does not break down" id=cholesky
-If $\mathbf A$ is positive definite of order $n$, read with relative error $v$ and factored at unit roundoff $u$, with $4(n+1)^2(u+v)\kappa_2(\mathbf A)\le1$, then every computed pivot is positive and
+{{ statement:cholesky-backward-error }}
 
-$$\|\mathbf A-\hat{\mathbf L}\hat{\mathbf L}^{\mathsf T}\|_2\le2(n+1)^2(u+v)\|\mathbf A\|_2.$$
-:::
-
-::: theorem decl:NLAlib.Computation.norm_inv_mulVec_sub_le_of_isCholTrace name="The solve with the computed factors" id=solve
-With a computed Cholesky factor as above, $24(n+1)^2(u+v)\kappa_2(\mathbf A)\le1$, a right-hand side read with relative error $v$, and forward and back substitution at unit roundoff $u$, the computed $\mathbf d$ satisfies
-
-$$\|\mathbf A^{-1}\mathbf r-\mathbf d\|\le24(n+1)^2(u+v)\kappa_2(\mathbf A)\|\mathbf A^{-1}\mathbf r\|.$$
-:::
+{{ statement:nlalib-computation-norm-inv-mulvec-sub-le-of-ischoltrace }}
 
 The bound is normwise in the 2-norm. Its condition on $u_f$ carries a factor $(n+1)^2$ and its limiting term a factor of order $(n+1)^2\kappa u_r$; neither constant is claimed to be sharp.
 
@@ -106,4 +89,4 @@ The bound is normwise in the 2-norm. Its condition on $u_f$ carries a factor $(n
 
 - LU with pivoting, for matrices that are not positive definite.
 - Concrete IEEE formats, overflow and underflow, and byte widths per precision.
-- A stopping test, componentwise bounds with $\operatorname{cond}(\mathbf A,\mathbf x)$, and the backward-error results of Carson and Higham.
+- A stopping test, componentwise bounds with $\operatorname{cond}(\mathbf{A},\mathbf{x})$, and the backward-error results of Carson and Higham.

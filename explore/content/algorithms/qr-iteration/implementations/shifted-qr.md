@@ -1,4 +1,5 @@
 ---
+uid: 23322f24-5357-53be-901e-cc9acfe0ac9c
 kind: implementation
 id: shifted-qr
 algorithm: qr-iteration
@@ -20,7 +21,7 @@ The library certifies a fixed shifted-QR program on complex upper Hessenberg mat
 
 ## Algorithm
 
-Complex entries are stored as adjacent real and imaginary words, by columns. For matrix order $N$, shift degree $k=2^m$, and tolerance $\delta$, the solver computes $\tau=\delta\|\mathbf H\|_{\mathrm F}$ from its input and processes active diagonal blocks:
+Complex entries are stored as adjacent real and imaginary words, by columns. For matrix order $N$, shift degree $k=2^m$, and tolerance $\delta$, the solver computes $\tau=\delta\|\mathbf{H}\|_{\mathrm F}$ from its input and processes active diagonal blocks:
 
 ```text
 put the full matrix block on the worklist
@@ -58,9 +59,7 @@ The exact operation model includes real arithmetic, square root, copies, compari
 
 Every spectral problem used by the full driver has order at most $k$. The `ritz` interface receives the active matrix and requested degree; the reference routine extracts its trailing block. Neither primitive supplies a completed QR step, a successful search, or a deflation result. Primitive work and workspace are explicit operation-model parameters.
 
-::: definition decl:NLAlib.ShiftedQR.KernelRoutines name="Local spectral contracts"
-The routine collection specifies the output lengths, Ritz optimality, and complete eigenvalue listing. The exact reference realization uses noncomputable root selection. It establishes consistency of the operation model; it is not an executable small eigensolver.
-:::
+{{ statement:nlalib-shiftedqr-kernelroutines-a68765a4 }}
 
 The exact-arithmetic certificate retains this boundary, and it supplies no finite-arithmetic guarantee. The [finite-precision program](/explore/algorithms/qr-iteration/implementations/rounded-shifted-qr/) is a separate program and certificate: there the small-block solver is randomized, it returns a Schur pair, and the guarantee holds with a probability over a random tape. Its page has two models: any solver meeting a small-block Schur contract, or the [randomized shifted inverse iteration of BGS III](/explore/algorithms/inverse-iteration/implementations/small-eig/), a program with no oracle. [BGS + Dense Schur (end-to-end)](/explore/algorithms/qr-iteration/implementations/dense-schur/) builds on them for any dense matrix.
 
@@ -70,33 +69,22 @@ The caller supplies a complex upper Hessenberg matrix, parameter words $[B,\thet
 
 | Assumption | Meaning |
 | --- | --- |
-| Diagonalization $\mathbf H\mathbf V=\mathbf V\operatorname{diag}(d)$ with invertible $\mathbf V$ and $2\kappa(\mathbf V)\le B$ | Bounds eigenvector conditioning, with room for perturbations during deflation |
+| Diagonalization $\mathbf{H}\mathbf{V}=\mathbf{V}\operatorname{diag}(d)$ with invertible $\mathbf{V}$ and $2\kappa(\mathbf{V})\le B$ | Bounds eigenvector conditioning, with room for perturbations during deflation |
 | $g>0$ and $|d_i-d_j|\ge g$ for $i\ne j$ | Provides eigenvalue separation |
 | $m\ge1$, $k=2^m$, $\theta,\alpha\ge1$, and $B^{4m}\le\alpha^k$ | Sets the shift degree and search factors |
 | $0<\gamma<1$ and $\delta>0$ | Sets contraction and tolerance |
-| $(N-1)\tau\le g/(8NB)$ and $(N-1)\tau\le\|\mathbf H\|_2$ | Controls accumulated deflation perturbations |
+| $(N-1)\tau\le g/(8NB)$ and $(N-1)\tau\le\|\mathbf{H}\|_2$ | Controls accumulated deflation perturbations |
 | Sufficient iteration budget $F$ and the prescribed grid size $M$ | Makes the capped search find a split |
 
 The exact budget and grid inequalities, along with storage-shape conditions, are in the source guide and the full solver interface below. These are mathematical input assumptions, rather than assumptions about execution succeeding.
 
 ## Output guarantees
 
-::: definition decl:NLAlib.ShiftedQR.forwardDeflationAlgorithm name="Backward and forward error certificate"
-Under the stated input assumptions, execution terminates and initializes all $N$ stored complex outputs. Their multiset is exactly the characteristic-polynomial roots of $\mathbf H+\mathbf E$, including algebraic multiplicities, for a perturbation satisfying
-$$\|\mathbf E\|_2\le (N-1)\delta\|\mathbf H\|_{\mathrm F}.$$
-Every stored output is also within
-$$\frac B2(N-1)\delta\|\mathbf H\|_{\mathrm F}$$
-of some eigenvalue of $\mathbf H$. This forward bound is directed from outputs to the input spectrum; it does not assert a bijective matching or reverse coverage. The certificate retains the original resource guarantees.
-:::
+{{ statement:nlalib-shiftedqr-forwarddeflationalgorithm-3677cbb0 }}
 
 ## Cost and storage
 
-::: definition decl:NLAlib.ShiftedQR.countedDeflationAlgorithm name="Full program work and span certificate"
-The same program has both numerical guarantees above. Write $W$ for work and $S$ for sequential span. Their conservative bound is
-$$W,\ S\le17109\,b^{14}\bigl(1+K(b^5)\bigr),$$
-where $b=N+m+k+F+M+1$.
-Here $K(L)$ is the finite maximum of the supplied costs of both spectral primitives over dimension lists of length at most two and entries at most $L$. The bound includes scalar, index, comparison, address, control, and allocation charges. It makes no polynomial-growth assumption about the primitive costs. This is a full-program upper bound, rather than the paper's tight complexity estimate or a bit-complexity bound.
-:::
+{{ statement:nlalib-shiftedqr-counteddeflationalgorithm-aaf66e60 }}
 
 Instruction counts, scratch, and resident memory retain the detailed program-manifest bounds. Scratch includes declared primitive workspace; resident payload also includes the supplied $2N^2+5+2N$ real-word cells. Scoped buffers are released and the tape position is unchanged.
 
@@ -112,15 +100,11 @@ Primitive workspace is accounted for separately by the model and included in the
 
 ## Full solver interface
 
-::: definition decl:NLAlib.ShiftedQR.exactDeflationAlgorithm name="Exact shifted-QR solver interface"
-This is the original backward-error certificate for the fixed program. The stronger interfaces above preserve its program, operation model, and resource guarantees. Expand the Lean details for the exact specification and input domain.
-:::
+{{ statement:nlalib-shiftedqr-exactdeflationalgorithm-80c3e8b3 }}
 
 ## Step interface
 
-::: definition decl:NLAlib.ShiftedQR.stepAlgorithm name="Shifted-QR step interface"
-This component certifies one raw scalar shifted-QR step under its exact operation model, including singular shifts. It is a constituent of the full solver and does not require the full solver's separation and conditioning assumptions.
-:::
+{{ statement:nlalib-shiftedqr-stepalgorithm-0dbb2cc9 }}
 
 ## Source guide
 

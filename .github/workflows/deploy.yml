@@ -36,8 +36,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
       - name: Install Markdown page dependencies
         run: python3 -m pip install -r explore/requirements.txt
+      - name: Validate authored mathematics
+        run: node explore/tests/check_notation.cjs
       - name: Fetch the library data
         working-directory: explore
         run: |

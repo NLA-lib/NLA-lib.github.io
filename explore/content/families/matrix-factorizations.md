@@ -1,4 +1,5 @@
 ---
+uid: 8c088b8f-337c-55ad-8a46-43b211ba910d
 kind: family
 id: matrix-factorizations
 title: Matrix factorizations

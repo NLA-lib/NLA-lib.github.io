@@ -1,4 +1,5 @@
 ---
+uid: ae9329d5-32a2-530c-95d4-2229650f11b0
 kind: theory
 id: finite-precision
 title: Rounding and finite-precision arithmetic
@@ -20,13 +21,7 @@ module_prefixes:
 
 Arithmetic contracts specify how decoded word operations differ from ideal operations. Scalar roundoff, vector reductions, matrix applications, and range restrictions contribute different error terms; a numerical theorem states which combination it needs.
 
-::: definition name="Relative error and absolute error floor"
-A typical scalar error contract has the form
-
-$$|\widehat z-z|\le u|z|+\eta,$$
-
-where $u$ is a relative-error parameter and $\eta$ is an absolute-error floor. Setting $\eta=0$ is an additional choice, not a consequence of relative accuracy. Dot products with cancellation and matrix-vector products need their own accumulation bounds.
-:::
+{{ statement:relative-error-and-absolute-error-floor-293c93c0 }}
 
 ## Background
 

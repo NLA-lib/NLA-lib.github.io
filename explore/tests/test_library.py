@@ -206,7 +206,9 @@ class LibraryTests(unittest.TestCase):
         entry = next(e for e in search if e['id'] == 'N.bound')
         self.assertIn('NOTE_SENTINEL', entry['search_text'])
         self.assertNotIn('NOTE_SENTINEL', entry['summary'])
-        for page in ['library/declarations/N.bound', 'library/results/bound', 'algorithms/method']:
+        detail = next(s for s in json.loads((site / 'api/v1/statements.json').read_text())['statements'] if s['title'] == 'A bound')
+        detail_path = detail['url'].removeprefix('/explore/').rstrip('/')
+        for page in ['library/declarations/N.bound', 'library/results/bound', detail_path]:
             text = (site / page / 'index.html').read_text()
             before, block = text.split('<details class="explorer-disclosure explorer-notes"><summary>Notes</summary>')
             self.assertEqual(text.count('NOTE_SENTINEL'), 1, page)
@@ -218,9 +220,11 @@ class LibraryTests(unittest.TestCase):
         for page in ['library/declarations/N.bound', 'algorithms/method']:
             before = (site / page / 'index.html').read_text().split('explorer-notes')[0]
             self.assertIn('[Key2020, Theorem 1], verbatim.', before)
-        # The statement link stays with the Lean details, not with the notes.
-        method = (site / 'algorithms/method/index.html').read_text()
-        self.assertLess(method.index('N.bound (n : Nat)'), method.index('statement-permalink'))
+        # The plain Lean statement precedes its separate explanatory notes.
+        method = (site / detail_path / 'index.html').read_text()
+        self.assertLess(method.index('N.bound (n : Nat)'), method.index('explorer-notes'))
+        self.assertIn('<details class="theorem-formal"', method)
+        self.assertNotIn('NOTE_SENTINEL', (site / 'algorithms/method/index.html').read_text())
 
     def test_primary_is_marked_explicit_or_fallback_and_reported(self):
         self.data['decls'] += [
@@ -286,7 +290,9 @@ class LibraryTests(unittest.TestCase):
         self.assertNotIn('explorer-badge', (site / 'library/declarations/N.method/index.html').read_text())
         # Generated result lists show the primary; they flag only its index-typed sizes.
         method = (site / 'algorithms/method/index.html').read_text()
-        self.assertEqual(method.count(general), 1)
+        self.assertEqual(method.count(general), 0)
+        detail = next(s for s in json.loads((site / 'api/v1/statements.json').read_text())['statements'] if s['title'] == 'General')
+        self.assertIn(general, (site / detail['url'].removeprefix('/explore/') / 'index.html').read_text())
         self.assertNotIn('>Headline', method)
 
 

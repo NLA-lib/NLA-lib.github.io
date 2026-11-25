@@ -1,4 +1,5 @@
 ---
+uid: 2e7c2cd3-bfbc-54a0-9422-71300543dd77
 kind: algorithm
 id: newton-schulz-sign
 title: Newton–Schulz sign iteration
@@ -28,13 +29,7 @@ Use a polynomial iteration to approximate a matrix sign function.
 
 ## Definition
 
-::: definition name="Newton–Schulz sign iteration"
-Scale a Hermitian matrix to obtain an initial iterate $\mathbf X_0$, then apply
-
-$$\mathbf X_{j+1}=\tfrac12\mathbf X_j(3\mathbf I-\mathbf X_j^2).$$
-
-The scalar polynomial has fixed points at $-1$, $0$, and $1$. Approximating the matrix sign requires a suitable initial scale and a spectral gap away from zero. A capped implementation returns a defined iterate even when its numerical convergence conditions have not been established.
-:::
+{{ statement:newton-schulz-sign-iteration-33cd8a3d }}
 
 
 

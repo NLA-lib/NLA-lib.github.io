@@ -3,10 +3,10 @@ title: How NLA-lib defines things
 description: A short overview of the key design decisions in NLA-lib.
 tab-title: NLA-lib · Design
 menu:
-  - Home: ../
-  - Explorer: ../explore/
-  - Design: ./
-  - GitHub: https://github.com/NLA-lib/nlalib
+  - Algorithms: /explore/algorithms/
+  - Theory: /explore/theory/
+  - References: /explore/references/
+  - Lean reference: /explore/library/
 ---
 
 NLA-lib aims to serve as a foundation for the formalization of new and existing numerical linear algebra results.

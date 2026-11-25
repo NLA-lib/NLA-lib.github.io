@@ -1,4 +1,5 @@
 ---
+uid: f9f21f8a-b706-5973-b2c8-d108240c997b
 kind: algorithm
 id: lanczos
 title: Lanczos process
@@ -40,17 +41,13 @@ Build a Krylov basis and a tridiagonal compression of a symmetric operator. This
 
 ## Definition
 
-::: definition name="Lanczos process"
-For a Hermitian matrix $\mathbf A$ and starting vector $\mathbf b$, build a graded orthonormal basis $\mathbf Q_k$ of $\mathcal K_k(\mathbf A,\mathbf b)$. The compression $\mathbf T_k=\mathbf Q_k^{\mathsf{H}}\mathbf A\mathbf Q_k$ is Hermitian tridiagonal. In exact arithmetic, each new basis vector can be generated with a three-term recurrence. Breakdown means the next Krylov direction is zero; the generated space is then invariant. Reorthogonalization changes the concrete recurrence and its rounded behavior.
-:::
+{{ statement:lanczos-process-d9e8ae48 }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:lanczos-tridiagonal name="Tridiagonal compression"
-Let $\mathbf A$ be Hermitian and let $\mathbf Q_k$ be a graded Krylov basis. Then $\mathbf Q_k^{\mathsf{H}}\mathbf A\mathbf Q_k$ is tridiagonal. This structure is the mathematical reason that Lanczos can use a short recurrence.
-:::
+{{ statement:lanczos-tridiagonal }}
 
 ## Uses and composed algorithms
 

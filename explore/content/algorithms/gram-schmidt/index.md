@@ -1,4 +1,5 @@
 ---
+uid: 51ba6550-8249-54f2-b2dc-966d6b4116af
 kind: algorithm
 id: gram-schmidt
 title: Gram–Schmidt orthogonalization
@@ -30,9 +31,7 @@ Construct an orthonormal basis from input vectors.
 
 ## Definition
 
-::: definition decl:NLAlib.gramSchmidtQ name="Gram–Schmidt orthogonalization"
-Process the input columns in order. Remove from each column its components along the earlier nonzero orthonormal columns, then normalize a nonzero residual. A zero residual represents a dependent column and remains zero in the library's rank-revealing convention. Classical Gram–Schmidt forms projection coefficients from a common input residual; modified Gram–Schmidt updates that residual after each projection. Repeated passes are separate implementation choices.
-:::
+{{ statement:nlalib-gramschmidtq-47fa9a99 }}
 
 
 

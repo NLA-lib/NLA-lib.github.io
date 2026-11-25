@@ -1,4 +1,5 @@
 ---
+uid: a2b3a5c7-be9a-5a00-af01-93f0295e266f
 kind: theory
 id: pseudoinverses
 title: Pseudoinverses

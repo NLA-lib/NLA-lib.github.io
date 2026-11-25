@@ -53,6 +53,8 @@ def build(data, bib, out, *, content=None, src=None, core_src=None, renames_dir=
                        published_revision=model['snapshot'].get('commit') if same_snapshot else None,
                        source_hashes=data.get('sourceHashes') if same_snapshot else None)
     content_pages.build(out, content or ROOT / 'content')
+    from collaboration_export import export
+    export(out, content or ROOT / 'content')
     print(f"Generic library: {len(model['records']['modules'])} modules, {len(model['records']['declarations'])} declarations, "
           f"{len(model['records']['results'])} result groups -> {out}")
     return model

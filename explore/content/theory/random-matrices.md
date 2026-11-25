@@ -1,4 +1,5 @@
 ---
+uid: bda484f3-4e39-5e2b-95bc-01086794707b
 kind: theory
 id: random-matrices
 title: Random matrices and sketch laws
@@ -13,9 +14,7 @@ module_prefixes:
 
 A sketch guarantee depends on the law of the random matrix, including its scaling. Gaussian entries, orthonormal random frames, random signs, and sparse hashes preserve geometry in different ways.
 
-::: definition name="Gaussian sketches and Haar frames"
-A standard real Gaussian matrix has independent $N(0,1)$ entries. A Haar frame is a random orthonormal frame whose distribution is invariant under orthogonal or unitary changes of coordinates. These are different laws: orthonormalizing a Gaussian matrix changes the representation and requires the corresponding distributional result. Complex Gaussian scaling is specified separately in the relevant law.
-:::
+{{ statement:gaussian-sketches-and-haar-frames-84f513cb }}
 
 ## Results
 

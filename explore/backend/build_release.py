@@ -20,8 +20,10 @@ def build(runtime,output):
         for file in sorted(runtime.rglob('*')):
             if file.is_file() and '__pycache__' not in file.parts and file.suffix!='.pyc' and not file.relative_to(runtime).parts[0]=='bin':
                 add(archive,file,file.relative_to(runtime).as_posix())
-        for name in ['app.py','store.py','provider.py','account.js','account.css']:
+        for name in ['app.py','store.py','provider.py','account.js','account.css','collaboration.py','content.py','documents.py','publisher.py']:
             add(archive,ROOT/name,name)
+        for name in ['notation.py','notation.json']:
+            add(archive,ROOT.parent/name,name)
     with zipfile.ZipFile(code) as archive:
         if sum(info.file_size for info in archive.infolist())>250*1024*1024:
             raise ValueError('Lambda package exceeds the uncompressed deployment limit')
@@ -29,10 +31,12 @@ def build(runtime,output):
     (output/'auth.zip.sha256').write_text(digest+'  auth.zip\n')
     bundle=output/'nla-lib-auth-setup.zip'
     with zipfile.ZipFile(bundle,'w') as archive:
-        for name in ['README.md','template.yaml','deploy.sh','recover.sh','requirements.in','requirements.lock']:
+        for name in ['README.md','COLLABORATION.md','template.yaml','deploy.sh','recover.sh','bootstrap-admin.sh','requirements.in','requirements.lock']:
             add(archive,ROOT/name,name)
         for name in ['auth.zip','auth.zip.sha256']:
             add(archive,output/name,name)
+    collaboration_bundle=output/'nla-lib-collaboration-setup.zip'
+    collaboration_bundle.write_bytes(bundle.read_bytes())
     recovery=output/'nla-lib-auth-recovery.zip'
     with zipfile.ZipFile(recovery,'w') as archive:
         for name in ['README.md','template.yaml','deploy.sh','recover.sh']:

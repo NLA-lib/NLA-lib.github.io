@@ -1,4 +1,5 @@
 ---
+uid: f81d2e6f-8e0f-5ca5-b43d-ff22f386fc4c
 kind: algorithm
 id: polar-minimax-polynomial
 title: Polynomial polar iteration
@@ -17,9 +18,7 @@ families:
 - polar-iterations
 ---
 
-::: definition decl:NLAlib.oddMatrixIterate name="Polynomial polar iteration"
-Choose a sequence of odd polynomial updates, evaluated in Gram form as $\mathbf X\,p_j(\mathbf X^{\mathsf{H}}\mathbf X)$. This applies the corresponding odd scalar polynomial to the singular values while retaining their singular-vector directions. Coefficient choices and the initial singular-value interval determine the certified approximation to the polar factor.
-:::
+{{ statement:nlalib-oddmatrixiterate-062e6bec }}
 
 ## Results
 

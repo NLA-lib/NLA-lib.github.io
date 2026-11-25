@@ -1,4 +1,5 @@
 ---
+uid: 87da49c2-cdfe-5afc-bf89-861c47499895
 kind: task
 id: least-squares
 title: Least squares

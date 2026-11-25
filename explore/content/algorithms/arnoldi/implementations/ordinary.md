@@ -1,4 +1,5 @@
 ---
+uid: 82590ab3-1ce7-59a7-93c5-90cf80ed66c7
 kind: implementation
 id: ordinary
 algorithm: arnoldi

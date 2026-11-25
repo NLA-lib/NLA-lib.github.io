@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: NLA-lib ORCID sign-in and researcher profiles; no content publishing permissions.
+Description: NLA-lib ORCID accounts, reviewed editing and research discussions.
 Parameters:
   ArtifactBucket:
     Type: String
@@ -30,12 +30,18 @@ Parameters:
   OrcidClientId:
     Type: String
     Default: APP-3ZETXC93IST3V94T
+  GitHubAppSecretArn:
+    Type: String
+    Default: ''
+    AllowedPattern: '^$|^arn:aws:secretsmanager:us-west-2:432197736886:secret:nla-lib/production/github-app-[A-Za-z0-9]+$'
+    Description: Optional restricted GitHub App credentials; editing works without publication until configured.
   LoginDailyLimit:
     Type: Number
     Default: 1000
     MinValue: 1
     MaxValue: 10000
 Conditions:
+  HasGitHubApp: !Not [!Equals [!Ref GitHubAppSecretArn, '']]
   CreateData: !Equals [!Ref ExistingDataTableName, '']
 Resources:
   Data:
@@ -84,11 +90,17 @@ Resources:
             Version: '2012-10-17'
             Statement:
               - Effect: Allow
-                Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:DeleteItem]
+                Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:DeleteItem, dynamodb:Query, dynamodb:BatchGetItem]
                 Resource: !If [CreateData, !GetAtt Data.Arn, !Sub 'arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ExistingDataTableName}']
               - Effect: Allow
                 Action: secretsmanager:GetSecretValue
                 Resource: !Ref OrcidSecretArn
+              - !If
+                - HasGitHubApp
+                - Effect: Allow
+                  Action: secretsmanager:GetSecretValue
+                  Resource: !Ref GitHubAppSecretArn
+                - !Ref AWS::NoValue
               - Effect: Allow
                 Action: [logs:CreateLogStream, logs:PutLogEvents]
                 Resource: !GetAtt Logs.Arn
@@ -104,8 +116,8 @@ Resources:
         Bucket: !Ref ArtifactBucket
         Key: !Ref ArtifactKey
       Role: !GetAtt FunctionRole.Arn
-      MemorySize: 256
-      Timeout: 20
+      MemorySize: 512
+      Timeout: 60
       Environment:
         Variables:
           API_DOMAIN: !Ref ApiDomain
@@ -113,6 +125,7 @@ Resources:
           ORCID_CLIENT_ID: !Ref OrcidClientId
           ORCID_SECRET_ARN: !Ref OrcidSecretArn
           TABLE_NAME: !If [CreateData, !Ref Data, !Ref ExistingDataTableName]
+          GITHUB_APP_SECRET_ARN: !Ref GitHubAppSecretArn
           LOGIN_DAILY_LIMIT: !Ref LoginDailyLimit
       Tags:
         project: nla-lib-auth
@@ -126,7 +139,7 @@ Resources:
         AllowOrigins: [!Ref FrontendOrigin]
         AllowCredentials: true
         AllowMethods: [GET, POST, OPTIONS]
-        AllowHeaders: [Content-Type, X-CSRF-Token]
+        AllowHeaders: [Content-Type, X-CSRF-Token, Authorization]
         MaxAge: 600
   Integration:
     Type: AWS::ApiGatewayV2::Integration

@@ -28,8 +28,8 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .explore-pages :is(h2, h3) + * { margin-top: 0; }
 .explore-pages details > summary { cursor: pointer; list-style: none; display: flex; align-items: baseline; gap: .6rem; }
 .explore-pages summary :is(h2, h3) { display: block; min-width: 0; }
-.explore-pages details > summary::after { content: '+'; flex: 0 0 .7rem; margin-left: auto; text-align: right; }
-.explore-pages details[open] > summary::after { content: '−'; }
+.explore-pages details > summary::after { content: '↓'; flex: 0 0 .7rem; margin-left: auto; text-align: right; }
+.explore-pages details[open] > summary::after { content: '↑'; }
 .explore-pages summary::-webkit-details-marker { display: none; }
 .explore-pages footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); }
 .skip-link { position: absolute; left: -10000px; }
@@ -40,5 +40,68 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .guide-content { max-width: 100%; overflow-x: auto; }
 .guide-content table { width: 100%; border-collapse: collapse; font-size: .9rem; }
 .guide-content :is(th, td) { padding: .5rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--rule); }
+.statement-overview-links {display:flex; flex-wrap:wrap; align-items:center; gap:1.2rem; font-size:.9rem; margin-top:1rem;}
+.statement-overview .explorer-result-details {margin:0;}
+.statement-references li {margin:.7rem 0;}
+.reference-locator {color:var(--faint);}
+/* One site navigation, with the mathematical document as the page heading. */
+.site-header {padding-top:1.2rem; margin-bottom:2.3rem;}
+.site-header-row {display:flex; align-items:center; justify-content:space-between; gap:1.5rem;}
+.site-brand {font-size:1.45rem; font-weight:700; text-decoration:none; letter-spacing:-.03em;}
+.site-header .menu {font-size:.9rem; margin:0; padding:0; gap:1.1rem; align-items:center;}
+.site-header .menu [aria-current="page"] {font-weight:600; text-decoration:none;}
+.site-header #site-search {margin-top:1.25rem;}
+.site-header .search-line {margin:0;}
+.site-header .search-line input {padding:.55rem .7rem; border-color:#d9dce0;}
+.site-header .search-line button {border-color:#d9dce0; padding:.55rem .9rem;}
+.explore-pages .page-heading {display:flex; align-items:flex-start; justify-content:space-between; gap:1rem; margin:2rem 0 1.2rem;}
+.explore-pages h1.page-title {border:0; padding:0; margin:0; font-size:1.85rem; line-height:1.2; font-style:normal; font-weight:600; letter-spacing:-.02em;}
+.explore-pages .page-heading:has(+ .theorem-statement) {margin-bottom:.65rem;}
+.theorem-kind {font-size:.85rem; color:var(--faint); margin:0 0 1.5rem;}
+.theorem-statement {font-size:1.05rem; line-height:1.7;}
+.theorem-statement > :last-child {margin-bottom:0;}
+.theorem-reaction-slot {margin:1.2rem 0 2.3rem;}
+.theorem-formal,.statement-references,.proof-sources {margin-top:2.4rem;}
+.theorem-formal h2,.statement-references h2,.proof-sources h2 {font-size:1.2rem; font-style:normal; padding:0; margin-bottom:1rem;}
+.theorem-formal pre {background:transparent; border:0; padding:0; font-size:.82rem; color:#3c4149;}
+.reference-directory {font-size:.85rem; color:var(--faint);}
+.statement-overview .explorer-result-details > summary a {text-decoration:underline; text-underline-offset:3px;}
+.statement-overview-meta {display:flex; align-items:center; justify-content:flex-start; gap:.85rem; margin-top:.75rem; color:var(--faint); font-size:.85rem;}
+.site-footer-links {display:flex; flex-wrap:wrap; gap:1rem; align-items:center;}
+.build-information {font-size:.8rem; color:var(--faint); max-width:22rem;}
+.build-information > summary {justify-content:flex-start;}
+.build-information > summary::after {margin-left:.4rem;}
+@media(max-width:650px){.site-header-row{align-items:flex-start;flex-direction:column;gap:.8rem}.site-header .menu{gap:.7rem 1rem;font-size:.88rem}.site-header{padding-top:.5rem;margin-bottom:1.7rem}.explore-pages h1.page-title{font-size:1.6rem}.explore-pages .page-heading{margin-top:1.5rem}.theorem-statement{font-size:1rem}}
 
-.collaboration-account{display:inline-flex;gap:1rem;align-items:center;flex-wrap:wrap;margin-left:1rem}.explore-pages .collaboration-account button{font:inherit;background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px}
+/* The disclosure button is the only expansion target; the card opens its result. */
+.statement-overview{cursor:pointer}
+.statement-overview .explorer-result-details{padding-top:0;font-size:1em}
+.statement-overview .explorer-result-details>summary{display:flex;align-items:center;gap:.7rem;cursor:pointer;flex-wrap:wrap}
+.statement-overview .explorer-result-details>summary::after{display:none}
+.statement-overview .explorer-statement-label{flex:1 1 12rem}
+.statement-overview-meta{display:inline-flex;align-items:center;gap:.6rem;margin:0;font-size:.8rem;flex:none}
+.statement-expand{border:0;background:transparent;color:inherit;font:inherit;cursor:pointer;padding:.2rem .45rem;min-width:32px;min-height:32px}
+.explore-pages .statement-expand{border:0;background:transparent;box-shadow:none;transition:transform .12s ease}
+.explore-pages .statement-expand:hover,.explore-pages .statement-expand:focus-visible{background:transparent;transform:scale(1.2)}
+.statement-overview:hover,.statement-overview:focus-within,.explorer-link-card:hover{background:#e9e9e9}
+.statement-overview a:hover{background:transparent;color:inherit}
+.theorem-statement.explorer-card{font-size:1.05rem;padding:1.1rem 1.25rem}
+.theorem-statement .theorem-kind{font-size:1em;font-weight:600;color:inherit;margin:0 0 .6rem}
+.theorem-formal pre{padding:1rem;background:#f6f6f6;border:1px solid #e0e0e0;overflow:auto;border-radius:3px;line-height:1.65}
+
+.statement-context{overflow-wrap:anywhere}.theorem-formal pre{box-sizing:border-box;max-width:100%}
+
+.theorem-formal>summary h2,.statement-context>summary h2{margin:0;padding:0;font-size:1.15rem;font-style:normal}
+.theorem-formal-body,.statement-context-body{padding-top:1rem}
+.lean-definition-link{color:inherit;text-decoration:underline;text-decoration-color:#aaa;text-underline-offset:3px}
+.lean-definition-link:hover{color:#111;text-decoration-color:#111}
+
+/* The entire right edge toggles the statement, including below the heading. */
+.explore-pages .statement-overview{position:relative;padding-right:3.8rem}
+.explore-pages .statement-expand{position:absolute;inset:0 0 0 auto;width:2.7rem;height:auto;display:flex;align-items:flex-start;justify-content:center;padding:1.1rem 0 0;transform:none;outline-offset:-3px}
+.explore-pages .statement-expand span{display:block;line-height:1.5;transition:transform .12s ease}
+.explore-pages .statement-expand:hover,.explore-pages .statement-expand:focus-visible{transform:none}
+.explore-pages .statement-expand:hover span,.explore-pages .statement-expand:focus-visible span{transform:scale(1.25)}
+@media(prefers-reduced-motion:reduce){.explore-pages .statement-expand span{transition:none}}
+
+.collaboration-account{display:inline-flex;gap:1rem;align-items:center;flex-wrap:wrap}.explore-pages .collaboration-account button{font:inherit;background:none;border:0;padding:0;text-decoration:underline;text-underline-offset:3px}

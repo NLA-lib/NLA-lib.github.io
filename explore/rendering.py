@@ -2,6 +2,17 @@
 import html
 import re
 from urllib.parse import quote
+from urllib.parse import urlsplit
+
+
+def safe_link(url):
+    """Allow web citations and relative links, never executable URL schemes."""
+    if any(ord(char) < 32 or ord(char) == 127 for char in url):
+        return False
+    try:
+        return urlsplit(html.unescape(url)).scheme.lower() in {'', 'http', 'https', 'mailto'}
+    except ValueError:
+        return False
 
 def record_component(key):
     """One physical path component; URL quoting adds the HTTP encoding separately."""
@@ -88,7 +99,7 @@ def prose_html(text, names=(), missing=None):
         s = re.sub(r'\*\*(.+?)\*\*', r'<strong>\1</strong>', s)
         s = re.sub(r'(?<![*\w])\*([^*\s](?:[^*]*[^*\s])?)\*(?!\*)', r'<em>\1</em>', s)
         s = re.sub(r'\[([^\]]+)\]\(([^)\s]+)\)',
-                   lambda m: f'<a href="{m[2].replace(chr(34), "&quot;")}">{m[1]}</a>', s)
+                   lambda m: f'<a href="{m[2].replace(chr(34), "&quot;")}">{m[1]}</a>' if safe_link(m[2]) else m[1], s)
         return re.sub(r'\x00(\d+)\x00', lambda m: slots[int(m[1])], s)
 
     fences = []

@@ -1,4 +1,5 @@
 ---
+uid: 45261674-026d-5c57-acba-bd77f1479b5f
 kind: algorithm
 id: matrix-sign-newton
 title: Newton matrix-sign iteration
@@ -15,9 +16,7 @@ search_aliases:
 - Newton matrix-sign iteration
 ---
 
-::: definition decl:NLAlib.signNewtonIterate name="Newton matrix-sign iteration"
-Start from $\mathbf X_0=\mathbf A$ and set $\mathbf X_{j+1}=\tfrac12(\mathbf X_j+\mathbf X_j^{-1})$. The convergence theorem requires spectral separation from the imaginary axis and establishes invertibility of the relevant iterates. This inverse-averaging method differs from the inverse-free Newton–Schulz sign update.
-:::
+{{ statement:nlalib-signnewtoniterate-ccee634c }}
 
 ## Results
 

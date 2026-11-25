@@ -1,4 +1,5 @@
 ---
+uid: ffab2077-f2cc-5c2a-9684-ce0c9962d7b4
 kind: theory
 id: finite-precision-krylov
 title: Finite-precision Krylov analysis

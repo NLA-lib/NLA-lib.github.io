@@ -1,4 +1,5 @@
 ---
+uid: f430e970-924b-50f8-8c08-f3c99a3ca720
 kind: algorithm
 id: lu
 title: LU factorization
@@ -15,9 +16,7 @@ result_ids:
 - lu-row-inclusion
 ---
 
-::: definition name="LU factorization"
-An LU factorization has the form $\mathbf A=\mathbf L\mathbf U$, with $\mathbf L$ unit lower triangular and $\mathbf U$ upper triangular. The unpivoted method needs conditions ensuring elimination can proceed; such a factorization is not available for every matrix with a fixed row order.
-:::
+{{ statement:lu-factorization-a7033c37 }}
 
 ## Implementations
 

@@ -37,6 +37,13 @@ NLA_DIGEST=$(sha256sum auth.zip | cut -d ' ' -f 1)
 NLA_KEY="auth/${NLA_DIGEST}.zip"
 aws s3 cp auth.zip "s3://${NLA_BUCKET}/${NLA_KEY}" --region "$NLA_REGION" --sse AES256 --only-show-errors
 NLA_PARAMETERS=("ArtifactBucket=$NLA_BUCKET" "ArtifactKey=$NLA_KEY")
+if [[ -n "${NLA_GITHUB_APP_SECRET_ARN:-}" ]]; then
+  if [[ ! "$NLA_GITHUB_APP_SECRET_ARN" =~ ^arn:aws:secretsmanager:us-west-2:432197736886:secret:nla-lib/production/github-app-[A-Za-z0-9]+$ ]]; then
+    echo 'Use the NLA-lib production GitHub App secret ARN, not its value.' >&2
+    exit 1
+  fi
+  NLA_PARAMETERS+=("GitHubAppSecretArn=$NLA_GITHUB_APP_SECRET_ARN")
+fi
 if [[ -z "${NLA_EXISTING_TABLE:-}" && -f .existing-data-table ]]; then
   NLA_EXISTING_TABLE=$(cat .existing-data-table)
 fi

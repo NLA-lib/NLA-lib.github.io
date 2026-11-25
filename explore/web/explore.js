@@ -72,8 +72,7 @@
   const quick = document.getElementById('quick-search');
   if (headerInput && quick) {
     headerInput.addEventListener('focus', () => { getSearch().catch(() => {}); }, {once: true});
-    // Warm the cache after the page paints, so typing does not start a large download.
-    if ('requestIdleCallback' in window) requestIdleCallback(() => { getSearch().catch(() => {}); }, {timeout: 1500});
+    // The full search index is large. Fetch it only when someone uses search.
     let timer, revision = 0;
     headerInput.addEventListener('input', () => {
       clearTimeout(timer);

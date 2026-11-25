@@ -1,4 +1,5 @@
 ---
+uid: 79b00033-ac41-5bf9-a837-0a7a7759f78b
 kind: family
 id: galerkin-methods
 title: Galerkin methods

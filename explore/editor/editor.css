@@ -1,0 +1,63 @@
+/* Local editing surfaces. Discussion components own their styles in a shadow root. */
+.editor-notice {color:var(--faint);font-size:.9rem;}
+.editor-actions {display:flex;flex-wrap:wrap;align-items:center;gap:.7rem;margin:.8rem 0;}
+.editor-dialog {box-sizing:border-box;color:var(--ink);background:white;border:1px solid var(--rule);width:min(45rem,96vw);max-height:92vh;overflow:auto;padding:1.5rem;font-family:inherit;}
+.editor-dialog.editor-wide {width:min(72rem,96vw);}
+.editor-dialog::backdrop {background:#0005;}
+.editor-dialog-heading {display:flex;align-items:baseline;justify-content:space-between;gap:1rem;border-bottom:1px solid var(--rule);}
+.editor-dialog-heading h2 {padding-top:0;font-size:1.3rem;margin:.2rem 0 1rem;}
+.editor-dialog :is(input,textarea,select,button) {font:inherit;color:var(--ink);background:white;border:1px solid var(--rule);padding:.5rem .7rem;box-sizing:border-box;}
+.editor-dialog :is(input,textarea,select) {display:block;width:100%;margin-top:.35rem;}
+.editor-dialog textarea {font-family:var(--mono);font-size:.9rem;line-height:1.6;resize:vertical;tab-size:2;}
+.editor-field {display:block;margin:1rem 0;font-size:.95rem;}
+.editor-dialog button {cursor:pointer;}
+.editor-dialog button:disabled {opacity:.4;cursor:default;}
+.editor-dialog-heading > button,.editor-dialog .editor-actions > button {border:0;border-radius:0;background:none;padding:0;color:inherit;text-decoration:underline;text-underline-offset:.15em;box-shadow:none;}
+.editor-dialog .editor-actions > button[aria-pressed="true"] {font-weight:600;}
+.editor-dialog .editor-actions > .editor-primary {padding:.45rem .8rem;color:white;background:var(--ink);text-decoration:none;border-radius:3px;}
+.editor-dialog fieldset {border:1px solid var(--rule);margin:1rem 0;padding:0 1rem 1rem;}
+.editor-dialog li {margin-bottom:1rem;}
+.editor-dialog li > :is(a,small) {display:block;margin:.3rem 0;}
+.editor-message:empty {display:none;}
+.editor-message {border-left:3px solid var(--ink);padding:.6rem 1rem;background:#f6f6f4;overflow-wrap:anywhere;}
+.editor-status {border-left:3px solid #8b6522;padding-left:.8rem;font-size:.9rem;}
+.editor-preview {padding:1rem;border:1px solid var(--rule);min-height:10rem;}
+.editor-diff {max-height:35rem;overflow:auto;white-space:pre-wrap;overflow-wrap:anywhere;}
+.editor-panes.editor-split {display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:1.2rem;align-items:start;}
+.editor-panes > * {min-width:0;}
+.editor-dialog .katex-display {overflow:auto;}
+.editor-reactions {display:inline-flex;gap:.35rem;align-items:center;flex-wrap:wrap;}
+.explore-pages .editor-reaction-chip,.editor-dialog .editor-reaction-chip {display:inline-flex;align-items:center;gap:.3rem;border:1px solid #d5d9df;border-radius:1rem;padding:.12rem .55rem;background:#f5f6f7;font-size:.9rem;line-height:1.5;cursor:pointer;}
+.explore-pages .editor-reaction-chip[aria-pressed="true"],.editor-dialog .editor-reaction-chip[aria-pressed="true"] {background:#edf4ff;border-color:#779bd0;color:#234c85;}
+.explore-pages .editor-reaction-add,.editor-dialog .editor-reaction-add {display:inline-flex;align-items:center;gap:.3rem;border:0;background:none;color:var(--faint);padding:.12rem .3rem;font-size:1rem;cursor:pointer;}
+.editor-reactions img,.editor-emoji-grid img {display:inline-block;vertical-align:middle;object-fit:contain;}
+.editor-emoji-dialog {width:min(23rem,94vw);}
+.editor-emoji-grid {display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;padding:1rem 0;}
+.editor-dialog .editor-emoji-option {font-size:1.55rem;border:0;border-radius:.35rem;background:none;padding:.5rem;cursor:pointer;}
+.editor-dialog .editor-emoji-option:hover,.editor-dialog .editor-emoji-option[aria-pressed="true"] {background:#edf4ff;color:inherit;}
+.editor-reaction-error {font-size:.85rem;}
+.discussion-icon-label {display:inline-flex;align-items:center;gap:.35rem;vertical-align:middle;}
+.discussion-icon-label svg {flex:none;}
+.explore-pages details.page-tools {position:relative;flex:none;margin:0;}
+.explore-pages .page-tools > summary {border:1px solid transparent;border-radius:.3rem;padding:0 .5rem;font-size:1.5rem;line-height:1.3;color:var(--faint);}
+.explore-pages .page-tools > summary::after {display:none;}
+.page-tools-menu {position:absolute;z-index:10;right:0;top:100%;min-width:11rem;padding:.4rem;background:#fff;border:1px solid #d9dce0;border-radius:6px;box-shadow:0 6px 20px #00000014;}
+.explore-pages .page-tools-menu button {display:block;width:100%;border:0;background:none;padding:.5rem .7rem;font-size:.9rem;text-align:left;border-radius:.25rem;}
+.explore-pages .page-tools-menu button:hover {background:#f2f4f7;}
+.page-reactions {margin:0 0 1.7rem;}
+.editor-preview-status {font-size:.8rem;color:var(--faint);margin-top:.9rem;}
+.site-footer .editor-footer-link {border:0;background:none;padding:0;color:inherit;text-decoration:underline;font:inherit;}
+.editor-discussion {margin-top:3rem;padding-top:1.6rem;border-top:1px solid var(--rule);}
+@media(max-width:800px) {.editor-panes.editor-split{grid-template-columns:minmax(0,1fr);}}
+@media(max-width:600px) {.editor-dialog{padding:1rem;}.editor-dialog-heading{align-items:start;}}
+
+.profile-bio{white-space:pre-wrap}.profile-kind{color:#666}.profile-actions{display:flex;gap:1.2rem;flex-wrap:wrap;margin:1.3rem 0 2rem}.profile-activity{padding:.8rem 0;border-bottom:1px solid #ddd}.profile-activity p{margin:.3rem 0 0}.profile-activity button{margin-top:.4rem}.bot-scope{display:block;margin:.5rem 0}.bot-scope input{margin-right:.6rem}.bot-token{border:1px solid #ddd;padding:1rem;margin-top:1rem}.bot-token input{font-family:monospace}.statement-context{margin-top:2.4rem}.statement-context h2{font-size:1.2rem}
+
+main[data-profile-id] h2{font-style:normal;font-size:1.2rem}.profile-actions .editor-footer-link{border:0;background:none;padding:0;font:inherit;text-decoration:underline;text-underline-offset:3px;cursor:pointer}.profile-excerpt>:last-child{margin-bottom:0}
+
+.explore-pages .editor-reaction-add{border-radius:5px;transition:background-color .12s ease,transform .12s ease}
+.explore-pages .editor-reaction-add:hover,.explore-pages .editor-reaction-add:focus-visible{background:#e9e9e9;transform:scale(1.06)}
+.explore-pages .editor-reaction-readonly{cursor:inherit;background:transparent;border-color:#d5d9df}
+.theorem-statement+.editor-status{border:0;padding:0;color:var(--faint);margin:.6rem 0;font-size:.85rem}
+.page-reactions:has(.editor-reactions[hidden]){display:none}
+@media(prefers-reduced-motion:reduce){.explore-pages .statement-expand,.explore-pages .editor-reaction-add{transition:none}}

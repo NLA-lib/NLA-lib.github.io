@@ -1,4 +1,5 @@
 ---
+uid: a7ef85f3-8d99-560f-8f10-4858a547bfcf
 kind: algorithm
 id: early-and-late-truncated-rsvd
 title: Early-and-late-truncated RSVD
@@ -12,9 +13,7 @@ theory:
 - best-rank-approximation
 ---
 
-::: definition name="Early and late truncation"
-Choose an intermediate rank $s\ge k$. First retain $[\mathbf A\mathbf\Omega]_s$, then form $\mathbf B_s=\mathbf P_{[\mathbf A\mathbf\Omega]_s}\mathbf A$ and return $[\mathbf B_s]_k$. The intermediate rank $s$ and output rank $k$ are separate parameters.
-:::
+{{ statement:early-and-late-truncation-200f4a3a }}
 
 When $s=k$, the projected matrix already has rank at most $k$, so the final truncation does not change it. With $s>k$, the two truncations serve distinct purposes.
 

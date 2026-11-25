@@ -1,4 +1,5 @@
 ---
+uid: 23b1ff66-824b-58af-8adc-6fd6e82def61
 kind: theory
 id: matrix-equations
 title: Matrix equations and stability

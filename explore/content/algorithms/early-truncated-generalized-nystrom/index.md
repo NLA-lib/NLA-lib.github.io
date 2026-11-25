@@ -1,4 +1,5 @@
 ---
+uid: 60043d73-d58f-5984-8d14-c49c98fa0187
 kind: algorithm
 id: early-truncated-generalized-nystrom
 title: Early-truncated GN
@@ -22,27 +23,11 @@ result_ids:
 
 Early-truncated generalized Nyström (ETGN) selects the smaller range from the sketch before completing the two-sided approximation.
 
-::: definition decl:NLAlib.earlyTruncatedGeneralizedNystrom name="Early-truncated GN"
-Form $\mathbf Y_k=[\mathbf A\mathbf\Omega]_k$, then return
-
-$$\widehat{\mathbf A}=\mathbf Y_k(\mathbf\Psi^{\mathsf H}\mathbf Y_k)^{\dagger}\mathbf\Psi^{\mathsf H}\mathbf A.$$
-
-The rank-$k$ subspace is selected from the range sketch before the second sketch completes the approximation. The output has rank at most $k$; the library fixes a choice when singular values are tied.
-:::
+{{ statement:nlalib-earlytruncatedgeneralizednystrom-cdd691bb }}
 
 ## Mathematical guarantees
 
-::: theorem result:etgn name="Gaussian relative-error guarantee"
-For a real input $\mathbf A$, independent standard Gaussian sketches of widths $\ell,p$, and $0<\varepsilon\le1$, suppose
-
-$$\ell\ge\frac{1600k}{\varepsilon^2},\qquad p\ge k+1+\frac{(2+\varepsilon)k}{\varepsilon}.$$
-
-Then the mathematical early-truncated output satisfies
-
-$$\mathbb E\|\mathbf A-\widehat{\mathbf A}\|_{\mathrm F}^2\le(1+\varepsilon)\|\mathbf A-[\mathbf A]_k\|_{\mathrm F}^2.$$
-
-Thus the expected squared error is within a factor $1+\varepsilon$ of the optimal rank-$k$ squared Frobenius error. The two sketch sizes have different accuracy dependence.
-:::
+{{ statement:etgn }}
 
 ## Further results
 

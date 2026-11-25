@@ -1,4 +1,5 @@
 ---
+uid: a2970817-ec5b-5842-b12f-f3ac54afd0fd
 kind: implementation
 id: standard
 algorithm: block-conjugate-gradient

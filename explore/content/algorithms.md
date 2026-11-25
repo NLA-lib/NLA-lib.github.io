@@ -1,4 +1,5 @@
 ---
+uid: a561f205-44fd-54d3-a63c-f0c8cf0fda40
 kind: index
 id: algorithms
 title: Algorithms

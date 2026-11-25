@@ -1,4 +1,5 @@
 ---
+uid: 3d195ef2-12e2-5e9d-a79c-8e589977c5f3
 kind: algorithm
 id: probe-spectral-estimation
 title: Probe spectral estimation
@@ -14,9 +15,7 @@ theory:
 - orthogonal-polynomials
 ---
 
-::: definition name="Probe spectral estimation"
-For a Hermitian $n\times n$ matrix and $s$ probes, average their spectral measures with normalization $1/(ns)$. With isotropic probes, the expected measure equals the empirical eigenvalue measure. Lanczos quadrature provides finite-step approximations to the probe measures; its error must be accounted for separately.
-:::
+{{ statement:probe-spectral-estimation-b414dcaf }}
 
 ## Results
 

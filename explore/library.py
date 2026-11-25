@@ -227,6 +227,7 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
     for aid, page in editorial_algorithms.items():
         records['algorithms'][aid]['guides'] = [guide_paths[path] for path in page.meta.get('source_guides', []) if path in guide_paths]
     return {'schema_version': 1, 'snapshot': snapshot, 'records': records, 'module_moves': moves,
+            'references': bibliography or {},
             'certificate_record': certificate_record,
             'renamed': renamed, 'result_aliases': {old: resolve_result(old) for old in result_aliases}}
 
@@ -235,6 +236,7 @@ def publish(model, out, synonyms=None):
     out = Path(out)
     api = out / 'api/v1'
     api.mkdir(parents=True, exist_ok=True)
+    (api / 'references.json').write_text(packed({'schema_version': 1, 'references': model.get('references', {})}) + '\n')
     directory = {}
     for kind, records in model['records'].items():
         (api / kind).mkdir(exist_ok=True)
@@ -410,5 +412,7 @@ def parse_bib(path):
         text = f"{who}. {fields.get('title', '')}. {venue}{', ' if venue and year else ''}{year}."
         url = fields.get('url') or (f"https://doi.org/{fields['doi']}" if fields.get('doi') else
                                     f"https://arxiv.org/abs/{fields['eprint']}" if fields.get('eprint') else None)
-        out[key] = {'text': ' '.join(text.split()).replace(' .', '.'), 'url': url}
+        out[key] = {'text': ' '.join(text.split()).replace(' .', '.'), 'url': url,
+                    'title': fields.get('title', ''), 'authors': names, 'year': fields.get('year', ''),
+                    'doi': fields.get('doi'), 'arxiv': fields.get('eprint')}
     return out

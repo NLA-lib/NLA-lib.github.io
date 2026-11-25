@@ -1,4 +1,5 @@
 ---
+uid: eb30ba19-32ec-567b-a35e-b78f55187d13
 kind: algorithm
 id: hessenberg-reduction
 title: Hessenberg reduction
@@ -15,9 +16,7 @@ search_aliases:
 - Hessenberg reduction
 ---
 
-::: definition decl:NLAlib.hessenbergReduction name="Hessenberg reduction"
-For a square $\mathbf A$, accumulate Householder similarities to obtain a unitary $\mathbf Q$ and upper-Hessenberg $\mathbf H=\mathbf Q^{\mathsf{H}}\mathbf A\mathbf Q$. The mathematical construction uses $n-2$ similarities; for $n\le2$ it returns $(\mathbf I,\mathbf A)$. It changes the representation of the eigenproblem, not its eigenvalues.
-:::
+{{ statement:nlalib-hessenbergreduction-21c93d07 }}
 
 ## Results
 

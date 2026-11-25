@@ -28,10 +28,35 @@ jobs:
         run: PYTHONPATH=/tmp/nlalib-auth-test python3 -m unittest discover -s backend/tests -v
       - name: Build metadata regressions
         run: python3 -m unittest discover -s tests -v
+      - name: Build discussion components
+        working-directory: explore/editor/discussion
+        run: |
+          npm ci
+          npm run build
+      - name: Mathematical notation and KaTeX syntax
+        run: node tests/check_notation.cjs
       - name: Browser script syntax
         run: |
           node --check web/explore.js
           node --check web/explore-search.js
           node --check web/cg-pilot.js
+          node --check editor/editor.js
           node --check web/collaboration.js
           node --check backend/account.js
+  content:
+    name: Published content build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m pip install -r explore/requirements.txt
+      - name: Fetch matching published Lean snapshot
+        run: |
+          mkdir -p /tmp/nlalib-content/src
+          curl -fsSL -o /tmp/nlalib-content/data.json https://github.com/NLA-lib/NLAlib/releases/download/explore-data/explore-data.json
+          revision=$(python3 -c "import json; print(json.load(open('/tmp/nlalib-content/data.json'))['commit'])")
+          curl -fsSL "https://codeload.github.com/NLA-lib/NLAlib/tar.gz/$revision" | tar xz -C /tmp/nlalib-content/src --strip-components=1
+      - name: Validate all pages, references and statement imports
+        run: python3 explore/build.py --data /tmp/nlalib-content/data.json --src /tmp/nlalib-content/src --bib /tmp/nlalib-content/src/docs/references.bib --out /tmp/nlalib-content/site

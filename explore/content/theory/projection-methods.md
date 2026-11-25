@@ -1,4 +1,5 @@
 ---
+uid: 813dde19-8f6c-5706-89f8-61fa0fb900a5
 kind: theory
 id: projection-methods
 title: Projection principles for linear systems

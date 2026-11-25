@@ -1,4 +1,5 @@
 ---
+uid: 0c651c98-ac55-5a6c-8e58-85546d1d5c77
 kind: theory
 id: structured-matrices
 title: Structured matrices

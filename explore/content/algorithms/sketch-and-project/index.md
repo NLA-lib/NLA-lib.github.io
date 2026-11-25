@@ -1,4 +1,5 @@
 ---
+uid: 703c477f-f987-5ccc-9226-bbc94a1e8567
 kind: algorithm
 id: sketch-and-project
 title: Sketch-and-project
@@ -12,9 +13,7 @@ theory:
 - pseudoinverses
 ---
 
-::: definition name="Sketch-and-project"
-For a sequence of sketches $\mathbf S_j$, set $\mathbf x_{j+1}=\mathbf x_j+(\mathbf S_j\mathbf A)^\dagger\mathbf S_j(\mathbf b-\mathbf A\mathbf x_j)$. This is a minimum-norm correction for the sketched residual. Convergence results specify consistency, the starting error, independence, and a lower bound on the mean projected row-space operator.
-:::
+{{ statement:sketch-and-project-45ab3f30 }}
 
 ## Results
 

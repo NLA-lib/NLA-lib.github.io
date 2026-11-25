@@ -1,4 +1,5 @@
 ---
+uid: 659f4f26-d3e5-582b-b6c0-54251fa150a3
 kind: theory
 id: chebyshev-polynomials
 title: Chebyshev polynomials
@@ -16,13 +17,7 @@ result_ids:
 
 Chebyshev polynomials provide an oscillating basis on an interval and explicit extremal polynomials. They appear both in polynomial approximations to matrix functions and in convergence bounds for Krylov solvers.
 
-::: definition name="Chebyshev polynomials"
-The first-kind Chebyshev polynomials satisfy $T_k(\cos\theta)=\cos(k\theta)$, with $T_0(t)=1$, $T_1(t)=t$, and
-
-$$T_{k+1}(t)=2tT_k(t)-T_{k-1}(t).$$
-
-An affine change of variable transfers constructions on $[-1,1]$ to another interval. Residual bounds also impose the normalization appropriate to the linear system.
-:::
+{{ statement:chebyshev-polynomials-e7470c95 }}
 
 ## Results
 

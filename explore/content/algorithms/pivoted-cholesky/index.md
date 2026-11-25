@@ -1,4 +1,5 @@
 ---
+uid: 65aaffc2-6f63-5832-99f3-38c03a0e1763
 kind: algorithm
 id: pivoted-cholesky
 title: Pivoted Cholesky
@@ -14,9 +15,7 @@ families:
 - matrix-factorizations
 ---
 
-::: definition name="Pivoted Cholesky"
-At each step, select a remaining diagonal entry of maximal residual value, permute it into the pivot position, and use it to form the next Cholesky column. Zero residual pivots detect exhausted rank in exact arithmetic. This semidefinite, rank-revealing construction is distinct from unpivoted positive-definite Cholesky.
-:::
+{{ statement:pivoted-cholesky-7ba672b5 }}
 
 ## Results
 

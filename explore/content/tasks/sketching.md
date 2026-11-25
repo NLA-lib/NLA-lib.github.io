@@ -1,4 +1,5 @@
 ---
+uid: 9b00024d-5ef6-59fe-9f78-62175ef21b3f
 kind: task
 id: sketching
 title: Sketching and embeddings

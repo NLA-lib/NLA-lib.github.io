@@ -1,4 +1,5 @@
 ---
+uid: 60ee253a-8041-5faf-a65a-26da9af07aa8
 kind: algorithm
 id: minres
 title: MINRES
@@ -35,9 +36,7 @@ Minimize the residual over a Krylov space for a symmetric system.
 
 ## Definition
 
-::: definition name="MINRES"
-For a real symmetric system $\mathbf A\mathbf x=\mathbf b$, choose the iterate that minimizes the Euclidean residual norm over $\mathbf x_0+\mathcal K_k(\mathbf A,\mathbf r_0)$, where $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$. Symmetry permits a Lanczos-based short recurrence. Positive definiteness is not required for this minimization; solvability and termination claims need their own hypotheses.
-:::
+{{ statement:minres-b7f38d6d }}
 
 
 

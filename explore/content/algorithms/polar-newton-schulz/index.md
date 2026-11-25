@@ -1,4 +1,5 @@
 ---
+uid: 093375f0-17d6-5dd8-969a-a320719c0566
 kind: algorithm
 id: polar-newton-schulz
 title: Newton–Schulz polar iteration
@@ -17,9 +18,7 @@ families:
 - polar-iterations
 ---
 
-::: definition decl:NLAlib.polarSchulzIterate name="Newton–Schulz polar iteration"
-Apply $\mathbf X_{j+1}=\tfrac12\mathbf X_j(3\mathbf I-\mathbf X_j^{\mathsf{H}}\mathbf X_j)$. This is the rectangular polar update and does not require a pseudoinverse. Initial scaling and the admissible singular-value interval are part of its convergence hypotheses.
-:::
+{{ statement:nlalib-polarschulziterate-469e6e39 }}
 
 ## Results
 

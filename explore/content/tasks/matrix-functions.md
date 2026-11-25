@@ -1,4 +1,5 @@
 ---
+uid: 2bc92c70-5694-5d42-aeb2-82cfe2ad80b4
 kind: task
 id: matrix-functions
 title: Matrix functions

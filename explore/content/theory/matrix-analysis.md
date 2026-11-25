@@ -1,4 +1,5 @@
 ---
+uid: ff5c1a79-9b18-54b8-adeb-929e5e939e66
 kind: theory
 id: matrix-analysis
 title: Matrix analysis

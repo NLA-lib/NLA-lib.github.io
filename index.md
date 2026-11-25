@@ -3,10 +3,10 @@ title: NLA-lib
 description: NLA-lib: a lean 4 library for numerical linear algebra
 keywords: NLA-lib,  lean, lean4, formal verification
 menu:
-  - Home: ./
-  - Explorer: ./explore/
-  - Design: ./design/
-  - GitHub: https://github.com/NLA-lib/nlalib
+  - Algorithms: /explore/algorithms/
+  - Theory: /explore/theory/
+  - References: /explore/references/
+  - Lean reference: /explore/library/
 ---
 
 We are building NLA-lib, an open source Lean 4 library covering numerical linear algebra.

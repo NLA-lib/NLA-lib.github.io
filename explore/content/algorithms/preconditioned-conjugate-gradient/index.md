@@ -1,4 +1,5 @@
 ---
+uid: 49a1c190-43f5-5040-b59c-40565e067e96
 kind: algorithm
 id: preconditioned-conjugate-gradient
 title: Preconditioned CG (PCG)
@@ -29,9 +30,9 @@ result_ids:
 - preconditioned-lanczos-recurrence
 ---
 
-For a symmetric positive-definite matrix $\mathbf A$ and symmetric positive-definite inverse preconditioner $\mathbf C$, PCG corresponds to CG on
+For a symmetric positive-definite matrix $\mathbf{A}$ and symmetric positive-definite inverse preconditioner $\mathbf{C}$, PCG corresponds to CG on
 
-$$\mathbf C^{1/2}\mathbf A\mathbf C^{1/2}\mathbf y=\mathbf C^{1/2}\mathbf b,\qquad \mathbf x=\mathbf C^{1/2}\mathbf y.$$
+$$\mathbf{C}^{1/2}\mathbf{A}\mathbf{C}^{1/2}\mathbf{y}=\mathbf{C}^{1/2}\mathbf{b},\qquad \mathbf{x}=\mathbf{C}^{1/2}\mathbf{y}.$$
 
 The transformed spectrum governs convergence. The preconditioner changes the search spaces; the unpreconditioned CG statements should not be applied verbatim to PCG iterates.
 

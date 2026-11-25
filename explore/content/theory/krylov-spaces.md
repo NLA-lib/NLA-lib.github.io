@@ -1,4 +1,5 @@
 ---
+uid: d1ed20c6-0ce6-584a-bb29-dcb55bec6086
 kind: theory
 id: krylov-spaces
 title: Krylov spaces
@@ -17,9 +18,7 @@ module_prefixes:
 
 For a starting vector $b$, a Krylov space collects the vectors obtainable by applying low-degree polynomials in $A$. It is a mathematical object shared by many algorithms, not an arithmetic implementation.
 
-::: definition name="Krylov space and grade"
-For $\mathbf A\in\mathbb R^{n\times n}$ and $\mathbf b\in\mathbb R^n$, define $\mathcal K_k(\mathbf A,\mathbf b)=\operatorname{span}\{\mathbf b,\mathbf A\mathbf b,\ldots,\mathbf A^{k-1}\mathbf b\}$. The grade is the first index at which this sequence of subspaces stops growing. Orthogonal compression onto such a space underlies several different algorithms; their output and optimality conditions belong on the method pages.
-:::
+{{ statement:krylov-space-and-grade-615008ca }}
 
 ## Background
 

@@ -1,4 +1,5 @@
 ---
+uid: 0b76bfe9-802e-5fb5-afd0-05e41bded896
 kind: algorithm
 id: block-conjugate-gradient
 title: Block CG

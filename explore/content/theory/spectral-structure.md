@@ -1,4 +1,5 @@
 ---
+uid: 11de1a0a-b84f-5826-a422-e3d9ab709331
 kind: theory
 id: spectral-structure
 title: Spectral structure and matrix pencils

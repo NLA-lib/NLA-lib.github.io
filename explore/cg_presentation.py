@@ -10,15 +10,11 @@ MODELS_URL = '/explore/arithmetic-models/'
 
 
 def mathematics(text, vectors='AbxvPQHM'):
-    """Bold presentation symbols without modifying Lean or existing math fonts."""
-    parts = re.split(r'(\$\$[\s\S]*?\$\$|\$[^$\n]+\$)', text)
-    token = r'\\(?:mathbf|boldsymbol|mathsf|mathrm|mathbb|mathcal|text|operatorname)\*?\{[^{}]*\}|\\[A-Za-z]+|[A-Za-z]'
-    for index in range(1, len(parts), 2):
-        parts[index] = re.sub(r'\\(mathbf|boldsymbol|mathsf|mathrm|mathbb|mathcal)\s+([A-Za-z])',
-                              lambda m: '\\' + m[1] + '{' + m[2] + '}', parts[index])
-        parts[index] = re.sub(token, lambda m: r'\mathbf{' + m[0] + '}' if m[0] in vectors else m[0], parts[index])
-        parts[index] = re.sub(r'\\(widehat|hat|tilde|widetilde)\s*(\\mathbf\{[A-Za-z]\})', r'\\\1{\2}', parts[index])
-    return ''.join(parts)
+    """Preserve authored LaTeX; symbol weight is an author's mathematical choice.
+
+    The vectors argument remains for older presentation callers.
+    """
+    return text
 
 
 def prose(text, vectors='AbxvPQHM'):

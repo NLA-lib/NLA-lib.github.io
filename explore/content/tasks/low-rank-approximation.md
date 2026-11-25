@@ -1,4 +1,5 @@
 ---
+uid: 83425736-b20c-5e31-a4e2-44f934c0464e
 kind: task
 id: low-rank-approximation
 title: Low-rank approximation

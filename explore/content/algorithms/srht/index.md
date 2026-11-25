@@ -1,4 +1,5 @@
 ---
+uid: 572266c5-94cc-5d72-8fe7-1b44d66b3f38
 kind: algorithm
 id: srht
 title: Subsampled randomized Hadamard transform
@@ -27,21 +28,13 @@ Combine randomized signs, a structured orthogonal transform, and sampling.
 
 ## Definition
 
-::: definition decl:NLAlib.srhtMatrix name="Subsampled randomized Hadamard transform"
-For a dimension admitting a normalized Hadamard matrix $\mathbf H$, form $\mathbf S=\sqrt{n/s}\,\mathbf R\mathbf H\mathbf D$, where $\mathbf D$ contains independent random signs and $\mathbf R$ selects $s$ rows. Sampling without replacement requires $1\le s\le n$. The library's more general structured-transform definition also accepts a supplied orthogonal transform; sampling with replacement is a separate law.
-:::
+{{ statement:nlalib-srhtmatrix-604d3a67 }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:srht-flattening name="Flattening the leverage scores"
-Let $\mathbf F$ be an $n\times n$ unitary transform satisfying $n|\mathbf F_{ij}|^2\le\beta$, and let $\mathbf D$ contain independent Rademacher signs. For an input subspace of dimension $d$ and $t\ge0$, with failure probability at most $ne^{-t}$, every leverage score after applying $\mathbf F\mathbf D$ is at most
-
-$$\frac{\beta(d+2\sqrt{dt}+2t)}{n}.$$
-
-Random signs and the bounded orthogonal transform spread the subspace across coordinates before row sampling.
-:::
+{{ statement:srht-flattening }}
 
 ## Further results
 

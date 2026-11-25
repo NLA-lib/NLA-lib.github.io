@@ -1,4 +1,5 @@
 ---
+uid: 06be042b-7375-5d6a-afa5-fcf963b4332f
 kind: algorithm
 id: fom
 title: Full orthogonalization method (FOM)
@@ -13,9 +14,7 @@ uses:
 - arnoldi
 ---
 
-::: definition name="Full orthogonalization method"
-For a square system $\mathbf A\mathbf x=\mathbf b$, choose $\mathbf x_k\in\mathbf x_0+\mathcal K_k(\mathbf A,\mathbf r_0)$ so that $\mathbf r_k=\mathbf b-\mathbf A\mathbf x_k$ is orthogonal to $\mathcal K_k(\mathbf A,\mathbf r_0)$. Here $\mathbf r_0=\mathbf b-\mathbf A\mathbf x_0$. The projected equations must be solvable for the iterate to be defined.
-:::
+{{ statement:full-orthogonalization-method-2fbe0187 }}
 
 ## Implementations
 

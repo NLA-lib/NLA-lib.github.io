@@ -71,8 +71,11 @@ class MarkdownExplorerTests(unittest.TestCase):
             Explorer(self.site, self.content).build()
         page = (self.site / 'theory/bound/index.html').read_text()
         self.assertIn('The editable bound', page)
-        self.assertIn('N.bound (n : Nat) : n ≤ n', page)
-        self.assertIn('https://github.com/NLA-lib/nlalib', page)
+        self.assertNotIn('N.bound (n : Nat) : n ≤ n', page)
+        detail_url = __import__('re').search(r'href="(/explore/statements/[^"]+/)"', page)[1]
+        detail = (self.site / detail_url.removeprefix('/explore/') / 'index.html').read_text()
+        self.assertIn('N.bound (n : Nat) : n ≤ n', detail)
+        self.assertIn('https://github.com/NLA-lib/nlalib', detail)
         entries = json.loads((self.api / 'search-index.json').read_text())['entries']
         lanczos = [e for e in entries if e['url'] == '/explore/algorithms/lanczos/']
         self.assertEqual(len(lanczos), 1)
@@ -97,8 +100,10 @@ class MarkdownExplorerTests(unittest.TestCase):
         body = explorer.generated('results', page)
         self.assertIn('explorer-result-reference', body)
         self.assertIn('A useful bound.', body)
-        self.assertIn('N.bound (n : Nat) : n ≤ n', body)
-        self.assertIn('Full source on GitHub', body)
+        self.assertNotIn('N.bound (n : Nat) : n ≤ n', body)
+        detail = explorer.result_reference('bound')
+        self.assertIn('N.bound (n : Nat) : n ≤ n', detail)
+        self.assertIn('Full source on GitHub', detail)
         page.body += '\n::: theorem result:bound name="Reviewed explanation"\nA readable result.\n:::'
         self.assertEqual(explorer.generated('results', page), '')
 
@@ -229,9 +234,13 @@ Rounded-model explanation.
         self.assertIn('<option value="rounded">Rounded arithmetic</option>', rendered)
         self.assertIn('data-cg-model="exact"', rendered)
         self.assertIn('data-cg-model="rounded"', rendered)
-        self.assertIn('?model=exact#exact-result', rendered)
-        self.assertIn('?model=rounded#rounded-result', rendered)
-        self.assertEqual(rendered.count('N.bound (n : Nat) : n ≤ n'), 2)
+        self.assertIn('id="exact-result"', rendered)
+        self.assertIn('id="rounded-result"', rendered)
+        self.assertNotIn('N.bound (n : Nat) : n ≤ n', rendered)
+        links = set(__import__('re').findall(r'href="(/explore/statements/[^"]+/)"', rendered))
+        self.assertEqual(len(links), 2)
+        for url in links:
+            self.assertIn('N.bound (n : Nat) : n ≤ n', (self.site / url.removeprefix('/explore/') / 'index.html').read_text())
         self.assertNotIn('EXPLORERGENERATEDBLOCK', rendered)
 
     def test_one_model_is_a_static_line_and_model_names_come_from_the_vocabulary(self):
@@ -355,8 +364,9 @@ Rounded-model explanation.
         self.assertIn('<ol>', rendered)
         self.assertIn('<ul>', rendered)
         self.assertIn('<code>$literal$</code>', rendered)
-        self.assertIn('\\mathbf{A}\\mathbf{x}=\\mathbf{b}', rendered)
-        self.assertIn(r'\mathbf{U}^{\mathsf{H}}', markdown(r'$\mathbf U^{\mathsf H}$'))
+        self.assertIn('Ax=b', rendered)
+        self.assertNotIn('\\mathbf', rendered)
+        self.assertIn(r'\mathbf U^{\mathsf H}', markdown(r'$\mathbf U^{\mathsf H}$'))
         self.assertNotIn(r'\mathsf \mathbf', markdown(r'$\mathbf U^{\mathsf H}$'))
 
     def test_statements_have_stable_links_and_distinguish_arithmetic_models(self):
@@ -373,4 +383,7 @@ Rounded-model explanation.
         Explorer(self.site, self.content).build()
         page = (self.site / 'theory/bound/index.html').read_text()
         self.assertIn('<details class="explorer-section" open id="section-guarantees">', page)
-        self.assertIn('href="#theorem-bound"', page)
+        self.assertIn('id="theorem-bound"', page)
+        self.assertRegex(page, r'<a href="/explore/statements/[^/]+/">Readable bound</a>')
+        self.assertNotIn('View theorem', page)
+        self.assertNotIn('Copy link', page)

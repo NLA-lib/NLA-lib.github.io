@@ -1,4 +1,5 @@
 ---
+uid: 61c7d48d-7c0c-5679-9bc5-04320944d23a
 kind: algorithm
 id: girard-hutchinson
 title: Girard–Hutchinson trace estimator
@@ -27,25 +28,13 @@ Estimate a trace using quadratic forms of random probes.
 
 ## Definition
 
-::: definition decl:NLAlib.girardHutchinson name="Girard–Hutchinson estimator"
-For $s\ge1$ probes $\mathbf g_1,\ldots,\mathbf g_s$, estimate the trace by
-
-$$\widehat t=\frac1s\sum_{i=1}^s\mathbf g_i^{\mathsf{H}}\mathbf A\mathbf g_i.$$
-
-The standard random estimator uses isotropic probes, such as independent Rademacher or standard Gaussian vectors. Variance and probability guarantees depend on the probe distribution and matrix assumptions.
-:::
+{{ statement:nlalib-girardhutchinson-d1ee9b33 }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:girard-hutchinson-unbiased name="Unbiased trace estimate"
-For a nonempty collection of isotropic probes, the estimator has expectation
-
-$$\mathbb E[\widehat t]=\operatorname{tr}(\mathbf A).$$
-
-The probes need not be independent for this expectation identity. Independence and distribution-specific assumptions enter the variance and tail guarantees separately.
-:::
+{{ statement:girard-hutchinson-unbiased }}
 
 ## Further results
 

@@ -1,4 +1,5 @@
 ---
+uid: 1fccd6d6-77c8-5c75-a1cf-bb08f0e63771
 kind: algorithm
 id: late-truncated-rsvd
 title: Late-truncated RSVD
@@ -15,9 +16,7 @@ uses:
 - randomized-svd
 ---
 
-::: definition name="Late-truncated RSVD"
-Form $\mathbf B=\mathbf P_{\mathbf A\mathbf\Omega}\mathbf A$, then return $[\mathbf B]_k$, a best rank-at-most-$k$ approximation to $\mathbf B$. Here $[\cdot]_k$ denotes truncated SVD.
-:::
+{{ statement:late-truncated-rsvd-e8701eac }}
 
 ## Implementations
 
@@ -25,13 +24,7 @@ Form $\mathbf B=\mathbf P_{\mathbf A\mathbf\Omega}\mathbf A$, then return $[\mat
 
 ## Mathematical guarantees
 
-::: theorem decl:NLAlib.frobNorm_sub_truncatedSVD_rsvd_sq name="Orthogonal error decomposition"
-For every matrix $\mathbf A$, sketch $\mathbf\Omega$, and target rank $k$,
-
-$$\|\mathbf A-[\mathbf B]_k\|_{\mathrm F}^2=\|\mathbf A-\mathbf B\|_{\mathrm F}^2+\|\mathbf B-[\mathbf B]_k\|_{\mathrm F}^2,\qquad\mathbf B=\mathbf P_{\mathbf A\mathbf\Omega}\mathbf A.$$
-
-The squared error separates into the range-finding error and the error from truncating within that range.
-:::
+{{ statement:nlalib-frobnorm-sub-truncatedsvd-rsvd-sq }}
 
 
 

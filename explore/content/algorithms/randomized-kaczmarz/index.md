@@ -1,4 +1,5 @@
 ---
+uid: faffe90c-b5ec-5184-bba7-5fb3a915986a
 kind: algorithm
 id: randomized-kaczmarz
 title: Randomized Kaczmarz
@@ -14,9 +15,7 @@ theory:
 - pseudoinverses
 ---
 
-::: definition name="Randomized Kaczmarz"
-For a real linear system, choose row $i$ independently with probability proportional to its squared norm. Project the current iterate onto $(\mathbf A\mathbf x)_i=b_i$. If $\mathbf a_i$ is the transpose of row $i$, the update is $\mathbf x\leftarrow\mathbf x+\frac{b_i-(\mathbf A\mathbf x)_i}{\|\mathbf a_i\|_2^2}\mathbf a_i$. A zero row leaves the iterate unchanged. Consistent, inconsistent, and rank-deficient systems have different guarantees.
-:::
+{{ statement:randomized-kaczmarz-76e7063b }}
 
 ## Results
 

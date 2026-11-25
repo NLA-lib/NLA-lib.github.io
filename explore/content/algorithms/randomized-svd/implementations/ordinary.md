@@ -1,4 +1,5 @@
 ---
+uid: 95e9d458-b13e-5c87-acc9-47bba80f7841
 kind: implementation
 id: ordinary
 algorithm: randomized-svd

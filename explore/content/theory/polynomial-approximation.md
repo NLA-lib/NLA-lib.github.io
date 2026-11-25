@@ -1,4 +1,5 @@
 ---
+uid: 25afff9e-0f14-578c-8b3c-67c79ba56042
 kind: theory
 id: polynomial-approximation
 title: Polynomial approximation

@@ -1,4 +1,5 @@
 ---
+uid: 5d4658af-d682-547c-8311-7741d6fe5128
 kind: implementation
 id: selective-reorthogonalization
 algorithm: lanczos

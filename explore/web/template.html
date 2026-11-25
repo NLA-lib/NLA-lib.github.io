@@ -10,15 +10,14 @@
 <script defer src="/explore/explore-search.js?v={{search_js}}"></script>
 <script defer src="/explore/explore.js?v={{explore_js}}"></script>
 <script defer src="/explore/cg-pilot.js?v={{cards_js}}"></script>
-<script defer src="/explore/collaboration.js?v={{collaboration_js}}"></script>
 <script data-goatcounter="https://nlalib.goatcounter.com/count"
         async src="//gc.zgo.at/count.js"></script>
 </head><body class="explore-pages cg-pilot" data-root="/explore/" data-snapshot="{{snapshot}}" data-search-version="{{search_version}}">
 <a class="skip-link" href="#content">Skip to content</a>
-<div id="contentContainer" class="page-wrap"><header><h1>NLA-lib Explorer</h1>
-<nav class="menu" aria-label="Site"><a href="/">Home</a><a href="/explore/" class="here" aria-current="page">Explorer</a><a href="/design/">Design</a><a href="https://github.com/NLA-lib/nlalib">GitHub</a></nav>
+<div id="contentContainer" class="page-wrap"><header class="site-header"><div class="site-header-row"><a class="site-brand" href="/explore/">NLA-lib</a>
+<nav class="menu" aria-label="Primary"><a href="/explore/algorithms/">Algorithms</a><a href="/explore/theory/">Theory</a><a href="/explore/references/">References</a><a href="/explore/library/">Lean reference</a></nav></div>
 <form id="site-search" action="/explore/search/" role="search"><label class="visually-hidden" for="site-query">Search the library</label>
-<div class="search-line"><input id="site-query" name="q" type="search" placeholder="Search theorems and definitions"><button>Search</button></div></form><div id="quick-search" class="quick-search" hidden></div></header>
+<div class="search-line"><input id="site-query" name="q" type="search" placeholder="Search mathematics or Lean names"><button>Search</button></div></form><div id="quick-search" class="quick-search" hidden></div></header>
 <main id="content"></main>
-<footer>Library snapshot <code>{{commit}}</code> · <a href="/explore/api/v1/manifest.json">Snapshot and data manifest</a> · <a href="/explore/library/modules/">Library reference</a></footer></div>
+<footer class="site-footer"><div class="site-footer-links"><a href="/">About NLA-lib</a><a href="/design/">Design</a><a href="https://github.com/NLA-lib/nlalib">Source</a></div><details class="build-information"><summary>Build information</summary><p>Library snapshot <code>{{commit}}</code> · <a href="/explore/api/v1/manifest.json">Snapshot and data manifest</a></p></details></footer></div>
 </body></html>

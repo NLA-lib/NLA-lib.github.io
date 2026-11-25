@@ -42,13 +42,9 @@ class CorePreviewTests(unittest.TestCase):
 
     def test_vector_notation_keeps_polynomials_and_probability_fonts(self):
         source = r'$A x=b,\quad p(0)=1,\quad \mathbf{P},\quad \mathbb{P}$'
-        self.assertEqual(mathematics(source),
-            r'$\mathbf{A} \mathbf{x}=\mathbf{b},\quad p(0)=1,\quad \mathbf{P},\quad \mathbb{P}$')
-        self.assertEqual(mathematics(r'$\widehat x$'), r'$\widehat{\mathbf{x}}$')
-        self.assertEqual(mathematics(r'$\mathbf A\mathbf x=\mathbf b$'),
-            r'$\mathbf{A}\mathbf{x}=\mathbf{b}$')
-        self.assertEqual(mathematics(r'$\operatorname*{arg\,min} x$', 'rx'),
-            r'$\operatorname*{arg\,min} \mathbf{x}$')
+        self.assertEqual(mathematics(source), source)
+        for authored in [r'$\widehat x$',r'$\mathbf A\mathbf x=\mathbf b$',r'$\operatorname*{arg\,min} x$']:
+            self.assertEqual(mathematics(authored),authored)
 
     def test_statements_exclude_proofs_and_preserve_line_numbers(self):
         with tempfile.TemporaryDirectory() as tmp:

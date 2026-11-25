@@ -61,11 +61,12 @@ def profile_fields(payload):
 
 
 class Application:
-    def __init__(self, store, provider, domain='api.nla-lib.org', frontend='https://nla-lib.org', daily_limit=1000):
+    def __init__(self, store, provider, domain='api.nla-lib.org', frontend='https://nla-lib.org', daily_limit=1000, collaboration=None):
         self.store, self.provider = store, provider
         self.domain, self.frontend = domain, frontend
         self.origin = 'https://'+domain
         self.daily_limit = daily_limit
+        self.collaboration = collaboration
 
     def response(self, status, body, cookies=(), headers=None, content_type='application/json; charset=utf-8'):
         if content_type.startswith('application/json'):
@@ -102,8 +103,61 @@ class Application:
             token = cookies[SESSION_COOKIE].value if SESSION_COOKIE in cookies else ''
             if len(token)>256:
                 raise HttpError(400, 'Invalid session cookie.')
+            if path.startswith('/editor-api/'):
+                if not self.collaboration:
+                    raise HttpError(503, 'Collaboration is not enabled yet.')
+                session = self.store.session(token)
+                authorization = headers.get('authorization', '')
+                if method not in {'GET', 'POST'}:
+                    raise HttpError(405, 'Use GET or POST.')
+                payload = None
+                if method == 'POST':
+                    if not authorization:
+                        if not session:
+                            raise HttpError(401, 'Sign in with ORCID to contribute.')
+                        if headers.get('origin') not in {self.frontend, self.origin}:
+                            raise HttpError(403, 'A matching Origin header is required.')
+                        if not secrets.compare_digest(headers.get('x-csrf-token', ''), session['record']['csrf']):
+                            raise HttpError(403, 'Invalid CSRF token. Reload and retry.')
+                    if headers.get('content-type', '').split(';')[0].strip() != 'application/json':
+                        raise HttpError(400, 'Use application/json.')
+                    raw = event.get('body') or '{}'
+                    if len(raw)>500000:
+                        raise HttpError(413, 'Request is too large.')
+                    try:
+                        decoded = base64.b64decode(raw, validate=True) if event.get('isBase64Encoded') else raw.encode()
+                        if len(decoded)>300000:
+                            raise HttpError(413, 'Request is too large.')
+                        payload = json.loads(decoded)
+                    except HttpError:
+                        raise
+                    except Exception:
+                        raise HttpError(400, 'Invalid JSON.') from None
+                    if not isinstance(payload, dict):
+                        raise HttpError(400, 'Supply a JSON object.')
+                from collaboration import ApiError
+                from documents import Conflict
+                from publisher import PublishingError
+                import yaml
+                try:
+                    result = self.collaboration.handle(method, path.removeprefix('/editor-api/'),
+                        event.get('rawQueryString', ''), payload, session, authorization)
+                    return self.response(200, result)
+                except ApiError as error:
+                    raise HttpError(error.status, error.message) from None
+                except Conflict as error:
+                    raise HttpError(409, str(error)) from None
+                except PublishingError as error:
+                    raise HttpError(409, str(error)) from None
+                except yaml.YAMLError:
+                    raise HttpError(400, 'Invalid YAML header.') from None
+                except ValueError as error:
+                    raise HttpError(400, str(error)) from None
+                except (TypeError, KeyError):
+                    # Do not echo malformed input or parser snippets containing user text.
+                    raise HttpError(400, 'Invalid content or request fields. Check the source, entry IDs and required fields.') from None
             if method == 'GET' and path == '/health':
-                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles']})
+                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles'] + (['editing', 'discussions', 'reactions'] if self.collaboration else [])})
             if method == 'GET' and path == '/auth/login':
                 self.store.login_limit(context.get('http', {}).get('sourceIp', 'unknown'), self.daily_limit)
                 state, browser = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
@@ -148,6 +202,8 @@ class Application:
                     raise HttpError(404, 'Profile not found.')
                 if profile[1] == 'profiles':
                     return self.response(200, {'profile': public_profile(person)})
+                if self.collaboration:
+                    return self.response(302, '', headers={'Location': self.frontend+'/explore/community/?profile='+person['id']})
                 content = '<h1>'+html.escape(person['display_name'])+'</h1><p>'+html.escape(person.get('affiliation', ''))+'</p><p class="bio">'+html.escape(person.get('bio', ''))+'</p><p>Research interests: '+html.escape(person.get('interests', ''))+'</p><p><a href="https://orcid.org/'+person['orcid']+'">ORCID '+person['orcid']+'</a> · Authenticated ORCID iD</p>'
                 if person.get('website'):
                     content += '<p><a rel="noopener noreferrer" href="'+html.escape(person['website'], quote=True)+'">Website</a></p>'
@@ -185,7 +241,7 @@ class Application:
             person = self.store.update_profile(session['person']['id'], profile_fields(payload))
             return self.response(200, {'profile': public_profile(person)})
         except LimitReached:
-            return self.response(429, {'error': 'Sign-in limit reached. Try again later.'}, headers={'Retry-After': '3600'})
+            return self.response(429, {'error': 'Request limit reached. Try again later.'}, headers={'Retry-After': '3600'})
         except HttpError as error:
             return self.error(path, error.status, error.message)
         except ProviderError:
@@ -210,8 +266,14 @@ def handler(event, context):
     if _application is None:
         import boto3
         domain = os.environ['API_DOMAIN']
-        _application = Application(Store(boto3.resource('dynamodb').Table(os.environ['TABLE_NAME'])),
+        auth_store = Store(boto3.resource('dynamodb').Table(os.environ['TABLE_NAME']))
+        from collaboration import Collaboration
+        from documents import Documents
+        from publisher import Publisher
+        publisher = Publisher(boto3.client('secretsmanager'), os.environ['GITHUB_APP_SECRET_ARN']) if os.environ.get('GITHUB_APP_SECRET_ARN') else None
+        community = Collaboration(auth_store, Documents(auth_store.table), publisher=publisher)
+        _application = Application(auth_store,
             Orcid(boto3.client('secretsmanager'), os.environ['ORCID_SECRET_ARN'], os.environ['ORCID_CLIENT_ID'],
                   'https://'+domain+'/auth/callback'), domain, os.environ['FRONTEND_ORIGIN'],
-            int(os.environ.get('LOGIN_DAILY_LIMIT', '1000')))
+            int(os.environ.get('LOGIN_DAILY_LIMIT', '1000')), collaboration=community)
     return _application.handle(event)

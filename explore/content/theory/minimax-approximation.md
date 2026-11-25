@@ -1,4 +1,5 @@
 ---
+uid: 599ec1ba-92e7-536d-a396-6d23658e726d
 kind: theory
 id: minimax-approximation
 title: Minimax approximation
@@ -14,13 +15,7 @@ module_prefixes:
 
 A minimax problem asks how accurately a function can be approximated by a polynomial of a given degree on a specified set. The domain and normalization matter: a residual polynomial constrained at zero is a different problem from unconstrained approximation of a function.
 
-::: definition name="Best uniform polynomial error"
-For a continuous function $f$ on a compact set $S$, define
-
-$$E_k(f;S)=\inf_{\deg p\le k}\sup_{t\in S}|f(t)-p(t)|.$$
-
-For linear-system bounds, a common alternative is to minimize $\sup_{t\in S}|p(t)|$ over degree-at-most-$k$ polynomials satisfying $p(0)=1$. Equioscillation characterizes optimal approximants under the corresponding hypotheses.
-:::
+{{ statement:best-uniform-polynomial-error-89ab2263 }}
 
 ## Results
 

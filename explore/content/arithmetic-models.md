@@ -1,4 +1,5 @@
 ---
+uid: 043355f4-9949-5f19-87f1-1f96a7841153
 kind: index
 id: arithmetic-models
 title: Arithmetic models
@@ -17,124 +18,24 @@ library's certificate record establishes, and [search](/explore/search/) filters
 A statement without a mark has no established fact; it is not thereby exact or
 deterministic.
 
-::: definition name="Exact arithmetic" id=exact
-Every scalar operation of the machine returns the exact value: literals, addition,
-subtraction, multiplication, division by a nonzero number, negation, and the square
-root of a nonnegative number (`Ops.ExactModel`). In an exact operation model, dot
-products, vector updates, and matrix–vector products are exact as well.
+{{ statement:exact-arithmetic-3bd3e996 }}
 
-A correspondence theorem on an implementation page then identifies the stored output
-with the mathematical method. For CG, the recurrence agrees with mathematical CG, so
-classical convergence and finite-termination results apply under their matrix assumptions.
-:::
+{{ statement:standard-rounding-65719e4e }}
 
-::: definition name="Standard rounding" id=standard
-Standard rounding is the standard model of rounded arithmetic with unit roundoff $u$
-(`Ops.StdModel`). A scalar machine is in it when
-each operation returns its exact result with relative error at most $u$:
+{{ statement:relative-error-blas-matvec-5bd8642a }}
 
-$$|\widehat{a\circ b}-a\circ b|\le u\,|a\circ b|,\qquad\circ\in\{+,-,\times,/\},$$
+{{ statement:sequential-summation-in-standard-rounding-01b91c62 }}
 
-with division only by a nonzero number, and likewise for literals and for the square
-root of a nonnegative number. Negation is exact. There is no overflow and no underflow.
-Exact arithmetic is the case $u=0$.
-
-The model constrains the scalar operations only. A program whose only primitives are
-scalar operations and comparisons, such as the stored scalar programs of CG and Lanczos,
-needs nothing else. A program that calls vector or matrix operations also needs their
-contracts, as in the next two definitions.
-:::
-
-::: definition name="Relative-error BLAS + matvec" id=relative
-The implementation supplies error coefficients rather than a particular reduction
-order. The dot-product contract is
-
-$$|\widehat{\langle\mathbf{x},\mathbf{y}\rangle}-\langle\mathbf{x},\mathbf{y}\rangle|
-\le d_n\sum_{i=1}^n |x_i y_i|.$$
-
-This scales with the sum of absolute products, not with the absolute value of the
-dot product; the distinction matters when there is cancellation.
-
-A scaled vector addition satisfies
-
-$$|\widehat z_i-(y_i+\alpha x_i)|\le e_a(|y_i|+|\alpha x_i|),$$
-
-and matrix–vector multiplication satisfies
-
-$$\|\widehat{\mathbf{A}\mathbf{v}}-\mathbf{A}\mathbf{v}\|_2
-\le e_m\|\mathbf{A}\|_2\|\mathbf{v}\|_2.$$
-
-The library's matrix–vector contract has an absolute allowance $\delta$ in place of
-$e_m\|\mathbf{A}\|_2$; the CG theorems take $\delta=e_m\|\mathbf{A}\|_2$.
-
-Scalar arithmetic has unit roundoff $u$. Copies and decoded comparisons are exact.
-The solver theorem requires the supplied coefficients to satisfy its accuracy budget.
-:::
-
-::: definition name="Sequential summation in standard rounding" id=sequential
-The standard-rounding model of the solver pages sums sequentially. Scalar operations obey
-standard rounding with unit roundoff $u$. A sum of $n$ terms accumulated in order has the
-error coefficient $(1+u)^{n-1}-1$ (`Ops.Blas.seqSumErr`), and a dot product, which forms
-rounded products and sums them, has
-
-$$d_n=(1+u)^n-1$$
-
-(`Ops.Blas.seq.err`). The same profile supplies the vector-update bounds. All vector lengths
-are admitted. Matvec error is supplied separately; this model does not assume exact matvecs.
-
-The library also has pairwise summation (`Ops.Blas.pairwise.err`). It improves the sum
-coefficient to $(1+u)^{\lceil\log_2 n\rceil}-1$ (`Ops.Blas.pairSumErr`), so that
-$d_n=(1+u)^{\lceil\log_2 n\rceil+1}-1$. It needs the depth condition
-$\lceil\log_2 n\rceil<\mathrm{depth}$ (`Nat.clog 2 n < depth`) and declares a different
-workspace for the vector operations. The solver theorems are stated for either scheme; the
-pages present the sequential one. Pairwise summation specifies the reduction order; it does
-not by itself certify parallel execution.
-:::
-
-::: definition name="Accuracy budgets" id=accuracy
-
-For the abstract relative-error CG theorem, choose a nonnegative allowance $E$ with
-
-$$u,d_n,e_a,e_m\le E\le10^{-2}.$$
-
-The named standard profiles use a stricter envelope (`Ops.Standard.Accuracy`), which
-the CG and Lanczos operation budgets share:
-
-$$\begin{gathered}0\le E\le10^{-2},\qquad e_m,e_a\le E,\\
-u,d_n,e_{\mathrm{scal}}\le E/16.\end{gathered}$$
-
-Here $e_{\mathrm{scal}}$ bounds componentwise vector division. Each solver theorem also
-has its own assumptions, such as the spectral and iteration-window assumptions of CG,
-stated on its implementation page.
-:::
+{{ statement:accuracy-budgets-e4a4357b }}
 
 Access, randomness and work are not arithmetic. They are marked separately, and a
 statement can carry several of these facts.
 
-::: definition name="Uniform model and oracle" id=access
-An operation model is uniform (`Ops.AccessModel.Uniform`) when the contracts of its
-primitives and queries do not depend on the sizes or on the input. No primitive is then
-an oracle for the problem data: the program reaches its input through the stored buffers.
-A uniform model can still call kernels, which are primitives with their own contracts and
-with work supplied by the caller.
+{{ statement:uniform-model-and-oracle-e571c120 }}
 
-A matrix–vector product that is a primitive with a contract for a given operator is an
-oracle: the operator is semantic data of the model, not entries that the program reads.
-:::
+{{ statement:random-tape-6de47ac7 }}
 
-::: definition name="Random tape" id=randomness
-A tape holds, at each position, one entry of each stream of draws. Under a tape law
-(`Ops.IsTapeLaw`) all entries are independent, and an entry of a stream has the
-distribution of that stream. A statement under a tape law is a statement about a
-probability over the tape.
-:::
-
-::: definition name="Closed and manifest work" id=work
-A certificate bounds the work and the span of its program. The bound is closed when it
-does not mention the static count of a program, and manifest when it is stated through
-the program's own syntax. A closed bound can still be a parameter that a hypothesis of
-the certificate constrains.
-:::
+{{ statement:closed-and-manifest-work-b7eb3355 }}
 
 [Open ordinary CG](/explore/algorithms/conjugate-gradient/implementations/ordinary/)
 

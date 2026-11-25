@@ -1,4 +1,5 @@
 ---
+uid: e19481fc-9689-539c-9b61-bc2991314514
 kind: theory
 id: randomized-low-rank-theory
 title: Structural theory for randomized low-rank approximation

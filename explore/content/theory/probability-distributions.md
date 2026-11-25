@@ -1,4 +1,5 @@
 ---
+uid: 421fa9fa-ce1d-51e1-9de3-bbe2c9051e90
 kind: theory
 id: probability-distributions
 title: Distributions, moments, and random probes
@@ -17,9 +18,7 @@ module_prefixes:
 
 Moments and distributional assumptions are the inputs to randomized error analysis. In particular, isotropy explains why random quadratic forms can estimate a trace, while higher moments and independence determine variance and tail behavior.
 
-::: definition name="Isotropic probes"
-A square-integrable probe $\mathbf g$ is isotropic when $\mathbb E[\mathbf g\mathbf g^{\mathsf{H}}]=\mathbf I$. Standard real Gaussian and independent Rademacher probes are common examples. Isotropy specifies a second moment; it does not itself assert independent coordinates or independent probes.
-:::
+{{ statement:isotropic-probes-cb5e0fa7 }}
 
 ## Background
 

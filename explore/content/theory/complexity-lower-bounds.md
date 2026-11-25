@@ -1,4 +1,5 @@
 ---
+uid: b0ec0f1d-21c6-5c6f-b5ec-d43363b60ab2
 kind: theory
 id: complexity-lower-bounds
 title: Oracle and query lower bounds

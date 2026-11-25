@@ -413,7 +413,7 @@ def main():
                 label, href = (x.strip() for x in item.split(': ', 1))
                 here = ' class="here"' if href in ('./', '.', 'index.html') else ''
                 links.append('  <a href="%s"%s>%s</a>' % (html.escape(href), here, html.escape(label)))
-            header += '\n<nav class="menu">\n%s\n</nav>' % '\n'.join(links)
+            header += '\n<nav class="menu" aria-label="Primary">\n%s\n</nav>' % '\n'.join(links)
 
         output = source.with_suffix('.html')
         # print.css, if there is one beside the stylesheet, is used for printing
@@ -439,7 +439,7 @@ def main():
         output.write_text(PAGE.format(title=html.escape(text('tab-title'), quote=False) or title, lang=text('lang') or 'en',
                                       meta='\n'.join(meta),
                                       css=css,
-                                      body='%s\n%s' % (header, body)),
+                                      body='%s\n%s%s' % (header, body, ('\n<footer class="site-footer"><a href="/">About NLA-lib</a> · <a href="/design/">Design</a> · <a href="https://github.com/NLA-lib/nlalib">Source</a></footer>' if menu else ''))),
                           encoding='utf-8')
         print('wrote %s' % output)
 

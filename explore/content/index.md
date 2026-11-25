@@ -1,7 +1,8 @@
 ---
+uid: bc117344-f726-5771-8e84-b7ef33ef8972
 kind: home
 id: home
-title: NLA-lib Explorer
+title: Explore numerical linear algebra
 status: ready
 ---
 

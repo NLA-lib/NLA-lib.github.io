@@ -1,4 +1,5 @@
 ---
+uid: 5ef0210b-79e1-51fb-8b4a-e3af2ab9dd4c
 kind: algorithm
 id: qr
 title: QR factorization
@@ -24,9 +25,7 @@ Factor a matrix into an orthogonal basis and a triangular factor.
 
 ## Definition
 
-::: definition name="QR factorization"
-For $\mathbf A\in\mathbb C^{m\times n}$ with $m\ge n$, a thin QR factorization is $\mathbf A=\mathbf Q\mathbf R$, where $\mathbf Q^{\mathsf{H}}\mathbf Q=\mathbf I$ and $\mathbf R$ is upper triangular. Full QR extends $\mathbf Q$ to a unitary basis. Rank deficiency permits zero diagonal entries of $\mathbf R$. Householder transformations, Givens rotations, and Gram–Schmidt are different ways to compute factors; QR eigenvalue iteration is a separate algorithm.
-:::
+{{ statement:qr-factorization-adb72f11 }}
 
 
 

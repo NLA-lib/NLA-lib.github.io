@@ -1,4 +1,5 @@
 ---
+uid: 9c3667d7-56e7-501c-9a4a-524a9c9e8a89
 kind: algorithm
 id: power-iteration
 title: Power iteration
@@ -12,9 +13,7 @@ result_ids:
 - random-start-power
 ---
 
-::: definition name="Power iteration"
-For a square matrix $\mathbf A$ and a nonzero starting vector, repeatedly set $\mathbf y_{j+1}=\mathbf A\mathbf x_j$ and normalize $\mathbf x_{j+1}=\mathbf y_{j+1}/\|\mathbf y_{j+1}\|_2$ whenever the numerator is nonzero. A Rayleigh quotient supplies an eigenvalue estimate. Convergence requires spectral and starting-vector assumptions.
-:::
+{{ statement:power-iteration-9eae1af0 }}
 
 ## Implementations
 

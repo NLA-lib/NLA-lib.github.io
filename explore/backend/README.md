@@ -1,14 +1,15 @@
-# First hosted authentication slice
+# Hosted ORCID accounts and collaboration
 
-This package creates ORCID sign-in, secure application sessions, public researcher
-profiles and private profile editing. Comments, content editing, notifications and
-bots remain in the local prototype; this first service grants no GitHub or Lean
-access. The existing static site stays on GitHub Pages.
+The Lambda service provides ORCID sign-in, secure sessions, public researcher
+profiles, private drafts, reviewed content proposals, discussions, reactions,
+scoped bots and a recent-activity inbox. GitHub Pages continues to host the site.
 
-Deployment is not yet performed. The CloudFormation template uses SAM for the
-Lambda package and native HTTP API resources. It references the existing Secrets
-Manager ARN and ACM certificate ARN in account 432197736886, region us-west-2.
-No secret value belongs in the bundle. Lambda reads it from Secrets Manager.
+For the collaboration upgrade, initial editor access, and optional GitHub App,
+follow [the step-by-step setup](COLLABORATION.md). The rest of this document
+records the original authentication infrastructure and recovery procedure.
+
+The SAM template references existing Secrets Manager and ACM resources in account
+432197736886, region us-west-2. Secret values never belong in deployment bundles.
 
 ## Deploy from AWS CloudShell
 
@@ -31,7 +32,7 @@ activity; they are not a billing guarantee or a substitute for account budget al
 
 IAM acknowledgement permits the stack to create the Lambda execution role. That
 role can only read the specified ORCID secret, read/write this stack's table and
-write its log streams. It cannot publish content, manage other AWS resources,
+write its log streams. Without the optional GitHub App secret it cannot publish content. It cannot manage other AWS resources,
 change roles, modify DNS, or retrieve other secrets. The deployment command itself
 runs under the user's existing CloudShell permissions.
 

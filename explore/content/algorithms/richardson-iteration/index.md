@@ -1,4 +1,5 @@
 ---
+uid: c56c5fcb-5dc6-522d-9cfe-9dba77b9c645
 kind: algorithm
 id: richardson-iteration
 title: Richardson iteration
@@ -11,9 +12,7 @@ theory:
 - matrix-equations
 ---
 
-::: definition name="Richardson iteration"
-For $\mathbf A\mathbf x=\mathbf b$ and a fixed correction map $\mathbf M$, set $\mathbf x_{j+1}=\mathbf x_j+\mathbf M(\mathbf b-\mathbf A\mathbf x_j)$. A step size can be absorbed into $\mathbf M$. Defining the recurrence requires no convergence claim; the spectral hypotheses of the result below determine when the error decreases.
-:::
+{{ statement:richardson-iteration-888a2fcc }}
 
 ## Results
 

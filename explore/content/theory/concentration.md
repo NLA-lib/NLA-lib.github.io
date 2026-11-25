@@ -1,4 +1,5 @@
 ---
+uid: 6ba17382-3f2d-5f93-9e03-e60a7a7de836
 kind: theory
 id: concentration
 title: Concentration inequalities
@@ -27,13 +28,7 @@ Markov, Chebyshev, Bernstein, Hanson–Wright, and matrix Chernoff inequalities.
 
 ## Mathematical guarantees
 
-::: theorem result:markov-inequality name="Markov bound"
-For an integrable random variable $X$ that is nonnegative almost surely, and $t>0$,
-
-$$\Pr\{X\ge t\}\le\frac{\mathbb E X}{t}.$$
-
-The checked result holds more generally for a measure and its integral. Integrability is an explicit hypothesis.
-:::
+{{ statement:markov-inequality }}
 
 ## Further results
 

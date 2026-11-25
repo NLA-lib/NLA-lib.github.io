@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "documents": {
+    "algorithms/conjugate-gradient/index.md": {"matrices": ["A"], "vectors": ["x", "b", "v"]},
+    "statements/cg-optimality.md": {"matrices": ["A"], "vectors": ["x", "y", "r"]},
+    "tasks/quadrature.md": {"matrices": ["A"], "vectors": ["b"]}
+  }
+}

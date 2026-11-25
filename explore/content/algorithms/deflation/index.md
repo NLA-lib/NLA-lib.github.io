@@ -1,4 +1,5 @@
 ---
+uid: 4a911f62-1c69-5569-b402-2ad58b5b9fc9
 kind: algorithm
 id: deflation
 title: Randomized subspace extraction (deflation)
@@ -29,9 +30,7 @@ The deflation component used by spectral bisection extracts a basis from a sampl
 
 ## Definition
 
-::: definition name="Randomized subspace extraction"
-For a square input $\mathbf P$, draw a complex sample matrix $\mathbf G$, form $\mathbf Y=\mathbf P\mathbf G$, compute a full QR factorization, and retain the requested number of columns of its orthonormal factor. Accuracy as a subspace basis requires assumptions on the matrix, sampling, and arithmetic.
-:::
+{{ statement:randomized-subspace-extraction-a0a6bea3 }}
 
 
 

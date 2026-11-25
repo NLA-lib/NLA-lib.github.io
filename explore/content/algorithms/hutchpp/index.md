@@ -1,4 +1,5 @@
 ---
+uid: 5577bd65-7224-5044-8cfc-227cf0b78ffc
 kind: algorithm
 id: hutchpp
 title: Hutch++
@@ -31,9 +32,7 @@ Combine a low-rank approximation with residual trace estimation.
 
 ## Definition
 
-::: definition decl:NLAlib.hutchpp name="Hutch++"
-Choose a range sketch $\mathbf S$ and let $\mathbf P$ be the orthogonal projector onto $\operatorname{range}(\mathbf A\mathbf S)$. Compute the captured trace $\operatorname{tr}(\mathbf P\mathbf A)$ and add a Girard–Hutchinson estimate, with fresh probes, of $\operatorname{tr}((\mathbf I-\mathbf P)\mathbf A(\mathbf I-\mathbf P))$. The low-rank part and residual estimator have separate roles; the probability results specify the required independence and distribution.
-:::
+{{ statement:nlalib-hutchpp-b6d6ec43 }}
 
 
 
@@ -43,13 +42,7 @@ Choose a range sketch $\mathbf S$ and let $\mathbf P$ be the orthogonal projecto
 
 ## Mathematical guarantees
 
-::: theorem result:hutchpp-unbiased name="Unbiasedness with independent residual probes"
-Suppose the range sketch is almost everywhere measurable, the residual probe matrix is independent of it and has at least one column, and each residual probe is square integrable and isotropic. For every square $\mathbf A$,
-
-$$\mathbb E[\mathsf{hutch++}(\mathbf A)]=\operatorname{tr}(\mathbf A).$$
-
-The range sketch can have any distribution. Residual probes need not be independent of one another for this expectation identity.
-:::
+{{ statement:hutchpp-unbiased }}
 
 ## Further results
 

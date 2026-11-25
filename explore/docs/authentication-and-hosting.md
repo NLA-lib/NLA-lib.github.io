@@ -3,8 +3,8 @@
 The existing deployment is GitHub Pages, not AWS static hosting. The repository's
 `.github/workflows/deploy.yml` builds the Explorer together with the homepage and
 publishes them to nla-lib.org. Preserve that pipeline and the independent static
-mathematical library. A separate development editor prototype is loopback-only and uses SQLite; it
-is not the hosted backend in this branch.
+mathematical library. The current collaboration server is loopback-only and SQLite
+is a local prototype; it must not be exposed as the production backend.
 
 ## Proposed first hosted slice
 
@@ -70,8 +70,8 @@ must not enter shared caches.
 ## DynamoDB and authorization changes
 
 Use stable internal actor/person IDs, with a unique external identity lookup from
-provider issuer + subject. Extend the records in `backend/store.py` with per-person drafts, public activity,
-follows and notifications as those features are ported. Enforce expiry in code;
+provider issuer + subject. Use the profile/activity/follow/notification model in
+`editor/README.md`, with per-person drafts and sessions. Enforce expiry in code;
 TTL deletion is cleanup, not an authorization decision. Add conditional writes for
 revision conflicts and idempotent contribution events. Migrate the store interface
 and account resolver rather than translating arbitrary SQLite queries at runtime.

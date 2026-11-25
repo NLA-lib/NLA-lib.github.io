@@ -1,4 +1,5 @@
 ---
+uid: 1d77bc8b-3ed4-5cb0-8273-4cff4c2ae78d
 kind: theory
 id: matrix-functions
 title: Matrix functions and operator inequalities
@@ -16,13 +17,7 @@ module_prefixes:
 
 Functions of matrices extend scalar functions to operators. Matrix exponentials, logarithms, powers, and sign functions have different domains; operator inequalities compare their behavior under matrix order.
 
-::: definition name="Hermitian functional calculus"
-For Hermitian $\mathbf A=\mathbf U\mathbf\Lambda\mathbf U^{\mathsf{H}}$ and a function $f$ defined on its spectrum, set
-
-$$f(\mathbf A)=\mathbf U\operatorname{diag}(f(\lambda_1),\ldots,f(\lambda_n))\mathbf U^{\mathsf{H}}.$$
-
-The expression is independent of the chosen eigenbasis. Domain restrictions, such as positive definiteness for a real logarithm, are part of each statement.
-:::
+{{ statement:hermitian-functional-calculus-af61ef21 }}
 
 ## Background
 

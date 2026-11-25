@@ -1,4 +1,5 @@
 ---
+uid: 29e977da-1a9b-5908-afc9-1bacd122a759
 kind: algorithm
 id: nystrom
 title: Nyström approximation
@@ -28,25 +29,13 @@ Approximate a positive-semidefinite matrix using sampled or sketched columns.
 
 ## Definition
 
-::: definition decl:NLAlib.nystrom name="Nyström approximation"
-For a Hermitian positive-semidefinite matrix $\mathbf A$ and test matrix $\mathbf\Omega$, form
-
-$$\widehat{\mathbf A}=\mathbf A\mathbf\Omega(\mathbf\Omega^{\mathsf{H}}\mathbf A\mathbf\Omega)^{\dagger}\mathbf\Omega^{\mathsf{H}}\mathbf A.$$
-
-The symbol $\dagger$ denotes the Moore–Penrose pseudoinverse, allowing a rank-deficient middle matrix. Sampling columns is a special choice of the test matrix.
-:::
+{{ statement:nlalib-nystrom-254f7f6f }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:randomized-nystrom-expected-error name="Expected nuclear-norm error"
-For real positive-semidefinite $\mathbf A$, standard Gaussian $\mathbf\Omega\in\mathbb R^{n\times\ell}$, and $k+2\le\ell$,
-
-$$\mathbb E\|\mathbf A-\mathsf{nystrom}(\mathbf A,\mathbf\Omega)\|_*\le\left(1+\frac{k}{\ell-k-1}\right)\|\mathbf A-[\mathbf A]_k\|_*.$$
-
-The residual is positive semidefinite, so its nuclear norm is also its trace. The bound compares the expected residual trace with the optimal rank-$k$ tail.
-:::
+{{ statement:randomized-nystrom-expected-error }}
 
 ## Further results
 

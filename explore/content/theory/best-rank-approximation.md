@@ -1,4 +1,5 @@
 ---
+uid: 914ac55d-ad69-5269-b41b-7ebddfec42da
 kind: theory
 id: best-rank-approximation
 title: Best-rank approximation and truncation
@@ -19,9 +20,7 @@ result_ids:
 
 This topic contains reusable approximation theory. The choices of when to truncate a sketch or an approximation belong to the individual RSVD method pages.
 
-::: definition decl:NLAlib.truncatedSVD name="Truncated SVD"
-Write $[\mathbf A]_k$ for the matrix obtained by retaining the $k$ largest singular values and their singular vectors. It has rank at most $k$. Ties can make the best approximation nonunique; the library fixes a choice.
-:::
+{{ statement:nlalib-truncatedsvd-22476dc5 }}
 
 ## Background
 
@@ -29,13 +28,7 @@ Write $[\mathbf A]_k$ for the matrix obtained by retaining the $k$ largest singu
 
 ## Mathematical guarantees
 
-::: theorem result:eckart-young-frobenius name="Eckart–Young optimality"
-If $\operatorname{rank}(\mathbf B)\le k$, then
-
-$$\|\mathbf A-[\mathbf A]_k\|_{\mathrm F}\le\|\mathbf A-\mathbf B\|_{\mathrm F}.$$
-
-This reusable comparison separates the mathematical optimum from the error of a particular randomized or iterative algorithm.
-:::
+{{ statement:eckart-young-frobenius-044d6c37 }}
 
 ## Further results
 

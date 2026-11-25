@@ -1,4 +1,5 @@
 ---
+uid: b5f7d02c-70db-5d3a-94b7-9ee3dd78bb28
 kind: theory
 id: matrix-algebra
 title: Rank, determinants, and Schur complements

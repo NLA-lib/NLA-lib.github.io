@@ -1,4 +1,5 @@
 ---
+uid: 713a143d-2063-5698-9d8b-2e16af1cd9e5
 kind: theory
 id: spectral-theory
 title: Spectral theory
@@ -22,9 +23,7 @@ module_prefixes:
 
 Spectral theory connects a matrix to its eigenvalues, eigenvectors, and invariant subspaces. Hermitian structure makes this connection especially strong: the eigenvalues are real and an orthonormal eigenbasis is available.
 
-::: definition name="Hermitian spectral decomposition"
-A Hermitian matrix satisfies $\mathbf A^{\mathsf{H}}=\mathbf A$. Its spectral decomposition has the form $\mathbf A=\mathbf U\mathbf\Lambda\mathbf U^{\mathsf{H}}$, with unitary $\mathbf U$ and real diagonal $\mathbf\Lambda$. Variational principles characterize the ordered eigenvalues through subspaces; interlacing compares them with eigenvalues of compressions.
-:::
+{{ statement:hermitian-spectral-decomposition-49f5c3f6 }}
 
 ## Results
 

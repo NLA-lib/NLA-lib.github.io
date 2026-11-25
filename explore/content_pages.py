@@ -6,7 +6,7 @@ own lists and formal metadata; authored theorem prose never replaces Lean eviden
 from __future__ import annotations
 
 import argparse
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 import gzip
 import hashlib
 import html
@@ -16,12 +16,16 @@ from pathlib import Path
 import re
 import shlex
 import shutil
+import uuid
 from urllib.parse import quote, urljoin
 
 from markdown_it import MarkdownIt
 import yaml
+from bibliography import editorial_references, references_panel
+from statement_sources import STATEMENT, load_statements, expand_imports
 
 from cg_presentation import card, disclosure, mathematics, prose
+from notation import math_spans
 from models import FACETS as MODEL_FACETS, FACTS as MODEL_FACTS, PROGRAMS, model_title, tags as model_tags
 from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, inline_title, notes_html, record_component,
                        prose_html, split_notes)
@@ -31,9 +35,13 @@ KINDS = {'home', 'index', 'task', 'family', 'algorithm', 'implementation', 'theo
 RELATIONS = {'tasks': 'task', 'theory': 'theory', 'prerequisites': 'theory',
              'parents': 'theory', 'uses': 'algorithm', 'families': 'family'}
 MARKER = re.compile(r'^\{\{\s*generated:([a-z-]+)\s*\}\}\s*$', re.M)
-STATEMENT = re.compile(r'^::: (theorem|definition)(?: (result|decl):([^\s]+))?([^\n]*)\n(.*?)\n:::\s*$', re.M | re.S)
 MODEL_BLOCK = re.compile(r'^::: model ([a-z0-9][a-z0-9-]*)[ \t]*\n(.*?)^::: end-model[ \t]*$', re.M | re.S)
 MD = MarkdownIt('commonmark', {'html': False}).enable('table')
+NAVIGATION = [('algorithms', 'Algorithms'), ('theory', 'Theory'), ('references', 'References'), ('library', 'Lean reference')]
+
+
+def navigation(active=''):
+    return '<nav class="menu" aria-label="Primary">' + ''.join('<a href="/explore/' + key + '/"' + (' aria-current="page"' if key == active else '') + '>' + title + '</a>' for key, title in NAVIGATION) + '</nav>'
 
 
 def slug(text):
@@ -52,7 +60,7 @@ class StatementLinks(HTMLParser):
         model = attrs.get('data-cg-model') or (self.stack[-1][1] if self.stack else None)
         context = self.stack[-1][2] if self.stack else None
         raw = self.get_starttag_text()
-        statement = tag == 'article' and any('cg-' + kind in attrs.get('class', '').split()
+        statement = tag == 'article' and 'statement-overview' not in attrs.get('class', '').split() and any('cg-' + kind in attrs.get('class', '').split()
                                             for kind in ['result', 'cost', 'model', 'algorithm'])
         if statement:
             identifier = attrs.get('id')
@@ -103,6 +111,8 @@ class Page:
     source: Path
     meta: dict
     body: str
+    source_body: str | None = None
+    statement_imports: dict = field(default_factory=dict)
 
     @property
     def kind(self):
@@ -127,18 +137,25 @@ class Page:
         return BASE + (self.path + '/' if self.path else '')
 
 
-def load_pages(directory):
+def load_pages(directory, overrides=None):
     pages = {}
     routes = set()
+    statements = load_statements(directory)
     for file in sorted(Path(directory).rglob('*.md')):
-        if file.name == 'README.md':
+        if file.name == 'README.md' or file.relative_to(directory).parts[0] == 'statements':
             continue
-        match = re.fullmatch(r'---\n(.*?)\n---\n(.*)', file.read_text(), re.S)
+        match = re.fullmatch(r'---\n(.*?)\n---\n(.*)', (overrides or {}).get(file, file.read_text()), re.S)
         if not match:
             raise ValueError(f'{file}: expected YAML front matter')
         meta = yaml.safe_load(match[1])
         if not isinstance(meta, dict) or not all(meta.get(k) for k in ['kind', 'id', 'title']):
             raise ValueError(f'{file}: kind, id and title are required')
+        if 'uid' in meta:
+            try:
+                if str(uuid.UUID(meta['uid'])) != meta['uid']:
+                    raise ValueError('noncanonical UUID')
+            except (ValueError, TypeError, AttributeError):
+                raise ValueError(f'{file}: uid must be a canonical UUID') from None
         if 'library_topics' in meta:
             raise ValueError(f'{file}: use module_prefixes instead of retired library_topics')
         if meta['kind'] not in KINDS or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', str(meta['id'])):
@@ -173,7 +190,8 @@ def load_pages(directory):
             if (any(not isinstance(model.get('aliases', []), list) for model in models) or len(set(aliases)) != len(aliases)
                     or any(not isinstance(a, str) or not re.fullmatch(r'[a-z0-9][a-z0-9-]*', a) or a in ids for a in aliases)):
                 raise ValueError(f'{file}: invalid or duplicate arithmetic model alias')
-        page = Page(file, meta, match[2])
+        body, imports = expand_imports(match[2], statements)
+        page = Page(file, meta, body, match[2], imports)
         if page.key in pages or page.path in routes:
             raise ValueError(f'{file}: duplicate identity or route')
         pages[page.key] = page
@@ -247,19 +265,13 @@ def load_pages(directory):
 
 def markdown(text):
     """CommonMark with escaped TeX islands, typeset client-side by KaTeX."""
-    islands = []
-    def keep(match):
-        raw = match[0]
-        display = raw.startswith('$$')
-        tex = raw[2:-2] if display else raw[1:-1]
-        islands.append('<span class="math' + (' display' if display else '') + '">' + html.escape(tex.strip()) + '</span>')
-        return 'EXPLORERMATHISLAND' + str(len(islands) - 1) + 'END'
-    # Protect code fences and inline code from math replacement.
-    chunks = re.split(r'(```[\s\S]*?```|`[^`\n]+`)', text)
-    for i in range(0, len(chunks), 2):
-        chunks[i] = re.sub(r'\$\$[\s\S]*?\$\$|\$[^$\n]+\$', keep, mathematics(chunks[i]))
-    rendered = MD.render(''.join(chunks))
-    return re.sub(r'EXPLORERMATHISLAND(\d+)END', lambda m: islands[int(m[1])], rendered)
+    islands=[];chunks=[];cursor=0
+    for start,end,tex,display in math_spans(text)[0]:
+        chunks.append(text[cursor:start]);chunks.append('EXPLORERMATHISLAND'+str(len(islands))+'END')
+        islands.append('<span class="math'+(' display' if display else '')+'">'+html.escape(tex.strip())+'</span>');cursor=end
+    chunks.append(text[cursor:]);rendered=MD.render(''.join(chunks))
+    return re.sub(r'EXPLORERMATHISLAND(\d+)END',lambda m:islands[int(m[1])],rendered)
+
 
 
 class Explorer:
@@ -272,6 +284,31 @@ class Explorer:
         for kind in ['algorithms', 'tasks', 'results', 'declarations', 'modules', 'guides']:
             records = [json.loads(p.read_text())['record'] for p in (self.api / kind).glob('*.json')]
             self.records[kind] = {record['id']: record for record in records}
+        self.shared_statements = load_statements(content)
+        self.shared_uids = {item.uid: item for item in self.shared_statements.values()}
+        self.shared_blocks = {item.block: item for item in self.shared_statements.values()}
+        reference_file = self.api / 'references.json'
+        self.references = json.loads(reference_file.read_text())['references'] if reference_file.exists() else {}
+        for declaration in self.records['declarations'].values():
+            for citation in declaration.get('references', []):
+                if citation.get('text'):
+                    self.references.setdefault(citation['key'], {k: v for k, v in citation.items() if k not in {'key', 'locator'}})
+        for key, reference in editorial_references(content).items():
+            if key in self.references and self.references[key] != reference:
+                raise ValueError('Reference already exists in the Lean bibliography: ' + key)
+            self.references[key] = reference
+        self.result_statement_ids = {}
+        grouped = {}
+        for item in self.shared_statements.values():
+            match = STATEMENT.fullmatch(item.block)
+            if match[2] == 'result':
+                grouped.setdefault(match[3], []).append(item.uid)
+            for citation in item.references:
+                if citation['key'] not in self.references:
+                    raise ValueError('Unknown shared reference: ' + citation['key'])
+        for key in self.records['results']:
+            ids = grouped.get(key, [])
+            self.result_statement_ids[key] = ids[0] if len(ids) == 1 else str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/editor/result:' + key))
         self.template = (self.site / 'index.html').read_text()
         self.search_version = ''
         self.search_form = ('<form id="library-search" role="search"><label>Query <input id="library-query" name="q" type="search"></label>'
@@ -337,9 +374,50 @@ class Explorer:
             raise ValueError(f'{page.source}: unknown result IDs {sorted(missing)}')
         return sorted(results), sorted(definitions)
 
+    def linked_signature(self, declaration):
+        """Link only known statement dependencies, never guess from all library names.
+
+        Source extraction supplies resolved dependency identities. Unqualified names
+        must identify one such dependency and must not be shadowed by a local binder.
+        """
+        signature = declaration['signature']
+        if not hasattr(self, '_definition_destinations'):
+            candidates = {}
+            for item in self.shared_statements.values():
+                match = STATEMENT.fullmatch(item.block)
+                if match[1] == 'definition' and match[2] == 'decl':
+                    candidates.setdefault(match[3], []).append(self.statement_url(item.uid))
+            self._definition_destinations = {name: urls[0] for name, urls in candidates.items() if len(urls) == 1}
+        aliases = {}
+        for name in declaration.get('statement_dependencies', []):
+            dependency = self.records['declarations'].get(name)
+            if not dependency or dependency['kind'] == 'theorem' or name == declaration['id']:
+                continue
+            pieces = name.split('.')
+            for index in range(len(pieces)):
+                aliases.setdefault('.'.join(pieces[index:]), set()).add(name)
+        local_names = set()
+        for binder in re.finditer(r'[({\[]([^(){}\[\]:]+):', signature):
+            local_names.update(binder[1].split())
+        token = re.compile(r""""(?:\\.|[^"\\])*"|--[^\n]*|(?:[^\W\d]|_)[\w₀-₟⁰-ⁿ']*(?:\.(?:[^\W\d]|_)[\w₀-₟⁰-ⁿ']*)*""", re.UNICODE)
+        parts, position = [], 0
+        for match in token.finditer(signature):
+            parts.append(html.escape(signature[position:match.start()]))
+            value = match[0]
+            names = aliases.get(value, set()) if value not in local_names else set()
+            if len(names) == 1:
+                name = next(iter(names))
+                url = self._definition_destinations.get(name, self.records['declarations'][name]['url'])
+                parts.append('<a class="lean-definition-link" href="' + html.escape(url, quote=True) + '" title="Definition: ' + html.escape(name, quote=True) + '">' + html.escape(value) + '</a>')
+            else:
+                parts.append(html.escape(value))
+            position = match.end()
+        parts.append(html.escape(signature[position:]))
+        return ''.join(parts)
+
     def evidence(self, declaration):
         link = declaration['source']['url']
-        return '<pre><code>' + html.escape(declaration['signature']) + '</code></pre>' + (
+        return '<pre><code>' + self.linked_signature(declaration) + '</code></pre>' + (
             '<p><a href="' + html.escape(link, quote=True) + '">Full source on GitHub</a></p>' if link else '<p><a href="https://github.com/NLA-lib/NLAlib">Source repository on GitHub</a> · <code>' + html.escape(declaration['source'].get('path', declaration['module'])) + '</code></p><p>This statement comes from an unpublished working-tree snapshot; a revision-specific source link is unavailable.</p>')
 
     def badges(self, declaration, result=None, headline=True):
@@ -401,6 +479,8 @@ class Explorer:
             title = key.removeprefix('NLAlib.')
         elif kind == 'theorem':
             raise ValueError('A theorem block must name a library result or declaration')
+        if declaration and kind in {'result', 'conjecture'}:
+            raise ValueError('Informal results cannot claim checked Lean evidence')
         if declaration and (kind == 'theorem') != (declaration['kind'] == 'theorem'):
             raise ValueError('Statement kind disagrees with library declaration: ' + key)
         if declaration and kind == 'theorem' and declaration.get('admission_reported'):
@@ -419,6 +499,131 @@ class Explorer:
             raise ValueError('An authored definition requires a name')
         return card(title, markdown(body) + (disclosure(self.badges(declaration, headline=False) + self.evidence(declaration)) if declaration else ''),
                     'result' if kind == 'theorem' else 'model', identifier)
+
+    @staticmethod
+    def statement_url(uid):
+        return BASE + 'statements/' + uid + '/'
+
+    def overview_card(self, title, body, uid, label='Theorem', anchor=None):
+        url = self.statement_url(uid)
+        summary = '<span class="explorer-statement-label"><strong>' + label + '</strong> (<a href="' + url + '">' + inline_title(mathematics(title)) + '</a>)<strong>.</strong></span>'
+        footer = '<span class="statement-overview-meta"><span data-discussion-count="' + uid + '" hidden></span></span>'
+        return '<article class="explorer-card cg-result explorer-result-reference statement-overview" data-statement-id="' + uid + '"' + (' id="' + html.escape(anchor, quote=True) + '"' if anchor else '') + ' aria-label="' + html.escape(label + ' (' + title + ')', quote=True) + '"><details class="explorer-disclosure explorer-result-details"><summary tabindex="-1">' + summary + footer + '<button type="button" class="statement-expand" aria-label="Expand statement" aria-expanded="false"><span aria-hidden="true">↓</span></button></summary><div class="explorer-disclosure-body">' + body + '</div></details></article>'
+
+    def statement_context(self, uid):
+        # Topic co-occurrence is a discovery aid, not a formal dependency claim.
+        if not hasattr(self, '_statement_contexts'):
+            self._statement_contexts = {}
+            for page in self.pages.values():
+                members = {}
+                for match in STATEMENT.finditer(page.body):
+                    shared = page.statement_imports.get(match.start())
+                    sid = shared.uid if shared else str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/inline/' + match[0].strip()))
+                    opts = dict(token.split('=', 1) for token in shlex.split(match[4]))
+                    members[sid] = {'id': sid, 'kind': match[1], 'title': opts.get('name') or match[3] or 'Definition', 'url': self.statement_url(sid)}
+                results, definitions = self.selection(page)
+                for key in results:
+                    sid = self.result_statement_ids[key]
+                    members.setdefault(sid, {'id': sid, 'kind': 'theorem', 'title': self.records['results'][key]['title'], 'url': self.statement_url(sid)})
+                for key in definitions:
+                    declaration = self.records['declarations'][key]
+                    members.setdefault(key, {'id': key, 'kind': 'definition', 'title': key, 'url': declaration['url']})
+                for sid in members:
+                    context = self._statement_contexts.setdefault(sid, {'members': {}, 'pages': {}})
+                    context['members'].update(members)
+                    context['pages'][page.url] = page.meta['title']
+        context = self._statement_contexts.get(uid, {'members': {}, 'pages': {}})
+        output = ''
+        for kind, title in [('theorem', 'Related results')]:
+            records = [record for sid, record in context['members'].items() if sid != uid and record['kind'] == kind]
+            output += '<details class="statement-context"><summary><h2>' + title + '</h2></summary><div class="statement-context-body">'
+            if records:
+                output += '<p class="source-label">Also appearing on the same topic pages; these links do not assert a formal dependency.</p><ul>'
+                output += ''.join('<li><a href="' + html.escape(record['url'], quote=True) + '">' + inline_title(record['title']) + '</a></li>' for record in sorted(records, key=lambda item: item['title'].casefold())) + '</ul>'
+            else:
+                output += '<p class="source-label">No ' + title.lower() + ' linked yet.</p>'
+            output += '</div></details>'
+        return output
+
+    def detail_layout(self, title, body, kind, uid, declaration=None, citations=(), proofs=(), notice=''):
+        content = '<section class="theorem-statement explorer-card" data-editor-object="' + uid + '"><p class="theorem-kind">' + html.escape(kind) + '.</p>'
+        content += body + '</section>'
+        if notice:
+            content += '<p class="editor-status">' + html.escape(notice) + '</p>'
+        content += '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div>'
+        if citations:
+            content += references_panel(citations, self.references, disclosure=False)
+        if proofs:
+            content += '<section class="proof-sources"><h2>Proof sources</h2><ul>' + ''.join('<li><a href="' + html.escape(p['url'], quote=True) + '" rel="noopener noreferrer">' + html.escape(p['label'] or p['url']) + '</a> ' + html.escape(p['locator']) + '</li>' for p in proofs) + '</ul><p class="source-label">External proof links have not been verified by this editor.</p></section>'
+        if declaration:
+            content += '<details class="theorem-formal" id="formalization"><summary><h2>Lean statement</h2></summary><div class="theorem-formal-body"><p class="source-label">Linked names open their definitions.</p>'
+            if declaration.get('admission_reported'):
+                content += '<p class="content-status">The extraction reports an admission for this statement.</p>'
+            content += self.badges(declaration, headline=False) + self.evidence(declaration)
+            _, notes = split_notes(declaration.get('docstring', ''))
+            if notes:
+                content += notes_html(notes, prose_html)
+            content += '</div></details>'
+        elif kind != 'Definition':
+            content += '<p class="source-label">No Lean proof is linked to this result.</p>'
+        return content + self.statement_context(uid)
+
+    def statement_overview(self, match):
+        self.statement(match)  # Validate formal evidence before displaying the readable statement.
+        kind, source_kind, key, options, body = match.groups()
+        opts = dict(option.split('=', 1) for option in shlex.split(options))
+        title = opts.get('name') or (self.records['results'][key]['title'] if source_kind == 'result' else key) or 'Definition'
+        item = self.shared_blocks.get(match[0].strip())
+        uid = item.uid if item else str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/inline/' + match[0].strip()))
+        return self.overview_card(title, markdown(body), uid, kind.capitalize(), opts.get('id') or (kind + '-' + slug(key) if key else None))
+
+    def result_overview(self, key):
+        shared = self.shared_uids.get(self.result_statement_ids[key])
+        if shared:
+            return self.statement_overview(STATEMENT.fullmatch(shared.block))
+        record = self.records['results'][key]
+        decl = self.records['declarations'][record['primary']]
+        text, _ = split_notes(decl.get('docstring') or decl.get('summary', ''))
+        text = re.sub(r'<!--.*?-->', '', text, flags=re.S)
+        text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
+        text = re.sub(r'^\*\*[^*]+\*\*\s*[:.]?\s*', '', text).strip() or text
+        label = 'Statement' if decl.get('admission_reported') else 'Theorem' if decl['kind'] == 'theorem' else 'Definition'
+        return self.overview_card(record['title'], prose_html(text), self.result_statement_ids[key], label, label.lower() + '-' + slug(key))
+
+    def render_statement_pages(self):
+        entries = {}
+        authored = [(item.uid, STATEMENT.fullmatch(item.block), list(item.references)) for item in self.shared_statements.values()]
+        for page in self.pages.values():
+            for match in STATEMENT.finditer(page.body):
+                if match[0].strip() not in self.shared_blocks:
+                    authored.append((str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/inline/' + match[0].strip())), match, []))
+        for uid, match, own_references in authored:
+            options = dict(option.split('=', 1) for option in shlex.split(match[4]))
+            title = options.get('name') or match[3] or 'Definition'
+            declaration = (self.records['declarations'][self.records['results'][match[3]]['primary']] if match[2] == 'result' else
+                           self.records['declarations'].get(match[3], {}))
+            citations = list(declaration.get('references', [])) + own_references
+            self.statement(match)
+            entries[uid] = {'title': title, 'body': self.detail_layout(title, markdown(match[5]), match[1].capitalize(), uid, declaration or None, citations, list(self.shared_uids[uid].proofs) if uid in self.shared_uids else [], 'Mathematical review and formalization link need reassessment' if uid in self.shared_uids and 'needs_reassessment' in {self.shared_uids[uid].review_status,self.shared_uids[uid].formalization_status} else ''), 'references': citations}
+        for key, record in self.records['results'].items():
+            uid = self.result_statement_ids[key]
+            if uid in entries:
+                continue
+            declaration = self.records['declarations'][record['primary']]
+            citations = declaration.get('references', [])
+            text, _ = split_notes(declaration.get('docstring') or declaration.get('summary', ''))
+            text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
+            text = re.sub(r'^\*\*[^*]+\*\*\s*[:.]?\s*', '', text).strip() or text
+            kind = 'Statement' if declaration.get('admission_reported') else 'Theorem' if declaration['kind'] == 'theorem' else 'Definition'
+            entries[uid] = {'title': record['title'], 'body': self.detail_layout(record['title'], prose_html(text), kind, uid, declaration, citations), 'references': citations}
+        for uid, entry in entries.items():
+            self.write('statements/' + uid, entry['title'], '<div data-statement-detail="' + uid + '">' + entry['body'] + '</div>')
+        (self.api / 'statements.json').write_text(json.dumps({'schema_version': 1, 'statements': [
+            {'id': uid, 'title': entry['title'], 'url': self.statement_url(uid), 'references': entry['references']}
+            for uid, entry in entries.items()]}, ensure_ascii=False, indent=2) + '\n')
+        (self.api / 'references.json').write_text(json.dumps({'schema_version': 1, 'references': self.references}, ensure_ascii=False, indent=2) + '\n')
+        bibliography = references_panel([{'key': key} for key in sorted(self.references)], self.references).replace('<details class=', '<details open class=', 1)
+        self.write('references', 'Shared bibliography', bibliography, 'references')
 
     def generated(self, slot, page):
         if slot == 'arithmetic-model-selector':
@@ -541,7 +746,7 @@ class Explorer:
             for key in result_ids:
                 primary = self.records['results'][key]['primary']
                 if primary not in authored:
-                    items.append(self.result_reference(key))
+                    items.append(self.result_overview(key))
                     authored.add(primary)
             return ''.join(items)
         if slot == 'definitions':
@@ -596,7 +801,7 @@ class Explorer:
                 return ''
             slots.append(value)
             return '\n\nEXPLORERGENERATEDBLOCK' + str(len(slots) - 1) + 'END\n\n'
-        text = STATEMENT.sub(lambda m: keep(self.statement(m)), page.body)
+        text = STATEMENT.sub(lambda m: keep(self.statement_overview(m)), page.body)
         text = MARKER.sub(lambda m: keep(self.generated(m[1], page)), text)
         models = {model['id']: model for model in page.meta.get('arithmetic_models', [])}
         seen = set()
@@ -642,11 +847,8 @@ class Explorer:
 
     def write(self, path, title, body, active=''):
         body = statement_links(body)
-        links = [('algorithms', 'Algorithms'), ('theory', 'Theory'), ('library', 'Library')]
-        nav = '<nav class="explorer-navigation" aria-label="Explorer">' + ''.join(
-            '<a href="' + BASE + key + '/"' + (' aria-current="page"' if key == active else '') + '>' + label + '</a>' for key, label in links) + '</nav>'
-        page = re.sub(r'<main id="content">.*?</main>', lambda _: '<main id="content">' + nav +
-            ('<h2 class="page-title">' + inline_title(mathematics(title)) + '</h2>' if path else '') + body + '</main>', self.template, flags=re.S)
+        template = re.sub(r'<nav class="menu"[^>]*>.*?</nav>', navigation(active), self.template, flags=re.S)
+        page = re.sub(r'<main id="content">.*?</main>', lambda _: '<main id="content"><div class="page-heading"><h1 class="page-title">' + inline_title(mathematics(title)) + '</h1></div>' + body + '</main>', template, flags=re.S)
         page = re.sub(r'<title>.*?</title>', lambda _: '<title>NLA-lib · Explorer' + (' · ' + html.escape(title) if path else '') + '</title>', page)
         page = re.sub(r'<meta name="description"[^>]*>', '', page)
         page = re.sub(r'<link rel="canonical"[^>]*>', '', page)
@@ -707,6 +909,9 @@ class Explorer:
                             'href="' + html.escape(urljoin(origin, html.unescape(m[1])), quote=True) + '"', docs)
                     body = '<p class="eyebrow">Library · Source module</p>' + docs
                     body += '<h2>Declarations</h2>' + self.reference_list('declarations', record['declarations'])
+                citations = ([citation for name in record['declarations'] for citation in self.records['declarations'][name].get('references', [])] if kind == 'results' else record.get('references', []) if kind == 'declarations' else [])
+                if citations:
+                    body += references_panel(citations, self.references)
                 self.write('library/' + kind + '/' + record_component(key), record.get('title', key), body, 'library')
         # Rewritten computation interfaces need explanatory landings, not aliases
         # pretending that the old and new Lean statements are interchangeable.
@@ -799,12 +1004,22 @@ class Explorer:
         self.search_version = hashlib.sha256(path.read_bytes()).hexdigest()[:12]
         path.with_suffix('.json.gz').write_bytes(gzip.compress(path.read_bytes(), mtime=0))
         registry = {'schema_version': 1, 'pages': [{**p.meta, 'status': self.status(p), 'url': p.url,
-            'source': str(p.source.relative_to(self.content)), 'source_sha256': hashlib.sha256(p.source.read_bytes()).hexdigest()}
+            'source': str(p.source.relative_to(self.content)), 'source_sha256': hashlib.sha256(p.source.read_bytes()).hexdigest(),
+            'resolved_body_sha256': hashlib.sha256(p.body.encode()).hexdigest(),
+            'statements': [item.uid for item in p.statement_imports.values()]}
             for p in self.pages.values()]}
         (self.api / 'editorial-pages.json').write_text(json.dumps(registry, ensure_ascii=False, indent=2) + '\n')
+        statements = load_statements(self.content)
+        (self.api / 'editorial-statements.json').write_text(json.dumps({'schema_version': 1, 'statements': [
+            {'id': item.id, 'uid': item.uid, 'source': str(item.source.relative_to(self.content)),
+             'source_sha256': hashlib.sha256(item.source.read_bytes()).hexdigest(),
+             'used_by': [page.url for page in self.pages.values() if any(s.uid == item.uid for s in page.statement_imports.values())]}
+            for item in statements.values()]}, ensure_ascii=False, indent=2) + '\n')
 
     def build(self):
         # Resolve every marker before replacing any rendered page.
+        for item in load_statements(self.content).values():
+            self.statement(STATEMENT.fullmatch(item.block))
         rendered = {p.key: self.render_body(p) for p in self.pages.values()}
         for asset in ['cg-pilot.css', 'cg-pilot.js', 'explore.css', 'explore.js', 'explore-search.js']:
             shutil.copyfile(Path(__file__).parent / 'web' / asset, self.site / asset)
@@ -842,6 +1057,7 @@ class Explorer:
             self.write(old, 'Page moved', '<p><a href="' + new + '">Continue to the implementation</a>.</p>' +
                        '<script>location.replace(' + json.dumps(new) + '+location.search+location.hash)</script>' +
                        '<noscript><meta http-equiv="refresh" content="0;url=' + new + '"></noscript>')
+        self.render_statement_pages()
         print(f'Markdown explorer: {len(self.pages)} authored pages; {sum(len(self.records[k]) for k in ["declarations", "results", "modules"]):,} library records')
 
 

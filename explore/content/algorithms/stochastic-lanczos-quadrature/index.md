@@ -1,4 +1,5 @@
 ---
+uid: 363f4f74-42cc-5d3b-b28d-f157aa795f0d
 kind: algorithm
 id: stochastic-lanczos-quadrature
 title: Stochastic Lanczos quadrature
@@ -21,9 +22,7 @@ Average Lanczos-based quadrature over random probes to estimate spectral quantit
 
 ## Definition
 
-::: definition name="Stochastic Lanczos quadrature"
-For $s\ge1$ random probes, approximate each quadratic form $\mathbf g_i^{\mathsf{H}}f(\mathbf A)\mathbf g_i$ by Lanczos quadrature and average the results. Isotropic probes connect their average to a spectral-function trace. Sampling error and quadrature error are distinct contributions; both must be controlled to obtain a trace-estimation guarantee.
-:::
+{{ statement:stochastic-lanczos-quadrature-64e42acf }}
 
 
 

@@ -1,4 +1,5 @@
 ---
+uid: c70cbd4f-5c0e-5366-9a6a-add845b7cc9f
 kind: algorithm
 id: cholesky
 title: Cholesky factorization
@@ -24,17 +25,13 @@ Construct a triangular factor of a positive-definite matrix.
 
 ## Definition
 
-::: definition name="Cholesky factorization"
-For Hermitian positive-definite $\mathbf A$, a Cholesky factorization has the form $\mathbf A=\mathbf L\mathbf L^{\mathsf{H}}$, where $\mathbf L$ is lower triangular with positive real diagonal. The upper-triangular convention uses $\mathbf A=\mathbf R^{\mathsf{H}}\mathbf R$. Solving with these factors requires two triangular solves.
-:::
+{{ statement:cholesky-factorization-d00946c1 }}
 
 
 
 ## Mathematical guarantees
 
-::: theorem result:cholesky-existence name="Existence of Cholesky factors"
-A square matrix admits a Cholesky factor with positive real diagonal exactly when it is positive definite. This characterizes existence of the mathematical factorization; a rounded implementation needs a separate execution and accuracy result.
-:::
+{{ statement:cholesky-existence }}
 
 ## Further results
 
