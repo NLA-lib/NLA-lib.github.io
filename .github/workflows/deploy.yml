@@ -79,11 +79,57 @@ jobs:
         run: rsync -a --exclude .git --exclude .github --exclude explore --exclude _site ./ _site/
       - uses: actions/configure-pages@v5
       # one artifact name per attempt: a re-run would otherwise find two "github-pages" artifacts
-      - uses: actions/upload-pages-artifact@v5.0.0
+      - id: upload
+        uses: actions/upload-pages-artifact@v5.0.0
         with:
           path: _site
           name: github-pages-${{ github.run_attempt }}
+      # Pass the upload's immutable artifact ID directly to the Pages API.
+      # deploy-pages' internal artifact listing can return an empty result even
+      # when the upload is visible through GitHub's public artifact API.
       - id: deployment
-        uses: actions/deploy-pages@v5.0.1
+        uses: actions/github-script@v8
+        env:
+          PAGES_ARTIFACT_ID: ${{ steps.upload.outputs.artifact_id }}
         with:
-          artifact_name: github-pages-${{ github.run_attempt }}
+          script: |
+            const artifactId = process.env.PAGES_ARTIFACT_ID;
+            if (!/^\d+$/.test(artifactId)) throw new Error('Missing Pages artifact ID');
+            const { owner, repo } = context.repo;
+            const oidcToken = await core.getIDToken();
+            const { data: deployment } = await github.request(
+              'POST /repos/{owner}/{repo}/pages/deployments', {
+                owner, repo, artifact_id: artifactId,
+                pages_build_version: context.sha, oidc_token: oidcToken
+              }
+            );
+            core.setOutput('page_url', deployment.page_url);
+            const deploymentId = deployment.id || deployment.status_url.split('/').pop();
+            let succeeded = false;
+            try {
+              const deadline = Date.now() + 600000;
+              while (Date.now() < deadline) {
+                await new Promise(resolve => setTimeout(resolve, 5000));
+                const { data } = await github.request(
+                  'GET /repos/{owner}/{repo}/pages/deployments/{deployment_id}',
+                  { owner, repo, deployment_id: deploymentId }
+                );
+                core.info(`Pages deployment: ${data.status}`);
+                if (data.status === 'succeed') {
+                  succeeded = true;
+                  break;
+                }
+                if (['deployment_failed', 'deployment_content_failed',
+                     'deployment_cancelled', 'deployment_lost'].includes(data.status)) {
+                  throw new Error(`Pages deployment failed: ${data.status}`);
+                }
+              }
+              if (!succeeded) throw new Error('Pages deployment timed out');
+            } finally {
+              if (!succeeded) {
+                await github.request(
+                  'POST /repos/{owner}/{repo}/pages/deployments/{deployment_id}/cancel',
+                  { owner, repo, deployment_id: deploymentId }
+                ).catch(error => core.warning(`Could not cancel deployment: ${error.message}`));
+              }
+            }
