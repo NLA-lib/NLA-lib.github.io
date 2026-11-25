@@ -28,7 +28,7 @@ def build(data, bib, out, *, content=None, src=None, core_src=None, renames_dir=
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
-    for asset in ['explore.css', 'explore.js', 'explore-search.js', 'cg-pilot.css', 'cg-pilot.js']:
+    for asset in ['explore.css', 'explore.js', 'explore-search.js', 'cg-pilot.css', 'cg-pilot.js', 'collaboration.js', 'collaboration-config.json']:
         shutil.copyfile(ROOT / 'web' / asset, out / asset)
     for directory in ['font', 'vendor']:
         shutil.copytree(SHARED / directory, out / directory)
@@ -38,7 +38,7 @@ def build(data, bib, out, *, content=None, src=None, core_src=None, renames_dir=
     shell = (ROOT / 'web/template.html').read_text()
     for token, path in {'site_css':'css/site.css', 'explore_css':'explore.css', 'cards_css':'cg-pilot.css',
                         'search_js':'explore-search.js', 'explore_js':'explore.js', 'cards_js':'cg-pilot.js',
-                        'search_version':'api/v1/search-index.json'}.items():
+                        'collaboration_js':'collaboration.js', 'search_version':'api/v1/search-index.json'}.items():
         shell = shell.replace('{{' + token + '}}', hashlib.sha256((out / path).read_bytes()).hexdigest()[:12])
     shell = shell.replace('{{snapshot}}', model['snapshot']['extraction_sha256'])
     commit_label = 'working-tree preview' if model['snapshot']['dirty'] else (model['snapshot'].get('commit') or 'unversioned')[:12]

@@ -1,0 +1,191 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: NLA-lib ORCID sign-in and researcher profiles; no content publishing permissions.
+Parameters:
+  ArtifactBucket:
+    Type: String
+  ArtifactKey:
+    Type: String
+  ExistingDataTableName:
+    Type: String
+    Default: ''
+    AllowedPattern: '^$|^[A-Za-z0-9_.-]{3,255}$'
+    Description: Optional retained table to reuse after a failed initial deployment.
+  OrcidSecretArn:
+    Type: String
+    Default: arn:aws:secretsmanager:us-west-2:432197736886:secret:nla-lib/production/orcid-6onHMy
+    AllowedPattern: '^arn:aws:secretsmanager:us-west-2:432197736886:secret:nla-lib/production/orcid-[A-Za-z0-9]+$'
+  CertificateArn:
+    Type: String
+    Default: arn:aws:acm:us-west-2:432197736886:certificate/c8b7502a-c630-4a73-a0b1-199a5332a548
+    AllowedPattern: '^arn:aws:acm:us-west-2:432197736886:certificate/[a-f0-9-]{36}$'
+  ApiDomain:
+    Type: String
+    Default: api.nla-lib.org
+    AllowedValues: [api.nla-lib.org]
+  FrontendOrigin:
+    Type: String
+    Default: https://nla-lib.org
+    AllowedValues: [https://nla-lib.org]
+  OrcidClientId:
+    Type: String
+    Default: APP-3ZETXC93IST3V94T
+  LoginDailyLimit:
+    Type: Number
+    Default: 1000
+    MinValue: 1
+    MaxValue: 10000
+Conditions:
+  CreateData: !Equals [!Ref ExistingDataTableName, '']
+Resources:
+  Data:
+    Type: AWS::DynamoDB::Table
+    Condition: CreateData
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: pk
+          AttributeType: S
+        - AttributeName: sk
+          AttributeType: S
+      KeySchema:
+        - AttributeName: pk
+          KeyType: HASH
+        - AttributeName: sk
+          KeyType: RANGE
+      TimeToLiveSpecification:
+        AttributeName: expires_at
+        Enabled: true
+      PointInTimeRecoverySpecification:
+        PointInTimeRecoveryEnabled: true
+      Tags:
+        - Key: project
+          Value: nla-lib-auth
+  Logs:
+    Type: AWS::Logs::LogGroup
+    Properties:
+      LogGroupName: !Sub '/aws/lambda/${AWS::StackName}-handler'
+      RetentionInDays: 14
+  FunctionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: lambda.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AuthDataAndSecret
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action: [dynamodb:GetItem, dynamodb:PutItem, dynamodb:UpdateItem, dynamodb:DeleteItem]
+                Resource: !If [CreateData, !GetAtt Data.Arn, !Sub 'arn:${AWS::Partition}:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${ExistingDataTableName}']
+              - Effect: Allow
+                Action: secretsmanager:GetSecretValue
+                Resource: !Ref OrcidSecretArn
+              - Effect: Allow
+                Action: [logs:CreateLogStream, logs:PutLogEvents]
+                Resource: !GetAtt Logs.Arn
+  Function:
+    Type: AWS::Serverless::Function
+    DependsOn: Logs
+    Properties:
+      FunctionName: !Sub '${AWS::StackName}-handler'
+      Runtime: python3.12
+      Architectures: [x86_64]
+      Handler: app.handler
+      CodeUri:
+        Bucket: !Ref ArtifactBucket
+        Key: !Ref ArtifactKey
+      Role: !GetAtt FunctionRole.Arn
+      MemorySize: 256
+      Timeout: 20
+      Environment:
+        Variables:
+          API_DOMAIN: !Ref ApiDomain
+          FRONTEND_ORIGIN: !Ref FrontendOrigin
+          ORCID_CLIENT_ID: !Ref OrcidClientId
+          ORCID_SECRET_ARN: !Ref OrcidSecretArn
+          TABLE_NAME: !If [CreateData, !Ref Data, !Ref ExistingDataTableName]
+          LOGIN_DAILY_LIMIT: !Ref LoginDailyLimit
+      Tags:
+        project: nla-lib-auth
+  HttpApi:
+    Type: AWS::ApiGatewayV2::Api
+    Properties:
+      Name: !Sub '${AWS::StackName}-http'
+      ProtocolType: HTTP
+      DisableExecuteApiEndpoint: true
+      CorsConfiguration:
+        AllowOrigins: [!Ref FrontendOrigin]
+        AllowCredentials: true
+        AllowMethods: [GET, POST, OPTIONS]
+        AllowHeaders: [Content-Type, X-CSRF-Token]
+        MaxAge: 600
+  Integration:
+    Type: AWS::ApiGatewayV2::Integration
+    Properties:
+      ApiId: !Ref HttpApi
+      IntegrationType: AWS_PROXY
+      IntegrationUri: !Sub 'arn:${AWS::Partition}:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${Function.Arn}/invocations'
+      PayloadFormatVersion: '2.0'
+      TimeoutInMillis: 25000
+  Route:
+    Type: AWS::ApiGatewayV2::Route
+    Properties:
+      ApiId: !Ref HttpApi
+      RouteKey: $default
+      AuthorizationType: NONE
+      Target: !Join ['/', [integrations, !Ref Integration]]
+  Stage:
+    Type: AWS::ApiGatewayV2::Stage
+    DependsOn: Route
+    Properties:
+      ApiId: !Ref HttpApi
+      StageName: $default
+      AutoDeploy: true
+      DefaultRouteSettings:
+        ThrottlingBurstLimit: 10
+        ThrottlingRateLimit: 5
+  InvokePermission:
+    Type: AWS::Lambda::Permission
+    Properties:
+      FunctionName: !Ref Function
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceAccount: !Ref AWS::AccountId
+      SourceArn: !Sub 'arn:${AWS::Partition}:execute-api:${AWS::Region}:${AWS::AccountId}:${HttpApi}/*/*'
+  ApiHostname:
+    Type: AWS::ApiGatewayV2::DomainName
+    Properties:
+      DomainName: !Ref ApiDomain
+      DomainNameConfigurations:
+        - CertificateArn: !Ref CertificateArn
+          EndpointType: REGIONAL
+          SecurityPolicy: TLS_1_2
+  Mapping:
+    Type: AWS::ApiGatewayV2::ApiMapping
+    Properties:
+      ApiId: !Ref HttpApi
+      DomainName: !Ref ApiHostname
+      Stage: !Ref Stage
+Outputs:
+  ApiDnsName:
+    Description: Squarespace api CNAME target. Keep the ACM validation record too.
+    Value: !GetAtt ApiHostname.RegionalDomainName
+  ApiUrl:
+    Value: !Sub 'https://${ApiDomain}'
+  SignInUrl:
+    Value: !Sub 'https://${ApiDomain}/auth/login'
+  AccountUrl:
+    Value: !Sub 'https://${ApiDomain}/account'
+  CallbackUrl:
+    Value: !Sub 'https://${ApiDomain}/auth/callback'
+  TableName:
+    Value: !If [CreateData, !Ref Data, !Ref ExistingDataTableName]
