@@ -41,3 +41,11 @@ All content pages load the asynchronous GoatCounter script for
 Explorer shell (`explore/web/template.html`) supply it to generated pages. The
 standalone lemma-search page also includes it. Keep the committed homepage and
 Design HTML in sync with the Markdown generator.
+
+## Researcher sign-in
+
+The Explorer uses the ORCID sign-in/profile service at `api.nla-lib.org`.
+See [backend deployment and security](explore/backend/README.md) and the
+[setup record](explore/docs/aws-setup.md). Static mathematical content remains
+readable without a session or the AWS backend. Hosted content editing and
+discussion are a separate phase.

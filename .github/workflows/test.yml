@@ -21,6 +21,10 @@ jobs:
           node-version: 20
       - name: Renderer and documentation MCP test dependencies
         run: python3 -m pip install -r requirements.txt -r search/requirements-docs.txt
+      - name: Authentication backend dependencies
+        run: python3 -m pip install --require-hashes --only-binary=:all: --platform manylinux_2_28_x86_64 --platform manylinux2014_x86_64 --implementation cp --python-version 3.12 --target /tmp/nlalib-auth-test -r backend/requirements.lock
+      - name: Authentication backend tests
+        run: PYTHONPATH=/tmp/nlalib-auth-test python3 -m unittest discover -s backend/tests -v
       - name: Build metadata regressions
         run: python3 -m unittest discover -s tests -v
       - name: Browser script syntax
@@ -28,3 +32,5 @@ jobs:
           node --check web/explore.js
           node --check web/explore-search.js
           node --check web/cg-pilot.js
+          node --check web/collaboration.js
+          node --check backend/account.js
