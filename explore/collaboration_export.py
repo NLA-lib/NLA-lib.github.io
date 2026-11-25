@@ -19,6 +19,7 @@ def export(site, content):
     root = site / 'api/v1/editor'
     (root / 'objects').mkdir(parents=True, exist_ok=True)
     index = []
+    generated = {}
     placements = {}
     for pid, page in catalog.pages.items():
         for sid in re.findall(r"\{\{ statement:([a-z0-9-]+) \}\}", catalog.objects[pid]["body_markdown"]):
@@ -43,7 +44,10 @@ def export(site, content):
         if editable:
             text = (content / source).read_text()
             state.update(source_path='explore/content/'+source, source_markdown=text, source_sha=git_blob(text))
-        (root / 'objects' / (oid+'.json')).write_text(json.dumps(state, ensure_ascii=False, separators=(',', ':')))
+        if editable:
+            (root / 'objects' / (oid+'.json')).write_text(json.dumps(state, ensure_ascii=False, separators=(',', ':')))
+        else:
+            generated.setdefault(oid[:2], {})[oid] = state
         index.append({'id': oid, 'title': obj['title'], 'type': obj['type'], 'editable': editable, 'url': url,
                       'statement_id': evidence.get('statement_id')})
         paths={site / url.removeprefix('/explore/') / 'index.html'}
@@ -56,6 +60,9 @@ def export(site, content):
                     flags = f' {attribute}="{oid}"' + ('' if editable else ' data-editor-readonly="true"')
                     text = text.replace('<main id="content">', '<main id="content"'+flags+'>')
                     file.write_text(text)
+    (root / 'generated').mkdir(exist_ok=True)
+    for shard, states in generated.items():
+        (root / 'generated' / (shard+'.json')).write_text(json.dumps(states, ensure_ascii=False, separators=(',', ':')))
     (root / 'index.json').write_text(json.dumps({'schema_version': 1, 'objects': index}, ensure_ascii=False, separators=(',', ':')))
     shutil.copytree(Path(__file__).parent / 'editor', site / 'editor-assets',
                     ignore=shutil.ignore_patterns('node_modules', '__pycache__', 'discussion', '*.py', '*.md'), dirs_exist_ok=True)

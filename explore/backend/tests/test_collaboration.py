@@ -197,3 +197,16 @@ class NewEntryTests(unittest.TestCase):
    root=Path(tmp);(root/'statements').mkdir();(root/'statements/new.md').write_text(revision['document_markdown'])
    statement=load_statements(root)['result-'+oid]
    self.assertEqual(statement.uid,oid);self.assertEqual(statement.review_status,'unreviewed');self.assertEqual(statement.proofs[0]['locator'],'Conjecture 1')
+
+class SnapshotTests(unittest.TestCase):
+ def test_generated_entries_use_bounded_shards_without_changing_their_ids(self):
+  from content import Snapshot
+  snapshot=Snapshot();missing=HTTPError('https://nla-lib.org',404,'missing',{},None)
+  snapshot.fetch=Mock(side_effect=[missing,{OID:{'object':{'id':OID},'editable':False}}])
+  self.assertEqual(snapshot.get(OID)['object']['id'],OID)
+  self.assertEqual(snapshot.fetch.call_args.args[0],'editor/generated/11.json')
+ def test_snapshot_errors_other_than_missing_files_do_not_trigger_fallback(self):
+  from content import Snapshot
+  snapshot=Snapshot();snapshot.fetch=Mock(side_effect=HTTPError('https://nla-lib.org',503,'unavailable',{},None))
+  with self.assertRaises(HTTPError):snapshot.get(OID)
+  self.assertEqual(snapshot.fetch.call_count,1)

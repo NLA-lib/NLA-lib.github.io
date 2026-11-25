@@ -9,6 +9,7 @@ import shlex
 import time
 import uuid
 from urllib.request import Request, urlopen
+from urllib.error import HTTPError
 from urllib.parse import urlsplit
 
 import yaml
@@ -89,7 +90,17 @@ class Snapshot:
     def get(self, oid):
         if not isinstance(oid, str) or not re.fullmatch(UUID, oid):
             raise ValueError('Invalid entry ID')
-        return self.fetch('editor/objects/'+oid+'.json')
+        try:
+            return self.fetch('editor/objects/'+oid+'.json')
+        except HTTPError as error:
+            if error.code!=404:
+                raise
+            # Generated Lean entries share bounded shards rather than adding one
+            # deployment file per declaration to the already large static site.
+            result=self.fetch('editor/generated/'+oid[:2]+'.json').get(oid)
+            if result is None:
+                raise error
+            return result
 
     def index(self):
         return self.fetch('editor/index.json')['objects']

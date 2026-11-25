@@ -128,6 +128,7 @@ jobs:
                 }
                 if (['deployment_failed', 'deployment_content_failed',
                      'deployment_cancelled', 'deployment_lost'].includes(data.status)) {
+                  core.error(JSON.stringify(data));
                   throw new Error(`Pages deployment failed: ${data.status}`);
                 }
               }

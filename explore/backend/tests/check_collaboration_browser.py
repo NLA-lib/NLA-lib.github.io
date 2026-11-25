@@ -17,7 +17,10 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--site',required=True,type=Path);parser.add_argument('--chromium',required=True)
 args=parser.parse_args();ROOT=Path(__file__).resolve().parents[2]
 class Snapshot:
- def get(self,oid):return json.loads((args.site/'api/v1/editor/objects'/f'{oid}.json').read_text())
+ def get(self,oid):
+  file=args.site/'api/v1/editor/objects'/f'{oid}.json'
+  if file.is_file():return json.loads(file.read_text())
+  return json.loads((args.site/'api/v1/editor/generated'/f'{oid[:2]}.json').read_text())[oid]
  def index(self):return json.loads((args.site/'api/v1/editor/index.json').read_text())['objects']
  def references(self):return json.loads((args.site/'api/v1/references.json').read_text())['references']
 class BrowserAuth(Auth):
