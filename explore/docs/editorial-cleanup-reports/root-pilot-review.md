@@ -105,3 +105,24 @@ materialized as an empty theorem. A Gram-defect link was moved to the actual
 rounded-extension phrase defined by its target. Unconfirmed citations, field-scope
 questions and incomplete standalone hypotheses remain explicitly flagged in the
 generated-batch reports; no mathematical certification is implied.
+
+## Research-facing scope checkpoint
+
+The corrected research04 part3 report now covers its intended files. Reviewed
+coverage is 162 distinct UUIDs, including 96 retained source proposals and one
+citation-only record left unmaterialized. The remaining entries are explicitly
+pending in `research-scope-inventory.csv`; raw Lean helper descriptions are outside
+this pass. Definition batches04–07 are reviewed, and research05 parts1–2 are
+reviewed. All authored-definition assignments are now complete.
+
+The Markov statement uses the conventional probability font `\mathbb{P}` instead
+of `\Pr`, alongside braced expectation notation. This is a reviewed notation
+alias; its event and bound are unchanged. The source audit's other mathematical-
+fragment exceptions are the initial generated-CG citation/layout changes and
+the previously recorded singular-value clarification.
+
+Validation at this checkpoint: 139 Explorer tests passed (8 optional skips),
+2,430 equations rendered by KaTeX without errors, and the full pinned library
+build completed. Three representative generated/shared entries were checked in
+Chromium with math, styled discussion and direct definition previews. Later
+source batches remain proposals until individually reviewed and recorded.
