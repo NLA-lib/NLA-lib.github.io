@@ -175,3 +175,25 @@ the audit. Report07 part8 was corrected to its actual assigned UUIDs; its out-of
 order spectral-bisection font edit is recorded separately from coverage. All agents
 now compare staged expressions and parsed titles to the pinned baseline and
 validate report UUIDs and changed paths against the supplied manifest.
+
+## Current-data compatibility checkpoint
+
+The initial editorial scope remains the pinned 778 research-facing entries. All
+242 authored entries have now been inspected; overall coverage is 572 UUIDs.
+There are 420 retained source proposals and 376 removed key/locator associations
+confirmed against the pinned records, with no missing association found.
+
+Main concurrently merged PR #25, adding six BCW statements. They are preserved
+byte for byte and separately documented in `concurrent-main-additions.md`. Their
+new declarations require the newer rolling library data. The complete build
+succeeds with data/source revision `e207eefa3d0c91354b42affc0bfcd982a3b05807`
+(19,711 library records, 17,283 declarations, 611 result groups); comparison of
+cleanup edits remains pinned to `83c32cc` rather than treating newer mathematics
+as editorial changes. The refreshed loopback preview passes representative
+Chromium math, discussion-style and definition-preview checks.
+
+The coordinator retained the original factor provenance in the Higham/Carson
+inner-product bounds, restored precise nonnumeric clause attribution, and kept
+unverified sharpness locators as unresolved rather than asserting that source
+checks were completed. Original reports with citation-record omissions are
+superseded by their appended authoritative declaration-reference tables.

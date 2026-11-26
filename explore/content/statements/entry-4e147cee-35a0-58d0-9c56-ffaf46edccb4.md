@@ -13,5 +13,5 @@ So `Matrix.IsHermitian.norm_sub_mulVec_gmresIterate_le_residualMinimax_mul` cann
 for any spectrum. For singular $\mathbf{A}$ the value is $1$ ($p(0) = 1$ on the eigenvalue $0$).
 The initial residual carries the dual weights of
 `exists_residualMinimax_sq_le_sum_mul_norm_sq` as its spectral weights.
-Greenbaum and Gurvits establish this sharpness result; it is also discussed by Greenbaum in §3.1.
+The source locators require checking.
 :::

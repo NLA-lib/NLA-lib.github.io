@@ -52,10 +52,24 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "0262ff5e-b8f2-5f92-8c9b-7102c720abbf",
+      "path": "explore/content/statements/entry-0262ff5e-b8f2-5f92-8c9b-7102c720abbf.md",
+      "key": "Epperly2023",
+      "locator": "Variance",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "051dc68b-f768-524f-8a7b-7ca18e061a4c",
       "path": "explore/content/statements/entry-051dc68b-f768-524f-8a7b-7ca18e061a4c.md",
       "key": "Saad2011",
       "locator": "Theorem 6.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "057a3a93-72c3-5cb6-90f6-078f8a2e4a0a",
+      "path": "explore/content/statements/entry-057a3a93-72c3-5cb6-90f6-078f8a2e4a0a.md",
+      "key": "MeyerMuscoMuscoWoodruff2021",
+      "locator": "Theorem 4 and Lemma 2",
       "exact_association_retained": true
     },
     {
@@ -73,6 +87,27 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "08026661-5075-5bf3-bea8-0238b9774504",
+      "path": "explore/content/statements/entry-08026661-5075-5bf3-bea8-0238b9774504.md",
+      "key": "Epperly2023",
+      "locator": "Real-Valued Test Vectors",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "08026661-5075-5bf3-bea8-0238b9774504",
+      "path": "explore/content/statements/entry-08026661-5075-5bf3-bea8-0238b9774504.md",
+      "key": "Epperly2023",
+      "locator": "Uniform on the Real Sphere",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "085eccfd-8077-527c-a50c-b6154daee5b4",
+      "path": "explore/content/statements/entry-085eccfd-8077-527c-a50c-b6154daee5b4.md",
+      "key": "Meckes2019",
+      "locator": "Ch. 2",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "09243e3f-7b27-5465-9b71-50ec2a1d6fd2",
       "path": "explore/content/statements/entry-09243e3f-7b27-5465-9b71-50ec2a1d6fd2.md",
       "key": "TroppWebber2023",
@@ -87,10 +122,31 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "0986a66f-98af-554c-91d3-3b01e5321495",
+      "path": "explore/content/statements/entry-0986a66f-98af-554c-91d3-3b01e5321495.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 4.3.26",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "09c415ab-71d6-54a8-9368-71c4bb24bcb1",
       "path": "explore/content/statements/entry-09c415ab-71d6-54a8-9368-71c4bb24bcb1.md",
       "key": "Woodruff2014",
       "locator": "Theorems 13 and 14",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0acaeceb-7ec8-5abb-a651-9930f4b82497",
+      "path": "explore/content/statements/entry-0acaeceb-7ec8-5abb-a651-9930f4b82497.md",
+      "key": "Saad2003",
+      "locator": "\u00a75.3.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0aec7dfa-d33c-5218-8aad-5af027f8faa8",
+      "path": "explore/content/statements/entry-0aec7dfa-d33c-5218-8aad-5af027f8faa8.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
       "exact_association_retained": true
     },
     {
@@ -105,6 +161,34 @@
       "path": "explore/content/statements/entry-0b60d407-d697-537c-8075-6a6412fde68c.md",
       "key": "Tropp2015",
       "locator": "Theorem 5.1.1, (5.1.5)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0d0b9eae-a2ba-513a-b73c-ea9154bdc595",
+      "path": "explore/content/statements/entry-0d0b9eae-a2ba-513a-b73c-ea9154bdc595.md",
+      "key": "GolubVanLoan2013",
+      "locator": "Theorem 2.3.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0d9c2401-32d7-5d5f-ac15-f91031afde63",
+      "path": "explore/content/statements/entry-0d9c2401-32d7-5d5f-ac15-f91031afde63.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 3.4.3.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0d9c2401-32d7-5d5f-ac15-f91031afde63",
+      "path": "explore/content/statements/entry-0d9c2401-32d7-5d5f-ac15-f91031afde63.md",
+      "key": "Szyld2006",
+      "locator": "",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "0e36be15-0462-5354-afb0-ce872eea4be4",
+      "path": "explore/content/statements/entry-0e36be15-0462-5354-afb0-ce872eea4be4.md",
+      "key": "PaigeSaunders1981",
+      "locator": "pp. 398\u2013405",
       "exact_association_retained": true
     },
     {
@@ -136,6 +220,20 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "11382929-b4f1-5754-8fd8-7891164dbb6f",
+      "path": "explore/content/statements/entry-11382929-b4f1-5754-8fd8-7891164dbb6f.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "116e28c1-c1b5-5ea1-a935-df2f03e52ae8",
+      "path": "explore/content/statements/entry-116e28c1-c1b5-5ea1-a935-df2f03e52ae8.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.3",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "118e2a84-a71c-5cbd-ab4a-b52c95b517b0",
       "path": "explore/content/statements/entry-118e2a84-a71c-5cbd-ab4a-b52c95b517b0.md",
       "key": "McDiarmid1989",
@@ -157,6 +255,20 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "12384cb4-62ed-50eb-8650-268d4f7ea1cf",
+      "path": "explore/content/statements/entry-12384cb4-62ed-50eb-8650-268d4f7ea1cf.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "12da4c9d-c791-5216-ba60-4ea100585cfd",
+      "path": "explore/content/statements/entry-12da4c9d-c791-5216-ba60-4ea100585cfd.md",
+      "key": "PaigeSaunders1975",
+      "locator": "\u00a76",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "1351eb09-b212-5c2c-b227-91317234b040",
       "path": "explore/content/statements/entry-1351eb09-b212-5c2c-b227-91317234b040.md",
       "key": "Wainwright2019",
@@ -164,10 +276,31 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "148cbba1-4f40-50e8-ad66-f747246c08ad",
+      "path": "explore/content/statements/entry-148cbba1-4f40-50e8-ad66-f747246c08ad.md",
+      "key": "EpperlyWebber2026",
+      "locator": "Lemma 6.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "15d7bec3-ee64-5f60-acbb-238ec72c6ae6",
+      "path": "explore/content/statements/entry-15d7bec3-ee64-5f60-acbb-238ec72c6ae6.md",
+      "key": "Shah2024",
+      "locator": "Theorem 2.6",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "1626e38d-7b50-553b-8634-1b9cda95b03d",
       "path": "explore/content/statements/entry-1626e38d-7b50-553b-8634-1b9cda95b03d.md",
       "key": "Tropp2011a",
       "locator": "Lemma 3.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "1978f16c-8800-58c7-ae75-01d2a63b6b8c",
+      "path": "explore/content/statements/entry-1978f16c-8800-58c7-ae75-01d2a63b6b8c.md",
+      "key": "GolubVanLoan2013",
+      "locator": "Theorem 7.4.2",
       "exact_association_retained": true
     },
     {
@@ -206,6 +339,27 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "1afc0f25-2894-5653-bc30-492d21eac16c",
+      "path": "explore/content/statements/entry-1afc0f25-2894-5653-bc30-492d21eac16c.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 3.5.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "1ec4e051-f262-5ba2-9fd6-9978448c3893",
+      "path": "explore/content/statements/entry-1ec4e051-f262-5ba2-9fd6-9978448c3893.md",
+      "key": "Higham1988",
+      "locator": "Theorem 2.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "1ec4e051-f262-5ba2-9fd6-9978448c3893",
+      "path": "explore/content/statements/entry-1ec4e051-f262-5ba2-9fd6-9978448c3893.md",
+      "key": "ChengHigham1998",
+      "locator": "Theorem 3.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "1f752449-b731-552c-ba44-764dd368105f",
       "path": "explore/content/statements/entry-1f752449-b731-552c-ba44-764dd368105f.md",
       "key": "Trefethen2019",
@@ -227,10 +381,52 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "20132c0f-a804-533f-bdf3-26a2adc56611",
+      "path": "explore/content/statements/entry-20132c0f-a804-533f-bdf3-26a2adc56611.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.3",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "20c1b332-e297-5258-bf5f-b260cf03eb23",
       "path": "explore/content/statements/entry-20c1b332-e297-5258-bf5f-b260cf03eb23.md",
       "key": "HornJohnson2013",
       "locator": "\u00a7\u00a71.3\u20131.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "20cfab05-8067-59d4-9c8e-2ed17cf5a349",
+      "path": "explore/content/statements/entry-20cfab05-8067-59d4-9c8e-2ed17cf5a349.md",
+      "key": "Gordon1985",
+      "locator": "",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "20cfab05-8067-59d4-9c8e-2ed17cf5a349",
+      "path": "explore/content/statements/entry-20cfab05-8067-59d4-9c8e-2ed17cf5a349.md",
+      "key": "Vershynin2018",
+      "locator": "Exercise 7.2.14",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "2737ff25-55ea-5e1e-93ff-1f3d3493433e",
+      "path": "explore/content/statements/entry-2737ff25-55ea-5e1e-93ff-1f3d3493433e.md",
+      "key": "Parlett1998",
+      "locator": "\u00a76.9",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "2737ff25-55ea-5e1e-93ff-1f3d3493433e",
+      "path": "explore/content/statements/entry-2737ff25-55ea-5e1e-93ff-1f3d3493433e.md",
+      "key": "GiraudLangouRozloznikVandenEshof2005",
+      "locator": "Theorem 2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "292e0479-ea41-5c55-80db-6667d29c4377",
+      "path": "explore/content/statements/entry-292e0479-ea41-5c55-80db-6667d29c4377.md",
+      "key": "Meckes2019",
+      "locator": "Ch. 1",
       "exact_association_retained": true
     },
     {
@@ -248,6 +444,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "2ac03293-50e9-5cc8-ade1-64f0afa9bd35",
+      "path": "explore/content/statements/entry-2ac03293-50e9-5cc8-ade1-64f0afa9bd35.md",
+      "key": "Higham2008",
+      "locator": "\u00a75.3",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "2bb9ce32-c710-521c-bd0f-e1067b716400",
       "path": "explore/content/statements/entry-2bb9ce32-c710-521c-bd0f-e1067b716400.md",
       "key": "Shah2024",
@@ -262,10 +465,17 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "2dab2e99-9e62-57a3-ac24-badfa56b765f",
-      "path": "explore/content/statements/entry-2dab2e99-9e62-57a3-ac24-badfa56b765f.md",
-      "key": "Wedin1973",
-      "locator": "",
+      "uuid": "2ca8f593-e5dd-53d1-899e-d6e7c9c9ccf4",
+      "path": "explore/content/statements/entry-2ca8f593-e5dd-53d1-899e-d6e7c9c9ccf4.md",
+      "key": "Higham2002",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "2ca8f593-e5dd-53d1-899e-d6e7c9c9ccf4",
+      "path": "explore/content/statements/entry-2ca8f593-e5dd-53d1-899e-d6e7c9c9ccf4.md",
+      "key": "CarsonMaShao2026",
+      "locator": "(3)",
       "exact_association_retained": true
     },
     {
@@ -280,6 +490,13 @@
       "path": "explore/content/statements/entry-2dab2e99-9e62-57a3-ac24-badfa56b765f.md",
       "key": "GolubVanLoan2013",
       "locator": "Theorem 5.3.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "2dab2e99-9e62-57a3-ac24-badfa56b765f",
+      "path": "explore/content/statements/entry-2dab2e99-9e62-57a3-ac24-badfa56b765f.md",
+      "key": "Wedin1973",
+      "locator": "",
       "exact_association_retained": true
     },
     {
@@ -311,6 +528,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "2ff54907-142a-5aab-b1ed-7ef773490a4c",
+      "path": "explore/content/statements/entry-2ff54907-142a-5aab-b1ed-7ef773490a4c.md",
+      "key": "Vershynin2018",
+      "locator": "Theorem 6.2.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "3008c9fd-4f35-54bb-b0aa-033cbe67cac3",
       "path": "explore/content/statements/entry-3008c9fd-4f35-54bb-b0aa-033cbe67cac3.md",
       "key": "Gautschi2004",
@@ -322,6 +546,13 @@
       "path": "explore/content/statements/entry-3008c9fd-4f35-54bb-b0aa-033cbe67cac3.md",
       "key": "GolubMeurant2010",
       "locator": "Ch. 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "3026fd08-ad2d-54e5-bac4-aebadaf30019",
+      "path": "explore/content/statements/entry-3026fd08-ad2d-54e5-bac4-aebadaf30019.md",
+      "key": "MeyerMuscoMuscoWoodruff2021",
+      "locator": "Theorem 10",
       "exact_association_retained": true
     },
     {
@@ -348,8 +579,8 @@
     {
       "uuid": "35e7db26-58bf-5c14-956e-cb3a86293e7d",
       "path": "explore/content/statements/entry-35e7db26-58bf-5c14-956e-cb3a86293e7d.md",
-      "key": "Woodruff2014",
-      "locator": "Theorem 17",
+      "key": "MartinssonTropp2020",
+      "locator": "\u00a79.6.3",
       "exact_association_retained": true
     },
     {
@@ -362,8 +593,43 @@
     {
       "uuid": "35e7db26-58bf-5c14-956e-cb3a86293e7d",
       "path": "explore/content/statements/entry-35e7db26-58bf-5c14-956e-cb3a86293e7d.md",
-      "key": "MartinssonTropp2020",
-      "locator": "\u00a79.6.3",
+      "key": "Woodruff2014",
+      "locator": "Theorem 17",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "365add15-fe5d-5e68-9930-d4e53211abf6",
+      "path": "explore/content/statements/entry-365add15-fe5d-5e68-9930-d4e53211abf6.md",
+      "key": "Higham2008",
+      "locator": "Theorem 8.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "365add15-fe5d-5e68-9930-d4e53211abf6",
+      "path": "explore/content/statements/entry-365add15-fe5d-5e68-9930-d4e53211abf6.md",
+      "key": "HornJohnson2013",
+      "locator": "\u00a77.4.9 context",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "3685c564-f3b0-5c93-8761-4c18d3e94be0",
+      "path": "explore/content/statements/entry-3685c564-f3b0-5c93-8761-4c18d3e94be0.md",
+      "key": "Saad2003",
+      "locator": "\u00a76.11.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "3776285a-f2bd-5fed-af56-2696b22f0fb1",
+      "path": "explore/content/statements/entry-3776285a-f2bd-5fed-af56-2696b22f0fb1.md",
+      "key": "HornJohnson2013",
+      "locator": "\u00a72.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "3776285a-f2bd-5fed-af56-2696b22f0fb1",
+      "path": "explore/content/statements/entry-3776285a-f2bd-5fed-af56-2696b22f0fb1.md",
+      "key": "GolubVanLoan2013",
+      "locator": "\u00a77.4.3",
       "exact_association_retained": true
     },
     {
@@ -383,15 +649,15 @@
     {
       "uuid": "3964a32e-4c84-5ac5-a301-4b427bb5c4de",
       "path": "explore/content/statements/entry-3964a32e-4c84-5ac5-a301-4b427bb5c4de.md",
-      "key": "CohenElderMuscoMuscoPersu2015",
-      "locator": "Theorem 12 and \u00a710.1",
+      "key": "TroppYurtseverUdellCevher2017",
+      "locator": "\u00a77.3.1",
       "exact_association_retained": true
     },
     {
       "uuid": "3964a32e-4c84-5ac5-a301-4b427bb5c4de",
       "path": "explore/content/statements/entry-3964a32e-4c84-5ac5-a301-4b427bb5c4de.md",
-      "key": "TroppYurtseverUdellCevher2017",
-      "locator": "\u00a77.3.1",
+      "key": "CohenElderMuscoMuscoPersu2015",
+      "locator": "Theorem 12 and \u00a710.1",
       "exact_association_retained": true
     },
     {
@@ -406,6 +672,13 @@
       "path": "explore/content/statements/entry-3a153dcc-6cc8-5135-a29b-1827909311f3.md",
       "key": "GolubMeurant2010",
       "locator": "Ch. 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "3a185898-f7ec-57b1-ae15-2d45d6c60fdf",
+      "path": "explore/content/statements/entry-3a185898-f7ec-57b1-ae15-2d45d6c60fdf.md",
+      "key": "Epperly2023",
+      "locator": "Real-Valued Test Vectors",
       "exact_association_retained": true
     },
     {
@@ -430,10 +703,31 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "415072ce-196e-567e-a16f-bd970cbb91a4",
+      "path": "explore/content/statements/entry-415072ce-196e-567e-a16f-bd970cbb91a4.md",
+      "key": "DavidsonSzarek2001",
+      "locator": "Theorem II.13",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "415072ce-196e-567e-a16f-bd970cbb91a4",
+      "path": "explore/content/statements/entry-415072ce-196e-567e-a16f-bd970cbb91a4.md",
+      "key": "Vershynin2018",
+      "locator": "Theorem 7.3.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "43bb15f8-039a-5235-a6ad-28c571f72377",
       "path": "explore/content/statements/entry-43bb15f8-039a-5235-a6ad-28c571f72377.md",
       "key": "SpielmanSrivastava2011",
       "locator": "Lemma 3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "43f77e9c-4ff7-509d-9b92-053d5dc60e17",
+      "path": "explore/content/statements/entry-43f77e9c-4ff7-509d-9b92-053d5dc60e17.md",
+      "key": "CohenElderMuscoMuscoPersu2015",
+      "locator": "Theorem 12",
       "exact_association_retained": true
     },
     {
@@ -451,6 +745,41 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "48a159d2-ce28-544a-932d-187fe56160f0",
+      "path": "explore/content/statements/entry-48a159d2-ce28-544a-932d-187fe56160f0.md",
+      "key": "Kittaneh1985",
+      "locator": "abstract",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "49b01aec-51cc-5078-a9a8-4449af26e9ac",
+      "path": "explore/content/statements/entry-49b01aec-51cc-5078-a9a8-4449af26e9ac.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "49c28b2f-4ddf-59a2-b5bb-4c24615a4eb4",
+      "path": "explore/content/statements/entry-49c28b2f-4ddf-59a2-b5bb-4c24615a4eb4.md",
+      "key": "Saad2003",
+      "locator": "Theorem 6.25 and proof of\nTheorem 6.29",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "4c463ffc-adfb-5a30-ba57-a9681f4d06a6",
+      "path": "explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md",
+      "key": "Woodruff2014",
+      "locator": "Theorem 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "4c463ffc-adfb-5a30-ba57-a9681f4d06a6",
+      "path": "explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md",
+      "key": "MartinssonTropp2020",
+      "locator": "\u00a78.7.2",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "4cf70613-9c2d-5d84-a325-a7e2d40fe039",
       "path": "explore/content/statements/entry-4cf70613-9c2d-5d84-a325-a7e2d40fe039.md",
       "key": "HornJohnson2013",
@@ -462,6 +791,20 @@
       "path": "explore/content/statements/entry-4cf70613-9c2d-5d84-a325-a7e2d40fe039.md",
       "key": "Bhatia1997",
       "locator": "Theorem IV.2.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "4e147cee-35a0-58d0-9c56-ffaf46edccb4",
+      "path": "explore/content/statements/entry-4e147cee-35a0-58d0-9c56-ffaf46edccb4.md",
+      "key": "GreenbaumGurvits1994",
+      "locator": "",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "4e147cee-35a0-58d0-9c56-ffaf46edccb4",
+      "path": "explore/content/statements/entry-4e147cee-35a0-58d0-9c56-ffaf46edccb4.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
       "exact_association_retained": true
     },
     {
@@ -481,22 +824,22 @@
     {
       "uuid": "5145e687-da93-5a11-985f-7ea8b8fbd3fa",
       "path": "explore/content/statements/entry-5145e687-da93-5a11-985f-7ea8b8fbd3fa.md",
-      "key": "MuscoMuscoSidford2018",
-      "locator": "Lemma 11 (arXiv:1708.07788v2)",
-      "exact_association_retained": true
-    },
-    {
-      "uuid": "5145e687-da93-5a11-985f-7ea8b8fbd3fa",
-      "path": "explore/content/statements/entry-5145e687-da93-5a11-985f-7ea8b8fbd3fa.md",
       "key": "DruskinKnizhnerman1991",
       "locator": "\u00a74",
       "exact_association_retained": true
     },
     {
-      "uuid": "54393ec6-774c-510b-8e5d-df4f4f7b7a0d",
-      "path": "explore/content/statements/entry-54393ec6-774c-510b-8e5d-df4f4f7b7a0d.md",
-      "key": "Saad2003",
-      "locator": "(5.3)",
+      "uuid": "5145e687-da93-5a11-985f-7ea8b8fbd3fa",
+      "path": "explore/content/statements/entry-5145e687-da93-5a11-985f-7ea8b8fbd3fa.md",
+      "key": "MuscoMuscoSidford2018",
+      "locator": "Lemma 11 (arXiv:1708.07788v2)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "52fb43d5-a66b-56bf-986f-dbb253d6c1a8",
+      "path": "explore/content/statements/entry-52fb43d5-a66b-56bf-986f-dbb253d6c1a8.md",
+      "key": "GolubVanLoan2013",
+      "locator": "\u00a75.5.2",
       "exact_association_retained": true
     },
     {
@@ -507,10 +850,45 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "57f68b2b-c251-53a5-b684-3d3be1c25dfc",
-      "path": "explore/content/statements/entry-57f68b2b-c251-53a5-b684-3d3be1c25dfc.md",
-      "key": "Bhatia1997",
-      "locator": "Theorem IV.3.4",
+      "uuid": "54393ec6-774c-510b-8e5d-df4f4f7b7a0d",
+      "path": "explore/content/statements/entry-54393ec6-774c-510b-8e5d-df4f4f7b7a0d.md",
+      "key": "Saad2003",
+      "locator": "(5.3)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "55e75188-56ef-5488-9010-70ea1dc44ace",
+      "path": "explore/content/statements/entry-55e75188-56ef-5488-9010-70ea1dc44ace.md",
+      "key": "Meckes2019",
+      "locator": "Ch. 1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "55e75188-56ef-5488-9010-70ea1dc44ace",
+      "path": "explore/content/statements/entry-55e75188-56ef-5488-9010-70ea1dc44ace.md",
+      "key": "EpperlyWebber2026",
+      "locator": "p. 14",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "560f3dc8-61bf-51b3-be18-4995c4f7fa1b",
+      "path": "explore/content/statements/entry-560f3dc8-61bf-51b3-be18-4995c4f7fa1b.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 2.5.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "56dc5cd6-d573-52d3-a893-0c4152458d9c",
+      "path": "explore/content/statements/entry-56dc5cd6-d573-52d3-a893-0c4152458d9c.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "570ff539-3455-5335-9839-a06991167562",
+      "path": "explore/content/statements/entry-570ff539-3455-5335-9839-a06991167562.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 5.6.16",
       "exact_association_retained": true
     },
     {
@@ -521,10 +899,52 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "57f68b2b-c251-53a5-b684-3d3be1c25dfc",
+      "path": "explore/content/statements/entry-57f68b2b-c251-53a5-b684-3d3be1c25dfc.md",
+      "key": "Bhatia1997",
+      "locator": "Theorem IV.3.4",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "5b38d0bc-dd09-5e4e-a8e9-20562ccfc537",
       "path": "explore/content/statements/entry-5b38d0bc-dd09-5e4e-a8e9-20562ccfc537.md",
       "key": "Shamir2026",
       "locator": "Theorem 1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "5b7d48c0-fcee-57b8-8b57-f2a9af6012b3",
+      "path": "explore/content/statements/entry-5b7d48c0-fcee-57b8-8b57-f2a9af6012b3.md",
+      "key": "TroppWebber2023",
+      "locator": "Lemma 5.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "5c72e755-869c-5895-859e-a6d3107340d5",
+      "path": "explore/content/statements/entry-5c72e755-869c-5895-859e-a6d3107340d5.md",
+      "key": "GargGurvitsOliveiraWigderson2015",
+      "locator": "Proposition 2.7",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "5cda890a-761e-56b0-ae12-ff9ae8b18418",
+      "path": "explore/content/statements/entry-5cda890a-761e-56b0-ae12-ff9ae8b18418.md",
+      "key": "Saad2003",
+      "locator": "Proposition 6.32",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "5cda890a-761e-56b0-ae12-ff9ae8b18418",
+      "path": "explore/content/statements/entry-5cda890a-761e-56b0-ae12-ff9ae8b18418.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "5d32b1f1-5bdf-5aab-a647-518eb4d6f8d1",
+      "path": "explore/content/statements/entry-5d32b1f1-5bdf-5aab-a647-518eb4d6f8d1.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
       "exact_association_retained": true
     },
     {
@@ -563,10 +983,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8",
+      "path": "explore/content/statements/entry-5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8.md",
+      "key": "Shah2024",
+      "locator": "Proposition 1.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "6220bcf7-a170-583c-b594-38dae3abbb89",
+      "path": "explore/content/statements/entry-6220bcf7-a170-583c-b594-38dae3abbb89.md",
+      "key": "MackeyEtAl2014",
+      "locator": "Lemma 3.4",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "623c5194-af38-5819-aaeb-d7f18db05ddb",
       "path": "explore/content/statements/entry-623c5194-af38-5819-aaeb-d7f18db05ddb.md",
       "key": "Trefethen2019",
       "locator": "p. 16 and Exercise 3.7",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "625c5e08-741c-5685-a51e-4014e295049b",
+      "path": "explore/content/statements/entry-625c5e08-741c-5685-a51e-4014e295049b.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 6.3.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "625c5e08-741c-5685-a51e-4014e295049b",
+      "path": "explore/content/statements/entry-625c5e08-741c-5685-a51e-4014e295049b.md",
+      "key": "Bhatia1997",
+      "locator": "Theorem VI.4.1",
       "exact_association_retained": true
     },
     {
@@ -577,10 +1025,66 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "65abc507-e8cf-5e41-827a-352622e11905",
-      "path": "explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md",
-      "key": "Paige1976",
-      "locator": "(22)",
+      "uuid": "62f68313-689a-596f-9534-533c9d6ad004",
+      "path": "explore/content/statements/entry-62f68313-689a-596f-9534-533c9d6ad004.md",
+      "key": "Saad2003",
+      "locator": "Proposition 6.9",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "62f68313-689a-596f-9534-533c9d6ad004",
+      "path": "explore/content/statements/entry-62f68313-689a-596f-9534-533c9d6ad004.md",
+      "key": "SaadSchultz1986",
+      "locator": "\u00a73.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "63753782-dbfb-527e-8ed6-f1b4a589bcce",
+      "path": "explore/content/statements/entry-63753782-dbfb-527e-8ed6-f1b4a589bcce.md",
+      "key": "MeyerMuscoMuscoWoodruff2021",
+      "locator": "Lemma 2 and Appendix A",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "63bef14c-4de8-587d-95ff-5cf13f156f27",
+      "path": "explore/content/statements/entry-63bef14c-4de8-587d-95ff-5cf13f156f27.md",
+      "key": "Epperly2023",
+      "locator": "Uniform on the Real Sphere",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "63d96901-9766-5f9f-837a-5a3ad67d413a",
+      "path": "explore/content/statements/entry-63d96901-9766-5f9f-837a-5a3ad67d413a.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "658a1d83-1086-5980-812f-965071db365b",
+      "path": "explore/content/statements/entry-658a1d83-1086-5980-812f-965071db365b.md",
+      "key": "Tropp2015",
+      "locator": "chapter 4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "658a1d83-1086-5980-812f-965071db365b",
+      "path": "explore/content/statements/entry-658a1d83-1086-5980-812f-965071db365b.md",
+      "key": "MackeyEtAl2014",
+      "locator": "Theorem 7.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "6592fb57-590b-527a-a8b9-52262432f944",
+      "path": "explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md",
+      "key": "MartinssonTropp2020",
+      "locator": "\u00a78.7.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "6592fb57-590b-527a-a8b9-52262432f944",
+      "path": "explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md",
+      "key": "CamanoEpperlyMeyerTropp2025",
+      "locator": "Definition 1.6, \u00a71.5.0",
       "exact_association_retained": true
     },
     {
@@ -588,6 +1092,13 @@
       "path": "explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md",
       "key": "Paige1980",
       "locator": "(2.17)\u2013(2.18)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "65abc507-e8cf-5e41-827a-352622e11905",
+      "path": "explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md",
+      "key": "Paige1976",
+      "locator": "(22)",
       "exact_association_retained": true
     },
     {
@@ -612,6 +1123,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "68f20c05-e02f-504f-a1e0-20a30f9f493d",
+      "path": "explore/content/statements/entry-68f20c05-e02f-504f-a1e0-20a30f9f493d.md",
+      "key": "HornJohnson2013",
+      "locator": "Problem 7.3.P7",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "69aa3732-d98a-5ff7-b089-1c5f1b2ba4df",
       "path": "explore/content/statements/entry-69aa3732-d98a-5ff7-b089-1c5f1b2ba4df.md",
       "key": "GreenbaumLiuChen2021",
@@ -619,10 +1137,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "69ce6a2e-4edb-5754-84f7-373883f3047f",
+      "path": "explore/content/statements/entry-69ce6a2e-4edb-5754-84f7-373883f3047f.md",
+      "key": "Saad2003",
+      "locator": "\u00a76.11.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "69ce6a2e-4edb-5754-84f7-373883f3047f",
+      "path": "explore/content/statements/entry-69ce6a2e-4edb-5754-84f7-373883f3047f.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "6d05ea34-879f-54da-a8d9-e717ccae09e6",
       "path": "explore/content/statements/entry-6d05ea34-879f-54da-a8d9-e717ccae09e6.md",
       "key": "Saad2003",
       "locator": "Theorem 6.25 and following corollary",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "6d667d1c-ed95-5960-84f6-93735cee11ef",
+      "path": "explore/content/statements/entry-6d667d1c-ed95-5960-84f6-93735cee11ef.md",
+      "key": "Kahane1986",
+      "locator": "",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "6d667d1c-ed95-5960-84f6-93735cee11ef",
+      "path": "explore/content/statements/entry-6d667d1c-ed95-5960-84f6-93735cee11ef.md",
+      "key": "Vershynin2018",
+      "locator": "Lemma 7.2.7 and the proof of Theorem 7.2.1",
       "exact_association_retained": true
     },
     {
@@ -635,15 +1181,15 @@
     {
       "uuid": "6f0239db-692b-5c68-bd8b-fd58f0bf9839",
       "path": "explore/content/statements/entry-6f0239db-692b-5c68-bd8b-fd58f0bf9839.md",
-      "key": "Paige1971",
-      "locator": "\u00a76.1, (6.9)",
+      "key": "GiraudLangouRozloznikVandenEshof2005",
+      "locator": "Theorem 2",
       "exact_association_retained": true
     },
     {
       "uuid": "6f0239db-692b-5c68-bd8b-fd58f0bf9839",
       "path": "explore/content/statements/entry-6f0239db-692b-5c68-bd8b-fd58f0bf9839.md",
-      "key": "GiraudLangouRozloznikVandenEshof2005",
-      "locator": "Theorem 2",
+      "key": "Paige1971",
+      "locator": "\u00a76.1, (6.9)",
       "exact_association_retained": true
     },
     {
@@ -651,6 +1197,13 @@
       "path": "explore/content/statements/entry-711f7aa0-b0e8-5381-8ba3-f9b112b49525.md",
       "key": "BanksGarzaVargasSrivastava2022",
       "locator": "Theorem 1.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "730e2cb7-1bcf-55b8-900c-5a24af5ccfac",
+      "path": "explore/content/statements/entry-730e2cb7-1bcf-55b8-900c-5a24af5ccfac.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 4.3.49",
       "exact_association_retained": true
     },
     {
@@ -663,13 +1216,6 @@
     {
       "uuid": "7493eadd-f3e6-5cc1-817d-8294db8253a1",
       "path": "explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md",
-      "key": "MeyerMuscoMuscoWoodruff2021",
-      "locator": "Imported Lemma 13 and\n\u00a75 after Theorem 10",
-      "exact_association_retained": true
-    },
-    {
-      "uuid": "7493eadd-f3e6-5cc1-817d-8294db8253a1",
-      "path": "explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md",
       "key": "EpperlyTroppWebber2024",
       "locator": "Fact 5.5",
       "exact_association_retained": true
@@ -677,8 +1223,29 @@
     {
       "uuid": "7493eadd-f3e6-5cc1-817d-8294db8253a1",
       "path": "explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md",
+      "key": "MeyerMuscoMuscoWoodruff2021",
+      "locator": "Imported Lemma 13 and\n\u00a75 after Theorem 10",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "7493eadd-f3e6-5cc1-817d-8294db8253a1",
+      "path": "explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md",
       "key": "GilbertStraussTroppVershynin2007",
       "locator": "Lemma 7",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "74d83d09-9d5c-567e-9827-f1b5300a9238",
+      "path": "explore/content/statements/entry-74d83d09-9d5c-567e-9827-f1b5300a9238.md",
+      "key": "Saad2003",
+      "locator": "Proposition 6.9",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "74d83d09-9d5c-567e-9827-f1b5300a9238",
+      "path": "explore/content/statements/entry-74d83d09-9d5c-567e-9827-f1b5300a9238.md",
+      "key": "SaadSchultz1986",
+      "locator": "Proposition 1",
       "exact_association_retained": true
     },
     {
@@ -703,6 +1270,34 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "773e3b76-5214-50c7-978a-fee28578c21d",
+      "path": "explore/content/statements/entry-773e3b76-5214-50c7-978a-fee28578c21d.md",
+      "key": "Epperly2023",
+      "locator": "Real-Valued Test Vectors",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "774b6a11-1381-59cb-b721-210b71f82edf",
+      "path": "explore/content/statements/entry-774b6a11-1381-59cb-b721-210b71f82edf.md",
+      "key": "Bhatia1997",
+      "locator": "Theorem V.2.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "774b6a11-1381-59cb-b721-210b71f82edf",
+      "path": "explore/content/statements/entry-774b6a11-1381-59cb-b721-210b71f82edf.md",
+      "key": "Tropp2015",
+      "locator": "Theorem 8.5.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "78d72c7f-80e8-5c34-aaa3-6b232a2d688d",
+      "path": "explore/content/statements/entry-78d72c7f-80e8-5c34-aaa3-6b232a2d688d.md",
+      "key": "Tropp2011",
+      "locator": "Theorem 1.2",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2",
       "path": "explore/content/statements/entry-7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2.md",
       "key": "BandeiraKuniskyNizicNikolacPesentiWang2026",
@@ -710,10 +1305,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "7aefc4af-a55e-5ad7-a7f3-cc695402cac2",
+      "path": "explore/content/statements/entry-7aefc4af-a55e-5ad7-a7f3-cc695402cac2.md",
+      "key": "GolubVanLoan2013",
+      "locator": "\u00a75.2.8",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "7de56e62-d5d7-5646-bd48-f837f78e75ed",
+      "path": "explore/content/statements/entry-7de56e62-d5d7-5646-bd48-f837f78e75ed.md",
+      "key": "Tropp2022",
+      "locator": "Definition 16.15 and Theorem 12.16",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "7e2cb64f-4086-54d3-a584-bef533c15cd1",
+      "path": "explore/content/statements/entry-7e2cb64f-4086-54d3-a584-bef533c15cd1.md",
+      "key": "GargGurvitsOliveiraWigderson2015",
+      "locator": "Lemma 3.6",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "7f9c5c3f-ac97-5df8-b3ee-9a3916517830",
       "path": "explore/content/statements/entry-7f9c5c3f-ac97-5df8-b3ee-9a3916517830.md",
       "key": "HornJohnson2013",
       "locator": "Theorem 4.2.10",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "7fc80efd-a0b7-5ea9-8c6b-939e081bc549",
+      "path": "explore/content/statements/entry-7fc80efd-a0b7-5ea9-8c6b-939e081bc549.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
       "exact_association_retained": true
     },
     {
@@ -731,6 +1354,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "814c6c9b-f871-567f-984b-62c84bce270b",
+      "path": "explore/content/statements/entry-814c6c9b-f871-567f-984b-62c84bce270b.md",
+      "key": "EpperlyWebber2026",
+      "locator": "Proposition 5.7",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "81978087-c08d-5057-811b-cd7c41d33d7d",
       "path": "explore/content/statements/entry-81978087-c08d-5057-811b-cd7c41d33d7d.md",
       "key": "ChenPersson2026",
@@ -745,10 +1375,31 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "83828d44-84ef-5b7f-9971-69f282d8d4ed",
+      "path": "explore/content/statements/entry-83828d44-84ef-5b7f-9971-69f282d8d4ed.md",
+      "key": "SutterBertaTomamichel2017",
+      "locator": "Theorem 3.2",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "84348898-f0eb-5b7b-89eb-b0abb1dc5fb6",
       "path": "explore/content/statements/entry-84348898-f0eb-5b7b-89eb-b0abb1dc5fb6.md",
       "key": "Saad1992",
       "locator": "\u00a72",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8492751d-6381-5fea-aee5-db977ed7ae70",
+      "path": "explore/content/statements/entry-8492751d-6381-5fea-aee5-db977ed7ae70.md",
+      "key": "Higham2008",
+      "locator": "Theorem 5.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "85b63a3d-6e69-5f62-b799-d61a036c63b6",
+      "path": "explore/content/statements/entry-85b63a3d-6e69-5f62-b799-d61a036c63b6.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 6.3.2",
       "exact_association_retained": true
     },
     {
@@ -759,10 +1410,10 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "85b63a3d-6e69-5f62-b799-d61a036c63b6",
-      "path": "explore/content/statements/entry-85b63a3d-6e69-5f62-b799-d61a036c63b6.md",
-      "key": "HornJohnson2013",
-      "locator": "Theorem 6.3.2",
+      "uuid": "860331bc-50fb-5a46-8041-0dbc13a9eb05",
+      "path": "explore/content/statements/entry-860331bc-50fb-5a46-8041-0dbc13a9eb05.md",
+      "key": "Epperly2023",
+      "locator": "Unbiasedness",
       "exact_association_retained": true
     },
     {
@@ -777,6 +1428,48 @@
       "path": "explore/content/statements/entry-8bacba74-840f-56ee-b16a-0756a32886a1.md",
       "key": "FesslerNadakuditi2024",
       "locator": "\u00a7\u00a79.2\u20139.2.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8bc4dd39-9e14-55d4-977e-88e3b764eb98",
+      "path": "explore/content/statements/entry-8bc4dd39-9e14-55d4-977e-88e3b764eb98.md",
+      "key": "TroppWebber2023",
+      "locator": "Lemma B.2 (B.3)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8bc4dd39-9e14-55d4-977e-88e3b764eb98",
+      "path": "explore/content/statements/entry-8bc4dd39-9e14-55d4-977e-88e3b764eb98.md",
+      "key": "HalkoMartinssonTropp2011",
+      "locator": "Proposition 10.4 (10.5)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8c7130fd-d108-510a-9d66-8efe5a09c82c",
+      "path": "explore/content/statements/entry-8c7130fd-d108-510a-9d66-8efe5a09c82c.md",
+      "key": "EpperlyWebber2026",
+      "locator": "Lemma 5.1, (5.2)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8c7130fd-d108-510a-9d66-8efe5a09c82c",
+      "path": "explore/content/statements/entry-8c7130fd-d108-510a-9d66-8efe5a09c82c.md",
+      "key": "CamanoEpperlyMeyerTropp2025",
+      "locator": "Lemma 2.6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8c7130fd-d108-510a-9d66-8efe5a09c82c",
+      "path": "explore/content/statements/entry-8c7130fd-d108-510a-9d66-8efe5a09c82c.md",
+      "key": "TroppYurtseverUdellCevher2017",
+      "locator": "Lemmas A.3, A.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "8c831157-47fb-5502-8b7d-e6a1d8aeef71",
+      "path": "explore/content/statements/entry-8c831157-47fb-5502-8b7d-e6a1d8aeef71.md",
+      "key": "Tropp2015",
+      "locator": "Lemma 7.5.1",
       "exact_association_retained": true
     },
     {
@@ -829,10 +1522,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "95aeca8d-53ce-5f82-a5c7-f0049ca1475c",
+      "path": "explore/content/statements/entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c.md",
+      "key": "SaadSchultz1986",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "95aeca8d-53ce-5f82-a5c7-f0049ca1475c",
+      "path": "explore/content/statements/entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c.md",
+      "key": "Saad2003",
+      "locator": "\u00a76.5.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "96fbe0e8-126a-5c92-8e04-70263820b9ff",
       "path": "explore/content/statements/entry-96fbe0e8-126a-5c92-8e04-70263820b9ff.md",
       "key": "Saad2003",
       "locator": "\u00a78.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "9794888e-2508-5257-ba81-696b0334c689",
+      "path": "explore/content/statements/entry-9794888e-2508-5257-ba81-696b0334c689.md",
+      "key": "Tropp2022",
+      "locator": "Theorem 14.13",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "97c305e5-1cea-5248-9638-b057e2934081",
+      "path": "explore/content/statements/entry-97c305e5-1cea-5248-9638-b057e2934081.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 7.6.4 context",
       "exact_association_retained": true
     },
     {
@@ -843,10 +1564,24 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "98eec1b5-59f3-5cee-818c-284866df505c",
+      "path": "explore/content/statements/entry-98eec1b5-59f3-5cee-818c-284866df505c.md",
+      "key": "Tropp2015",
+      "locator": "Proposition 7.4.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "9a127b93-df2e-5efb-af2e-7b7d2ef0ed86",
       "path": "explore/content/statements/entry-9a127b93-df2e-5efb-af2e-7b7d2ef0ed86.md",
       "key": "Gautschi2004",
       "locator": "\u00a73.1.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "9deb67f6-0e95-59df-8f98-81b361e85ff9",
+      "path": "explore/content/statements/entry-9deb67f6-0e95-59df-8f98-81b361e85ff9.md",
+      "key": "Bhatia1997",
+      "locator": "Exercise V.1.10",
       "exact_association_retained": true
     },
     {
@@ -871,6 +1606,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "a22e2c27-0021-5728-97c0-8f69af49d01b",
+      "path": "explore/content/statements/entry-a22e2c27-0021-5728-97c0-8f69af49d01b.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 4.3.49",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "a28dc5e5-5ab2-5e77-b374-b16218f9b27b",
       "path": "explore/content/statements/entry-a28dc5e5-5ab2-5e77-b374-b16218f9b27b.md",
       "key": "StrakosTichy2002",
@@ -885,10 +1627,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "a3c1fc4e-a1f4-5bb4-a453-7bafd4394411",
+      "path": "explore/content/statements/entry-a3c1fc4e-a1f4-5bb4-a453-7bafd4394411.md",
+      "key": "Vershynin2018",
+      "locator": "Lemma 7.2.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a41e75c8-5744-5380-88ae-9369e138a9a0",
+      "path": "explore/content/statements/entry-a41e75c8-5744-5380-88ae-9369e138a9a0.md",
+      "key": "Higham2008",
+      "locator": "\u00a75.1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "a4df81d0-303c-59d7-956e-a8f427da92fc",
       "path": "explore/content/statements/entry-a4df81d0-303c-59d7-956e-a8f427da92fc.md",
       "key": "ChenPersson2026",
       "locator": "Remark 3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a4e0e962-596b-5810-93f6-ca9e511cad39",
+      "path": "explore/content/statements/entry-a4e0e962-596b-5810-93f6-ca9e511cad39.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 4.3.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a6225e42-7d0a-5eaf-84f3-bedd59958b35",
+      "path": "explore/content/statements/entry-a6225e42-7d0a-5eaf-84f3-bedd59958b35.md",
+      "key": "GolubVanLoan2013",
+      "locator": "\u00a75.5.2",
       "exact_association_retained": true
     },
     {
@@ -899,10 +1669,94 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "a7ef2fb1-a9b2-5172-8850-fdcda423c175",
+      "path": "explore/content/statements/entry-a7ef2fb1-a9b2-5172-8850-fdcda423c175.md",
+      "key": "MartinssonTropp2020",
+      "locator": "Proposition 11.1, Theorem 11.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a7ef2fb1-a9b2-5172-8850-fdcda423c175",
+      "path": "explore/content/statements/entry-a7ef2fb1-a9b2-5172-8850-fdcda423c175.md",
+      "key": "TroppWebber2023",
+      "locator": "proof of Theorem 8.1 and\nCorollary 8.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a7ef2fb1-a9b2-5172-8850-fdcda423c175",
+      "path": "explore/content/statements/entry-a7ef2fb1-a9b2-5172-8850-fdcda423c175.md",
+      "key": "CamanoEpperlyMeyerTropp2025",
+      "locator": "proof of Corollary 2.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a7f24738-6669-5c5f-ba6d-1f91a7aab07c",
+      "path": "explore/content/statements/entry-a7f24738-6669-5c5f-ba6d-1f91a7aab07c.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 6.3.8",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "a8798d66-4c2c-5ef6-bb4d-216baa1cec68",
       "path": "explore/content/statements/entry-a8798d66-4c2c-5ef6-bb4d-216baa1cec68.md",
       "key": "HornJohnson2013",
       "locator": "Theorem 7.8.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a8883413-4c41-5c41-bdf5-2b28b2ad6b98",
+      "path": "explore/content/statements/entry-a8883413-4c41-5c41-bdf5-2b28b2ad6b98.md",
+      "key": "Saad2003",
+      "locator": "Proposition 6.10",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a8883413-4c41-5c41-bdf5-2b28b2ad6b98",
+      "path": "explore/content/statements/entry-a8883413-4c41-5c41-bdf5-2b28b2ad6b98.md",
+      "key": "SaadSchultz1986",
+      "locator": "Proposition 2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a8883413-4c41-5c41-bdf5-2b28b2ad6b98",
+      "path": "explore/content/statements/entry-a8883413-4c41-5c41-bdf5-2b28b2ad6b98.md",
+      "key": "Saad2003",
+      "locator": "Proposition 6.6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a8d9fdcb-de24-57c9-95e9-41176f982d02",
+      "path": "explore/content/statements/entry-a8d9fdcb-de24-57c9-95e9-41176f982d02.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 3.4.3.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a9502b62-fec8-5aae-811e-a7f38f4542c4",
+      "path": "explore/content/statements/entry-a9502b62-fec8-5aae-811e-a7f38f4542c4.md",
+      "key": "Higham2002",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "a9502b62-fec8-5aae-811e-a7f38f4542c4",
+      "path": "explore/content/statements/entry-a9502b62-fec8-5aae-811e-a7f38f4542c4.md",
+      "key": "CarsonMaShao2026",
+      "locator": "(3)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ae297753-ca7b-53b1-ad33-7cc1680d8adc",
+      "path": "explore/content/statements/entry-ae297753-ca7b-53b1-ad33-7cc1680d8adc.md",
+      "key": "TroppWebber2023",
+      "locator": "\u00a75.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ae325865-5edf-5230-babb-d1cb28595cce",
+      "path": "explore/content/statements/entry-ae325865-5edf-5230-babb-d1cb28595cce.md",
+      "key": "Saad2003",
+      "locator": "Theorem 6.29",
       "exact_association_retained": true
     },
     {
@@ -913,10 +1767,31 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "ae325865-5edf-5230-babb-d1cb28595cce",
-      "path": "explore/content/statements/entry-ae325865-5edf-5230-babb-d1cb28595cce.md",
+      "uuid": "af21c8a6-c63a-513c-b0d0-e68ca1221c5e",
+      "path": "explore/content/statements/entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e.md",
       "key": "Saad2003",
-      "locator": "Theorem 6.29",
+      "locator": "\u00a76.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "af21c8a6-c63a-513c-b0d0-e68ca1221c5e",
+      "path": "explore/content/statements/entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e.md",
+      "key": "Saad2003",
+      "locator": "Proposition 5.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "af99298d-c770-5b19-83ef-20d7479f19b7",
+      "path": "explore/content/statements/entry-af99298d-c770-5b19-83ef-20d7479f19b7.md",
+      "key": "McDiarmid1989",
+      "locator": "",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "af99298d-c770-5b19-83ef-20d7479f19b7",
+      "path": "explore/content/statements/entry-af99298d-c770-5b19-83ef-20d7479f19b7.md",
+      "key": "BoucheronLugosiMassart2013",
+      "locator": "Theorem 6.2",
       "exact_association_retained": true
     },
     {
@@ -931,6 +1806,13 @@
       "path": "explore/content/statements/entry-afedaa05-0b41-5c03-8ce5-8e22f5887b51.md",
       "key": "HornJohnson2013",
       "locator": "\u00a70.4.5",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b0401ec5-d27d-5ef2-bcc2-9556c66adccf",
+      "path": "explore/content/statements/entry-b0401ec5-d27d-5ef2-bcc2-9556c66adccf.md",
+      "key": "Shah2024",
+      "locator": "Lemma 2.4",
       "exact_association_retained": true
     },
     {
@@ -1006,22 +1888,71 @@
     {
       "uuid": "b629a0e9-a95d-52f2-8a4f-f462a3a50aac",
       "path": "explore/content/statements/entry-b629a0e9-a95d-52f2-8a4f-f462a3a50aac.md",
-      "key": "Gautschi2004",
-      "locator": "\u00a73.1",
-      "exact_association_retained": true
-    },
-    {
-      "uuid": "b629a0e9-a95d-52f2-8a4f-f462a3a50aac",
-      "path": "explore/content/statements/entry-b629a0e9-a95d-52f2-8a4f-f462a3a50aac.md",
       "key": "GolubMeurant2010",
       "locator": "Ch. 4",
       "exact_association_retained": true
     },
     {
+      "uuid": "b629a0e9-a95d-52f2-8a4f-f462a3a50aac",
+      "path": "explore/content/statements/entry-b629a0e9-a95d-52f2-8a4f-f462a3a50aac.md",
+      "key": "Gautschi2004",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b6a90830-b596-504f-8f44-a5b912c8aea0",
+      "path": "explore/content/statements/entry-b6a90830-b596-504f-8f44-a5b912c8aea0.md",
+      "key": "BoucheronLugosiMassart2013",
+      "locator": "Theorem 5.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b71c3bb1-2e30-594f-a76c-2d86129bc184",
+      "path": "explore/content/statements/entry-b71c3bb1-2e30-594f-a76c-2d86129bc184.md",
+      "key": "Higham2008",
+      "locator": "\u00a75.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b8d5ecfc-a16e-5433-9b6d-e7360fdde952",
+      "path": "explore/content/statements/entry-b8d5ecfc-a16e-5433-9b6d-e7360fdde952.md",
+      "key": "Tropp2022",
+      "locator": "\u00a714",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b9d73fd0-6ba9-5070-8075-06d93d6f631e",
+      "path": "explore/content/statements/entry-b9d73fd0-6ba9-5070-8075-06d93d6f631e.md",
+      "key": "Tropp2015",
+      "locator": "Theorem 6.6.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "b9d73fd0-6ba9-5070-8075-06d93d6f631e",
+      "path": "explore/content/statements/entry-b9d73fd0-6ba9-5070-8075-06d93d6f631e.md",
+      "key": "GrossNesme2010",
+      "locator": "Section D",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ba64e102-5d7c-51aa-b7cb-f4998bffa60a",
+      "path": "explore/content/statements/entry-ba64e102-5d7c-51aa-b7cb-f4998bffa60a.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 7.6.6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ba8a28e0-cf39-56f3-8964-3b383dd0b37d",
+      "path": "explore/content/statements/entry-ba8a28e0-cf39-56f3-8964-3b383dd0b37d.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 7.6.10",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "bb5a9831-6279-569f-b38a-0892eaa26399",
       "path": "explore/content/statements/entry-bb5a9831-6279-569f-b38a-0892eaa26399.md",
-      "key": "CarsonMaShao2026",
-      "locator": "(3)",
+      "key": "Higham2002",
+      "locator": "Theorem 8.5",
       "exact_association_retained": true
     },
     {
@@ -1034,8 +1965,8 @@
     {
       "uuid": "bb5a9831-6279-569f-b38a-0892eaa26399",
       "path": "explore/content/statements/entry-bb5a9831-6279-569f-b38a-0892eaa26399.md",
-      "key": "Higham2002",
-      "locator": "Theorem 8.5",
+      "key": "CarsonMaShao2026",
+      "locator": "(3)",
       "exact_association_retained": true
     },
     {
@@ -1050,6 +1981,20 @@
       "path": "explore/content/statements/entry-bcacf146-da41-5661-af89-a0cdb2acd901.md",
       "key": "GolubMeurant2010",
       "locator": "Ch. 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6",
+      "path": "explore/content/statements/entry-c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6.md",
+      "key": "Tropp2015",
+      "locator": "Theorem 7.2.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "c1132a93-5994-5464-b42b-6cad88aa507a",
+      "path": "explore/content/statements/entry-c1132a93-5994-5464-b42b-6cad88aa507a.md",
+      "key": "CohenElderMuscoMuscoPersu2015",
+      "locator": "proof of Theorem 12",
       "exact_association_retained": true
     },
     {
@@ -1069,15 +2014,15 @@
     {
       "uuid": "c5a8c939-5002-53fb-9619-f78a7342d70f",
       "path": "explore/content/statements/entry-c5a8c939-5002-53fb-9619-f78a7342d70f.md",
-      "key": "Parlett1998",
-      "locator": "\u00a713.1",
+      "key": "Paige1970",
+      "locator": "\u00a72, (2.1)\u2013(2.7)",
       "exact_association_retained": true
     },
     {
       "uuid": "c5a8c939-5002-53fb-9619-f78a7342d70f",
       "path": "explore/content/statements/entry-c5a8c939-5002-53fb-9619-f78a7342d70f.md",
-      "key": "Paige1970",
-      "locator": "\u00a72, (2.1)\u2013(2.7)",
+      "key": "Parlett1998",
+      "locator": "\u00a713.1",
       "exact_association_retained": true
     },
     {
@@ -1109,10 +2054,17 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "c93d8e6e-746b-550a-8dd8-ceeccd3d9917",
+      "path": "explore/content/statements/entry-c93d8e6e-746b-550a-8dd8-ceeccd3d9917.md",
+      "key": "Meckes2019",
+      "locator": "Ch. 1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "c94b8241-564e-5b8a-a15b-23311631158e",
       "path": "explore/content/statements/entry-c94b8241-564e-5b8a-a15b-23311631158e.md",
-      "key": "Greenbaum1979",
-      "locator": "",
+      "key": "ChenPersson2026",
+      "locator": "(15)",
       "exact_association_retained": true
     },
     {
@@ -1125,15 +2077,8 @@
     {
       "uuid": "c94b8241-564e-5b8a-a15b-23311631158e",
       "path": "explore/content/statements/entry-c94b8241-564e-5b8a-a15b-23311631158e.md",
-      "key": "ChenPersson2026",
-      "locator": "(15)",
-      "exact_association_retained": true
-    },
-    {
-      "uuid": "ce2443fb-7e9e-5355-a69a-2dc2cbc06a07",
-      "path": "explore/content/statements/entry-ce2443fb-7e9e-5355-a69a-2dc2cbc06a07.md",
-      "key": "Lieb1973",
-      "locator": "Theorem 6",
+      "key": "Greenbaum1979",
+      "locator": "",
       "exact_association_retained": true
     },
     {
@@ -1144,10 +2089,38 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "ce2443fb-7e9e-5355-a69a-2dc2cbc06a07",
+      "path": "explore/content/statements/entry-ce2443fb-7e9e-5355-a69a-2dc2cbc06a07.md",
+      "key": "Lieb1973",
+      "locator": "Theorem 6",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "d07c2685-3fcf-5beb-b5f4-6004950e0f09",
       "path": "explore/content/statements/entry-d07c2685-3fcf-5beb-b5f4-6004950e0f09.md",
       "key": "HornJohnson2013",
       "locator": "\u00a70.9.7",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d2289a32-1be4-5cd0-94f4-fa8e3660d30a",
+      "path": "explore/content/statements/entry-d2289a32-1be4-5cd0-94f4-fa8e3660d30a.md",
+      "key": "Gautschi2004",
+      "locator": "\u00a71.4.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d2289a32-1be4-5cd0-94f4-fa8e3660d30a",
+      "path": "explore/content/statements/entry-d2289a32-1be4-5cd0-94f4-fa8e3660d30a.md",
+      "key": "Davis1975",
+      "locator": "Theorem 3.5.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d26453a3-df54-5377-8832-1975906f9e91",
+      "path": "explore/content/statements/entry-d26453a3-df54-5377-8832-1975906f9e91.md",
+      "key": "Parlett1998",
+      "locator": "Ch. 13",
       "exact_association_retained": true
     },
     {
@@ -1158,10 +2131,45 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "d26453a3-df54-5377-8832-1975906f9e91",
-      "path": "explore/content/statements/entry-d26453a3-df54-5377-8832-1975906f9e91.md",
-      "key": "Parlett1998",
-      "locator": "Ch. 13",
+      "uuid": "d305b3ba-c30e-5e65-8b8b-6b6d0081f842",
+      "path": "explore/content/statements/entry-d305b3ba-c30e-5e65-8b8b-6b6d0081f842.md",
+      "key": "HornJohnson2013",
+      "locator": "\u00a75.6 and Theorem 7.4.1.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d3a6b1cd-705e-5757-9218-ac72cd31a64f",
+      "path": "explore/content/statements/entry-d3a6b1cd-705e-5757-9218-ac72cd31a64f.md",
+      "key": "TroppYurtseverUdellCevher2017a",
+      "locator": "Proposition A.2 and proof of Theorem A.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d3a6b1cd-705e-5757-9218-ac72cd31a64f",
+      "path": "explore/content/statements/entry-d3a6b1cd-705e-5757-9218-ac72cd31a64f.md",
+      "key": "EpperlyWebber2026",
+      "locator": "Fact 6.1(b)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d4615792-ac4b-5664-a44c-a1c6d8137e8a",
+      "path": "explore/content/statements/entry-d4615792-ac4b-5664-a44c-a1c6d8137e8a.md",
+      "key": "EpperlyWebber2026",
+      "locator": "Theorem 4.2(b)",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d5aa8c62-cf4f-52b4-a631-4303da76fdc7",
+      "path": "explore/content/statements/entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7.md",
+      "key": "Kechris1995",
+      "locator": "Theorem 12.13",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d5aa8c62-cf4f-52b4-a631-4303da76fdc7",
+      "path": "explore/content/statements/entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7.md",
+      "key": "KuratowskiRyllNardzewski1965",
+      "locator": "",
       "exact_association_retained": true
     },
     {
@@ -1179,6 +2187,41 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "d6f2879b-b598-5a71-a4a2-397e19cf2912",
+      "path": "explore/content/statements/entry-d6f2879b-b598-5a71-a4a2-397e19cf2912.md",
+      "key": "ElmanSilvesterWathen2014",
+      "locator": "Theorem 4.14",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d6f2879b-b598-5a71-a4a2-397e19cf2912",
+      "path": "explore/content/statements/entry-d6f2879b-b598-5a71-a4a2-397e19cf2912.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a73.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d91e5856-418a-5362-a7f4-40942d67730d",
+      "path": "explore/content/statements/entry-d91e5856-418a-5362-a7f4-40942d67730d.md",
+      "key": "EisenstatElmanSchultz1983",
+      "locator": "Theorem 3.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d91e5856-418a-5362-a7f4-40942d67730d",
+      "path": "explore/content/statements/entry-d91e5856-418a-5362-a7f4-40942d67730d.md",
+      "key": "Saad2003",
+      "locator": "Theorem 6.30",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d920610a-25ab-515f-9268-afd22b97be47",
+      "path": "explore/content/statements/entry-d920610a-25ab-515f-9268-afd22b97be47.md",
+      "key": "Higham2008",
+      "locator": "Chapter 10",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "d92f32a4-6db9-57f9-afff-ae4712dda905",
       "path": "explore/content/statements/entry-d92f32a4-6db9-57f9-afff-ae4712dda905.md",
       "key": "ChenPersson2026",
@@ -1186,10 +2229,87 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f",
+      "path": "explore/content/statements/entry-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f.md",
+      "key": "GolubWelsch1969",
+      "locator": "\u00a72",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f",
+      "path": "explore/content/statements/entry-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f.md",
+      "key": "Gautschi2004",
+      "locator": "Theorem 3.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "da7b5d1d-38ef-5066-8507-3db4bab7f32d",
+      "path": "explore/content/statements/entry-da7b5d1d-38ef-5066-8507-3db4bab7f32d.md",
+      "key": "Bhatia1997",
+      "locator": "Theorem IV.3.4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "da7b5d1d-38ef-5066-8507-3db4bab7f32d",
+      "path": "explore/content/statements/entry-da7b5d1d-38ef-5066-8507-3db4bab7f32d.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 7.4.9.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "da7df3da-ed35-587d-91d2-eb92aa248785",
+      "path": "explore/content/statements/entry-da7df3da-ed35-587d-91d2-eb92aa248785.md",
+      "key": "BoucheronLugosiMassart2013",
+      "locator": "Theorem 5.6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dabe6d5a-f560-585f-b374-4aca977368c7",
+      "path": "explore/content/statements/entry-dabe6d5a-f560-585f-b374-4aca977368c7.md",
+      "key": "GrossNesme2010",
+      "locator": "Section D",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dabe6d5a-f560-585f-b374-4aca977368c7",
+      "path": "explore/content/statements/entry-dabe6d5a-f560-585f-b374-4aca977368c7.md",
+      "key": "Hoeffding1963",
+      "locator": "Theorem 4",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dad6590f-cd4d-52a5-8acb-b2a889797085",
+      "path": "explore/content/statements/entry-dad6590f-cd4d-52a5-8acb-b2a889797085.md",
+      "key": "TrefethenBau1997",
+      "locator": "Theorem 35.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dad6590f-cd4d-52a5-8acb-b2a889797085",
+      "path": "explore/content/statements/entry-dad6590f-cd4d-52a5-8acb-b2a889797085.md",
+      "key": "SaadSchultz1986",
+      "locator": "Proposition 4",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "dc8e0c8e-14ca-54b7-bf8d-4bea26c61c35",
       "path": "explore/content/statements/entry-dc8e0c8e-14ca-54b7-bf8d-4bea26c61c35.md",
       "key": "HornJohnson2013",
       "locator": "Theorem 1.4.7",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dec3e901-f091-5ac5-8d66-eb65341876ce",
+      "path": "explore/content/statements/entry-dec3e901-f091-5ac5-8d66-eb65341876ce.md",
+      "key": "Tropp2015",
+      "locator": "Theorem 5.1.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "dec3e901-f091-5ac5-8d66-eb65341876ce",
+      "path": "explore/content/statements/entry-dec3e901-f091-5ac5-8d66-eb65341876ce.md",
+      "key": "Tropp2011a",
+      "locator": "Theorem 2.1",
       "exact_association_retained": true
     },
     {
@@ -1202,15 +2322,22 @@
     {
       "uuid": "e0a9e93d-e469-59c7-b1b0-9773acc61932",
       "path": "explore/content/statements/entry-e0a9e93d-e469-59c7-b1b0-9773acc61932.md",
-      "key": "GolubMeurant2010",
-      "locator": "Ch. 6",
+      "key": "Gautschi2004",
+      "locator": "Theorem 3.3",
       "exact_association_retained": true
     },
     {
       "uuid": "e0a9e93d-e469-59c7-b1b0-9773acc61932",
       "path": "explore/content/statements/entry-e0a9e93d-e469-59c7-b1b0-9773acc61932.md",
-      "key": "Gautschi2004",
-      "locator": "Theorem 3.3",
+      "key": "GolubMeurant2010",
+      "locator": "Ch. 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "e1c0c87e-3466-58c8-8ef0-fd3a26292e19",
+      "path": "explore/content/statements/entry-e1c0c87e-3466-58c8-8ef0-fd3a26292e19.md",
+      "key": "HornJohnson1991",
+      "locator": "Theorem 3.3.4",
       "exact_association_retained": true
     },
     {
@@ -1242,6 +2369,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "e5be87d4-ee32-5eeb-afe7-b9e1a4141af3",
+      "path": "explore/content/statements/entry-e5be87d4-ee32-5eeb-afe7-b9e1a4141af3.md",
+      "key": "Meckes2019",
+      "locator": "Ch. 1",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "e60d7a83-c487-5dd1-99be-868bae8e591f",
       "path": "explore/content/statements/entry-e60d7a83-c487-5dd1-99be-868bae8e591f.md",
       "key": "HornJohnson2013",
@@ -1249,10 +2383,10 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "e8903483-c817-5151-a9fb-abfc5a7b538a",
-      "path": "explore/content/statements/entry-e8903483-c817-5151-a9fb-abfc5a7b538a.md",
-      "key": "Paige1971",
-      "locator": "\u00a76.1, (6.9)",
+      "uuid": "e85b3d46-730d-5c52-81db-26ebb0e609ce",
+      "path": "explore/content/statements/entry-e85b3d46-730d-5c52-81db-26ebb0e609ce.md",
+      "key": "SutterBertaTomamichel2017",
+      "locator": "Corollary 3.3",
       "exact_association_retained": true
     },
     {
@@ -1263,10 +2397,10 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "e8a57e12-c026-59cd-8eb4-c91d54498a5e",
-      "path": "explore/content/statements/entry-e8a57e12-c026-59cd-8eb4-c91d54498a5e.md",
-      "key": "Edelman1988",
-      "locator": "Theorem 3.2",
+      "uuid": "e8903483-c817-5151-a9fb-abfc5a7b538a",
+      "path": "explore/content/statements/entry-e8903483-c817-5151-a9fb-abfc5a7b538a.md",
+      "key": "Paige1971",
+      "locator": "\u00a76.1, (6.9)",
       "exact_association_retained": true
     },
     {
@@ -1277,10 +2411,31 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "e8a57e12-c026-59cd-8eb4-c91d54498a5e",
+      "path": "explore/content/statements/entry-e8a57e12-c026-59cd-8eb4-c91d54498a5e.md",
+      "key": "Edelman1988",
+      "locator": "Theorem 3.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "e95208f6-1315-58ff-a164-9abf10fa7a89",
+      "path": "explore/content/statements/entry-e95208f6-1315-58ff-a164-9abf10fa7a89.md",
+      "key": "HornJohnson2013",
+      "locator": "Corollary 5.6.14",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "eb00ac4d-005b-5055-a3e9-0b9d146e013b",
       "path": "explore/content/statements/entry-eb00ac4d-005b-5055-a3e9-0b9d146e013b.md",
       "key": "HornJohnson2013",
       "locator": "Theorem 7.5.9 context",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ec9593e3-fced-579a-b3b3-f8c1535a86eb",
+      "path": "explore/content/statements/entry-ec9593e3-fced-579a-b3b3-f8c1535a86eb.md",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 7.8.1",
       "exact_association_retained": true
     },
     {
@@ -1291,10 +2446,10 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "f038c3d4-1b55-56e9-a24f-6874c571cff1",
-      "path": "explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md",
-      "key": "GolubMeurant2010",
-      "locator": "Ch. 6",
+      "uuid": "f013ec84-7181-5602-a69c-027591d147ac",
+      "path": "explore/content/statements/entry-f013ec84-7181-5602-a69c-027591d147ac.md",
+      "key": "MeyerMuscoMuscoWoodruff2021",
+      "locator": "Theorem 1",
       "exact_association_retained": true
     },
     {
@@ -1302,6 +2457,20 @@
       "path": "explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md",
       "key": "Gautschi2004",
       "locator": "Theorem 3.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "f038c3d4-1b55-56e9-a24f-6874c571cff1",
+      "path": "explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md",
+      "key": "GolubMeurant2010",
+      "locator": "Ch. 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "f3b1a9a0-1f80-51ae-be79-27607349c0e8",
+      "path": "explore/content/statements/entry-f3b1a9a0-1f80-51ae-be79-27607349c0e8.md",
+      "key": "Woodruff2014",
+      "locator": "Theorem 47, first part",
       "exact_association_retained": true
     },
     {
@@ -1319,6 +2488,13 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "f3d5de0b-f49a-541f-b3d6-402f7e5fe79e",
+      "path": "explore/content/statements/entry-f3d5de0b-f49a-541f-b3d6-402f7e5fe79e.md",
+      "key": "PaigeSaunders1975",
+      "locator": "(7.4)",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "f44f6ec6-3fbb-55f0-8bd2-f1916518bcf1",
       "path": "explore/content/statements/entry-f44f6ec6-3fbb-55f0-8bd2-f1916518bcf1.md",
       "key": "HornJohnson2013",
@@ -1326,10 +2502,10 @@
       "exact_association_retained": true
     },
     {
-      "uuid": "f718cafe-d505-5dc5-b3cb-153ad204ca6d",
-      "path": "explore/content/statements/entry-f718cafe-d505-5dc5-b3cb-153ad204ca6d.md",
-      "key": "TrefethenBau1997",
-      "locator": "Theorem 38.1",
+      "uuid": "f67bedbe-c1e0-5d73-9c75-58aefd15bf99",
+      "path": "explore/content/statements/entry-f67bedbe-c1e0-5d73-9c75-58aefd15bf99.md",
+      "key": "Greenbaum1989",
+      "locator": "(7.10)",
       "exact_association_retained": true
     },
     {
@@ -1340,10 +2516,59 @@
       "exact_association_retained": true
     },
     {
+      "uuid": "f718cafe-d505-5dc5-b3cb-153ad204ca6d",
+      "path": "explore/content/statements/entry-f718cafe-d505-5dc5-b3cb-153ad204ca6d.md",
+      "key": "TrefethenBau1997",
+      "locator": "Theorem 38.1",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "f7987cc3-68d4-538b-a7f0-520cfe1dc47f",
+      "path": "explore/content/statements/entry-f7987cc3-68d4-538b-a7f0-520cfe1dc47f.md",
+      "key": "Tropp2015",
+      "locator": "\u00a73.1 notes",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "f7987cc3-68d4-538b-a7f0-520cfe1dc47f",
+      "path": "explore/content/statements/entry-f7987cc3-68d4-538b-a7f0-520cfe1dc47f.md",
+      "key": "Bhatia1997",
+      "locator": "\u00a7IX.3",
+      "exact_association_retained": true
+    },
+    {
       "uuid": "f81cdcf2-e641-5423-a741-447972fe242f",
       "path": "explore/content/statements/entry-f81cdcf2-e641-5423-a741-447972fe242f.md",
       "key": "GolubVanLoan2013",
       "locator": "\u00a72.6.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fa7ce73f-7de8-5c16-a7fb-263f2197d1e0",
+      "path": "explore/content/statements/entry-fa7ce73f-7de8-5c16-a7fb-263f2197d1e0.md",
+      "key": "Higham2022",
+      "locator": "Theorems 3 and 6",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fa887509-a259-580a-9584-00609d5e19fc",
+      "path": "explore/content/statements/entry-fa887509-a259-580a-9584-00609d5e19fc.md",
+      "key": "MolerStewart1973",
+      "locator": "\u00a71",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fc258a11-9745-5641-ab57-0bba6f88f4c2",
+      "path": "explore/content/statements/entry-fc258a11-9745-5641-ab57-0bba6f88f4c2.md",
+      "key": "Tropp2015",
+      "locator": "Corollary 7.3.2",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fcfb07b1-c66d-553f-86fa-f9dbf1bd9874",
+      "path": "explore/content/statements/entry-fcfb07b1-c66d-553f-86fa-f9dbf1bd9874.md",
+      "key": "MontanariSaeed2026",
+      "locator": "Lemma 6",
       "exact_association_retained": true
     },
     {
@@ -1356,15 +2581,36 @@
     {
       "uuid": "fd02acb4-21b0-545b-ab5a-02437b42c018",
       "path": "explore/content/statements/entry-fd02acb4-21b0-545b-ab5a-02437b42c018.md",
-      "key": "GolubVanLoan2013",
-      "locator": "Theorem 2.5.3",
+      "key": "HornJohnson2013",
+      "locator": "Theorem 2.7.1",
       "exact_association_retained": true
     },
     {
       "uuid": "fd02acb4-21b0-545b-ab5a-02437b42c018",
       "path": "explore/content/statements/entry-fd02acb4-21b0-545b-ab5a-02437b42c018.md",
+      "key": "GolubVanLoan2013",
+      "locator": "Theorem 2.5.3",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fd25e6dc-1464-51ad-a057-403c94808f93",
+      "path": "explore/content/statements/entry-fd25e6dc-1464-51ad-a057-403c94808f93.md",
       "key": "HornJohnson2013",
-      "locator": "Theorem 2.7.1",
+      "locator": "Theorem 7.3.11",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fd5a6696-bfd6-5730-bf15-0878662f965e",
+      "path": "explore/content/statements/entry-fd5a6696-bfd6-5730-bf15-0878662f965e.md",
+      "key": "PaigeSaunders1975",
+      "locator": "\u00a76",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "fd5a6696-bfd6-5730-bf15-0878662f965e",
+      "path": "explore/content/statements/entry-fd5a6696-bfd6-5730-bf15-0878662f965e.md",
+      "key": "Greenbaum1997",
+      "locator": "\u00a72.5",
       "exact_association_retained": true
     },
     {
@@ -1379,6 +2625,13 @@
       "path": "explore/content/statements/entry-feec1d16-d467-5583-8f45-c7176544dfbf.md",
       "key": "HornJohnson2013",
       "locator": "Corollary 4.3.12",
+      "exact_association_retained": true
+    },
+    {
+      "uuid": "ff3b2108-4b1b-54c2-952c-7d33ac89c1e2",
+      "path": "explore/content/statements/entry-ff3b2108-4b1b-54c2-952c-7d33ac89c1e2.md",
+      "key": "GolubVanLoan2013",
+      "locator": "\u00a75.3.1",
       "exact_association_retained": true
     }
   ]
