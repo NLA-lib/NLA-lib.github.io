@@ -121,6 +121,28 @@ title = "Exactness of Lanczos-FA"
 
 # Block Krylov and subspace iteration: one id per algorithm and regime; the bold names of the
 # first declarations name only one of several forms.
+[rbki-sum-frobenius-error]
+title = "Two-space block Krylov (BCW): expected Frobenius error"
+aliases = ["BCW", "BKW", "cube-root low-rank approximation", "rbkiSum"]
+primary = "NLAlib.integral_frobNorm_sub_truncatedSVD_rbkiSum_sq_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[rbki-sum-schatten-error]
+title = "Two-space block Krylov (BCW): expected small-p Schatten error"
+primary = "NLAlib.integral_schattenNorm_sub_mul_rangeProjector_rbkiSum_rpow_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[rbki-sum-schatten-tail]
+title = "Two-space block Krylov (BCW): Schatten norm tail bound"
+primary = "NLAlib.measureReal_schattenNorm_sub_truncatedSVD_rbkiSum_gt_le_of_hasLaw_gaussianMatrix"
+
+[rbki-sum-schatten-large-p-error]
+title = "Two-space block Krylov (BCW): dimension-free expected Schatten error"
+aliases = ["dimension-free BCW", "dimension-free Schatten", "large-p low-rank approximation"]
+primary = "NLAlib.integral_schattenNorm_sub_truncatedSVD_rbkiSum_rpow_le_one_add_mul_of_hasLaw_gaussianMatrix"
+
+[rbki-sum-schatten-large-p-tail]
+title = "Two-space block Krylov (BCW): dimension-free Schatten tail bound"
+primary = "NLAlib.measureReal_schattenNorm_sub_truncatedSVD_rbkiSum_rpow_gt_le_of_hasLaw_gaussianMatrix"
+
 [rbki-gapless-error]
 title = "Randomized block Krylov iteration: gapless bounds"
 aliases = ["RBKI gapless", "block Krylov gapless", "Tropp–Webber Theorem 9.1", "Musco–Musco"]
