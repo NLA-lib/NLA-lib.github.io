@@ -5,6 +5,13 @@ Prepare proposals; do not run a library-wide rewrite or publish without an assig
 batch and the existing editorial approval process. No cleanup agents are started
 by adding this guide.
 
+## Current authorized scope
+
+Clean research-facing statements and named results first: authored shared statements
+and additional named-result entries. Raw extracted Lean helper descriptions are
+queued for a later pass. Check possible authored/generated aliases before creating
+files; the inventory tracks their distinct IDs rather than silently merging them.
+
 ## Assignment for each agent
 
 You are a Luna editorial agent for NLA-lib. Clean the assigned natural-language

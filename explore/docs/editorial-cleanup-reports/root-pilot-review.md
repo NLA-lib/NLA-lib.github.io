@@ -45,3 +45,27 @@ report and the final source diff define which edits were retained. The inventory
 contains 16,448 canonical entries, 15,433 with readable prose. This pilot covers 12
 entries, not the entire library. The remaining inventory is tracked separately by
 UUID; blank prose and mathematical questions must retain explicit outcomes.
+
+## Follow-on review checkpoint
+
+The next rounding, spectral-definition, factorization and generated-CG batches
+bring the inspected set to 27 UUIDs. Their individual reports retain baselines,
+source associations and unresolved questions. The following additional changes
+were retained for local review:
+
+- Braced real-field/zero-vector notation and standard-rounding concept links.
+- Correct Greek matrix fonts in SVD and Hermitian spectral/functional definitions.
+- Direct singular-values/SVD and Hermitian-definition links on existing terms.
+- A Gram–Schmidt definition link in QR; the indirect orthonormal-columns-to-QR
+  link was removed because it was not an exact concept definition.
+- Three generated CG entries were materialized with their original UUIDs and
+  formal bindings, and inline source citations moved into the already inherited
+  references or a verified Hestenes–Stiefel locator with its real-case qualifier.
+  The Galerkin explanation retains its original `L=K` projection convention.
+
+The user confirmed research-facing statements and named results as the first
+scope. At the pinned release this gives 242 authored records and 536 additional
+named-result candidates; 68 possible generated/authored aliases are a separate
+review queue. Raw Lean helper descriptions are deferred. A further cohort of
+45 authored entries is assigned in nine nonoverlapping five-file batches.
+Nothing in the cleanup review branch has been merged into main.
