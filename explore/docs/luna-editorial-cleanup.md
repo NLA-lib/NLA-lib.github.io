@@ -108,7 +108,11 @@ reuse on several topic pages. Do not transfer all sources to just one topic page
 
 - Remove bibliographic citation strings from readable theorem/definition prose and
   retain them as structured references rendered below the statement.
-- Reuse inherited reference associations when they already contain the citation.
+- `object.references` lists authored associations only. An empty list does not
+  mean there are no inherited citations. Check `reference_links.inherited`; if that
+  field is absent in an older snapshot, read the linked declaration's
+  `/explore/api/v1/declarations/{declaration}.json` `record.references`. Record the
+  actual key/locator pairs. Reuse those associations instead of duplicating them.
   Otherwise use an existing citation key from the shared frontend bibliography.
 - Preserve the edition/version and exact locator: theorem, section, equation or page.
   Preserve which claim a source supports when a statement has several parts. If that
@@ -145,7 +149,12 @@ Use ordinary Markdown links to the existing permanent definition/result page:
 The site supplies the hover preview. Do not add "click here," "hover to see," or
 other procedural explanation to mathematical prose.
 
-- Verify the exact target and read its definition. Similar names are insufficient:
+- Preserve the original prose when adding a link. Do not introduce a new clause
+  or mathematical claim just to obtain another link.
+- Verify the exact target and read its definition. Check its field, domain and
+  hypotheses as well as its name. A real-only definition is not automatically an
+  acceptable target for a statement allowing complex matrices; report the mismatch
+  and leave the term unlinked until resolved. Similar names are insufficient:
   first-kind `T_q` and second-kind `U_q`, for example, must not be confused.
 - Link the first useful occurrence in each independently readable statement or
   section. Avoid linking every occurrence, isolated generic symbols or already

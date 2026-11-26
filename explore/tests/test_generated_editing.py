@@ -26,6 +26,19 @@ class GeneratedEditingTests(unittest.TestCase):
         self.oid=identity('result:bound')
         self.state=json.loads((self.fixture.api/'editor/generated'/(self.oid[:2]+'.json')).read_text())[self.oid]
 
+    def test_authored_snapshot_exposes_inherited_citations_separately(self):
+        uid='22222222-2222-4222-8222-222222222222'
+        path=self.fixture.api/'declarations/N.bound.json';data=json.loads(path.read_text())
+        inherited=[{'key':'Source2020','locator':'Theorem 2'}]
+        data['record']['references']=inherited;path.write_text(json.dumps(data))
+        folder=self.fixture.content/'statements';folder.mkdir(exist_ok=True)
+        (folder/'bound.md').write_text('---\nkind: statement\nid: bound\nuid: '+uid+'\n---\n::: theorem result:bound name="Bound"\nA bound.\n:::\n')
+        Explorer(self.fixture.site,self.fixture.content).build();export(self.fixture.site,self.fixture.content)
+        state=json.loads((self.fixture.api/'editor/objects'/(uid+'.json')).read_text())
+        self.assertEqual(state['object']['references'],[])
+        self.assertEqual(state['reference_links']['editorial'],[])
+        self.assertEqual(state['reference_links']['inherited'],inherited)
+
     def test_root_homepage_preserves_editor_identity_and_canonical_url(self):
         uid='bc117344-f726-5771-8e84-b7ef33ef8972'
         (self.fixture.content/'index.md').write_text('---\nkind: home\nid: home\nuid: '+uid+'\ntitle: Explore mathematics\n---\nA canonical homepage.\n')

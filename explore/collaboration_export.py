@@ -45,6 +45,8 @@ def export(site, content):
         if obj['type'] == 'statement':
             obj['references'] = catalog.statement_references.get(oid, [])
             state['used_by'] = placements.get(oid, [])
+            declaration=catalog.explorer.records['declarations'].get(evidence.get('declaration'),{})
+            state['reference_links']={'editorial':obj['references'],'inherited':declaration.get('references',[])}
         if materializable:
             obj['title']=' '.join(obj['title'].split())
             declaration=catalog.explorer.records['declarations'][evidence['declaration']]
