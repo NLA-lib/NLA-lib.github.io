@@ -126,3 +126,14 @@ Validation at this checkpoint: 139 Explorer tests passed (8 optional skips),
 build completed. Three representative generated/shared entries were checked in
 Chromium with math, styled discussion and direct definition previews. Later
 source batches remain proposals until individually reviewed and recorded.
+
+## Subsequent bounded-batch review
+
+Generated matrix08 parts1–2 and research06 part1 have been inspected. Source math
+and identities pass the comparison audit. Citation removal in physical-energy
+convergence retains the exact-model qualification; the coordinator repaired its
+sentence transition and normalized bracing/capitalization in physical-energy
+quadrature. Generated-title escape normalization retains the same parsed title.
+A separate 68-row possible-authored-alias queue records identity questions without
+merging pages; two additional named-result aliases are recorded in
+`root-generated-aliases.md`. The full pending/reviewed scope remains explicit.
