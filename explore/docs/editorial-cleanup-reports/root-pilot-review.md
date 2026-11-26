@@ -69,3 +69,21 @@ named-result candidates; 68 possible generated/authored aliases are a separate
 review queue. Raw Lean helper descriptions are deferred. A further cohort of
 45 authored entries is assigned in nine nonoverlapping five-file batches.
 Nothing in the cleanup review branch has been merged into main.
+
+## Cohort 03 checkpoint
+
+The reviewed inventory now contains 72 distinct UUIDs: 43 proposed source changes
+and 29 inspected entries without a retained edit. Nine bounded five-file batches
+cover rounding, Krylov and randomized definitions/results. Their original reports
+are retained. The coordinator additionally preserved the initial capitalization of
+Standard Gaussian, bolded the Ritz vector component consistently, narrowed an
+embedding link label, and linked truncated-SVD notation to its precise definition.
+
+A source audit validates unchanged front matter (apart from explicit references),
+kinds, formal bindings, titles and all definition-target IDs. Original mathematical
+fragments are unchanged modulo font/bracing conventions for existing entries,
+except the previously reviewed singular-value clarification. The three generated
+CG files have separately reviewed layout/citation relocations. These checks are
+editorial safeguards and do not certify theorem truth or complete missing hypotheses.
+All cleanup proposals remain off main. See `reviewed-inventory.csv` for UUID-level
+coverage; the remaining research inventory and possible aliases are still pending.

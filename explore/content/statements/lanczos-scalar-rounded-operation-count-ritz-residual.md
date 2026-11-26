@@ -13,7 +13,7 @@ Then, for every such input and every tape, the run succeeds, and:
 - it performs some number $m\le k$ of steps and stores the vectors $\mathbf{v}_1,\dots,\mathbf{v}_{m+1}$, the coefficients $\alpha_1,\dots,\alpha_m$ and $\beta_1,\dots,\beta_m$, and the computed norm of $\mathbf{b}$. They are the values of a rounded Lanczos run with local error allowance $E$ (`Lanczos.Rounded.Output`), which stops before the cap only at a zero computed norm or coupling coefficient;
 - if $k>0$, $\mathbf{b}\ne\mathbf{0}$ and $kE\le1/100$, there is a length $q$ with $1\le q\le k$, whose stored $\beta_q$ is zero when $q<k$, such that every $\theta$ and unit vector $\mathbf{y}$ with $\mathbf{T}_q\mathbf{y}=\theta\mathbf{y}$ satisfy
 
-$$\|\mathbf{A}\mathbf{V}_q\mathbf{y}-\theta\mathbf{V}_q\mathbf{y}\|_2\le\sqrt{1+E}\,\beta_q|y_q|+6q\sqrt q\,E\,\|\mathbf{A}\|_2,$$
+$$\|\mathbf{A}\mathbf{V}_q\mathbf{y}-\theta\mathbf{V}_q\mathbf{y}\|_2\le\sqrt{1+E}\,\beta_q|\mathbf{y}_q|+6q\sqrt q\,E\,\|\mathbf{A}\|_2,$$
 
 where $\mathbf{V}_q=[\mathbf{v}_1,\dots,\mathbf{v}_q]$ and $\mathbf{T}_q$ is the leading $q\times q$ stored tridiagonal matrix.
 
