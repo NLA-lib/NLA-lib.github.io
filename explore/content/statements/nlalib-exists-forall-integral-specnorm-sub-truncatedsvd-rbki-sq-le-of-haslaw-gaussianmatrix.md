@@ -11,7 +11,7 @@ $$q\ge\frac{C\log(n/\varepsilon)}{\sqrt{\varepsilon}},$$
 
 the truncated output satisfies
 
-$$\mathbb E\|\mathbf{A}-[\mathsf{rbki}(\mathbf{A},\mathbf{X},q)]_r\|_2^2\le(1+\varepsilon)\,\sigma_r^2.$$
+$$\mathbb{E}\|\mathbf{A}-[\mathsf{rbki}(\mathbf{A},\mathbf{X},q)]_r\|_2^2\le(1+\varepsilon)\,\sigma_r^2.$$
 
 The statement asserts the existence of the constants. With a positive gap $\gamma$, the same result group as the gapped bounds contains the corresponding forms with $q\ge C\log(n/\varepsilon)/\sqrt{\gamma}$, in the spectral and Frobenius norms; they are in the Library.
 :::

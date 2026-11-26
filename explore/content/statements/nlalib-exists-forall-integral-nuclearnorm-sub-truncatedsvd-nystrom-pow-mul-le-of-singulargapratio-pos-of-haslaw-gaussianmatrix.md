@@ -11,7 +11,7 @@ $$p\ge\frac{C\log(n/\varepsilon)}{\gamma},$$
 
 the truncated output satisfies
 
-$$\mathbb E\|\mathbf{A}-[\mathsf{nyssi}(\mathbf{A},\mathbf{X},p)]_r\|_*\le(1+\varepsilon)\,\|\mathbf{A}-[\mathbf{A}]_r\|_*.$$
+$$\mathbb{E}\|\mathbf{A}-[\mathsf{nyssi}(\mathbf{A},\mathbf{X},p)]_r\|_*\le(1+\varepsilon)\,\|\mathbf{A}-[\mathbf{A}]_r\|_*.$$
 
 The statement asserts the existence of the constants.
 :::
