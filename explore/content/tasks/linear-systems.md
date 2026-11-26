@@ -3,7 +3,7 @@ uid: dfcbe336-4b55-5c52-94a7-2e71b20ec4af
 kind: task
 id: linear-systems
 title: Linear systems
-summary: Solve $A x=b$, including preconditioned and matrix-free methods.
+summary: Solve $\mathbf{A}\mathbf{x}=\mathbf{b}$, including preconditioned and matrix-free methods.
 status: ready
 sections_collapsed: true
 order: 0
@@ -59,7 +59,7 @@ groups:
   - sketch-and-project
 ---
 
-Solve $A x=b$, including preconditioned and matrix-free methods.
+Solve $\mathbf{A}\mathbf{x}=\mathbf{b}$, including preconditioned and matrix-free methods.
 
 {{ generated:task-groups }}
 

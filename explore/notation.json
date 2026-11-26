@@ -3,6 +3,10 @@
   "documents": {
     "algorithms/conjugate-gradient/index.md": {"matrices": ["A"], "vectors": ["x", "b", "v"]},
     "statements/cg-optimality.md": {"matrices": ["A"], "vectors": ["x", "y", "r"]},
-    "tasks/quadrature.md": {"matrices": ["A"], "vectors": ["b"]}
+    "tasks/quadrature.md": {"matrices": ["A"], "vectors": ["b"]},
+    "tasks/linear-systems.md": {"matrices": ["A"], "vectors": ["x", "b"]},
+    "tasks/least-squares.md": {"matrices": ["A"], "vectors": ["x", "b"]},
+    "tasks/matrix-functions.md": {"matrices": ["A"], "vectors": ["b"]},
+    "tasks/trace-estimation.md": {"matrices": ["A"], "vectors": []}
   }
 }
