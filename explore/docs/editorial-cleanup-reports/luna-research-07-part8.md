@@ -1,39 +1,32 @@
-# Luna research cohort 07 · part 8
+# Luna research cohort 07 · part 8 (corrected manifest coverage)
 
-Baseline revisions and declaration citation records were checked against `/tmp/nlalib-release-explorer/api/v1`; the assigned Lean sources were inspected. This is an editorial review report, not a theorem or proof audit.
+This report covers exactly the five UUIDs in `/tmp/nla-luna-cohort-07.json` `research[7]`. Baseline revisions and inherited declaration citations were checked against `/tmp/nlalib-release-explorer/api/v1`; relevant Lean source declarations were inspected. This is an editorial review report, not a theorem or proof audit.
 
 | UUID / entry | Baseline revision | Outcome |
 | --- | --- | --- |
-| `a3ae6eab-cfd1-54a1-a5cb-aabb2ed528b6` (`shifted-qr-rounded-small-eig-backward-error`) | `c40e26f12e903225c7b8db767ecbcb0ec1cf7ea91095673e4da771a83820fcd2` | `needs-mathematical-review` |
-| `bfa69b03-df3e-57c8-a9a5-dbb0ca6bab06` (`shifted-qr-rounded-small-eig-certificate-accuracy`) | `e1f6be38cff986459b7eb9751079fb6b3b1953e87365abbac079ca52d7e13049` | `needs-mathematical-review` |
-| `96f14e8b-ee12-585f-a7a5-5142971ee656` (`small-eig-certificate-accuracy`) | `a007828cf7b37d55473cc086f89028741dd655ac13afdb7217a1e675d2173a0b` | `needs-mathematical-review` |
-| `5122ab2d-9ad3-5c4d-a1d7-1ae5aed4b848` (`small-eig-forward-error`) | `c1ac6b120dcf1df555552d527950ca99f7b682dd1639eeccf86140dd5b298af6` | `needs-mathematical-review` |
-| `c6b82b37-af7d-54c6-8a6e-3649062c1667` (`spectral-bisection-operation-count-accuracy`) | `c4445d5eb1f90eab73629d35f93772d6acd2f9190a1d078198337abb063cf349` | `needs-mathematical-review` |
+| `eacde6b9-1053-568f-8c81-625ce5f50695` (`nlalib-schur-verifiedschurwith-writes`) | `593a535b3f340c3e6455b977432a6406eff8e664507b6b305a52f79804c49343` | `already-consistent` |
+| `7455a12b-551e-5cab-81d5-9a9386edaa48` (`nlalib-shiftedqr-roundedshqrschur-measurereal-not-schur-le`) | `8d90be9cc15de4de0f3d68f35133732228e13124218596befdc6a1c73927c778` | `needs-mathematical-review` |
+| `f0edd998-f0db-5d93-a1ae-725a1c29ace9` (`nlalib-shiftedqr-roundedshqrwith-measurereal-not-spectrum-le`) | `a555dec3c4e3830544e3f0a3d10fedbba7f9687bbeae9c663e74dd5c3a48a535` | `needs-mathematical-review` |
+| `ed822a80-d2e0-5322-b99b-49d2e08073ac` (`nlalib-singularvalues-le-mul-pseudoconditionnumber-of-mul-eq-mul-diagonal`) | `d1535e2e57bd9260723f8e6103c81b1d3cf5040605dd4ed75bdf9000ba45282a` | `already-consistent` |
+| `4db025d7-bfbb-5ade-a7bc-94a4f0d7e94f` (`nlalib-smalleig-smalleig-measurereal-not-spectrum-le-unconditional`) | `d34ba2ddd88f4c772578d06c30689e78f7d40632ddddf3e26d558e54cb2e6fc5` | `proposed` |
 
-## Changes and unresolved context
+## Notation and review findings
 
-- Braced `\mathbb{P}` in `shifted-qr-rounded-small-eig-backward-error` and `small-eig-smalleig-measurereal-not-spectrum-le-unconditional`; braced `\mathbb{C}` and `\mathbb{P}` in `spectral-bisection-operation-count-accuracy`. No formulas, parameter ranges, matrix/vector roles, titles, IDs, bindings, or delimiter segmentation changed.
-- `shifted-qr-rounded-small-eig-backward-error` depends on “the hypotheses above on $\mathbf{H}$, the machine and the tape.” The shared entry does not contain those hypotheses. The adjacent certificate entry similarly points to “the theorem above.” Both contexts are unresolved in the standalone sources; no machine, sampler, or error conditions were supplied.
-- `small-eig-certificate-accuracy` refers to “Theorem 1.1.” Its inherited citation association is BanksGarzaVargasSrivastava2025, Theorem 1.1, but the shared body does not reproduce the assumptions needed for this certificate. The external locator is preserved; no theorem conditions were inferred.
-- `small-eig-forward-error` relies on “the machine and the streams as above” and the “forward form” parameter words without identifying those shared hypotheses locally. No direct compatible definition target was established.
-- `spectral-bisection-operation-count-accuracy` says the Lean statement gives the unit-roundoff, $β$, absolute-error-floor, and range conditions without stating those conditions in the shared text. This leaves the numerical assumptions needed for the guarantee unstated. They were not reconstructed from Lean.
-- These Schur/small-eigenvalue results have distinct solver, tape, and output guarantees; no entries were treated as duplicates. No semantic link was added because the context phrases do not identify a precise compatible definition target.
+- Braced `\mathbb{P}` in the SmallEig unconditional spectrum bound. No formula, matrix/vector role, condition, title, UUID, binding, or display segmentation changed.
+- `nlalib-schur-verifiedschurwith-writes` and `nlalib-singularvalues-le-mul-pseudoconditionnumber-of-mul-eq-mul-diagonal` already use appropriate matrix/vector fonts and transpose notation; no direct existing definition link was needed.
+- The shifted-QR Schur result refers to “the machine and the sampler as above” and the Schur pair in “Shape of the guarantee” above; these are not specified locally in its shared body. Its companion solver theorem similarly says “under the same hypotheses on the machine, the solver and the input.” No assumptions or links were inferred; both entries need review for the intended context.
+- The SmallEig statement refers to the machine and streams “as above” and to proved tail records without identifying them in this body. The font fix does not address that context dependency.
+- The three Schur/small-eigenvalue guarantees have distinct solver, input, and output conditions. No entries were merged.
 
 ## Actual inherited citations
 
-The authored `object.references` arrays are empty. These associations were checked in declaration records; no front-matter references were added.
+The authored `object.references` arrays are empty. Citations below come from each linked declaration record's `record.references`; no front-matter references were added.
 
-- `NLAlib.ShiftedQR.roundedShQRSmallEig_measureReal_not_spectrum_le_unconditional` — `BanksGarzaVargasSrivastava2022`, Theorem 6.3 (listed twice in `record.references`); `BanksGarzaVargasSrivastava2025`, Theorem 1.1 and Corollary 1.3.
-- `NLAlib.ShiftedQR.roundedShQRSmallEig_algorithm_measureReal_not_accepts_le_unconditional` — `BanksGarzaVargasSrivastava2022`, Theorem 6.3 with Theorem 1.4's quantifiers, corrected.
-- `NLAlib.SmallEig.smallEig_algorithm_measureReal_not_accepts_le_unconditional` — `BanksGarzaVargasSrivastava2025`, Theorem 1.1.
-- `NLAlib.SmallEig.smallEig_measureReal_not_forward_le_unconditional` — `BanksGarzaVargasSrivastava2025`, Corollary 1.3.
-- `NLAlib.SpectralBisection.measureReal_not_accepts_countedSpecification_le` — `Shah2024`, Theorem 4.2.
-
-The shifted-QR spectrum statement also has `BanksGarzaVargasSrivastava2022`, Theorem 6.3 twice in its actual inherited record. This repeated pair was not duplicated in authored front matter.
-
-## Registry proposals
-
-No new symbol roles are proposed. The global registry was not changed.
+- `NLAlib.Schur.verifiedSchurWith_writes` — none.
+- `NLAlib.ShiftedQR.roundedShQRSchur_measureReal_not_schur_le` — `BanksGarzaVargasSrivastava2022`, Theorem 6.3 (listed twice in `record.references`); `BanksGarzaVargasSrivastava2025`, Theorem 1.1 and Corollary 1.3.
+- `NLAlib.ShiftedQR.roundedShQRWith_measureReal_not_spectrum_le` — `BanksGarzaVargasSrivastava2022`, Theorem 6.3 (listed twice in `record.references`).
+- `NLAlib.singularValues_le_mul_pseudoConditionNumber_of_mul_eq_mul_diagonal` — none.
+- `NLAlib.SmallEig.smallEig_measureReal_not_spectrum_le_unconditional` — `BanksGarzaVargasSrivastava2025`, Theorem 1.1.
 
 ## Validation and limitations
 
