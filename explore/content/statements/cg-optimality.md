@@ -2,11 +2,6 @@
 kind: statement
 id: cg-optimality
 uid: de598675-e038-5a75-a6b5-f471cab1156a
-references:
-  - key: Saad2003
-    locator: §5.2
-  - key: TrefethenBau1997
-    locator: Theorem 38.1
 ---
 
 ::: theorem result:cg-optimality name="Energy optimality"

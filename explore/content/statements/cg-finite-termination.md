@@ -2,9 +2,6 @@
 kind: statement
 id: cg-finite-termination
 uid: 7cff0d5e-11c8-51c3-8620-0c3b8dc915fe
-references:
-  - key: Saad2003
-    locator: §6.2
 ---
 
 ::: theorem result:cg-finite-termination name="Finite termination"
