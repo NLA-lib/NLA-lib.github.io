@@ -1,0 +1,15 @@
+# Luna generated polynomial batch 08, part 36
+
+Source: `/tmp/nla-luna-cohort-08.json`, `polynomial[35]`; four entries were materialized from pinned templates. The quadratic-probe result was already complete and had no citation text, so no file was materialized for it. Formula segmentation and identities are preserved; alias checks found no existing bindings.
+
+| UUID | Baseline revision | Source path | Outcome | Changes and inherited citations | Unresolved issues |
+|---|---|---|---|---|---|
+| `09437ddf-6768-5687-b6bf-6737318d7d70` | `9983fedeb275387aaf1f535b0d54963eea31c028d2c39a23e18efcc62a210235` | `explore/content/statements/entry-09437ddf-6768-5687-b6bf-6737318d7d70.md` | proposed | Removed the citation string and retained that this is the closed-radius variant of the cited normal-matrix assertion. Inherited `TrefethenEmbree2005`, Theorem 2.2. | None identified. |
+| `b3b054a2-5414-5f31-99e8-f869f1fcefb0` | `c264e94dfb6206198a1f709df50f19a0abb61eddd13511d303c01ed35cd96678` | `explore/content/statements/entry-b3b054a2-5414-5f31-99e8-f869f1fcefb0.md` | proposed | Recast the fragment as a complete sentence and removed citations. Inherited `HornJohnson2013`, Theorem 2.1.14, and `GolubVanLoan2013`, Theorem 5.2.3. | None identified. |
+| `db5e8fd7-91be-50ea-91ec-732fe04ed59d` | `fab440acb02fa7a32d49079c5f72f40f78de1865f6a1fba9b8082373247020e1` | `explore/content/statements/entry-db5e8fd7-91be-50ea-91ec-732fe04ed59d.md` | already-consistent | No file materialized; complete readable result with no in-prose citation and no inherited citation association. | No printed source; no source was added. |
+| `763b16c7-a7f8-505e-8530-483c0bf1c443` | `5690801745a74e16eb03bca6dee2d8998d05312b74205c73338da270a6e9d11c` | `explore/content/statements/entry-763b16c7-a7f8-505e-8530-483c0bf1c443.md` | proposed | Removed citation strings. Inherited `GolubVanLoan2013`, Theorem 7.7.1, and `HornJohnson2013`, Theorem 2.6.1. | None identified. |
+| `6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2` | `010ae2683fdc312919717c1bf5371ae7198e3204943fdb4682e1b782e40b6096` | `explore/content/statements/entry-6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2.md` | proposed | Capitalized the opening, removed the citation string and retained the contrast with the cited theorem's $O(\varepsilon)$ bound and unspecified constants. Inherited `Woodruff2014`, §2.1, Theorem 6. | None identified. |
+
+No definition links or notation registry changes proposed. Inherited citation associations and exact locators were checked in the pinned snapshots; no related-declaration citations were borrowed.
+
+Validation: notation checker passed; parser UUID/ID/title/kind/result-binding checks passed for materialized entries; formula tokens and math delimiter segmentation match pinned templates exactly; staged whitespace check passed. The shared audit confirmed identity/title/binding/target IDs for this batch; its repository-wide scan still reports three earlier CG Galerkin math reviews and one reference metadata change outside this batch. No rendered preview or full build was run. These checks do not establish theorem truth or formalization equivalence.

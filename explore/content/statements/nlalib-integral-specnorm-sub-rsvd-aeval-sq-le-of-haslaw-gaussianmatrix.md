@@ -11,7 +11,7 @@ $$|f(\sigma_i^2)|\ge c\quad\text{for } i<r,\qquad|f(\lambda)|\le a\quad\text{for
 
 Then
 
-$$\mathbb E\bigl\|\mathbf{A}-\mathsf{rsvd}\bigl(\mathbf{A},f(\mathbf{A}^{\mathsf{H}}\mathbf{A})\mathbf{X}\bigr)\bigr\|_2^2\le\sigma_r^2+\Bigl(\frac{a}{c}\Bigr)^2\frac{t}{\ell-t-1}\,\|\mathbf{A}-[\mathbf{A}]_t\|_{\mathrm F}^2.$$
+$$\mathbb{E}\bigl\|\mathbf{A}-\mathsf{rsvd}\bigl(\mathbf{A},f(\mathbf{A}^{\mathsf{H}}\mathbf{A})\mathbf{X}\bigr)\bigr\|_2^2\le\sigma_r^2+\Bigl(\frac{a}{c}\Bigr)^2\frac{t}{\ell-t-1}\,\|\mathbf{A}-[\mathbf{A}]_t\|_{\mathrm F}^2.$$
 
 The bound is small when the filter is large on the head singular values and small on the tail interval. The deterministic bound for a general spectral filter, the Frobenius form, and the form in every unitarily invariant norm are listed below.
 :::

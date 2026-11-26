@@ -11,7 +11,7 @@ $$q\ge\frac{C\log(n/\varepsilon)}{\sqrt{\gamma}},$$
 
 the truncated output satisfies
 
-$$\mathbb E\|\mathbf{A}-[\mathsf{nysbki}(\mathbf{A},\mathbf{X},q)]_r\|_*\le(1+\varepsilon)\,\|\mathbf{A}-[\mathbf{A}]_r\|_*.$$
+$$\mathbb{E}\|\mathbf{A}-[\mathsf{nysbki}(\mathbf{A},\mathbf{X},q)]_r\|_*\le(1+\varepsilon)\,\|\mathbf{A}-[\mathbf{A}]_r\|_*.$$
 
 The statement asserts the existence of the constants.
 :::

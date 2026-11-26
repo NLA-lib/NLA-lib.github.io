@@ -9,7 +9,7 @@ Assume the standard model of rounded arithmetic with unit roundoff $u$, the leve
 
 $$(k+\ell+1)\,e_d(n)(1+\eta_0)^2+\bigl((1+e_a)^{k+\ell}-1\bigr)\bigl(1+(k+\ell)(1+e_d(n))(1+\eta_0)^2\bigr)\le c,$$
 
-and that the computed norms are accurate to $E$: $e_d(n)+e_s(1+e_d(n))\le E$. Assume also $e_c\le E$. Then the implementation runs on all admitted operands and its decoded output is a rounded extension with window $\eta_0$ and parameters
+and that the computed norms are accurate to $E$: $e_d(n)+e_s(1+e_d(n))\le E$. Assume also $e_c\le E$. Then the implementation runs on all admitted operands and its decoded output is a [rounded extension](/explore/statements/fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393/) with window $\eta_0$ and parameters
 
 $$\mu=4c+\frac{8(\eta_0+c)^2}{\tau}+5E,\qquad\varepsilon=3c+2E+2\tau.$$
 

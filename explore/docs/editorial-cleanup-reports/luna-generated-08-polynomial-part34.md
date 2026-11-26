@@ -1,0 +1,15 @@
+# Luna generated polynomial batch 08, part 34
+
+Source: `/tmp/nla-luna-cohort-08.json`, `polynomial[33]`; alias checks found no binding aliases. All five pinned templates were materialized with UID, title, kind, result binding and math delimiters preserved. The assigned Procrustes optimization result is distinct from the authored Mirsky equality result in the prior batch: their formal bindings and claims differ, so both identities are retained.
+
+| UUID | Baseline revision | Source path | Outcome | Changes and inherited citations | Unresolved issues |
+|---|---|---|---|---|---|
+| `361a1c7a-d5fa-56af-a8f4-22bb1ef481d6` | `0848124452721ce46f2865fb3869aa2c999bc6455d8991484ab1f02c4e761892` | `explore/content/statements/entry-361a1c7a-d5fa-56af-a8f4-22bb1ef481d6.md` | proposed | Capitalized the opening and removed citation text. Inherited `ElmanSilvesterWathen2014`, Algorithm 4.1. | The source locator is marked for verification in the snapshot. |
+| `83c267a8-cfce-5f6a-a971-3e64cd339fc9` | `196e27b1afb3022fd0503c84d98d014473ef0a192e6422fc0decd82735085deb` | `explore/content/statements/entry-83c267a8-cfce-5f6a-a971-3e64cd339fc9.md` | proposed | Capitalized the opening and removed citation text. Inherited `GolubVanLoan2013`, §6.4.3. | None identified. |
+| `d9744d5b-669c-5f50-9f45-db8298d21851` | `31b7af389741b358fce3ea39a5761a130271e642ad5f720af981e85e3f440a74` | `explore/content/statements/entry-d9744d5b-669c-5f50-9f45-db8298d21851.md` | proposed | Removed citation text and retained the generalization to arbitrary fields and finite index types. Inherited `HornJohnson2013`, Theorem 1.4.10. Preserved the formal source repository, commit, declaration and additive-dimension note. | None identified. |
+| `34a744a8-d9ee-5551-a04b-185ba41af49e` | `bf2381ed2c745c74134755b259dcf0a8556f9550a2eb23fb240c098e519ef9a4` | `explore/content/statements/entry-34a744a8-d9ee-5551-a04b-185ba41af49e.md` | proposed | Capitalized the opening and removed the citation string. Inherited `ChenTrogdonUbaru2021`, §3. | The source locator is marked for verification in the snapshot. |
+| `d778573e-5587-58f6-9913-416c81641dca` | `deaf28638a6d3610a6244a0d6e2e3c585be681f9e9646d12114a5840d908757b` | `explore/content/statements/entry-d778573e-5587-58f6-9913-416c81641dca.md` | proposed | Removed citation strings. Inherited `GolubVanLoan2013`, §6.4.1, and `HornJohnson2013`, §7.4.5. | None identified. |
+
+No definition links or notation registry changes proposed. Inherited citation associations and exact locators were checked in the pinned snapshots; no related-declaration citations were borrowed.
+
+Validation: notation checker passed; parser UUID/ID/title/kind/result-binding checks passed; formula tokens and math delimiter segmentation match the pinned source exactly; staged whitespace check passed. The shared audit confirmed identity/title/binding/target IDs for this batch; its repository-wide scan still reports three earlier CG Galerkin math reviews and one reference metadata change outside this batch. No rendered preview or full build was run. These checks do not establish theorem truth or formalization equivalence.

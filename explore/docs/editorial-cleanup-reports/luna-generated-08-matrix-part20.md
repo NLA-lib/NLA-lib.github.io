@@ -1,0 +1,13 @@
+# Luna generated matrix cohort 08, part 20
+
+All five result bindings were checked against authored statements before materialization; no aliases were found. Baseline revisions and actual reference pairs are from each pinned generated-object record.
+
+| UUID / result | Baseline revision and source path | Outcome | Citation treatment |
+|---|---|---|---|
+| `415072ce-196e-567e-a16f-bd970cbb91a4` / `gaussian-matrix-extreme-singular-values` | `70926a329225000df9c99cad3e07d0d482747ac2580dd742f58b0ab3522ed8a6`; `explore/content/statements/entry-415072ce-196e-567e-a16f-bd970cbb91a4.md` | proposed | Removed inline citations, reusing `Vershynin2018` (Theorem 7.3.1) and `DavidsonSzarek2001` (Theorem II.13). Retained the separate lower-bound statement and its formal declaration link. |
+| `4c463ffc-adfb-5a30-ba57-a9681f4d06a6` / `gaussian-ose` | `2f772c0d9e44c5b6422c6aa03ca60046c559d7bda45c94f1442045f7aab4b817`; `explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md` | proposed | Removed inline citation syntax while retaining Woodruff's no-constant asymptotic size and Martinsson–Tropp's stated factor for the specified `t`. Reused inherited `Woodruff2014` (Theorem 6) and `MartinssonTropp2020` (§8.7.2). |
+| `6592fb57-590b-527a-a8b9-52262432f944` / `gaussian-osi` | `916dbfb7057156fedf85febacd80de9f1ad2e7ac39ec8244030a6e54d70c5f33`; `explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md` | proposed | Removed inline citation syntax while retaining that the cited definition refers to Martinsson–Tropp and the one-sided-tail failure probability comparison. Reused `CamanoEpperlyMeyerTropp2025` (Definition 1.6, §1.5.0) and `MartinssonTropp2020` (§8.7.2). |
+| `43f77e9c-4ff7-509d-9b92-053d5dc60e17` / `gaussian-pcp` | `dceb82ba2a4deaafbf58357b5cadf9de703ef6f199ad0093b9b3be3520b6eb07`; `explore/content/statements/entry-43f77e9c-4ff7-509d-9b92-053d5dc60e17.md` | proposed | Removed inline citation, reusing `CohenElderMuscoMuscoPersu2015` (Theorem 12). Kept the distinction between the library's tail bound and the literature's additive bound. |
+| `e95208f6-1315-58ff-a164-9abf10fa7a89` / `gelfand-formula` | `982928066fff5f0d74c7049fe14a359db9311e1a83f82813715502d7fd21ee5d`; `explore/content/statements/entry-e95208f6-1315-58ff-a164-9abf10fa7a89.md` | proposed | Removed inline citation, reusing `HornJohnson2013` (Corollary 5.6.14). |
+
+No formulas, failure probabilities, constants, or hypotheses changed. No semantic links or role-registry proposals were warranted. Checks establish syntax and identity preservation only, not mathematical validity; no rendered preview was available.
