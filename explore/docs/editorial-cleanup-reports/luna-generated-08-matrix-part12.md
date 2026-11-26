@@ -1,0 +1,13 @@
+# Luna generated matrix cohort 08, part 12
+
+All five UUIDs were checked for authored result/declaration aliases; none was found. Revision and citation evidence comes from the pinned record for each UUID.
+
+| UUID / result | Baseline revision and assigned path | Outcome | Changes and evidence |
+|---|---|---|---|
+| `5dc6ffb0-b124-527e-b32a-8995f8e836eb` / `distance-to-singularity` | `01103b98bd20c67a075d303460435c3f6af7fb0a364ec0c8e2df0c50ab5ed57a`; `explore/content/statements/entry-5dc6ffb0-b124-527e-b32a-8995f8e836eb.md` | proposed | Removed inline citation, reusing inherited `GolubVanLoan2013` (§2.6.2). |
+| `9f6262cd-4f38-5e52-9bbb-9d3f19f886b4` / `early-truncated-rsvd-lower-bound` | `038dbe535cd8668d592c136456b4fecf487646fd71b40a54857a3ba1b60273bd`; `explore/content/statements/entry-9f6262cd-4f38-5e52-9bbb-9d3f19f886b4.md` | proposed | Fixed doubled backslashes in the title's asymptotic `\Omega` notation. Changed the test-matrix symbol from `\mathbf{\Omega}` to `\boldsymbol{\Omega}` because the body explicitly says it is a Gaussian matrix. No source association was present; retained “No printed source.” |
+| `3964a32e-4c84-5ac5-a301-4b427bb5c4de` / `early-truncation-pcp-bound` | `16ab1c1af9cbd72a0387b968f6e0e1f51386074e128c7903219d1c7ba2cb3ad4`; `explore/content/statements/entry-3964a32e-4c84-5ac5-a301-4b427bb5c4de.md` | proposed | Rephrased citation transitions while reusing inherited `TroppYurtseverUdellCevher2017` (§7.3.1) and `CohenElderMuscoMuscoPersu2015` (Theorem 12 and §10.1). Kept the original contrast between the two sources and the explicit failure probability. |
+| `97e35c29-1a51-5347-b40d-317aae9d5e0f` / `early-truncation-structural-bound` | `121fd17472c787c0eb86bf89afdd26ac60acd5021e742d43160c3aed8d79799a`; `explore/content/statements/entry-97e35c29-1a51-5347-b40d-317aae9d5e0f.md` | proposed | Removed inline citation, reusing inherited `CohenElderMuscoMuscoPersu2015` (proof of Theorem 12). Kept the statement that this proof has no literature source while identifying where the sketch quantities occur. |
+| `92a6acbe-0347-5f12-bdbd-db5a544447c2` / `eckart-young-spectral` | `82b51b683d473b3eebde648841d800f123ebc4e19cac1fb2770de1e3a90ef477`; assigned path `explore/content/statements/entry-92a6acbe-0347-5f12-bdbd-db5a544447c2.md` | already-consistent | No inherited or inline citation, notation issue, or other permitted editorial change. No file materialized. |
+
+No formulas, hypotheses, dimensions, or error bounds changed. No semantic links or notation-registry suggestions were warranted. Syntax/parser checks do not establish mathematical validity or source correspondence; no rendered preview was available.
