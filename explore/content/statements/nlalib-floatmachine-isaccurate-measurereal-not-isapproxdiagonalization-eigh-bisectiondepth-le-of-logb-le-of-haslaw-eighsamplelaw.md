@@ -5,7 +5,7 @@ uid: 0510eeec-6054-5ba1-8745-0037739c3d9a
 ---
 
 ::: theorem decl:NLAlib.FloatMachine.IsAccurate.measureReal_not_isApproxDiagonalization_eigh_bisectionDepth_le_of_logb_le_of_hasLaw_eighSampleLaw name="Precision in bits" id=precision
-Let $\mathbf{A}\in\mathbb C^{n\times n}$ be Hermitian, with $n\ge1$ and $\|\mathbf{A}\|_2\le R_0$, where $R_0>0$. Given an accuracy target $0<\varepsilon\le2^{-15}$ and failure probability $0<\theta\le1$, write
+Let $\mathbf{A}\in\mathbb{C}^{n\times n}$ be Hermitian, with $n\ge1$ and $\|\mathbf{A}\|_2\le R_0$, where $R_0>0$. Given an accuracy target $0<\varepsilon\le2^{-15}$ and failure probability $0<\theta\le1$, write
 
 $$\Lambda=\log_2\frac1\varepsilon+\log_2\frac1\theta+\log_2 n.$$
 

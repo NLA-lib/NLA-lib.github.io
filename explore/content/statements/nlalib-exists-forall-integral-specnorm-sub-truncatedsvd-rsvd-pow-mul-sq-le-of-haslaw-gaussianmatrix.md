@@ -11,7 +11,7 @@ $$p\ge\frac{C\log(n/\varepsilon)}{\varepsilon},$$
 
 the truncated output satisfies
 
-$$\mathbb E\|\mathbf{A}-[\mathsf{rsi}(\mathbf{A},\mathbf{X},p)]_r\|_2^2\le(1+\varepsilon)\,\sigma_r^2.$$
+$$\mathbb{E}\|\mathbf{A}-[\mathsf{rsi}(\mathbf{A},\mathbf{X},p)]_r\|_2^2\le(1+\varepsilon)\,\sigma_r^2.$$
 
 The statement asserts the existence of the constants. With a positive gap $\gamma$, the same result group as the gapped bounds contains the corresponding forms with $p\ge C\log(n/\varepsilon)/\gamma$, in the spectral and Frobenius norms; they are in the Library.
 :::
