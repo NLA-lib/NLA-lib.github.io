@@ -4,7 +4,7 @@ id: entry-c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6
 uid: c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6
 ---
 ::: theorem result:intrinsic-matrix-chernoff name="Intrinsic-dimension matrix Chernoff for the mean"
-for finitely many independent, almost
+For finitely many independent, almost
 everywhere measurable random $n \times n$ matrices $\mathbf{X}_k$ over $\Bbbk$ with
 $\mathbf{0} \preceq \mathbf{X}_k \preceq L\mathbf{I}$ almost surely, $L > 0$, any matrix
 $\mathbf{M}$ with $\sum_k \mathbb{E}\mathbf{X}_k \preceq \mathbf{M}$ (possibly $\mathbf{0}$) and

@@ -4,7 +4,7 @@ id: entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7
 uid: d5aa8c62-cf4f-52b4-a631-4303da76fdc7
 ---
 ::: theorem result:measurable-selection name="Measurable selection from a closed set with compact sections"
-let $X$ be a topological
+Let $X$ be a topological
 space whose open sets are measurable, $Y$ a finite-dimensional Hausdorff real topological vector
 space with its Borel $\sigma$-algebra, and $S \subseteq X \times Y$ closed with every section
 $S_x = \{y \mid (x, y) \in S\}$ nonempty and the sections lying locally uniformly inside compact

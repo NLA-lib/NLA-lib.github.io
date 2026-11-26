@@ -4,7 +4,7 @@ id: entry-aeab26bc-fd0e-5daa-abc8-4ae5e787ed49
 uid: aeab26bc-fd0e-5daa-abc8-4ae5e787ed49
 ---
 ::: theorem result:jl-lemma name="Johnson–Lindenstrauss lemma"
-for finitely many points $\mathbf{x}_i$, $i \in \iota$, and
+For finitely many points $\mathbf{x}_i$, $i \in \iota$, and
 $\delta \ge 0$, the probability that some pairwise difference $\mathbf{x}_i - \mathbf{x}_j \ne
 \mathbf{0}$ has its squared norm distorted by a factor $\varepsilon$ or more,
 $$\varepsilon \|\mathbf{x}_i - \mathbf{x}_j\|^2

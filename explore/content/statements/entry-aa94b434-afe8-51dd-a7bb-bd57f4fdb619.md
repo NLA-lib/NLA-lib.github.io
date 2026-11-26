@@ -4,7 +4,7 @@ id: entry-aa94b434-afe8-51dd-a7bb-bd57f4fdb619
 uid: aa94b434-afe8-51dd-a7bb-bd57f4fdb619
 ---
 ::: theorem result:stochastic-lanczos-quadrature-error name="The error of stochastic Lanczos quadrature and the minimax error"
-for Hermitian
+For Hermitian
 $\mathbf{A}$ with spectrum in $[a, a']$, $f$ continuous on $[a, a']$, every test matrix
 $\mathbf{\Omega}$ with $m$ columns and $q + 1$ Lanczos steps per probe,
 $$\bigl\lvert\operatorname{tr} f(\mathbf{A}) -

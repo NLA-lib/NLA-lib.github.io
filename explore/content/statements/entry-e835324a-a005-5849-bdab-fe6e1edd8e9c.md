@@ -4,7 +4,7 @@ id: entry-e835324a-a005-5849-bdab-fe6e1edd8e9c
 uid: e835324a-a005-5849-bdab-fe6e1edd8e9c
 ---
 ::: theorem result:randomized-svd-tail name="Randomized SVD: tail bounds"
-for
+For
 $\mathbf{A} \in \mathbb{R}^{m \times n}$, a test matrix $\mathbf{X} \in \mathbb{R}^{n \times \ell}$
 with independent standard Gaussian entries (`HasLaw X (gaussianMatrix n l) μ`), a target rank $k$
 with $d = \ell - k + 1$ (`hd : k + d = Fintype.card l + 1`),

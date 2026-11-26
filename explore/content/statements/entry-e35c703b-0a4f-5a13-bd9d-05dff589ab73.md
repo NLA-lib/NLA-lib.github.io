@@ -4,7 +4,7 @@ id: entry-e35c703b-0a4f-5a13-bd9d-05dff589ab73
 uid: e35c703b-0a4f-5a13-bd9d-05dff589ab73
 ---
 ::: theorem result:lagrange-basis-relative-gap-bound name="Lagrange basis polynomials below relatively separated nodes"
-let
+Let
 $\lambda_0, \dots, \lambda_{t-1}$ be real nodes with
 $\lambda_{k+1} \le (1 - \Delta)\lambda_k$ for $k + 1 < t$ and some $\Delta > 0$, and let
 $0 \le x \le \lambda_k$ for every $k$ (so the nodes are nonnegative and non-increasing, and

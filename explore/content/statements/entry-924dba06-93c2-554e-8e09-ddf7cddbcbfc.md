@@ -4,7 +4,7 @@ id: entry-924dba06-93c2-554e-8e09-ddf7cddbcbfc
 uid: 924dba06-93c2-554e-8e09-ddf7cddbcbfc
 ---
 ::: theorem result:chi-square-small-ball name="Small-ball bound for $\chi^2$, exact density"
-for a standard Gaussian vector $\mathbf{g}$
+For a standard Gaussian vector $\mathbf{g}$
 of dimension $d = \lvert n \rvert$ and $u \ge 0$,
 $$\mathbb{P}[\|\mathbf{g}\|^2 \le u] \le \frac{(u/2)^{d/2}}{\Gamma(d/2 + 1)}\,,$$
 from the $\chi^2_d$ density (`NLAlib.integral_comp_norm_of_hasLaw_gaussianVector`) after dropping

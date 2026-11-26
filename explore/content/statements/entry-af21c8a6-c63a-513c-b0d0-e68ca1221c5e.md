@@ -4,7 +4,7 @@ id: entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e
 uid: af21c8a6-c63a-513c-b0d0-e68ca1221c5e
 ---
 ::: theorem result:gmres-petrov-galerkin name="The Petrov–Galerkin condition characterises GMRES"
-for invertible $\mathbf{A}$: with
+For invertible $\mathbf{A}$: with
 $\mathbf{r}_0 = \mathbf{b} - \mathbf{A}\mathbf{x}_0$, a vector $\mathbf{y}$ of
 $\mathbf{x}_0 + \mathcal{K}_q(\mathbf{A}, \mathbf{r}_0)$ with
 $(\mathbf{A}\mathbf{K}_q(\mathbf{A}, \mathbf{r}_0))^{\mathsf{H}}(\mathbf{b} - \mathbf{A}\mathbf{y})

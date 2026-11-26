@@ -4,7 +4,7 @@ id: entry-93c6032f-3f2b-57cb-8d7e-8e2c562eff6e
 uid: 93c6032f-3f2b-57cb-8d7e-8e2c562eff6e
 ---
 ::: theorem result:jl-distributional name="Distributional Johnson–Lindenstrauss for a Gaussian sketch"
-for every unit $\mathbf{x}$
+For every unit $\mathbf{x}$
 and every $\varepsilon \ge 0$,
 $$\mathbb{P}\bigl[\varepsilon \le \lvert \|\mathbf{S}\mathbf{x}\|^2 - 1 \rvert\bigr]
 \le 2 e^{-\lvert k \rvert (\varepsilon^2/4 - \varepsilon^3/6)} \,;$$

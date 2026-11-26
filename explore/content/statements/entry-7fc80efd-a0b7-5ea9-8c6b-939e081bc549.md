@@ -4,7 +4,7 @@ id: entry-7fc80efd-a0b7-5ea9-8c6b-939e081bc549
 uid: 7fc80efd-a0b7-5ea9-8c6b-939e081bc549
 ---
 ::: theorem result:minres-two-interval-sharp name="MINRES attains the two-interval value"
-for $0 < a < a'$ and every $q$, with
+For $0 < a < a'$ and every $q$, with
 $k = \lfloor q/2 \rfloor$, the two-interval matrix and right-hand side give
 $$\|\mathbf{w} - \mathbf{A}\,\mathsf{gmresIterate}(\mathbf{A}, \mathbf{w}, \mathbf{0}, q)\| =
 T_k\Bigl(\frac{a'^2 + a^2}{a'^2 - a^2}\Bigr)^{-1}\|\mathbf{w}\| \,,$$

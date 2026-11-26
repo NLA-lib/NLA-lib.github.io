@@ -4,7 +4,7 @@ id: entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c
 uid: 95aeca8d-53ce-5f82-a5c7-f0049ca1475c
 ---
 ::: theorem result:gmres-arnoldi name="The Arnoldi basis yields GMRES"
-for every $\mathbf{A}$ and $q$: with
+For every $\mathbf{A}$ and $q$: with
 $\mathbf{r}_0 = \mathbf{b} - \mathbf{A}\mathbf{x}_0$, the canonical bases
 $\mathbf{Q}_j = \mathsf{arnoldiMatrix}(\mathbf{A}, \mathbf{r}_0, j)$ and
 $\underline{\mathbf{H}}_q = \mathbf{Q}_{q+1}^{\mathsf{H}}\mathbf{A}\mathbf{Q}_q$,

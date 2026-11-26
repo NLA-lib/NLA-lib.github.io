@@ -4,7 +4,7 @@ id: entry-3008c9fd-4f35-54bb-b0aa-033cbe67cac3
 uid: 3008c9fd-4f35-54bb-b0aa-033cbe67cac3
 ---
 ::: theorem result:gauss-quadrature name="Gauss quadrature"
-if the nodal polynomial $\pi_s$ of distinct real nodes $s$ is
+If the nodal polynomial $\pi_s$ of distinct real nodes $s$ is
 orthogonal in $L^2(\mu)$ to the polynomials of degree less than $\lvert s\rvert$, for a finite
 measure $\mu$ supported in $[a, b]$, then
 $$\int p\,d\mu = \sum_{x\in s}\Bigl(\int\ell_x\,d\mu\Bigr)p(x)$$

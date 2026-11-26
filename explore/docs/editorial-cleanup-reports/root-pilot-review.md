@@ -197,3 +197,14 @@ inner-product bounds, restored precise nonnumeric clause attribution, and kept
 unverified sharpness locators as unresolved rather than asserting that source
 checks were completed. Original reports with citation-record omissions are
 superseded by their appended authoritative declaration-reference tables.
+
+## Completed editorial scope
+
+All 778 pinned research-facing UUIDs are inspected; no scope entry remains
+pending. The final outcome table is in README.md, and each record retains its
+original revision token. 606 citation key/locator associations are preserved in
+both the original records and current build metadata. The six concurrent BCW
+statements remain unchanged and outside this pinned count. Root-level source
+polish preserves original source ownership and qualifications rather than
+introducing stronger claims. The follow-up list separates missing formulations,
+source-locator verification, aliases and field/domain questions.

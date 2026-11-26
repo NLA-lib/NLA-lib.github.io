@@ -4,7 +4,7 @@ id: entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6
 uid: 4c463ffc-adfb-5a30-ba57-a9681f4d06a6
 ---
 ::: theorem result:gaussian-ose name="Gaussian subspace embedding"
-for $\mathbf{U}$ with orthonormal columns,
+For $\mathbf{U}$ with orthonormal columns,
 $\mathbf{S} = \lvert k \rvert^{-1/2} \, \mathbf{G}$ is a subspace embedding for
 $\operatorname{range} \mathbf{U}$ with constants
 $$\Bigl(1 \mp \frac{\sqrt{\lvert p \rvert} + t}{\sqrt{\lvert k \rvert}}\Bigr)^2$$

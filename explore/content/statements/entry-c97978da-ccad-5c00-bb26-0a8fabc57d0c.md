@@ -9,7 +9,7 @@ complex $\mathbf{z}$ indexed by any finite type, if $(\operatorname{Re}\mathbf{z
 majorized by $\mathbf{x}$, there is a complex matrix $\mathbf{A}$ whose eigenvalues are
 $\mathbf{z}$ and whose Hermitian part has eigenvalues $\mathbf{x}$. Both listings include
 algebraic multiplicities; repeated entries and the empty index type are allowed.
- Adapted from `tchen-research/NLAlib`, commit
+Adapted from `tchen-research/NLAlib`, commit
 `77514ce42a0e437d837797a063ac161f41022730`,
 `exists_matrix_charpoly_and_selfAdjointPart_charpoly_of_majorized`.
 :::

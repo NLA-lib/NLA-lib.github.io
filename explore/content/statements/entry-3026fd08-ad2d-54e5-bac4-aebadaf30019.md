@@ -4,7 +4,7 @@ id: entry-3026fd08-ad2d-54e5-bac4-aebadaf30019
 uid: 3026fd08-ad2d-54e5-bac4-aebadaf30019
 ---
 ::: theorem result:hutchpp-variance name="The variance of Gaussian Hutch++ for a positive semidefinite matrix"
-if the
+If the
 $n \times \lvert s \rvert$ sketch test matrix $\mathbf{S}$ and the $n \times \ell$ residual test
 matrix $\mathbf{G}$, $\ell \ge 1$, are independent and standard Gaussian, then for every real
 positive semidefinite $\mathbf{A}$ and every $r \ge 1$ with $2r + 1 \le \lvert s \rvert$,
