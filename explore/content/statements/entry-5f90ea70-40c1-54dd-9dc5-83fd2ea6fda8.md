@@ -10,6 +10,7 @@ $n \times n$ matrix $\mathbf{A}$ to $(\mathbf{U}, \mathbf{d})$ with
 $\|\mathbf{A} - \mathbf{U}\operatorname{diag}(\mathbf{d})\mathbf{U}^{\mathsf{H}}\|_2 \le
 \varepsilon\|\mathbf{A}\|_2$ has
 $$t \ge \log_2\frac1\varepsilon + \frac b2 - 2 + \log_2(1 - \varepsilon) \,.$$
-The cited result omits the term $\log_2(1 - \varepsilon)$, which comes from
+
+Note: The cited result omits the term $\log_2(1 - \varepsilon)$, which comes from
 $\|\mathbf{H} \pm \delta\mathbf{J}\|_2 \ne \|\mathbf{H}\|_2$.
 :::

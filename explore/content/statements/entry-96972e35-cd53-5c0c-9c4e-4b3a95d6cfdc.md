@@ -11,6 +11,7 @@ $\mathbf{E} = \mathbf{A} - \mathbf{A}\mathbf{Z}\mathbf{Z}^{\mathsf{H}}$ and
 $\mathbf{M} = \mathbf{E}\mathbf{\Omega}(\mathbf{Z}^{\mathsf{H}}\mathbf{\Omega})^{+}$,
 $$\|\mathbf{A} - \mathsf{rsvd}(\mathbf{A}, \mathbf{\Omega})\|_{\mathsf{F}}^2 \le
 \|\mathbf{E}\|_{\mathsf{F}}^2 + \|\mathbf{M}\|_{\mathsf{F}}^2\,.$$
-The cited results of Halko et al. and Camaño et al. use a top-$k$ frame; Woodruff treats any frame over $\mathbb{R}$.
 This statement uses the displayed full-row-rank condition.
+
+Note: The cited results of Halko et al. and Camaño et al. use a top-$k$ frame; Woodruff treats any frame over $\mathbb{R}$.
 :::

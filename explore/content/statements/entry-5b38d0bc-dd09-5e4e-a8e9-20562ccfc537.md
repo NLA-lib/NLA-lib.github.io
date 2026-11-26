@@ -18,7 +18,8 @@ covers the oracle $\mathbf{x} \mapsto (\mathbf{A}\mathbf{x}, \mathbf{A}^{\mathsf
 the source. MINRES needs $O(\kappa\log(1/\varepsilon))$ products on these spectra
 (`Matrix.IsHermitian.norm_sub_mulVec_gmresIterate_le_two_mul_pow_div_two`), so the bound is
 sharp up to the constant.
-The cited source assumes $T \ge c\kappa\log(1/\varepsilon)$, for $\kappa \ge C$, $\varepsilon \le c$
+
+Note: The cited source assumes $T \ge c\kappa\log(1/\varepsilon)$, for $\kappa \ge C$, $\varepsilon \le c$
 and $n = \Omega(T^2)$ with unspecified constants; this statement makes them explicit. In the
 source the output is the last query (one query fewer).
 :::

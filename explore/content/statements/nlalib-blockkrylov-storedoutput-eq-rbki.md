@@ -9,5 +9,7 @@ Let a program be certified for the block Golub–Kahan problem with a postcondit
 
 $$\mathbf{U}\mathbf{S}^{\mathsf{H}}\mathbf{V}^{\mathsf{H}}=\mathsf{rbki}(\mathbf{A},\mathbf{X},q).$$
 
-The equality holds for every $\mathbf{X}$, not almost surely. The library uses it to transfer a tail bound or an expectation for $\mathsf{rbki}(\mathbf{A},\mathbf{X},q)$ to the stored output of the counted run, and restates two bounds for a standard Gaussian $\mathbf{X}$ in that form: the gapped tail bound for every block size and the gapped expectation bound for $t+2\le\ell$. These are exact-arithmetic accuracy statements: they use the exact certificate.
+The equality holds for every $\mathbf{X}$, not almost surely, under the exact certificate.
+
+Note: This identity lets the library transfer tail and expectation bounds for $\mathsf{rbki}(\mathbf{A},\mathbf{X},q)$ to the stored output of the counted run. For standard Gaussian $\mathbf{X}$, the library restates the gapped tail bound for every block size and the gapped expected-error bound when $t+2\le\ell$.
 :::

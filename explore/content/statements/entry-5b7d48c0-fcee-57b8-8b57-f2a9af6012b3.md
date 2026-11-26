@@ -11,7 +11,10 @@ at every index $k$: the Nyström error is at most the error of projecting $\math
 orthogonal complement of the test space. At $\mathbf{\Omega} = \mathbf{H}\mathbf{\Omega}_0$ this
 compares Nyström from the sample $\mathbf{H}\mathbf{\Omega}_0$ with the randomized SVD of
 $\mathbf{H}$ (`NLAlib.sub_rsvd`).
-The cited Lemma 5.2 gives the comparison for unitarily invariant norms by a block computation;
+$$\mathbf{H}/\mathbf{\Omega} \preceq (\mathbf{I} - \mathbf{P}_{\mathbf{\Omega}})\mathbf{H}
+(\mathbf{I} - \mathbf{P}_{\mathbf{\Omega}})\,.$$
+
+Note: The cited Lemma 5.2 gives the comparison for unitarily invariant norms by a block computation;
 here it is expressed basis-free as
 $$\mathbf{H}/\mathbf{\Omega} \preceq (\mathbf{I} - \mathbf{P}_{\mathbf{\Omega}})\mathbf{H}
 (\mathbf{I} - \mathbf{P}_{\mathbf{\Omega}})\,.$$

@@ -13,5 +13,6 @@ $(\eta_0, \mu, \varepsilon)$, $\mathbf{Q}'$ has $b$ columns and $\mathbf{Q}$ is 
 $\sqrt{\|\mathbf{D}(\mathbf{Q})\|_{\mathsf{F}}^2 + 3b\mu^2} \le \eta_0$, then
 $$\|\mathbf{D}([\mathbf{Q}, \mathbf{Q}'])\|_{\mathsf{F}}^2 \le
 \|\mathbf{D}(\mathbf{Q})\|_{\mathsf{F}}^2 + 3b\mu^2\,.$$
-No printed source.
+
+Note: No printed source.
 :::

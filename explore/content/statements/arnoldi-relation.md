@@ -9,5 +9,5 @@ For the library's [canonical Krylov bases](/explore/statements/1ebd9712-579d-596
 
 $$\mathbf{A}\mathbf{Q}_k=\mathbf{Q}_{k+1}(\mathbf{Q}_{k+1}^{\mathsf{H}}\mathbf{A}\mathbf{Q}_k).$$
 
-Thus applying the full operator to the current basis is represented in the next Krylov space by a small coefficient matrix.
+Note: Applying the full operator to the current basis is represented in the next Krylov space by a small coefficient matrix.
 :::

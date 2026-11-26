@@ -12,5 +12,6 @@ $k_\star(\kappa, \varepsilon, \delta) \le j
 $$\bigl\lvert\|\mathbf{b} - \mathbf{A}\mathbf{x}_j\| -
 \|\mathbf{b} - \mathbf{A}\mathbf{x}_j - \mathbf{r}_j\|\bigr\rvert \le
 8\delta\varepsilon\|\mathbf{b}\| .$$
-No printed source.
+
+Note: No printed source.
 :::

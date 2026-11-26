@@ -15,7 +15,9 @@ $$\mathbb{P}\bigl[\lvert \operatorname{tr}\mathbf{B} -
 \frac{m\tau^2}{c^2\|\mathbf{B}\|_{\mathsf{F}}^2}, \frac{m\tau}{c\|\mathbf{B}\|_2}\Bigr)\Bigr)\,;$$
 the constant is `hansonWrightConstant`. No symmetry of $\mathbf{B}$ is needed. Junk cases: with no
 columns ($m = 0$) the estimate is $0$ and the bound is $2$; a zero denominator makes its fraction
-$0$, and the bound is again $2$. The proof is Hanson–Wright
+$0$, and the bound is again $2$.
+
+Note: The proof is Hanson–Wright
 (`NLAlib.measureReal_abs_quadForm_sub_integral_ge_le`) for
 $m \cdot \mathsf{girardHutchinson}(\mathbf{B}, \mathbf{\Omega}) =
 \operatorname{vec}(\mathbf{\Omega})^{\mathsf{T}}(\mathbf{I}_m \otimes \mathbf{B})

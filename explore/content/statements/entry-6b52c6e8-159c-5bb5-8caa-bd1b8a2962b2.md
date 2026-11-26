@@ -8,7 +8,7 @@ For $\varepsilon \ge 0$,
 $\mathbf{S} = \lvert k \rvert^{-1/2} \, \mathbf{X}$ is an oblivious subspace embedding for
 dimension $d$ with constants $1 \mp \varepsilon$ and failure probability
 $$2 \cdot 21^d e^{-\lvert k \rvert (4\varepsilon^2/25 - 32\varepsilon^3/375)} \,:$$
-JL plus a net of
-radius $1/10$ at $4\varepsilon/5$ (`NLAlib.HasJLProperty.isObliviousSubspaceEmbedding`).
-The cited theorem instead gives $O(\varepsilon)$ with unspecified constants.
+
+
+Note: The proof combines JL with a radius-$1/10$ net at $4\varepsilon/5$ (`NLAlib.HasJLProperty.isObliviousSubspaceEmbedding`). The cited theorem instead gives $O(\varepsilon)$ with unspecified constants.
 :::

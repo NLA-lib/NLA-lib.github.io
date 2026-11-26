@@ -10,7 +10,9 @@ $$\mathbb{E}\|(\mathbf{W}\mathbf{Q})^{+}\|_{\mathsf{F}}^2 =
 \mathbb{E}\operatorname{tr}\bigl((\mathbf{W}\mathbf{Q}\mathbf{Q}^{\mathsf{H}}
 \mathbf{W}^{\mathsf{H}})^{-1}\bigr) = p\Bigl(1 + \frac{n-k}{k-p-1}\Bigr).$$
 $\mathbf{W}\mathbf{Q}\mathbf{Q}^{\mathsf{H}}\mathbf{W}^{\mathsf{H}}$ is a Beta matrix; its law is
-not used. At $n = k$ the value is $p$ ($\mathbf{W}\mathbf{Q}$ has orthonormal rows). The proof
+not used. At $n = k$ the value is $p$ ($\mathbf{W}\mathbf{Q}$ has orthonormal rows).
+
+Note: The proof
 writes $\mathbf{W}\mathbf{Q}$ as $\operatorname{polar}(\mathbf{G})\mathbf{V}$
 (`NLAlib.hasLaw_const_mul_of_hasLaw_haarFrame_of_hasOrthonormalCols`) and the trace as
 $p + \|\mathbf{K}^{+}\mathbf{L}\|_{\mathsf{F}}^2$ for the independent Gaussian blocks

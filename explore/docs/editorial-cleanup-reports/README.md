@@ -38,3 +38,11 @@ The comparison baseline is site commit `a1d2898` with library revision
 `e207eefa3d0c91354b42affc0bfcd982a3b05807` to support concurrently merged BCW pages.
 An earlier checkpoint was merged through PR #24; newer proposals remain on the
 cleanup review branch. The inventory marks current source versions observed on main.
+
+## Standalone statements follow-up
+
+The subsequent [context and commentary pass](standalone-context-review.md) responds
+to gaps found on the live CG page. It screens the same 778 UUIDs, edits 204 source
+entries and separates commentary from mathematical boxes. Its
+[final inventory](standalone-inventory.csv) records current proposal hashes and
+remaining context issues separately from this earlier pass.

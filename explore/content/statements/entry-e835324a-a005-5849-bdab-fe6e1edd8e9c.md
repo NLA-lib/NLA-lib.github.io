@@ -15,7 +15,8 @@ $$\mathbb{P}\Bigl[\|\mathbf{A} - \mathsf{rsvd}(\mathbf{A}, \mathbf{X})\|_{\maths
 s\,\sigma_k(\mathbf{A})\bigr)^2\Bigr]
 \le e^{-s^2/2} + \frac{2\sqrt{k}\,(d/(2t))^{d/2}}{\Gamma(d/2 + 1)}\,,$$
 the second failure term being `gaussianPinvFrobTail k d t`.
-The cited theorem is stated at $p = 2$, with the noise term
+
+Note: The cited theorem is stated at $p = 2$, with the noise term
 $(utk/d)\|\mathbf{E}\|_{\mathsf{F}}^2$ and failure probability
 $e^{-(u-2)/4} + \sqrt{\pi k}\,(t/e)^{-d/2}$; these follow from this bound at $s = \sqrt{u} - 1$.
 :::

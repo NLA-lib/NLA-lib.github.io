@@ -12,6 +12,7 @@ sets (each $x$ has a neighbourhood $U$ and a compact $K$ with $S_{x'} \subseteq 
 $x' \in U$). Then there is a Borel measurable $f : X \to Y$ with $(x, f(x)) \in S$ for every $x$
 (the lexicographically least point of each section, in the coordinates of a basis, measurable
 by `IsClosed.measurable_of_forall_toLex_equivFun_le`). Upstream candidate.
-The cited comparison is for weakly measurable closed-valued correspondences into a Polish space;
+
+Note: The cited comparison is for weakly measurable closed-valued correspondences into a Polish space;
 here the condition is a closed set with locally compact sections in a finite-dimensional space.
 :::

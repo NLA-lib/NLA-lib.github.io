@@ -15,7 +15,8 @@ $$640\, n^{3/2}\,(8 + \mu(n))\,(N_0 + 1)\,u \le \frac{a}{b}\,\varepsilon$$
 and the step limit is at least $N_0$, then
 $$\|\operatorname{sign}(\mathbf{A}) - \mathsf{newtonSchulzSign}(\mathbf{A}, \varepsilon, b)\|_2 \le
 \varepsilon \,,$$
-$\mathsf{newtonSchulzSign}$ the algorithm `NLAlib.newtonSchulzSign`. The cited Theorem 2.6 assumes
+
+Note: $\mathsf{newtonSchulzSign}$ the algorithm `NLAlib.newtonSchulzSign`. The cited Theorem 2.6 assumes
 $u \le (a/b)\varepsilon/(4\max(N n\mu_g(n, 1.1), n^2))$, $N = N(a/b, \varepsilon/(8n))$ and
 the contour bound of Lemma 2.2; here the perturbation bound is dimension-free and the factor
 $n^{3/2}$ comes from the Hermitian rounding and the stopping test.

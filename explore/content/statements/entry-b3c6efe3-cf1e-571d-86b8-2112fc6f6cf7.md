@@ -12,7 +12,8 @@ $$\lvert\bar{\mathbf{v}}_1^{\mathsf{T}}f(\mathbf{H})\bar{\mathbf{v}}_1 -
 so the spectral measure of $(\mathbf{H}, \bar{\mathbf{v}}_1)$ and that of the backward model
 $(\tilde{\mathbf{H}}, \tilde{\mathbf{v}})$, on which exact Lanczos computes $\mathbf{T}_k$, are
 within that distance in $W_1$.
-No printed source; the maintainer's draft, `rem:wasserstein`, bounds the difference by
+
+Note: No printed source; the maintainer's draft, `rem:wasserstein`, bounds the difference by
 $\sqrt{2k}\|\mathbf{\Delta}\|$ (through the rank of $\mathbf{\Delta}$); here directly by
 $\|\mathbf{\Delta}\|_{\mathsf{F}}$.
 :::

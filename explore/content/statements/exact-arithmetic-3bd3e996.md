@@ -10,7 +10,5 @@ subtraction, multiplication, division by a nonzero number, negation, and the squ
 root of a nonnegative number (`Ops.ExactModel`). In an exact operation model, dot
 products, vector updates, and matrix–vector products are exact as well.
 
-A correspondence theorem on an implementation page then identifies the stored output
-with the mathematical method. For CG, the recurrence agrees with mathematical CG, so
-classical convergence and finite-termination results apply under their matrix assumptions.
+Note: A correspondence theorem identifies a stored program's output with the mathematical method. For CG, the recurrence agrees with mathematical CG, so classical convergence and finite-termination results apply under their matrix assumptions.
 :::

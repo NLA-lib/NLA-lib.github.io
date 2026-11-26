@@ -51,6 +51,14 @@ def notes_html(notes, render):
             render(re.sub(r'\ANote:\s*', '', notes)) + '</div></details>')
 
 
+def commentary_html(notes, render):
+    """Editorial commentary stays outside the mathematical statement's box."""
+    if not notes:
+        return ''
+    return ('<section class="statement-commentary" aria-label="Commentary">' +
+            render(re.sub(r'\ANote:\s*', '', notes)) + '</section>')
+
+
 def badge(label, tip='', kind=''):
     return ('<span class="explorer-badge' + (' explorer-badge-' + kind if kind else '') + '"' +
             (' title="' + html.escape(tip, quote=True) + '"' if tip else '') + '>' + html.escape(label) + '</span>')

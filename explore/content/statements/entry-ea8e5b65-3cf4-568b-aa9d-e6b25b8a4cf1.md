@@ -18,5 +18,6 @@ $$\mathbb{P}_{s \sim \rho}\bigl[\|\mathbf{A} - \mathbf{W}\mathbf{M}\|_{\mathsf{F
 then
 $$q > \frac{k}{C\varepsilon} \,.$$
 Here $C = 6400$, $\varepsilon_0 = 1/6500$ and $C_1 = 14000$.
-No printed source.
+
+Note: No printed source.
 :::

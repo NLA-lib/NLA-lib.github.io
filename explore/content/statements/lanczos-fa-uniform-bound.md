@@ -9,5 +9,7 @@ Let $\mathbf{A}$ be Hermitian with spectrum in $[a,b]$, and let $f$ be continuou
 
 $$\|f(\mathbf{A})\mathbf{b}-\mathsf{lanczosfa}(\mathbf{A},f,\mathbf{b},q+1)\|_2\le2E_q(f;[a,b])\|\mathbf{b}\|_2,$$
 
-where $E_q$ is the best uniform approximation error among polynomials of degree at most $q$. A good low-degree approximation to $f$ therefore gives an accurate matrix-function action.
+where $E_q$ is the best uniform approximation error among polynomials of degree at most $q$.
+
+Note: A good low-degree approximation to $f$ therefore gives an accurate matrix-function action.
 :::
