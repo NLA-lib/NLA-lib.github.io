@@ -46,7 +46,8 @@
 .explore-pages .page-tools-menu button:hover {background:#e9e9e9;}
 .page-reactions {margin:0 0 1.7rem;}
 .editor-preview-status {font-size:.8rem;color:var(--faint);margin-top:.9rem;}
-.site-footer .editor-footer-link {border:0;background:none;padding:0;color:inherit;text-decoration:underline;font:inherit;}
+.site-footer .editor-footer-link {border:0;background:none;padding:0;color:inherit;text-decoration:none;font:inherit;}
+.site-footer .editor-footer-link:hover,.site-footer .editor-footer-link:focus-visible{background:#e9e9e9}
 .editor-discussion {margin-top:1.5rem;padding-top:1.1rem;border-top:1px solid var(--rule);}
 @media(max-width:800px) {.editor-panes.editor-split{grid-template-columns:minmax(0,1fr);}}
 @media(max-width:600px) {.editor-dialog{padding:1rem;}.editor-dialog-heading{align-items:start;}}

@@ -149,5 +149,7 @@ body .katex { font-size: 1.13em; }
     }
 }
 
-/* About and the wordmark use navigation styling rather than prose-link underlines. */
-.site-footer a[href="/about/"],.site-footer a[href="/about/"]:hover,h1>a[href="/"],h1>a[href="/"]:hover{text-decoration:none}
+/* Footer navigation and the wordmark use a consistent underline-free style. */
+body .site-footer a,body .site-footer a:hover,h1>a[href="/"],h1>a[href="/"]:hover{text-decoration:none}
+body .site-footer a{border-radius:var(--corner-radius,5px)}
+body .site-footer a:hover{background:#e9e9e9}
