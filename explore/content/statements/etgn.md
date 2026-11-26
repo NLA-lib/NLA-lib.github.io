@@ -5,7 +5,10 @@ uid: d059f2c5-9a30-5050-9e0c-bfddc9d221d7
 ---
 
 ::: theorem result:etgn name="Gaussian relative-error guarantee"
-For a real input $\mathbf{A}$, independent standard Gaussian sketches of widths $\ell,p$, and $0<\varepsilon\le1$, suppose
+Let $\mathbf{A}\in\mathbb{R}^{m\times n}$ be the input, let $k$ be a target rank,
+and let $\boldsymbol{\Omega}\in\mathbb{R}^{n\times\ell}$ and
+$\boldsymbol{\Psi}\in\mathbb{R}^{m\times p}$ be independent standard Gaussian sketches.
+For $0<\varepsilon\le1$, suppose
 
 $$\ell\ge\frac{1600k}{\varepsilon^2},\qquad p\ge k+1+\frac{(2+\varepsilon)k}{\varepsilon}.$$
 

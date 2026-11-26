@@ -10,6 +10,7 @@ $\lambda$ of $\mathbf{H}$ satisfies <!-- value lanczosBackwardFactor k -->
 $$\lvert\theta - \lambda\rvert \le \beta_k\lvert y_{k-1}\rvert +
 400k^3\varepsilon\|\mathbf{H}\|_2 \,.$$
 At a terminal last step ($\beta_k = 0$) this holds for every Ritz value.
-No printed source; the maintainer's draft, `thm:stabilized`, states
+
+Note: No printed source; the maintainer's draft, `thm:stabilized`, states
 $\lesssim_k \beta_k\lvert\mathbf{e}_k^{\mathsf{T}}\mathbf{y}\rvert + \varepsilon\|\mathbf{A}\|_2$; Paige’s theorem is the cited comparison.
 :::

@@ -9,5 +9,5 @@ For $\mathbf{A}\in\mathbb C^{m\times n}$,
 
 $$\|\mathbf{A}\|_2=\sup_{\|\mathbf{x}\|_2=1}\|\mathbf{A}\mathbf{x}\|_2,\qquad\|\mathbf{A}\|_{\mathrm F}=\left(\sum_{i,j}|\mathbf{A}_{ij}|^2\right)^{1/2},\qquad\|\mathbf{A}\|_*=\sum_j\sigma_j(\mathbf{A}).$$
 
-For $1\le p<\infty$, the Schatten $p$-norm is $(\sum_j\sigma_j(\mathbf{A})^p)^{1/p}$, where $\sigma_j(\mathbf{A})$ are the [singular values](/explore/statements/581c9098-24f3-55b6-bd36-a47af48b21ff/). These norms provide different comparisons with a best low-rank approximation.
+For $1\le p<\infty$, the Schatten $p$-norm is $(\sum_j\sigma_j(\mathbf{A})^p)^{1/p}$, where $\sigma_j(\mathbf{A})$ are the [singular values](/explore/statements/581c9098-24f3-55b6-bd36-a47af48b21ff/).
 :::

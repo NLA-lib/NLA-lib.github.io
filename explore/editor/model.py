@@ -16,6 +16,7 @@ from content_pages import Explorer, Page, STATEMENT, markdown, slug, load_pages
 from bibliography import references_panel
 from editor.identities import IdentityStore, PERSON
 from notation import diagnostics as notation_diagnostics, policy as notation_policy
+from rendering import split_notes
 
 REACTIONS = [('👍', 'Helpful'), ('❤️', 'Love'), ('🎉', 'Celebrate'), ('👀', 'Following'),
              ('🤔', 'Thinking'), ('💡', 'Idea'), ('🙏', 'Thanks'), ('✅', 'Checked'),
@@ -246,14 +247,14 @@ class Catalog:
         declaration = self.explorer.records['declarations'].get(evidence.get('declaration'))
         text = obj['body_markdown']
         if evidence['type'] == 'library-result':
-            from rendering import split_notes
             text, _ = split_notes(text)
             text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
             text = re.sub(r'^\*\*[^*]+\*\*\s*[,;:.]?\s*', '', text).strip() or text
         kind = 'Definition' if obj['statement_kind'] == 'definition' else 'Statement' if evidence.get('admission_reported') else 'Theorem' if declaration else obj['statement_kind'].capitalize()
         citations = list((declaration or {}).get('references', [])) + obj.get('references', self.statement_references.get(obj['id'], []))
+        text, commentary = split_notes(text)
         return self.explorer.detail_layout(obj['title'], markdown(text), kind, obj['id'], declaration,
-            citations, obj['proofs'], 'Local revision · mathematical review needs reassessment' if revised else '')
+            citations, obj['proofs'], 'Local revision · mathematical review needs reassessment' if revised else '', commentary=commentary)
 
     def references_html(self, obj):
         decl = self.explorer.records['declarations'].get(obj['evidence'].get('declaration'), {})
@@ -263,13 +264,13 @@ class Catalog:
         evidence = obj['evidence']
         text = obj['body_markdown']
         if evidence['type'] == 'library-result':
-            from rendering import split_notes
             text, _ = split_notes(text)
             text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
             text = re.sub(r'^\*\*[^*]+\*\*\s*[,;:.]?\s*', '', text).strip() or text
         label = 'Definition' if obj['statement_kind'] == 'definition' else 'Statement' if evidence.get('admission_reported') else 'Theorem' if evidence.get('declaration') else obj['statement_kind'].capitalize()
         options = dict(token.split('=', 1) for token in shlex.split(evidence.get('options', '')))
         anchor = options.get('id') or ((evidence.get('block_kind', 'theorem') + '-' + slug(evidence.get('source_key') or evidence.get('result'))) if evidence.get('source_key') or evidence.get('result') else None)
+        text, _ = split_notes(text)
         body = markdown(text)
         card = self.explorer.overview_card(obj['title'], body, obj['id'], label, anchor)
         return card + ('<p class="editor-status">Local revision · review needs reassessment</p>' if revised else '')

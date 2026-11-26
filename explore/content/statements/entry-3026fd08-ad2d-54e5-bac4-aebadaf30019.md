@@ -14,6 +14,7 @@ $$\operatorname{Var}[\mathsf{hutchpp}(\mathbf{A}, \mathbf{S}, \mathbf{G})] \le
 $\|\mathbf{A}\|_* = \operatorname{tr}\mathbf{A}$. With $r = (m - 2)/8$,
 $\lvert s \rvert = (m + 2)/4$ and $\ell = (m - 2)/2$ it is
 $16(\operatorname{tr}\mathbf{A})^2/(m - 2)^2$ for $m = 2\lvert s \rvert + \ell$ products.
-The cited comparison uses sign residual probes (see
+
+Note: The cited comparison uses sign residual probes (see
 `NLAlib.variance_hutchpp_of_hasLaw_rademacherMatrix`).
 :::

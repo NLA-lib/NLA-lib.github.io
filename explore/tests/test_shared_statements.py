@@ -35,6 +35,28 @@ class SharedStatementTests(unittest.TestCase):
         self.assertEqual(registry['statements'][0]['uid'], self.uid)
         self.assertEqual(set(registry['statements'][0]['used_by']), {'/explore/theory/one/', '/explore/theory/two/'})
 
+    def test_commentary_stays_outside_claim_and_is_preserved_by_editor(self):
+        self.write_statement('A shared $n\\le n$ statement.\n\nNote: A useful interpretation with $n$ and a [link](/explore/).')
+        Explorer(self.fixture.site, self.content).build()
+        detail = (self.fixture.site / 'statements' / self.uid / 'index.html').read_text()
+        claim_end = detail.index('</section>', detail.index('class="theorem-statement'))
+        self.assertNotIn('A useful interpretation', detail[:claim_end])
+        self.assertGreater(detail.index('class="statement-commentary"'), claim_end)
+        self.assertEqual(detail.count('A useful interpretation'), 1)
+        self.assertIn('href="/explore/"', detail[claim_end:])
+        library = (self.fixture.site / 'library/results/bound/index.html').read_text()
+        self.assertGreater(library.index('class="statement-commentary"'), library.index('</article>'))
+        for name in ['one', 'two']:
+            overview = (self.fixture.site / 'theory' / name / 'index.html').read_text()
+            self.assertIn('A shared', overview)
+            self.assertNotIn('A useful interpretation', overview)
+        catalog = Catalog(self.fixture.site, self.content)
+        obj = catalog.objects[self.uid]
+        self.assertIn('Note: A useful interpretation', obj['body_markdown'])
+        preview = catalog.render_statement(obj)
+        self.assertGreater(preview.index('class="statement-commentary"'), preview.index('</section>'))
+        self.assertNotIn('A useful interpretation', catalog.overview(obj))
+
     def test_source_and_local_edits_propagate_across_pages_with_one_history(self):
         Explorer(self.fixture.site, self.content).build()
         before = json.loads((self.fixture.api / 'editorial-pages.json').read_text())

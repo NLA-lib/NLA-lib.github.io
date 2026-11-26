@@ -27,7 +27,7 @@ from statement_sources import STATEMENT, load_statements, expand_imports
 from cg_presentation import card, disclosure, mathematics, prose
 from notation import math_spans
 from models import FACETS as MODEL_FACETS, FACTS as MODEL_FACTS, PROGRAMS, model_title, tags as model_tags
-from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, inline_title, notes_html, record_component,
+from rendering import (INDEX_SIZES_LABEL, INDEX_SIZES_TIP, badge, commentary_html, inline_title, notes_html, record_component,
                        prose_html, split_notes)
 
 BASE = '/explore/'
@@ -526,7 +526,8 @@ class Explorer:
             title = option.split('=', 1)[1]
         if not title:
             raise ValueError('An authored definition requires a name')
-        return card(title, markdown(body) + (disclosure(self.badges(declaration, headline=False) + self.evidence(declaration)) if declaration else ''),
+        statement, _ = split_notes(body)
+        return card(title, markdown(statement) + (disclosure(self.badges(declaration, headline=False) + self.evidence(declaration)) if declaration else ''),
                     'result' if kind == 'theorem' else 'model', identifier)
 
     @staticmethod
@@ -574,9 +575,10 @@ class Explorer:
             output += '</div></details>'
         return output
 
-    def detail_layout(self, title, body, kind, uid, declaration=None, citations=(), proofs=(), notice=''):
+    def detail_layout(self, title, body, kind, uid, declaration=None, citations=(), proofs=(), notice='', commentary=''):
         content = '<section class="theorem-statement explorer-card" data-editor-object="' + uid + '"><p class="theorem-kind">' + html.escape(kind) + '.</p>'
         content += body + '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div></section>'
+        content += commentary_html(commentary, markdown)
         if declaration:
             content += '<details class="theorem-formal" id="formalization"><summary><h2>Lean statement</h2></summary><div class="theorem-formal-body">'
             if declaration.get('admission_reported'):
@@ -603,7 +605,8 @@ class Explorer:
         title = opts.get('name') or (self.records['results'][key]['title'] if source_kind == 'result' else key) or 'Definition'
         item = self.shared_blocks.get(match[0].strip())
         uid = item.uid if item else str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/inline/' + match[0].strip()))
-        return self.overview_card(title, markdown(body), uid, kind.capitalize(), opts.get('id') or (kind + '-' + slug(key) if key else None))
+        statement, _ = split_notes(body)
+        return self.overview_card(title, markdown(statement), uid, kind.capitalize(), opts.get('id') or (kind + '-' + slug(key) if key else None))
 
     def result_overview(self, key):
         shared = self.shared_uids.get(self.result_statement_ids[key])
@@ -632,7 +635,8 @@ class Explorer:
                            self.records['declarations'].get(match[3], {}))
             citations = list(declaration.get('references', [])) + own_references
             self.statement(match)
-            entries[uid] = {'title': title, 'body': self.detail_layout(title, markdown(match[5]), match[1].capitalize(), uid, declaration or None, citations, list(self.shared_uids[uid].proofs) if uid in self.shared_uids else [], 'Mathematical review and formalization link need reassessment' if uid in self.shared_uids and 'needs_reassessment' in {self.shared_uids[uid].review_status,self.shared_uids[uid].formalization_status} else ''), 'references': citations}
+            statement, commentary = split_notes(match[5])
+            entries[uid] = {'title': title, 'body': self.detail_layout(title, markdown(statement), match[1].capitalize(), uid, declaration or None, citations, list(self.shared_uids[uid].proofs) if uid in self.shared_uids else [], 'Mathematical review and formalization link need reassessment' if uid in self.shared_uids and 'needs_reassessment' in {self.shared_uids[uid].review_status,self.shared_uids[uid].formalization_status} else '', commentary=commentary), 'references': citations}
         for key, record in self.records['results'].items():
             uid = self.result_statement_ids[key]
             if uid in entries:
@@ -931,9 +935,13 @@ class Explorer:
                     # The headline first; a result with several declarations names the others as such.
                     declarations = [self.records['declarations'][name] for name in
                                     sorted(record['declarations'], key=lambda name: name != record['primary'])]
-                    cards = [card(d['id'].removeprefix('NLAlib.'), (markdown(STATEMENT.fullmatch(self.editorial_declarations[d['id']].block)[5]) if d['id'] in self.editorial_declarations else prose(d.get('summary', '') or d['kind'])) +
-                                  self.badges(d, key) + notes_html(d.get('docstring_notes'), prose) + disclosure(self.evidence(d)),
-                                  'result' if d['kind'] == 'theorem' else 'model') for d in declarations]
+                    cards = []
+                    for d in declarations:
+                        shared = self.editorial_declarations.get(d['id'])
+                        statement, commentary = split_notes(STATEMENT.fullmatch(shared.block)[5]) if shared else ('', '')
+                        cards.append(card(d['id'].removeprefix('NLAlib.'), (markdown(statement) if shared else prose(d.get('summary', '') or d['kind'])) +
+                                          self.badges(d, key) + notes_html(d.get('docstring_notes'), prose) + disclosure(self.evidence(d)),
+                                          'result' if d['kind'] == 'theorem' else 'model') + commentary_html(commentary, markdown))
                     if len(cards) > 1:
                         cards.insert(1, '<h3 class="explorer-other-forms">Other forms</h3>')
                     body = '<p class="eyebrow">Library · Result group</p>' + ''.join(cards)
@@ -948,7 +956,13 @@ class Explorer:
                             '<code>' + html.escape(name) + '</code>' for name in record['statement_changed']) + '.</p>'
                     statement, notes = split_notes(record['docstring'])
                     body += self.badges(record)
-                    docs = (markdown(STATEMENT.fullmatch(self.editorial_declarations[record['id']].block)[5]) if record['id'] in self.editorial_declarations else prose(statement)) + notes_html(notes, prose)
+                    shared = self.editorial_declarations.get(record['id'])
+                    if shared:
+                        statement, commentary = split_notes(STATEMENT.fullmatch(shared.block)[5])
+                        docs = markdown(statement) + commentary_html(commentary, markdown)
+                    else:
+                        docs = prose(statement)
+                    docs += notes_html(notes, prose)
                     if record['source']['url']:
                         docs = re.sub(r'href="([^\"]+\.(?:lean|md)(?:#[^\"]*)?)"', lambda m:
                             'href="' + html.escape(urljoin(record['source']['url'], html.unescape(m[1])), quote=True) + '"', docs)

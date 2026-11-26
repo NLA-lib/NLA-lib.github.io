@@ -17,5 +17,7 @@ $$\Bigl(1 + \frac{m - \ell}{m - r}\cdot\frac{r}{\ell - r - 1}\Bigr)
 in extended reals (the expectation may be infinite). With
 `NLAlib.integral_frobNorm_sub_mul_sketchAndSolve_sq_of_hasLaw_haarFrame` (equality for a Haar
 sketch): the random orthonormal sketch is minimax optimal.
-The cited result takes a supremum over problems of rank $r$.
+
+
+Note: The cited result takes a supremum over problems of rank $r$.
 :::

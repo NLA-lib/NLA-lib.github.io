@@ -12,7 +12,8 @@ $$\|\mathbf{A}\|_{\mathsf{F}}^2 - \frac{\|\mathbf{A}\|_*^2}{\lvert n \rvert}\,.$
 It is attained by an isometric polar extension scaled by the average singular value. This
 includes negative competing scales and rank-deficient matrices. For empty columns the minimum
 is zero, with division by zero interpreted as zero. No uniqueness is asserted.
-The cited result is for the square case; this statement generalizes it to rectangular matrices over
+
+Note: The cited result is for the square case; this statement generalizes it to rectangular matrices over
 any `RCLike` field and arbitrary finite index types, including empty columns.
 Generalizes `NLAlib.isLeast_frobSq_sub_scaled_orthogonal` and
 `NLAlib.isLeast_frobSq_sub_scaled_orthogonal_of_isEmpty` from the original NLAlib formal library,

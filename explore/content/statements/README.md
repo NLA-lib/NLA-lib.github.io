@@ -66,6 +66,23 @@ Changes to the readable statement flag mathematical review and its formalization
 link for reassessment. Discussion identity and accepted revision history survive
 the transition from extracted prose to the shared file.
 
+## Commentary outside the statement
+
+Keep hypotheses, notation definitions and conclusions in the mathematical claim.
+Place useful explanation after a blank paragraph beginning `Note:` at the end of
+the same `:::` block. It appears below the statement box on its individual page;
+list cards show only the claim. The note remains in the same Markdown source,
+editor field, revision history and stable identity. A note must not introduce an
+assumption required by the claim. Irrelevant interface instructions should be removed.
+
+```markdown
+::: theorem result:cg-chebyshev-bound name="Chebyshev convergence"
+The complete mathematical claim and its notation.
+
+Note: Optional interpretation of the bound.
+:::
+```
+
 ## Definition links in prose
 
 Use ordinary Markdown links to a definition's permanent statement page, for example:

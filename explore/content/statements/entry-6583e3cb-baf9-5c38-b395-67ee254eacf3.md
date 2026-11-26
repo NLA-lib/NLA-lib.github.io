@@ -15,6 +15,7 @@ $$\mathbb{E}\|\mathbf{x}_\star - \mathsf{kaczmarzIterate}(\mathbf{A}, \iota, \ma
 The constants come before every dimension. Proved from
 `NLAlib.integral_norm_sub_kaczmarzIterate_sq_le_mul_of_hasLaw_iidSequence_of_mul_log_le`
 with $C = 1$ and
-$\varepsilon_0 = 1$. The cited bound counts $2\kappa(\mathbf{A})^2\log(1/\varepsilon)$ steps for the unsquared error.
+
+Note: $\varepsilon_0 = 1$. The cited bound counts $2\kappa(\mathbf{A})^2\log(1/\varepsilon)$ steps for the unsquared error.
 Asymptotic: NLAlib.integral_norm_sub_kaczmarzIterate_sq_le_mul_of_hasLaw_iidSequence_of_mul_log_le
 :::

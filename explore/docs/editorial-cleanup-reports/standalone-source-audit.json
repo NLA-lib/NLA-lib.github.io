@@ -1,0 +1,1638 @@
+{
+  "baseline_site": "bb7545d",
+  "library_revision": "e207eefa3d0c91354b42affc0bfcd982a3b05807",
+  "rows": [
+    {
+      "path": "explore/content/statements/arnoldi-relation.md",
+      "uuid": "dfe0f5c1-7607-5831-98c2-83dedb7248da",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-band-structure.md",
+      "uuid": "30ae638f-d7d8-5b6c-91f0-65d57ae2c0de",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-existence.md",
+      "uuid": "38da53a6-399c-573c-8a5f-af35c80fc1e3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-factored-output.md",
+      "uuid": "4acf79f1-542a-5cb1-ad06-82ac78de683b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-orthogonality.md",
+      "uuid": "744bc84b-2659-5cf7-9107-9cf1b628c872",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/cg-chebyshev-bound.md",
+      "uuid": "845426ae-8454-5066-81fd-41b93a3e12c0",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/cg-finite-termination.md",
+      "uuid": "7cff0d5e-11c8-51c3-8620-0c3b8dc915fe",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/cg-polynomial-bound.md",
+      "uuid": "aa1d5b60-6ec3-58e0-9168-e25e60a9d5a7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/cg-scalar-rounded-operation-count-energy-error.md",
+      "uuid": "ea514d30-5b7f-5590-a122-8ec993658af3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/cholesky-existence.md",
+      "uuid": "73049bd9-26db-573c-bb15-c64708b469fb",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/eckart-young-frobenius.md",
+      "uuid": "35e54249-105c-5da3-980b-30e3d93943b4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-00a27249-178a-5ab2-874f-d1911f8ddac4.md",
+      "uuid": "00a27249-178a-5ab2-874f-d1911f8ddac4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-00e83819-1eb1-5eae-84d4-ff117f645f97.md",
+      "uuid": "00e83819-1eb1-5eae-84d4-ff117f645f97",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-02c7b0d8-8c6d-5565-b28e-2e05c8fde113.md",
+      "uuid": "02c7b0d8-8c6d-5565-b28e-2e05c8fde113",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-037164dd-5f07-50d1-a2bf-6cf09b0477d4.md",
+      "uuid": "037164dd-5f07-50d1-a2bf-6cf09b0477d4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-051dc68b-f768-524f-8a7b-7ca18e061a4c.md",
+      "uuid": "051dc68b-f768-524f-8a7b-7ca18e061a4c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-062f6b8f-1dcb-5823-bc98-792518d307e2.md",
+      "uuid": "062f6b8f-1dcb-5823-bc98-792518d307e2",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-08026661-5075-5bf3-bea8-0238b9774504.md",
+      "uuid": "08026661-5075-5bf3-bea8-0238b9774504",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-085eccfd-8077-527c-a50c-b6154daee5b4.md",
+      "uuid": "085eccfd-8077-527c-a50c-b6154daee5b4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-095830f7-f116-5956-8031-a82709c77dd3.md",
+      "uuid": "095830f7-f116-5956-8031-a82709c77dd3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-09717760-6c8d-50ba-89c2-82cb93b5abe2.md",
+      "uuid": "09717760-6c8d-50ba-89c2-82cb93b5abe2",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-09c415ab-71d6-54a8-9368-71c4bb24bcb1.md",
+      "uuid": "09c415ab-71d6-54a8-9368-71c4bb24bcb1",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-0a1bbc90-3e21-50db-be7f-d99cd0acdeeb.md",
+      "uuid": "0a1bbc90-3e21-50db-be7f-d99cd0acdeeb",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-0ad594f9-c3a8-54c2-a059-a31abe43cc24.md",
+      "uuid": "0ad594f9-c3a8-54c2-a059-a31abe43cc24",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-0b60d407-d697-537c-8075-6a6412fde68c.md",
+      "uuid": "0b60d407-d697-537c-8075-6a6412fde68c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-0d98d4ea-6bee-517a-93eb-d9f1a94546b4.md",
+      "uuid": "0d98d4ea-6bee-517a-93eb-d9f1a94546b4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-11382929-b4f1-5754-8fd8-7891164dbb6f.md",
+      "uuid": "11382929-b4f1-5754-8fd8-7891164dbb6f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-116e28c1-c1b5-5ea1-a935-df2f03e52ae8.md",
+      "uuid": "116e28c1-c1b5-5ea1-a935-df2f03e52ae8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-12384cb4-62ed-50eb-8650-268d4f7ea1cf.md",
+      "uuid": "12384cb4-62ed-50eb-8650-268d4f7ea1cf",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-13b1b57c-4f33-50d6-a920-d8dcb168b35e.md",
+      "uuid": "13b1b57c-4f33-50d6-a920-d8dcb168b35e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-13fb7ffa-338d-5e3a-80c4-2cdc2d47595c.md",
+      "uuid": "13fb7ffa-338d-5e3a-80c4-2cdc2d47595c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-148514ea-a72c-563e-8654-7835e74e5659.md",
+      "uuid": "148514ea-a72c-563e-8654-7835e74e5659",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-15d7bec3-ee64-5f60-acbb-238ec72c6ae6.md",
+      "uuid": "15d7bec3-ee64-5f60-acbb-238ec72c6ae6",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-181ba40b-5240-570a-a227-6f2f6158512b.md",
+      "uuid": "181ba40b-5240-570a-a227-6f2f6158512b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-1a144897-2587-53a0-b390-98d9125b4ecd.md",
+      "uuid": "1a144897-2587-53a0-b390-98d9125b4ecd",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-1a7129dc-8352-56d1-a697-c06c7e85e61e.md",
+      "uuid": "1a7129dc-8352-56d1-a697-c06c7e85e61e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-1f752449-b731-552c-ba44-764dd368105f.md",
+      "uuid": "1f752449-b731-552c-ba44-764dd368105f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-1fa42a52-effa-52f9-a1ed-2c7ce8a4be2c.md",
+      "uuid": "1fa42a52-effa-52f9-a1ed-2c7ce8a4be2c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-20132c0f-a804-533f-bdf3-26a2adc56611.md",
+      "uuid": "20132c0f-a804-533f-bdf3-26a2adc56611",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-20cfab05-8067-59d4-9c8e-2ed17cf5a349.md",
+      "uuid": "20cfab05-8067-59d4-9c8e-2ed17cf5a349",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-26f48c4e-a9d8-519b-aa6e-054041ae516a.md",
+      "uuid": "26f48c4e-a9d8-519b-aa6e-054041ae516a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-28a10657-127b-5015-8c28-1d4cb747d1d5.md",
+      "uuid": "28a10657-127b-5015-8c28-1d4cb747d1d5",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-2ac03293-50e9-5cc8-ade1-64f0afa9bd35.md",
+      "uuid": "2ac03293-50e9-5cc8-ade1-64f0afa9bd35",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-2eb2d541-d15c-56f8-acbe-e3ae22c51a23.md",
+      "uuid": "2eb2d541-d15c-56f8-acbe-e3ae22c51a23",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-2ff54907-142a-5aab-b1ed-7ef773490a4c.md",
+      "uuid": "2ff54907-142a-5aab-b1ed-7ef773490a4c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3026fd08-ad2d-54e5-bac4-aebadaf30019.md",
+      "uuid": "3026fd08-ad2d-54e5-bac4-aebadaf30019",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-317a0fa0-5efb-51b1-b3d3-69ca54884c34.md",
+      "uuid": "317a0fa0-5efb-51b1-b3d3-69ca54884c34",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-31990abb-844c-57f6-af5c-5d27986d72ef.md",
+      "uuid": "31990abb-844c-57f6-af5c-5d27986d72ef",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-329be497-eaac-5ded-8e53-229f108a0f5b.md",
+      "uuid": "329be497-eaac-5ded-8e53-229f108a0f5b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3685c564-f3b0-5c93-8761-4c18d3e94be0.md",
+      "uuid": "3685c564-f3b0-5c93-8761-4c18d3e94be0",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-38c71f67-f044-51f6-8726-81dc71f88857.md",
+      "uuid": "38c71f67-f044-51f6-8726-81dc71f88857",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-39557fa9-2841-5d3e-911e-23bdfea4778f.md",
+      "uuid": "39557fa9-2841-5d3e-911e-23bdfea4778f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3a2b9210-6d5f-5dcc-95fe-cfc1e049c6f8.md",
+      "uuid": "3a2b9210-6d5f-5dcc-95fe-cfc1e049c6f8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3c38c3c8-dd57-5421-8893-4e183e5a4239.md",
+      "uuid": "3c38c3c8-dd57-5421-8893-4e183e5a4239",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3cbe2323-ea8a-5f66-8e2c-cee16108a531.md",
+      "uuid": "3cbe2323-ea8a-5f66-8e2c-cee16108a531",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3dbb5854-147c-5bc3-9eb9-a5bdd5d08fcc.md",
+      "uuid": "3dbb5854-147c-5bc3-9eb9-a5bdd5d08fcc",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-3fc916e0-3d38-54c5-b50e-192c80629fd6.md",
+      "uuid": "3fc916e0-3d38-54c5-b50e-192c80629fd6",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-41e7588a-0b75-5486-9e74-ee831166343e.md",
+      "uuid": "41e7588a-0b75-5486-9e74-ee831166343e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-45402c52-00f1-590a-94ec-492e6929c68f.md",
+      "uuid": "45402c52-00f1-590a-94ec-492e6929c68f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-477dc6ce-d70b-504b-b35b-250de369d078.md",
+      "uuid": "477dc6ce-d70b-504b-b35b-250de369d078",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-484e0bc1-28b6-53c1-be7b-2d3fd0a1d244.md",
+      "uuid": "484e0bc1-28b6-53c1-be7b-2d3fd0a1d244",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-49b01aec-51cc-5078-a9a8-4449af26e9ac.md",
+      "uuid": "49b01aec-51cc-5078-a9a8-4449af26e9ac",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md",
+      "uuid": "4c463ffc-adfb-5a30-ba57-a9681f4d06a6",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-4c9e5f1e-138d-55fa-9617-56ac424c71a5.md",
+      "uuid": "4c9e5f1e-138d-55fa-9617-56ac424c71a5",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-4e147cee-35a0-58d0-9c56-ffaf46edccb4.md",
+      "uuid": "4e147cee-35a0-58d0-9c56-ffaf46edccb4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-50d6d028-f599-5ffd-a6cd-4146905f8428.md",
+      "uuid": "50d6d028-f599-5ffd-a6cd-4146905f8428",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-519c6f3e-edfb-5aec-94b7-79a6c4ae46fb.md",
+      "uuid": "519c6f3e-edfb-5aec-94b7-79a6c4ae46fb",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-570ff539-3455-5335-9839-a06991167562.md",
+      "uuid": "570ff539-3455-5335-9839-a06991167562",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-57a50ed5-8ec1-58c2-87c3-9e66b8fe18c0.md",
+      "uuid": "57a50ed5-8ec1-58c2-87c3-9e66b8fe18c0",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-57f68b2b-c251-53a5-b684-3d3be1c25dfc.md",
+      "uuid": "57f68b2b-c251-53a5-b684-3d3be1c25dfc",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-5a656cda-8ecb-532e-8685-0f5a7e8116ad.md",
+      "uuid": "5a656cda-8ecb-532e-8685-0f5a7e8116ad",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-5b38d0bc-dd09-5e4e-a8e9-20562ccfc537.md",
+      "uuid": "5b38d0bc-dd09-5e4e-a8e9-20562ccfc537",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-5b57cbc1-a689-59b4-850b-659c6a4278b4.md",
+      "uuid": "5b57cbc1-a689-59b4-850b-659c6a4278b4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-5b7d48c0-fcee-57b8-8b57-f2a9af6012b3.md",
+      "uuid": "5b7d48c0-fcee-57b8-8b57-f2a9af6012b3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-5dfdab82-4692-5afa-a72d-b63cbc49b225.md",
+      "uuid": "5dfdab82-4692-5afa-a72d-b63cbc49b225",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8.md",
+      "uuid": "5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-62279fc0-cdb5-5913-9371-98376f572a0c.md",
+      "uuid": "62279fc0-cdb5-5913-9371-98376f572a0c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-62747732-0492-51d7-8d9a-8add091ef4b9.md",
+      "uuid": "62747732-0492-51d7-8d9a-8add091ef4b9",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-63753782-dbfb-527e-8ed6-f1b4a589bcce.md",
+      "uuid": "63753782-dbfb-527e-8ed6-f1b4a589bcce",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-63bef14c-4de8-587d-95ff-5cf13f156f27.md",
+      "uuid": "63bef14c-4de8-587d-95ff-5cf13f156f27",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-63d96901-9766-5f9f-837a-5a3ad67d413a.md",
+      "uuid": "63d96901-9766-5f9f-837a-5a3ad67d413a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-6583e3cb-baf9-5c38-b395-67ee254eacf3.md",
+      "uuid": "6583e3cb-baf9-5c38-b395-67ee254eacf3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md",
+      "uuid": "6592fb57-590b-527a-a8b9-52262432f944",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md",
+      "uuid": "65abc507-e8cf-5e41-827a-352622e11905",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-65af7594-ed4f-5ae9-93e2-6c8ddf8141b7.md",
+      "uuid": "65af7594-ed4f-5ae9-93e2-6c8ddf8141b7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-669489a7-9aab-5484-83a4-7000f72d2e29.md",
+      "uuid": "669489a7-9aab-5484-83a4-7000f72d2e29",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-66c1ca82-2fb5-5ebf-89a7-88a6b39ff453.md",
+      "uuid": "66c1ca82-2fb5-5ebf-89a7-88a6b39ff453",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6767bb9a-026f-5710-bd11-a09a4dd7074d.md",
+      "uuid": "6767bb9a-026f-5710-bd11-a09a4dd7074d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6a70fef4-9145-5a08-a14f-7dd6e8a80c81.md",
+      "uuid": "6a70fef4-9145-5a08-a14f-7dd6e8a80c81",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2.md",
+      "uuid": "6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6cf4698e-0d4d-54e6-8eaf-f7b63d2b78d1.md",
+      "uuid": "6cf4698e-0d4d-54e6-8eaf-f7b63d2b78d1",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6d667d1c-ed95-5960-84f6-93735cee11ef.md",
+      "uuid": "6d667d1c-ed95-5960-84f6-93735cee11ef",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6f1e12f5-1e2c-5e1c-b2fb-4b994584196d.md",
+      "uuid": "6f1e12f5-1e2c-5e1c-b2fb-4b994584196d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-6fc72f38-63c1-55e5-b71b-f86b8940d26d.md",
+      "uuid": "6fc72f38-63c1-55e5-b71b-f86b8940d26d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-7030ba60-bc44-5c5c-8788-54f7bde65c0b.md",
+      "uuid": "7030ba60-bc44-5c5c-8788-54f7bde65c0b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-711f7aa0-b0e8-5381-8ba3-f9b112b49525.md",
+      "uuid": "711f7aa0-b0e8-5381-8ba3-f9b112b49525",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-723a8abd-3e38-5f88-a034-a1b0562dc16f.md",
+      "uuid": "723a8abd-3e38-5f88-a034-a1b0562dc16f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-74d83d09-9d5c-567e-9827-f1b5300a9238.md",
+      "uuid": "74d83d09-9d5c-567e-9827-f1b5300a9238",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-77d93dbf-24e9-531c-ae63-006a6e6e810a.md",
+      "uuid": "77d93dbf-24e9-531c-ae63-006a6e6e810a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-793618af-b438-5251-9e1a-acb242dd734f.md",
+      "uuid": "793618af-b438-5251-9e1a-acb242dd734f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-798669d2-4851-533a-a127-570ae738786f.md",
+      "uuid": "798669d2-4851-533a-a127-570ae738786f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-7cfdc4bf-e25c-56c8-871a-99f5727b75e4.md",
+      "uuid": "7cfdc4bf-e25c-56c8-871a-99f5727b75e4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-800aded9-c90a-585c-9f5c-6de118919f6b.md",
+      "uuid": "800aded9-c90a-585c-9f5c-6de118919f6b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-814c6c9b-f871-567f-984b-62c84bce270b.md",
+      "uuid": "814c6c9b-f871-567f-984b-62c84bce270b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-819cba98-32b4-5c5b-923a-ad88bfe9e2cd.md",
+      "uuid": "819cba98-32b4-5c5b-923a-ad88bfe9e2cd",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-8555e9e2-f3ef-594f-8343-fb21217f335e.md",
+      "uuid": "8555e9e2-f3ef-594f-8343-fb21217f335e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-86711b27-fe33-5eb8-9fd6-378c45d81bca.md",
+      "uuid": "86711b27-fe33-5eb8-9fd6-378c45d81bca",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-88e837fd-ea33-5f33-b16c-07239a5a4358.md",
+      "uuid": "88e837fd-ea33-5f33-b16c-07239a5a4358",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-8c7130fd-d108-510a-9d66-8efe5a09c82c.md",
+      "uuid": "8c7130fd-d108-510a-9d66-8efe5a09c82c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-8cd09fd9-dc0c-530f-b836-5f8b0467c5a5.md",
+      "uuid": "8cd09fd9-dc0c-530f-b836-5f8b0467c5a5",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-8cf8a008-8593-55e7-8779-7c9d17132d0a.md",
+      "uuid": "8cf8a008-8593-55e7-8779-7c9d17132d0a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-8dbe8fda-2215-54d7-bd9c-c7ef4e103b28.md",
+      "uuid": "8dbe8fda-2215-54d7-bd9c-c7ef4e103b28",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c.md",
+      "uuid": "95aeca8d-53ce-5f82-a5c7-f0049ca1475c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-95b619db-2c96-559f-8618-9dfeafd6e94c.md",
+      "uuid": "95b619db-2c96-559f-8618-9dfeafd6e94c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-95f178f2-030a-5479-b195-5c4660af3b80.md",
+      "uuid": "95f178f2-030a-5479-b195-5c4660af3b80",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-96972e35-cd53-5c0c-9c4e-4b3a95d6cfdc.md",
+      "uuid": "96972e35-cd53-5c0c-9c4e-4b3a95d6cfdc",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-96fbe0e8-126a-5c92-8e04-70263820b9ff.md",
+      "uuid": "96fbe0e8-126a-5c92-8e04-70263820b9ff",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-98eec1b5-59f3-5cee-818c-284866df505c.md",
+      "uuid": "98eec1b5-59f3-5cee-818c-284866df505c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-9a127b93-df2e-5efb-af2e-7b7d2ef0ed86.md",
+      "uuid": "9a127b93-df2e-5efb-af2e-7b7d2ef0ed86",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-9b740f3d-ca04-5277-8671-cdb00a961b61.md",
+      "uuid": "9b740f3d-ca04-5277-8671-cdb00a961b61",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-9f6262cd-4f38-5e52-9bbb-9d3f19f886b4.md",
+      "uuid": "9f6262cd-4f38-5e52-9bbb-9d3f19f886b4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-a3ab3fcc-f067-5b26-a3b9-ec218bdb1074.md",
+      "uuid": "a3ab3fcc-f067-5b26-a3b9-ec218bdb1074",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-a4d06846-2e96-5963-9c28-7e6fed02fb0b.md",
+      "uuid": "a4d06846-2e96-5963-9c28-7e6fed02fb0b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-a7ef2fb1-a9b2-5172-8850-fdcda423c175.md",
+      "uuid": "a7ef2fb1-a9b2-5172-8850-fdcda423c175",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-ace666af-d41a-54ea-b172-a637e0305747.md",
+      "uuid": "ace666af-d41a-54ea-b172-a637e0305747",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-ad185187-bc15-5b75-b77e-4eeca6bed53f.md",
+      "uuid": "ad185187-bc15-5b75-b77e-4eeca6bed53f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-aed71f7b-0fbc-53c8-a330-6096e92b82f8.md",
+      "uuid": "aed71f7b-0fbc-53c8-a330-6096e92b82f8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e.md",
+      "uuid": "af21c8a6-c63a-513c-b0d0-e68ca1221c5e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-afe0f1eb-e662-51a9-9535-5bacc015731b.md",
+      "uuid": "afe0f1eb-e662-51a9-9535-5bacc015731b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-b0ce97a6-15df-56de-9524-49165314ede3.md",
+      "uuid": "b0ce97a6-15df-56de-9524-49165314ede3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-b22242ec-234e-50f4-840d-32150ce269e3.md",
+      "uuid": "b22242ec-234e-50f4-840d-32150ce269e3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7.md",
+      "uuid": "b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-b3f87cd3-8025-5d33-84b4-336a93096955.md",
+      "uuid": "b3f87cd3-8025-5d33-84b4-336a93096955",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-b4012e69-339b-5cb9-9b26-fa8e915d61e2.md",
+      "uuid": "b4012e69-339b-5cb9-9b26-fa8e915d61e2",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-bcacf146-da41-5661-af89-a0cdb2acd901.md",
+      "uuid": "bcacf146-da41-5661-af89-a0cdb2acd901",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-bdc1d912-abe4-54eb-9550-fc16cf50cc5c.md",
+      "uuid": "bdc1d912-abe4-54eb-9550-fc16cf50cc5c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-bf6b9310-93d0-5958-b9d8-7275821072bc.md",
+      "uuid": "bf6b9310-93d0-5958-b9d8-7275821072bc",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-c231916d-1bfc-5f5f-b8c4-9a43fff1d328.md",
+      "uuid": "c231916d-1bfc-5f5f-b8c4-9a43fff1d328",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-c4ca8557-682b-537f-a057-fe5744e83313.md",
+      "uuid": "c4ca8557-682b-537f-a057-fe5744e83313",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-c5404b4e-7460-5bd2-8df6-f30cd59c408a.md",
+      "uuid": "c5404b4e-7460-5bd2-8df6-f30cd59c408a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-c76c0b2b-6b40-5e1c-a88d-8bfa4efcc042.md",
+      "uuid": "c76c0b2b-6b40-5e1c-a88d-8bfa4efcc042",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-c93d8e6e-746b-550a-8dd8-ceeccd3d9917.md",
+      "uuid": "c93d8e6e-746b-550a-8dd8-ceeccd3d9917",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-cc4fd654-a458-540f-a1ea-5fae3f6ca7c3.md",
+      "uuid": "cc4fd654-a458-540f-a1ea-5fae3f6ca7c3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-cdcba4a1-cbd7-5bbf-8065-4a1a1b41972b.md",
+      "uuid": "cdcba4a1-cbd7-5bbf-8065-4a1a1b41972b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-ce445499-e409-5fdc-99a7-f210dce92774.md",
+      "uuid": "ce445499-e409-5fdc-99a7-f210dce92774",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-d2289a32-1be4-5cd0-94f4-fa8e3660d30a.md",
+      "uuid": "d2289a32-1be4-5cd0-94f4-fa8e3660d30a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d26453a3-df54-5377-8832-1975906f9e91.md",
+      "uuid": "d26453a3-df54-5377-8832-1975906f9e91",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d3e99f30-f02a-5df8-ad99-70eb3a91c3fa.md",
+      "uuid": "d3e99f30-f02a-5df8-ad99-70eb3a91c3fa",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7.md",
+      "uuid": "d5aa8c62-cf4f-52b4-a631-4303da76fdc7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d60634b6-f86a-5518-9670-4b6d17864b74.md",
+      "uuid": "d60634b6-f86a-5518-9670-4b6d17864b74",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d6adf613-2ea6-5904-90f3-53743b8f6ec2.md",
+      "uuid": "d6adf613-2ea6-5904-90f3-53743b8f6ec2",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d744b6f8-4edc-52f1-a7fc-e1b1e3b7ae5d.md",
+      "uuid": "d744b6f8-4edc-52f1-a7fc-e1b1e3b7ae5d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d7984a84-f8a7-5cdf-8065-b57b269c6be8.md",
+      "uuid": "d7984a84-f8a7-5cdf-8065-b57b269c6be8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d7b0e014-56ec-5ce9-aeb0-b6e21e6297eb.md",
+      "uuid": "d7b0e014-56ec-5ce9-aeb0-b6e21e6297eb",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d91e5856-418a-5362-a7f4-40942d67730d.md",
+      "uuid": "d91e5856-418a-5362-a7f4-40942d67730d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-d920610a-25ab-515f-9268-afd22b97be47.md",
+      "uuid": "d920610a-25ab-515f-9268-afd22b97be47",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/entry-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f.md",
+      "uuid": "d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-dabe6d5a-f560-585f-b374-4aca977368c7.md",
+      "uuid": "dabe6d5a-f560-585f-b374-4aca977368c7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-dad6590f-cd4d-52a5-8acb-b2a889797085.md",
+      "uuid": "dad6590f-cd4d-52a5-8acb-b2a889797085",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-db5e8fd7-91be-50ea-91ec-732fe04ed59d.md",
+      "uuid": "db5e8fd7-91be-50ea-91ec-732fe04ed59d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-deb9cd0c-d96b-5430-81a8-91998791c218.md",
+      "uuid": "deb9cd0c-d96b-5430-81a8-91998791c218",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-dec3e901-f091-5ac5-8d66-eb65341876ce.md",
+      "uuid": "dec3e901-f091-5ac5-8d66-eb65341876ce",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-df58a248-cf89-5823-a3c3-5db8a66d4f79.md",
+      "uuid": "df58a248-cf89-5823-a3c3-5db8a66d4f79",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e0a9e93d-e469-59c7-b1b0-9773acc61932.md",
+      "uuid": "e0a9e93d-e469-59c7-b1b0-9773acc61932",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e1e0e34f-7b0d-5328-a814-66abd44d3dcb.md",
+      "uuid": "e1e0e34f-7b0d-5328-a814-66abd44d3dcb",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e1ed1e65-6958-5553-a2dc-53f302ea4457.md",
+      "uuid": "e1ed1e65-6958-5553-a2dc-53f302ea4457",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e402bfcb-bd27-537c-92fa-126246113c4e.md",
+      "uuid": "e402bfcb-bd27-537c-92fa-126246113c4e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e835324a-a005-5849-bdab-fe6e1edd8e9c.md",
+      "uuid": "e835324a-a005-5849-bdab-fe6e1edd8e9c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-e8e684bb-eddc-50eb-838e-041ca826629e.md",
+      "uuid": "e8e684bb-eddc-50eb-838e-041ca826629e",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-ea8e5b65-3cf4-568b-aa9d-e6b25b8a4cf1.md",
+      "uuid": "ea8e5b65-3cf4-568b-aa9d-e6b25b8a4cf1",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-ed39a224-8977-5a2f-abe0-23290ac526c0.md",
+      "uuid": "ed39a224-8977-5a2f-abe0-23290ac526c0",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f013ec84-7181-5602-a69c-027591d147ac.md",
+      "uuid": "f013ec84-7181-5602-a69c-027591d147ac",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md",
+      "uuid": "f038c3d4-1b55-56e9-a24f-6874c571cff1",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f10639b1-227e-50f0-8936-812adec828cd.md",
+      "uuid": "f10639b1-227e-50f0-8936-812adec828cd",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f1433717-69c2-5a3c-bea3-430636a45b8d.md",
+      "uuid": "f1433717-69c2-5a3c-bea3-430636a45b8d",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f1600a5e-0645-5003-ba16-a2daea807d6b.md",
+      "uuid": "f1600a5e-0645-5003-ba16-a2daea807d6b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f3b1a9a0-1f80-51ae-be79-27607349c0e8.md",
+      "uuid": "f3b1a9a0-1f80-51ae-be79-27607349c0e8",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f3cb624f-5ed5-557f-97f5-18d1c3791658.md",
+      "uuid": "f3cb624f-5ed5-557f-97f5-18d1c3791658",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f4d4d0ae-90be-549e-ada9-fcf1cc63b4af.md",
+      "uuid": "f4d4d0ae-90be-549e-ada9-fcf1cc63b4af",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f67bedbe-c1e0-5d73-9c75-58aefd15bf99.md",
+      "uuid": "f67bedbe-c1e0-5d73-9c75-58aefd15bf99",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-f9f50c3a-1f3f-5e80-8eb7-b971f56ff32c.md",
+      "uuid": "f9f50c3a-1f3f-5e80-8eb7-b971f56ff32c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-faa9a467-a3b4-508c-9446-0f246057405a.md",
+      "uuid": "faa9a467-a3b4-508c-9446-0f246057405a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-fcd9f4b3-e804-5a41-abc6-90062f08c70f.md",
+      "uuid": "fcd9f4b3-e804-5a41-abc6-90062f08c70f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/entry-fd3c5464-920b-54a3-9d47-ea77f81dfef3.md",
+      "uuid": "fd3c5464-920b-54a3-9d47-ea77f81dfef3",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/etgn.md",
+      "uuid": "d059f2c5-9a30-5050-9e0c-bfddc9d221d7",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/evaluating-a-polynomial-on-a-matrix-057c76ad.md",
+      "uuid": "057c76ad-28a7-5db1-b52a-2f9658bc0136",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/exact-arithmetic-3bd3e996.md",
+      "uuid": "3bd3e996-91bc-59ca-a0ac-fb32de488886",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/inverse-iteration-c3defe75.md",
+      "uuid": "c3defe75-5c9e-5827-8089-7c905475120c",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/krylov-space-and-grade-615008ca.md",
+      "uuid": "615008ca-f5db-5cff-ab6b-b07f178cbd05",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/lanczos-fa-uniform-bound.md",
+      "uuid": "ba9a80b1-12cc-5be5-b98c-0834104cd8f5",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/lanczos-tridiagonal.md",
+      "uuid": "0b4b1b6d-b0a4-52dc-90e9-53494f3cbdf4",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/matrix-norms-19646f49.md",
+      "uuid": "19646f49-e8db-5918-a0df-83eaf8db1648",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/nlalib-blockkrylov-storedoutput-eq-rbki.md",
+      "uuid": "9e96e2c6-478a-5eef-8072-3b65a72a0b33",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-forall-integral-specnorm-sub-truncatedsvd-rbki-sq-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "dcf428cb-b48d-5638-ac05-ad9f844a1630",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/nlalib-gramschmidtq-47fa9a99.md",
+      "uuid": "47fa9a99-bf7f-54d6-ad4e-a307c2efa85a",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "c895cc03-43bf-5ab0-831d-8720e5af74b6",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "bca995a9-a2a8-5034-b4bb-565f08cbb95b",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-generalizednystrom-sq-le-one-add-of-haslaw-gaussianmatrix-of-truncatedgeneralizednystromrangedim-le.md",
+      "uuid": "1266e5b2-8402-52e9-b859-115a81dc709f",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 2,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "93310fa9-d261-5f3c-b56f-f8a9bf1d8124",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "09cd1af3-5651-547a-a481-b16bf9a1dcba",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/nlalib-krylov-lanczos-runs-solve.md",
+      "uuid": "161639a0-5d37-530b-9f3f-52b80780a847",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/plu-factorization-a6e9180a.md",
+      "uuid": "a6e9180a-1bfe-574e-aacb-b0a161333177",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 0,
+      "commentary": false
+    },
+    {
+      "path": "explore/content/statements/randomized-subspace-iteration-90f9c5f5.md",
+      "uuid": "90f9c5f5-2db3-5dde-afe2-c2d2f5bdd092",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": true
+    },
+    {
+      "path": "explore/content/statements/sequential-summation-in-standard-rounding-01b91c62.md",
+      "uuid": "01b91c62-c0a4-5fb4-b5a3-c4049d568957",
+      "metadata_preserved": true,
+      "binding_title_preserved": true,
+      "display_equations_preserved": 1,
+      "commentary": false
+    }
+  ]
+}

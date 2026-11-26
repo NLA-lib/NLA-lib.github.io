@@ -194,11 +194,23 @@ an otherwise self-contained statement.
 Statements should be understandable outside their original topic page. Prefer the
 mathematical object and claim over unexplained "this," "above," or source-code
 implementation names. Expand an abbreviation when its expansion is supported by
-the source. If self-containment requires new mathematical content, flag the issue.
+the source. Read the statement as a standalone page: bind its solution, initial
+guess, iterate, index range and any nonstandard norm. When the exact linked Lean
+signature/docstring supplies those definitions or hypotheses unambiguously, add
+them and record the source location. Do not merely flag a gap that the exact source
+already resolves. If self-containment requires new mathematical content or an
+unclear translation of a source contract, flag the issue.
 
-Keep theorem claims separate from proof sketches and connecting exposition. Do not
-silently discard either. Report any proposed relocation with its exact destination
-and preserve its source relationship. Do not turn all algorithms into one generic
+Keep theorem claims separate from proof sketches and connecting exposition. Useful
+commentary can follow a blank line starting `Note:` at the end of the same statement
+block. The site displays it below the statement box on the individual page and
+omits it from list cards; it stays editable with the same statement and revision.
+All conditions needed for the claim must precede `Note:`. Remove irrelevant UI or
+implementation-navigation chatter rather than relabeling it as mathematics. Record
+the exact removed/moved text. Algorithm definition steps remain part of a definition.
+Semantic links to an algorithm are appropriate when defining its iterates, e.g.
+`[conjugate gradient (CG)](/explore/algorithms/conjugate-gradient/)`.
+Do not turn all algorithms into one generic
 canonical procedure: model-specific guarantees and implementation assumptions matter.
 
 Report duplicate entries, broken links, unsupported macros, empty prose, missing

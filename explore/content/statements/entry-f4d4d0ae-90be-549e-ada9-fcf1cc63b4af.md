@@ -31,7 +31,8 @@ with the polynomial factor $n^{2.5}\max(\mu_{\mathrm{MM}}, \sqrt n)$ for $n \le 
 $\mu_{\mathrm{MM}} = \mu_{\mathrm{QR}} = 1$, $c_{\mathrm N} = \sqrt2$,
 $\ell = \lceil\log_2(1/\varepsilon)\rceil + 5$ it asks for 49.1, 58.6, 74.9 and 105.4 bits at
 $(n, \varepsilon, \theta) = (1, 2^{-15}, 1)$, $(10, 2^{-15}, 1)$, $(1000, 2^{-15}, 1)$,
-$(1000, 2^{-40}, 1/2)$. The cited theorem requires
+
+Note: $(1000, 2^{-40}, 1/2)$. The cited theorem requires
 $\log_2(1/\varepsilon) + \log_2\max(n^{1.5}\mu_{\mathrm{QR}}, n^2c_{\mathrm N},
 n^{4.5}\mu_{\mathrm{MM}}) + 2\log_2\log_2(1/\varepsilon) + 1.5\log_2(1/\theta) +
 \log_2\log_2(n\log_2(1/\varepsilon)/\theta) + 23$ (48.3, 63.6, 94.5, 124.0 bits at the same
