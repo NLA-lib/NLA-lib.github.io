@@ -26,3 +26,14 @@ Suggest a Greek-matrix role for `\Omega` in the block Krylov range statement for
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish mathematical correctness or formal/readable equivalence. The definition targets and inherited-reference records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `975091bf-ef10-570b-99f0-6e3b30609d5e` | `NLAlib.IsBlockGolubKahan.mul_blockPrefix_right_eq` | None in declaration record |
+| `c52e956e-6658-55db-a3ff-01104cb2ade8` | `NLAlib.IsBlockGolubKahan.range_blockPrefix_right` | None in declaration record |
+| `d8206024-5e81-58e5-ae97-3f5e3e459750` | `NLAlib.Krylov.GolubKahan.Band.Certification.certifies` | None in declaration record |
+| `34337bed-f4b8-5514-b1d8-717d0f0e391b` | `NLAlib.Krylov.GolubKahan.Band.Certification.original_staticBudget` | None in declaration record |
+| `5c5ad6bf-3fdc-55bd-a427-6489b7c4a18d` | `NLAlib.Krylov.GolubKahan.Band.Certification.staticPeak_solveProgram_le_solvePeak` | None in declaration record |

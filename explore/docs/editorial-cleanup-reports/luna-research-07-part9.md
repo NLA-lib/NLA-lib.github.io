@@ -25,3 +25,14 @@ Scope: manifest `research[8]` in `/tmp/nla-luna-cohort-07.json`; five assigned s
 - `git diff --check`: passed.
 - Required staged content audit: passed the ID, front-matter, kind, binding, title and target-ID checks. It reports 75 statement files changed in the branch history; the only mathematical-fragment discrepancy requiring explicit review is the pre-existing `markov-inequality.md` change, and the only newly added reference metadata is the earlier `cg-chebyshev-bound.md` association. Neither file is part of this batch. No group9 statement source is changed or flagged by the audit.
 - Preview/rendering was not run in this local source-only review.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `20efeb03-db73-58b6-b181-c8ccc263a5a2` | `NLAlib.SmallEig.smallEigProg_pwrites_schur` | `BanksGarzaVargasSrivastava2025`, Theorem 1.1 |
+| `69d70e2e-9dfa-5224-b7b9-d22da53af29f` | `NLAlib.SmallEig.smallEigProg_randomSchurLeafContract` | `BanksGarzaVargasSrivastava2025`, Theorem 1.1 and Corollary 1.3 |
+| `0cd1700e-4394-558a-9ae2-d85e718cf79c` | `NLAlib.SpectralBisection.bisectionRoutine_meets` | None in declaration record |
+| `f7cd488d-0af0-5fd3-8467-b88519a1ea9d` | `NLAlib.SpectralBisection.certifies_work` | None in declaration record |
+| `f80f0ee3-19d9-5a56-9908-696b3c4dda51` | `NLAlib.SpectralBisection.eigh_tapeMachine_roundTape` | None in declaration record |

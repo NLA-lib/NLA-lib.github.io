@@ -24,3 +24,14 @@ Scope: manifest `research[9]` in `/tmp/nla-luna-cohort-07.json`; exactly five as
 - `git diff --check`: passed.
 - Required staged content audit: passed the ID, front-matter, kind, binding, title and target-ID checks. It reports 75 statement files changed in branch history; the only mathematical-fragment discrepancy requiring explicit review is the pre-existing `markov-inequality.md` change, and the only added reference metadata is the earlier `cg-chebyshev-bound.md` association. Neither is part of this batch. No group10 statement source changed or was flagged by the audit.
 - Preview/rendering was not run in this local source-only review.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `60207554-de12-55e9-aa40-b0c5c81d3f44` | `NLAlib.SpectralBisection.initialBytes_add_staticPeak_workspaceEnvelope_le` | None in declaration record |
+| `67eaecd1-e828-5359-a866-13159be34f30` | `NLAlib.SpectralBisection.measureReal_not_accepts_le_of_wordSpecification` | None in declaration record |
+| `cf88b5ab-1c6e-5e1b-a9b7-3af59a9bf94b` | `NLAlib.SpectralBisection.staticPeak_workspaceEnvelope_le` | None in declaration record |
+| `18fb3656-465b-5da8-bce5-1fa5a2eab23c` | `Matrix.PosSemidef.integral_specNorm_sub_nystromBKI_le_mul_exp_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.1 (NysBKI) |
+| `d74a9224-eb70-5c39-9686-25440e2eceab` | `Matrix.PosSemidef.integral_specNorm_sub_nystromBKI_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.2 (NysBKI) |

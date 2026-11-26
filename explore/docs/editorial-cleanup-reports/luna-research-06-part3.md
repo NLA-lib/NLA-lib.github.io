@@ -34,3 +34,14 @@ No role registry additions are proposed for this batch. The global notation regi
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. Inherited citations were checked in declaration records; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `09cd1af3-5651-547a-a481-b16bf9a1dcba` | `NLAlib.integral_frobNorm_sub_truncatedSVD_rsvd_pow_mul_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, §9.1, remark after Theorem 9.2 |
+| `1e71ef0b-3edf-5d7b-9a7b-f202eb006a97` | `NLAlib.integral_specNorm_sub_rbki_sq_le_one_add_sq_mul_of_hasLaw_gaussianMatrix` | `MuscoMusco2015`, Theorem 10 (proof); `TroppWebber2023`, Theorem 9.2 |
+| `8f2f113d-fe93-5cfc-8e86-00d35dd428ff` | `NLAlib.integral_specNorm_sub_rsvd_aeval_sq_le_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Lemma 9.5 |
+| `c9146d75-6940-51e0-b74c-ae8dc5904fac` | `NLAlib.integral_specNorm_sub_rsvd_pow_mul_sq_le_one_add_sq_mul_of_hasLaw_gaussianMatrix` | `MuscoMusco2015`, Theorem 10 (proof); `TroppWebber2023`, Theorem 9.2 (RSI) |
+| `ab58d6c1-feba-55f1-928f-db09057451b9` | `NLAlib.integral_specNorm_sub_truncatedSVD_rbki_sq_le_one_add_sq_mul_of_hasLaw_gaussianMatrix` | `MuscoMusco2015`, Theorem 10 (proof); `TroppWebber2023`, Theorem 9.2 |

@@ -32,3 +32,14 @@ No symbol-role additions are proposed. The global notation registry was not chan
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. The MGS target and inherited citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `75eae202-4e88-5a08-b9ed-7af0208f76ae` | `NLAlib.MGS.factor_peak_le` | None in declaration record |
+| `60522b5b-99ce-5e10-9702-ddaea0dbe79a` | `NLAlib.MGS.factorRoutine_meets` | None in declaration record |
+| `ca9a7176-8d3f-5ea4-bb63-fc9416576e9b` | `NLAlib.norm_inv_mulVec_sub_le_of_add_mulVec_eq` | `CarsonHigham2018`, (2.3) |
+| `81417ef6-1efe-5265-9d7a-7b1abb433e5b` | `NLAlib.ofReal_sq_div_card_le_liminf_measure_inter_ball_of_not_exists` | `BanksKulkarniMukherjeeSrivastava2021`, Lemmas 3.1 and 3.2 |
+| `bb84de14-c932-5564-b420-591262284fdd` | `NLAlib.ofReal_sum_sq_le_liminf_measure_inter_ball_of_mul_eq_mul_diagonal` | `BanksKulkarniMukherjeeSrivastava2021`, Lemma 3.2 |

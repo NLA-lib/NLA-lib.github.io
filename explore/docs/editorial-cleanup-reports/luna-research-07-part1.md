@@ -30,3 +30,14 @@ All authored `object.references` arrays are empty; citations shown are the actua
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish mathematical correctness or formal/readable equivalence. The exact-run target and inherited reference records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `61e06e3d-bf47-552c-9e75-a9af204ad122` | `NLAlib.integral_specNorm_sub_truncatedSVD_rbki_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, §9.1, remark after Theorem 9.2; `Gu2015`, Theorem 3.4 |
+| `8e47438a-9c8e-5414-ab32-1d0cdeb3e198` | `NLAlib.integral_specNorm_sub_truncatedSVD_rsvd_pow_mul_sq_le_one_add_sq_mul_of_hasLaw_gaussianMatrix` | `MuscoMusco2015`, Theorem 10 (proof); `TroppWebber2023`, Theorem 9.2 (RSI) |
+| `ce90654e-db13-5ef8-bd4d-3c665dd98c60` | `NLAlib.integral_specNorm_sub_truncatedSVD_rsvd_pow_mul_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, §9.1, remark after Theorem 9.2 |
+| `07503cd9-ef53-5b6f-94ec-3b3203ebf50b` | `NLAlib.IsBlockGolubKahan.conjTranspose_mul_left_eq` | None in declaration record |
+| `e16ffb73-7768-5557-9cc1-029af7b0a416` | `NLAlib.IsBlockGolubKahan.gramDefect_right_eq_zero` | None in declaration record |

@@ -24,3 +24,14 @@ Scope: manifest `research[11]` in `/tmp/nla-luna-cohort-07.json`; exactly five a
 - `git diff --check`: passed.
 - Required staged content audit: passed ID, front-matter, kind, binding, title and target-ID checks. It reports 80 statement files changed in branch history; the only mathematical-fragment discrepancy needing explicit review is the pre-existing `markov-inequality.md` change, and the only added reference metadata is the earlier `cg-chebyshev-bound.md` association. Neither is in this batch. The two edited statements are not flagged.
 - Preview/rendering was not run in this local source-only review.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `188aac98-6bd6-511d-a625-99a6935d7b28` | `NLAlib.measureReal_specNorm_sub_truncatedSVD_rbki_sq_gt_one_add_sq_mul_le_of_hasLaw_gaussianMatrix` | `MeyerMuscoMusco2023`, Theorem 1; `MeyerMuscoMusco2023`, Theorem 11 |
+| `0bd6d1ef-ab85-5de8-85b7-6872fc39dae0` | `NLAlib.singularValues_sub_rbki_le_of_range_le` | None in declaration record |
+| `49c904f7-6031-57df-9638-f96650269510` | `NLAlib.integral_specNorm_sub_rbki_sq_le_mul_exp_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.1 (RBKI) |
+| `6cec8318-a6a3-5186-a4c8-1928457d0cc8` | `NLAlib.integral_specNorm_sub_rbki_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.2 (RBKI) |
+| `2715e07f-95d2-5b31-863a-8adcfb6d65d4` | `NLAlib.singularValues_le_singularValues_sub_rbki_of_singularValues_eq` | None in declaration record |

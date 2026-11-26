@@ -33,3 +33,14 @@ The two Greek test matrices in the generalized Nyström result use `\boldsymbol{
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. This does not establish theorem correctness or formal/readable equivalence. The SVD target and inherited citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `25803ed2-ec86-5406-bad1-718ee3c6f0bf` | `NLAlib.frobNorm_sub_truncatedSVD_rsvd_sq` | `Woodruff2014`, Lemma 44 |
+| `c895cc03-43bf-5ab0-831d-8720e5af74b6` | `NLAlib.integral_frobNorm_sub_rbki_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.2 (RBKI) |
+| `bca995a9-a2a8-5034-b4bb-565f08cbb95b` | `NLAlib.integral_frobNorm_sub_rsvd_pow_mul_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, Theorem 9.2 (RSI) |
+| `1266e5b2-8402-52e9-b859-115a81dc709f` | `NLAlib.integral_frobNorm_sub_truncatedSVD_generalizedNystrom_sq_le_one_add_of_hasLaw_gaussianMatrix_of_truncatedGeneralizedNystromRangeDim_le` | None in declaration record |
+| `93310fa9-d261-5f3c-b56f-f8a9bf1d8124` | `NLAlib.integral_frobNorm_sub_truncatedSVD_rbki_sq_le_singularGapRatio_of_hasLaw_gaussianMatrix` | `TroppWebber2023`, §9.1, remark after Theorem 9.2 |

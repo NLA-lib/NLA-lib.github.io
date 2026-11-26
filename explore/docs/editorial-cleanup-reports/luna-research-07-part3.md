@@ -37,3 +37,14 @@ No new symbol-role mappings are needed in this group. The global notation regist
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. Definition targets and citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `22bf30ab-6185-5d8f-8b97-3a1ef452ff55` | `NLAlib.Krylov.GolubKahan.Band.IsExactStoredRun.mul_conjTranspose_mul_conjTranspose_eq_rbki` | None in declaration record |
+| `161639a0-5d37-530b-9f3f-52b80780a847` | `NLAlib.Krylov.Lanczos.runs_solve` | None in declaration record |
+| `3318f77c-2fb6-5ae5-a52e-c7239d83ab69` | `NLAlib.Krylov.Lanczos.stmtCost_solve` | None in declaration record |
+| `ca6ffb21-49a0-54fc-81a5-dae0dd103639` | `NLAlib.Krylov.Lanczos.stmtPeak_solve_le` | None in declaration record |
+| `4665c197-4b8f-5074-bbc4-261137cc421b` | `NLAlib.LinearSystems.Refinement.Certification.algorithm_checked` | `CarsonHigham2018`, Corollary 3.3 |

@@ -33,3 +33,14 @@ No registry additions are proposed. The global registry was not changed.
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. The related vector theorem and inherited citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `2a591816-ee5e-5295-99ac-adfaafad0e31` | `NLAlib.measureReal_singularValues_add_smul_le_le_pow_four_of_hasLaw_complexGaussianMatrix` | None in declaration record |
+| `a5d91c5d-df40-55e9-ac3f-92bb1c0dbf85` | `NLAlib.measureReal_specNorm_sub_rbki_sq_gt_le_of_hasLaw_gaussianMatrix` | `MeyerMuscoMusco2023`, Theorem 6 |
+| `b6e3068d-bde4-5d5c-aafe-f3918ea961e1` | `NLAlib.measureReal_specNorm_sub_rbki_sq_gt_le_of_hasLaw_gaussianVector` | `MeyerMuscoMusco2023`, Theorem 6 |
+| `830039af-0d41-5fa5-886e-01b1c11815c0` | `NLAlib.measureReal_specNorm_sub_truncatedSVD_rbki_sq_gt_le_of_hasLaw_gaussianMatrix` | `MeyerMuscoMusco2023`, Theorem 6 |
+| `b89d095b-73c0-59e2-a3f9-173e6d19b29c` | `NLAlib.measureReal_specNorm_sub_truncatedSVD_rbki_sq_gt_le_of_hasLaw_gaussianVector` | `MeyerMuscoMusco2023`, Theorem 6 |

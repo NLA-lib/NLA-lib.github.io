@@ -35,3 +35,14 @@ No mathematical ambiguity was established in the assigned statements. The diagon
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish mathematical correctness or formal/readable equivalence. The Ostrowski–Elsner theorem target and inherited citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `0ed7fc6a-e23a-5cc1-a1d8-2055f3edf2a8` | `NLAlib.exists_forall_integral_specNorm_sub_truncatedSVD_rsvd_pow_mul_sq_le_of_hasLaw_gaussianMatrix` | `MuscoMusco2015`, Theorem 10 (proof); `TroppWebber2023`, Theorem 9.2 (RSI) |
+| `57ec5e8f-9d28-5793-b43a-fa7abfa993c3` | `NLAlib.exists_isEigenvalueListing_norm_sub_le_of_class` | `BanksGarzaVargasSrivastava2025`, Corollary 1.3 |
+| `f83d1bc1-e6b7-54ed-a19a-e944c02f33c6` | `NLAlib.exists_isEigenvalueListing_norm_sub_le_rpow` | `BanksGarzaVargasSrivastava2025`, Lemma 1.2 |
+| `2d946bb4-7f28-5df4-931c-7d4ce649fa18` | `NLAlib.exists_mem_singularValues_le_of_not_exists_isEigenvalueListing` | None in declaration record |
+| `0510eeec-6054-5ba1-8745-0037739c3d9a` | `NLAlib.FloatMachine.IsAccurate.measureReal_not_isApproxDiagonalization_eigh_bisectionDepth_le_of_logb_le_of_hasLaw_eighSampleLaw` | `Shah2024`, Theorem 4.2 |

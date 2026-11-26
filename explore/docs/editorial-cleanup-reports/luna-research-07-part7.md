@@ -37,3 +37,14 @@ No notation registry changes are proposed.
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. No rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `d800ebd7-32d8-5630-95fe-390e2cf2603b` | `NLAlib.Ops.Machine.eigh_toFloatMachine_map_samples` | None in declaration record |
+| `be09b239-c7ce-55b7-b6cf-fefa3c51abe2` | `NLAlib.RefinementRun.norm_sub_x_succ_le` | `CarsonHigham2018`, Theorem 3.2 |
+| `35b1d0b4-eb55-5a94-a77d-b2ae5486ab56` | `NLAlib.Schur.denseSchur_terminates` | None in declaration record |
+| `92fb9508-4283-5233-8460-928bf7187ea8` | `NLAlib.Schur.schurPipelineWith_measureReal_not_schur_le` | None in declaration record |
+| `d695353d-56d2-5d1a-8f96-0d7943757d1e` | `NLAlib.Schur.verifiedSchurWith_measureReal_not_flag_le` | None in declaration record |

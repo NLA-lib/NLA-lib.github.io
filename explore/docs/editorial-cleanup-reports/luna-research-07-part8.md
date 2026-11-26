@@ -31,3 +31,14 @@ The authored `object.references` arrays are empty. Citations below come from eac
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish theorem correctness or formal/readable equivalence. No rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `eacde6b9-1053-568f-8c81-625ce5f50695` | `NLAlib.Schur.verifiedSchurWith_writes` | None in declaration record |
+| `7455a12b-551e-5cab-81d5-9a9386edaa48` | `NLAlib.ShiftedQR.roundedShQRSchur_measureReal_not_schur_le` | `BanksGarzaVargasSrivastava2022`, Theorem 6.3; `BanksGarzaVargasSrivastava2025`, Theorem 1.1 and Corollary 1.3; `BanksGarzaVargasSrivastava2022`, Theorem 6.3 |
+| `f0edd998-f0db-5d93-a1ae-725a1c29ace9` | `NLAlib.ShiftedQR.roundedShQRWith_measureReal_not_spectrum_le` | `BanksGarzaVargasSrivastava2022`, Theorem 6.3; `BanksGarzaVargasSrivastava2022`, Theorem 6.3 |
+| `ed822a80-d2e0-5322-b99b-49d2e08073ac` | `NLAlib.singularValues_le_mul_pseudoConditionNumber_of_mul_eq_mul_diagonal` | None in declaration record |
+| `4db025d7-bfbb-5ade-a7bc-94a4f0d7e94f` | `NLAlib.SmallEig.smallEig_measureReal_not_spectrum_le_unconditional` | `BanksGarzaVargasSrivastava2025`, Theorem 1.1 |

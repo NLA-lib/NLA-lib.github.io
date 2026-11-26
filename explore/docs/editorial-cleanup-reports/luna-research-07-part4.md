@@ -32,3 +32,14 @@ No registry additions are proposed. Matrix and vector roles follow the current n
 ## Validation and limitations
 
 `node explore/tests/check_notation.cjs` passed: 2,290 authored equations checked with KaTeX, 0 errors. `git diff --check` passed. These checks do not establish mathematical correctness or formal/readable equivalence. The two linked component results and citation records were inspected; no rendered browser preview was available.
+## Authoritative inherited citation record audit
+
+This audit resolves each entry through the pinned editor object’s `evidence.declaration` and the corresponding declaration `record.references`. It supersedes any earlier statement that treated an empty authored `object.references` array as proof of no inherited references. The pairs below are already attached through the declaration and were not duplicated in front matter.
+
+| UUID | Linked declaration | Inherited key/locator pairs |
+| --- | --- | --- |
+| `f8e62433-bfdf-565e-bcc7-5fa20530c2d0` | `NLAlib.measureReal_norm_mulVec_add_le_le_of_hasLaw_complexGaussianVector` | None in declaration record |
+| `d12d207c-4b10-5d38-b3af-794f3ecfb298` | `NLAlib.measureReal_not_exists_class_le_of_hasLaw_complexGaussianMatrix` | `BanksGarzaVargasSrivastava2025`, Lemma 6.5 |
+| `d8fd5d15-a8e2-53c0-aaf5-f021e9b3cb9b` | `NLAlib.measureReal_not_exists_isEigenvalueListing_le_le_log_sq_of_hasLaw_complexGaussianMatrix` | `BanksGarzaVargasSrivastava2025`, Lemma B.1 |
+| `33c3f20b-3401-544f-aaa4-a0644553f22e` | `NLAlib.measureReal_not_exists_pseudoConditionNumber_le_le_log_sq_of_hasLaw_complexGaussianMatrix` | `BanksKulkarniMukherjeeSrivastava2021`, Theorem 1.5 |
+| `40802520-a357-5db5-9410-9d519ed8a063` | `NLAlib.measureReal_singularValues_add_smul_le_le_exp_one_mul_of_hasLaw_complexGaussianMatrix` | `BanksKulkarniMukherjeeSrivastava2021`, Lemma 3.3; `SankarSpielmanTeng2006`, proof of Theorem 3.3 |
