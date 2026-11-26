@@ -9,23 +9,23 @@ adb72f11-3503-58f9-89c4-98a60c4f7a40,QR factorization,definition,authored,explor
 bb84de14-c932-5564-b420-591262284fdd,Area of the pseudospectrum and eigenvalue condition numbers,result,authored,explore/content/statements/nlalib-ofreal-sum-sq-le-liminf-measure-inter-ball-of-mul-eq-mul-diagonal.md,inspected-unchanged
 c9146d75-6940-51e0-b74c-ae8dc5904fac,"Expected spectral error without a gap, relative form",result,authored,explore/content/statements/nlalib-integral-specnorm-sub-rsvd-pow-mul-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md,reviewed-proposal
 d5bca832-63a1-5043-ab6e-03b8402a2a55,Singular-value decomposition,definition,authored,explore/content/statements/singular-value-decomposition-d5bca832.md,reviewed-proposal
-6cec8318-a6a3-5186-a4c8-1928457d0cc8,Expected spectral error with a gap,result,authored,explore/content/statements/rbki-gapped-error.md,pending
+6cec8318-a6a3-5186-a4c8-1928457d0cc8,Expected spectral error with a gap,result,authored,explore/content/statements/rbki-gapped-error.md,needs-mathematical-review
 1266e5b2-8402-52e9-b859-115a81dc709f,Expected relative error,result,authored,explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-generalizednystrom-sq-le-one-add-of-haslaw-gaussianmatrix-of-truncatedgeneralizednystromrangedim-le.md,reviewed-proposal
 4acf79f1-542a-5cb1-ad06-82ac78de683b,The factored output is the block Krylov approximation,result,authored,explore/content/statements/block-golub-kahan-factored-output.md,reviewed-proposal
 ce25720b-6102-5bb3-a0e2-a679814dd9d8,Randomized block Krylov iteration,definition,authored,explore/content/statements/nlalib-rbki-ce25720b.md,reviewed-proposal
 c07e970e-5e57-5ffc-95c4-0a61ec4b2f4d,Refinement run,definition,authored,explore/content/statements/nlalib-refinementrun-c07e970e.md,inspected-unchanged
 bfa69b03-df3e-57c8-a9a5-dbb0ca6bab06,"On one counted run, with the BGS III program",result,authored,explore/content/statements/shifted-qr-rounded-small-eig-certificate-accuracy.md,pending
-d74a9224-eb70-5c39-9686-25440e2eceab,Expected spectral error with a gap,result,authored,explore/content/statements/nysbki-gapped-error.md,pending
+d74a9224-eb70-5c39-9686-25440e2eceab,Expected spectral error with a gap,result,authored,explore/content/statements/nysbki-gapped-error.md,needs-mathematical-review
 c1b568f6-4bc5-5e42-91e7-8b77a20c9e57,Stored spectral bisection,definition,authored,explore/content/statements/nlalib-spectralbisection-bisectionprogram-c1b568f6.md,reviewed-proposal
 2d946bb4-7f28-5df4-931c-7d4ce649fa18,A net detects close eigenvalue pairs,result,authored,explore/content/statements/nlalib-exists-mem-singularvalues-le-of-not-exists-iseigenvaluelisting.md,inspected-unchanged
 ba50b7b7-4199-5605-8b73-6702f764b5c4,"Verified solver: flag 0 implies accuracy, on every tape",result,authored,explore/content/statements/verified-schur-every-tape.md,pending
 60522b5b-99ce-5e10-9702-ddaea0dbe79a,Exact execution correspondence,result,authored,explore/content/statements/nlalib-mgs-factorroutine-meets.md,reviewed-proposal
-2715e07f-95d2-5b31-863a-8adcfb6d65d4,A repeated singular value beyond the block size,result,authored,explore/content/statements/rbki-multiplicity-lower-bound.md,pending
+2715e07f-95d2-5b31-863a-8adcfb6d65d4,A repeated singular value beyond the block size,result,authored,explore/content/statements/rbki-multiplicity-lower-bound.md,reviewed-proposal
 a3ae6eab-cfd1-54a1-a5cb-aabb2ed528b6,"Eigenvalues with the BGS III program, unconditional",result,authored,explore/content/statements/shifted-qr-rounded-small-eig-backward-error.md,pending
 dfe0f5c1-7607-5831-98c2-83dedb7248da,Arnoldi relation,result,authored,explore/content/statements/arnoldi-relation.md,reviewed-proposal
 af61ef21-9f45-5d71-87c8-6d01c16be15e,Hermitian functional calculus,definition,authored,explore/content/statements/hermitian-functional-calculus-af61ef21.md,reviewed-proposal
 8e47438a-9c8e-5414-ab32-1d0cdeb3e198,Expected spectral error without a gap,result,authored,explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md,reviewed-proposal
-83eaf2e3-a5c0-5758-acdf-61e684bff986,Expected spectral error with a gap,result,authored,explore/content/statements/nyssi-gapped-error.md,pending
+83eaf2e3-a5c0-5758-acdf-61e684bff986,Expected spectral error with a gap,result,authored,explore/content/statements/nyssi-gapped-error.md,needs-mathematical-review
 b5af9bf0-05f0-5bd0-a29b-b8f4e5d279ea,Residuals of the two block relations,result,authored,explore/content/statements/block-golub-kahan-residual.md,reviewed-proposal
 d8206024-5e81-58e5-ae97-3f5e3e459750,Total exact certificate over an abstract extension,result,authored,explore/content/statements/nlalib-krylov-golubkahan-band-certification-certifies.md,reviewed-proposal
 23f709a3-92ab-5cef-ab62-2b33870d9605,Driver with an abstract extension operation,definition,authored,explore/content/statements/nlalib-krylov-golubkahan-band-solve-23f709a3.md,inspected-unchanged
@@ -40,7 +40,7 @@ e59d814f-e0b1-56c7-af02-203f32b258da,Expected nuclear-norm error with a gap,resu
 30ae638f-d7d8-5b6c-91f0-65d57ae2c0de,Band structure of the coefficients,result,authored,explore/content/statements/block-golub-kahan-band-structure.md,reviewed-proposal
 a5e449d4-fd34-5212-96fa-75ce7fa2feaf,Expected nuclear-norm error with a gap,result,authored,explore/content/statements/matrix-possemidef-integral-nuclearnorm-sub-truncatedsvd-nystrom-pow-mul-le-singulargapratio-of-haslaw-gaussianmatrix.md,reviewed-proposal
 2fa76a05-ce3c-5a1c-9aee-625c01bfd829,Orthogonal projection,definition,authored,explore/content/statements/orthogonal-projection-2fa76a05.md,inspected-unchanged
-35b1d0b4-eb55-5a94-a77d-b2ae5486ab56,Termination and orthogonality on every tape,result,authored,explore/content/statements/nlalib-schur-denseschur-terminates.md,inspected-unchanged
+35b1d0b4-eb55-5a94-a77d-b2ae5486ab56,Termination and orthogonality on every tape,result,authored,explore/content/statements/nlalib-schur-denseschur-terminates.md,needs-mathematical-review
 c52e956e-6658-55db-a3ff-01104cb2ade8,The right basis spans the block Krylov spaces,result,authored,explore/content/statements/nlalib-isblockgolubkahan-range-blockprefix-right.md,reviewed-proposal
 90192996-6dc6-5054-aca9-ae0e5756c82c,Certificate of the dense Schur solver,definition,authored,explore/content/statements/nlalib-schur-denseschuralgorithm-90192996.md,inspected-unchanged
 cbea4e58-b0f0-50f9-8290-46f3da3fd35f,Certificate of the verified solver,definition,authored,explore/content/statements/nlalib-schur-verifiedschuralgorithm-cbea4e58.md,inspected-unchanged
@@ -51,7 +51,7 @@ dd0c654f-b783-516b-b7c3-04b96f1a90f3,Subspace embedding,definition,authored,expl
 fddf9c5b-4258-5153-a554-e27c7168cb23,An unavoidable error on hard inputs,result,authored,explore/content/statements/truncated-gn-lower-bound.md,pending
 84f513cb-f346-53d2-a25c-d47827a8967b,Gaussian sketches and Haar frames,definition,authored,explore/content/statements/gaussian-sketches-and-haar-frames-84f513cb.md,inspected-unchanged
 d00946c1-7d12-50e4-a6da-635456a9fca7,Cholesky factorization,definition,authored,explore/content/statements/cholesky-factorization-d00946c1.md,inspected-unchanged
-be09b239-c7ce-55b7-b6cf-fefa3c51abe2,One step,result,authored,explore/content/statements/nlalib-refinementrun-norm-sub-x-succ-le.md,inspected-unchanged
+be09b239-c7ce-55b7-b6cf-fefa3c51abe2,One step,result,authored,explore/content/statements/nlalib-refinementrun-norm-sub-x-succ-le.md,needs-mathematical-review
 33cd8a3d-4740-5cbd-82aa-7e67e7c152da,Newton–Schulz sign iteration,definition,authored,explore/content/statements/newton-schulz-sign-iteration-33cd8a3d.md,reviewed-proposal
 96f14e8b-ee12-585f-a7a5-5142971ee656,On one counted run,result,authored,explore/content/statements/small-eig-certificate-accuracy.md,pending
 1d855d8f-f49a-5243-9071-144b23a999ad,The simulated block,result,authored,explore/content/statements/rbki-simulated-block.md,pending
@@ -61,9 +61,9 @@ be09b239-c7ce-55b7-b6cf-fefa3c51abe2,One step,result,authored,explore/content/st
 b414dcaf-295f-5cf2-b402-53aed405eae8,Probe spectral estimation,definition,authored,explore/content/statements/probe-spectral-estimation-b414dcaf.md,reviewed-proposal
 36be1f8d-abc5-5dfd-b557-ff75ebe97822,Filtered range-finder approximation,definition,authored,explore/content/statements/filtered-range-finder-approximation-36be1f8d.md,reviewed-proposal
 e9cd7afc-bec4-59b6-b5d9-8b006e4b1d5b,Sufficient number of power steps with a gap,result,authored,explore/content/statements/nlalib-exists-forall-integral-nuclearnorm-sub-truncatedsvd-nystrom-pow-mul-le-of-singulargapratio-pos-of-haslaw-gaussianmatrix.md,reviewed-proposal
-cf88b5ab-1c6e-5e1b-a9b7-3af59a9bf94b,Scratch storage,result,authored,explore/content/statements/nlalib-spectralbisection-staticpeak-workspaceenvelope-le.md,pending
+cf88b5ab-1c6e-5e1b-a9b7-3af59a9bf94b,Scratch storage,result,authored,explore/content/statements/nlalib-spectralbisection-staticpeak-workspaceenvelope-le.md,needs-mathematical-review
 a93c5a2a-f071-5e53-ad6e-926ccafcbdad,Generalized Nyström approximation,definition,authored,explore/content/statements/nlalib-generalizednystrom-a93c5a2a.md,reviewed-proposal
-18fb3656-465b-5da8-bce5-1fa5a2eab23c,Expected spectral error without a gap,result,authored,explore/content/statements/nysbki-gapless-error.md,pending
+18fb3656-465b-5da8-bce5-1fa5a2eab23c,Expected spectral error without a gap,result,authored,explore/content/statements/nysbki-gapless-error.md,needs-mathematical-review
 ccee634c-02eb-5769-8d49-3bf04e99f8af,Newton matrix-sign iteration,definition,authored,explore/content/statements/nlalib-signnewtoniterate-ccee634c.md,inspected-unchanged
 e571c120-4ca1-5f41-ab7a-d718b5a59289,Uniform model and oracle,definition,authored,explore/content/statements/uniform-model-and-oracle-e571c120.md,inspected-unchanged
 b6e3068d-bde4-5d5c-aafe-f3918ea961e1,Single start vector with a gap: spectral-norm tail bound,result,authored,explore/content/statements/nlalib-measurereal-specnorm-sub-rbki-sq-gt-le-of-haslaw-gaussianvector.md,reviewed-proposal
@@ -82,7 +82,7 @@ f8e62433-bfdf-565e-bcc7-5fa20530c2d0,Shifted small ball,result,authored,explore/
 0cd1700e-4394-558a-9ae2-d85e718cf79c,Execution agrees with the word algorithm,result,authored,explore/content/statements/nlalib-spectralbisection-bisectionroutine-meets.md,inspected-unchanged
 aa1d5b60-6ec3-58e0-9168-e25e60a9d5a7,Polynomial error bound,result,authored,explore/content/statements/cg-polynomial-bound.md,reviewed-proposal
 dfd2780d-7c4e-51db-aa04-4766a316f48b,Certificate with the BGS III program,definition,authored,explore/content/statements/nlalib-shiftedqr-shqrsmalleigalgorithm-dfd2780d.md,inspected-unchanged
-d695353d-56d2-5d1a-8f96-0d7943757d1e,An accurate solver passes the check,result,authored,explore/content/statements/nlalib-schur-verifiedschurwith-measurereal-not-flag-le.md,inspected-unchanged
+d695353d-56d2-5d1a-8f96-0d7943757d1e,An accurate solver passes the check,result,authored,explore/content/statements/nlalib-schur-verifiedschurwith-measurereal-not-flag-le.md,needs-mathematical-review
 8f827d72-be63-547b-b653-014c1f9c9eeb,In-place modified Gram–Schmidt,definition,authored,explore/content/statements/nlalib-mgs-factorprogram-8f827d72.md,inspected-unchanged
 bca995a9-a2a8-5034-b4bb-565f08cbb95b,Expected Frobenius error with a gap,result,authored,explore/content/statements/nlalib-integral-frobnorm-sub-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md,reviewed-proposal
 e7470c95-5c37-5fa0-94b3-ee795973f79d,Chebyshev polynomials,definition,authored,explore/content/statements/chebyshev-polynomials-e7470c95.md,inspected-unchanged
@@ -111,11 +111,11 @@ aaf66e60-a561-5e3e-abff-5cc278379268,Full program work and span certificate,defi
 af080b3b-42f5-5b70-adba-76b80f20b48b,Column-wise two-pass classical Gram–Schmidt with threshold deflation,definition,authored,explore/content/statements/nlalib-cgs2-cgs2extendroutine-af080b3b.md,inspected-unchanged
 80c3e8b3-6580-5d88-b3ef-e58fffc65691,Exact shifted-QR solver interface,definition,authored,explore/content/statements/nlalib-shiftedqr-exactdeflationalgorithm-80c3e8b3.md,inspected-unchanged
 c3defe75-5c9e-5827-8089-7c905475120c,Inverse iteration,definition,authored,explore/content/statements/inverse-iteration-c3defe75.md,inspected-unchanged
-0bd6d1ef-ab85-5de8-85b7-6872fc39dae0,A block with a larger range does at least as well,result,authored,explore/content/statements/rbki-block-monotonicity.md,pending
+0bd6d1ef-ab85-5de8-85b7-6872fc39dae0,A block with a larger range does at least as well,result,authored,explore/content/statements/rbki-block-monotonicity.md,reviewed-proposal
 75eae202-4e88-5a08-b9ed-7af0208f76ae,In-place scratch bound,result,authored,explore/content/statements/nlalib-mgs-factor-peak-le.md,inspected-unchanged
 830039af-0d41-5fa5-886e-01b1c11815c0,Any block size with a gap,result,authored,explore/content/statements/nlalib-measurereal-specnorm-sub-truncatedsvd-rbki-sq-gt-le-of-haslaw-gaussianmatrix.md,reviewed-proposal
 4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58,Block Golub–Kahan process,definition,authored,explore/content/statements/nlalib-isblockgolubkahan-4dfc5d02.md,reviewed-proposal
-20efeb03-db73-58b6-b181-c8ccc263a5a2,The output is a Schur pair,result,authored,explore/content/statements/nlalib-smalleig-smalleigprog-pwrites-schur.md,inspected-unchanged
+20efeb03-db73-58b6-b181-c8ccc263a5a2,The output is a Schur pair,result,authored,explore/content/statements/nlalib-smalleig-smalleigprog-pwrites-schur.md,needs-mathematical-review
 33c3f20b-3401-544f-aaa4-a0644553f22e,Eigenvector condition number of a Ginibre perturbation,result,authored,explore/content/statements/nlalib-measurereal-not-exists-pseudoconditionnumber-le-le-log-sq-of-haslaw-complexgaussianmatrix.md,reviewed-proposal
 01b91c62-c0a4-5fb4-b5a3-c4049d568957,Sequential summation in standard rounding,definition,authored,explore/content/statements/sequential-summation-in-standard-rounding-01b91c62.md,reviewed-proposal
 469e6e39-a086-5aba-9b14-ee0d2e5df1f0,Newton–Schulz polar iteration,definition,authored,explore/content/statements/nlalib-polarschulziterate-469e6e39.md,inspected-unchanged
@@ -125,11 +125,11 @@ a68765a4-81c5-5022-8248-82be1f44fc19,Local spectral contracts,definition,authore
 6b9702ff-31b4-53a0-a649-f5445c79ee30,Eckart–Young optimality,result,authored,explore/content/statements/eckart-young-frobenius-044d6c37.md,inspected-unchanged
 a9113600-2f7a-5cd9-a415-1e61064f8920,Forward bound for the returned factors,result,authored,explore/content/statements/block-golub-kahan-forward-error.md,inspected-unchanged
 acb8b8c2-271a-594d-9431-e0d4447ee5a0,Iterative refinement,definition,authored,explore/content/statements/iterative-refinement-acb8b8c2.md,inspected-unchanged
-49c904f7-6031-57df-9638-f96650269510,Expected spectral error without a gap,result,authored,explore/content/statements/rbki-gapless-error.md,pending
+49c904f7-6031-57df-9638-f96650269510,Expected spectral error without a gap,result,authored,explore/content/statements/rbki-gapless-error.md,needs-mathematical-review
 07a22a07-cf1a-5eab-9c15-e691321845a2,Expected Frobenius error,result,authored,explore/content/statements/generalized-nystrom-expected-error.md,reviewed-proposal
 293c93c0-109c-5fc6-b2df-49f56a960c23,Relative error and absolute error floor,definition,authored,explore/content/statements/relative-error-and-absolute-error-floor-293c93c0.md,inspected-unchanged
 93310fa9-d261-5f3c-b56f-f8a9bf1d8124,Expected Frobenius error with a gap,result,authored,explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md,reviewed-proposal
-69730256-680f-52ed-b25b-2c3d9a9198af,Expected spectral error without a gap,result,authored,explore/content/statements/nyssi-gapless-error.md,pending
+69730256-680f-52ed-b25b-2c3d9a9198af,Expected spectral error without a gap,result,authored,explore/content/statements/nyssi-gapless-error.md,needs-mathematical-review
 76e7063b-9c06-5517-9953-ba9b8e5adf49,Randomized Kaczmarz,definition,authored,explore/content/statements/randomized-kaczmarz-76e7063b.md,inspected-unchanged
 d1ee9b33-de78-5b4f-8a2d-d80147ea5587,Girard–Hutchinson estimator,definition,authored,explore/content/statements/nlalib-girardhutchinson-d1ee9b33.md,reviewed-proposal
 b89d095b-73c0-59e2-a3f9-173e6d19b29c,Single start vector with a gap,result,authored,explore/content/statements/nlalib-measurereal-specnorm-sub-truncatedsvd-rbki-sq-gt-le-of-haslaw-gaussianvector.md,reviewed-proposal
@@ -149,9 +149,9 @@ bdfac892-aa5e-5014-991c-ef2499ca3d72,Rounded certificate of the same program,def
 e8701eac-1468-573d-bb7a-8a6e8f3bb811,Late-truncated RSVD,definition,authored,explore/content/statements/late-truncated-rsvd-e8701eac.md,reviewed-proposal
 08c095ab-87a1-5868-9d7c-58a93e407feb,Late-truncated GN,definition,authored,explore/content/statements/late-truncated-gn-08c095ab.md,reviewed-proposal
 5feae0f6-b290-5ff9-8c2e-4103573b92b7,Unbiased trace estimate,result,authored,explore/content/statements/girard-hutchinson-unbiased.md,reviewed-proposal
-7455a12b-551e-5cab-81d5-9a9386edaa48,Schur pair with the BGS III program,result,authored,explore/content/statements/nlalib-shiftedqr-roundedshqrschur-measurereal-not-schur-le.md,inspected-unchanged
+7455a12b-551e-5cab-81d5-9a9386edaa48,Schur pair with the BGS III program,result,authored,explore/content/statements/nlalib-shiftedqr-roundedshqrschur-measurereal-not-schur-le.md,needs-mathematical-review
 76f46a7e-26fd-5477-b3af-e95d89422696,Corollary: an exact unitary,result,authored,explore/content/statements/dense-schur-exact-unitary.md,reviewed-proposal
-67eaecd1-e828-5359-a866-13159be34f30,Accuracy transfers to the stored output,result,authored,explore/content/statements/nlalib-spectralbisection-measurereal-not-accepts-le-of-wordspecification.md,pending
+67eaecd1-e828-5359-a866-13159be34f30,Accuracy transfers to the stored output,result,authored,explore/content/statements/nlalib-spectralbisection-measurereal-not-accepts-le-of-wordspecification.md,inspected-unchanged
 c87bfc3a-e18e-553a-90a0-c82558421a6d,Late-truncated RSI,definition,authored,explore/content/statements/late-truncated-rsi-c87bfc3a.md,reviewed-proposal
 cb5e0fa7-3425-5848-83bd-fd73b4aa314e,Isotropic probes,definition,authored,explore/content/statements/isotropic-probes-cb5e0fa7.md,reviewed-proposal
 b7eb3355-2d35-5924-915e-ad08d22c20cc,Closed and manifest work,definition,authored,explore/content/statements/closed-and-manifest-work-b7eb3355.md,inspected-unchanged
@@ -164,7 +164,7 @@ d881b1fc-87da-5f4f-a75d-8d11c09f6fbf,CGLS,definition,authored,explore/content/st
 61e06e3d-bf47-552c-9e75-a9af204ad122,Expected spectral error with a gap,result,authored,explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md,reviewed-proposal
 47fa9a99-bf7f-54d6-ad4e-a307c2efa85a,Gram–Schmidt orthogonalization,definition,authored,explore/content/statements/nlalib-gramschmidtq-47fa9a99.md,inspected-unchanged
 a5d91c5d-df40-55e9-ac3f-92bb1c0dbf85,Any block size with a gap: spectral-norm tail bound,result,authored,explore/content/statements/nlalib-measurereal-specnorm-sub-rbki-sq-gt-le-of-haslaw-gaussianmatrix.md,reviewed-proposal
-f0edd998-f0db-5d93-a1ae-725a1c29ace9,"Eigenvalues, with any small-block solver",result,authored,explore/content/statements/nlalib-shiftedqr-roundedshqrwith-measurereal-not-spectrum-le.md,inspected-unchanged
+f0edd998-f0db-5d93-a1ae-725a1c29ace9,"Eigenvalues, with any small-block solver",result,authored,explore/content/statements/nlalib-shiftedqr-roundedshqrwith-measurereal-not-spectrum-le.md,needs-mathematical-review
 161d8fd6-2f0a-5e7e-8b4c-e7e67c1e6289,CountSketch,definition,authored,explore/content/statements/nlalib-countsketchmatrix-161d8fd6.md,reviewed-proposal
 4db025d7-bfbb-5ade-a7bc-94a4f0d7e94f,"Theorem 1.1: eigenvalues, backward error",result,authored,explore/content/statements/nlalib-smalleig-smalleig-measurereal-not-spectrum-le-unconditional.md,reviewed-proposal
 1e71ef0b-3edf-5d7b-9a7b-f202eb006a97,"Expected spectral error without a gap, relative form",result,authored,explore/content/statements/nlalib-integral-specnorm-sub-rbki-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md,reviewed-proposal
@@ -186,7 +186,7 @@ ab58d6c1-feba-55f1-928f-db09057451b9,Expected spectral error without a gap,resul
 8c857b38-dcb9-5698-b8b0-0f647fe28c56,The program meets the exact contract at threshold zero,result,authored,explore/content/statements/nlalib-cgs2-cgs2extendroutine-meets-exact.md,reviewed-proposal
 b6d6ec43-d148-5545-bb84-195688281b33,Hutch++,definition,authored,explore/content/statements/nlalib-hutchpp-b6d6ec43.md,reviewed-proposal
 0510eeec-6054-5ba1-8745-0037739c3d9a,Precision in bits,result,authored,explore/content/statements/nlalib-floatmachine-isaccurate-measurereal-not-isapproxdiagonalization-eigh-bisectiondepth-le-of-logb-le-of-haslaw-eighsamplelaw.md,reviewed-proposal
-2f994852-fd90-57d9-8eb6-b3c0d529793f,The simulated block,result,authored,explore/content/statements/nystrom-bki-simulated-block.md,pending
+2f994852-fd90-57d9-8eb6-b3c0d529793f,The simulated block,result,authored,explore/content/statements/nystrom-bki-simulated-block.md,reviewed-proposal
 ca9a7176-8d3f-5ea4-bb63-fc9416576e9b,A backward stable solve has a small relative error,result,authored,explore/content/statements/nlalib-norm-inv-mulvec-sub-le-of-add-mulvec-eq.md,inspected-unchanged
 777e5b76-3146-59ce-aa61-62433005ed7f,Perturbation of Hermitian eigenvalues,result,authored,explore/content/statements/weyl-perturbation.md,pending
 81417ef6-1efe-5265-9d7a-7b1abb433e5b,Pseudospectral area inequality,result,authored,explore/content/statements/nlalib-ofreal-sq-div-card-le-liminf-measure-inter-ball-of-not-exists.md,inspected-unchanged
@@ -194,12 +194,12 @@ ca9a7176-8d3f-5ea4-bb63-fc9416576e9b,A backward stable solve has a small relativ
 a10be3ad-32a7-5746-ab21-26a6bf70c410,Early-truncated RSVD,definition,authored,explore/content/statements/nlalib-earlytruncatedrsvd-a10be3ad.md,reviewed-proposal
 a6e9180a-1bfe-574e-aacb-b0a161333177,PLU factorization,definition,authored,explore/content/statements/plu-factorization-a6e9180a.md,inspected-unchanged
 19646f49-e8db-5918-a0df-83eaf8db1648,Matrix norms,definition,authored,explore/content/statements/matrix-norms-19646f49.md,reviewed-proposal
-188aac98-6bd6-511d-a625-99a6935d7b28,"Any block size, relative form",result,authored,explore/content/statements/rbki-any-block-gapless-error.md,pending
+188aac98-6bd6-511d-a625-99a6935d7b28,"Any block size, relative form",result,authored,explore/content/statements/rbki-any-block-gapless-error.md,needs-mathematical-review
 0ed7fc6a-e23a-5cc1-a1d8-2055f3edf2a8,Sufficient number of power steps without a gap,result,authored,explore/content/statements/nlalib-exists-forall-integral-specnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-of-haslaw-gaussianmatrix.md,reviewed-proposal
 d12d207c-4b10-5d38-b3af-794f3ecfb298,"The diagonalization class, from the two tails",result,authored,explore/content/statements/nlalib-measurereal-not-exists-class-le-of-haslaw-complexgaussianmatrix.md,reviewed-proposal
 d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239,Lanczos process,definition,authored,explore/content/statements/lanczos-process-d9e8ae48.md,reviewed-proposal
-60207554-de12-55e9-aa40-b0c5c81d3f44,Resident storage,result,authored,explore/content/statements/nlalib-spectralbisection-initialbytes-add-staticpeak-workspaceenvelope-le.md,pending
-f7cd488d-0af0-5fd3-8467-b88519a1ea9d,Work and sequential span,result,authored,explore/content/statements/nlalib-spectralbisection-certifies-work.md,inspected-unchanged
+60207554-de12-55e9-aa40-b0c5c81d3f44,Resident storage,result,authored,explore/content/statements/nlalib-spectralbisection-initialbytes-add-staticpeak-workspaceenvelope-le.md,needs-mathematical-review
+f7cd488d-0af0-5fd3-8467-b88519a1ea9d,Work and sequential span,result,authored,explore/content/statements/nlalib-spectralbisection-certifies-work.md,needs-mathematical-review
 cb17877c-5b47-5eee-848b-379ce1751a61,Corollary: eigenvalues,result,authored,explore/content/statements/dense-schur-eigenvalues.md,reviewed-proposal
 35e54249-105c-5da3-980b-30e3d93943b4,Optimal rank truncation,result,authored,explore/content/statements/eckart-young-frobenius.md,reviewed-proposal
 3f4f0fa3-7a5c-5871-83e4-2b9fceb23147,Column guarantees give the rounded contract,result,authored,explore/content/statements/cgs2-basis-extension-error.md,reviewed-proposal
@@ -210,12 +210,12 @@ ba9a80b1-12cc-5be5-b98c-0834104cd8f5,Polynomial approximation controls the error
 2ddefe08-7b63-50a0-a85b-a0d1f4e05a14,Cholesky does not break down,result,authored,explore/content/statements/cholesky-backward-error.md,inspected-unchanged
 89ab2263-0730-583c-89db-9695bea9604d,Best uniform polynomial error,definition,authored,explore/content/statements/best-uniform-polynomial-error-89ab2263.md,inspected-unchanged
 a2eae5c1-9838-5481-bd1e-23c8c937297c,Nyström subspace iteration,definition,authored,explore/content/statements/nystr-m-subspace-iteration-a2eae5c1.md,reviewed-proposal
-92fb9508-4283-5233-8460-928bf7187ea8,Any stages that meet their contracts compose,result,authored,explore/content/statements/nlalib-schur-schurpipelinewith-measurereal-not-schur-le.md,inspected-unchanged
+92fb9508-4283-5233-8460-928bf7187ea8,Any stages that meet their contracts compose,result,authored,explore/content/statements/nlalib-schur-schurpipelinewith-measurereal-not-schur-le.md,needs-mathematical-review
 581c9098-24f3-55b6-bd36-a47af48b21ff,Singular values,definition,authored,explore/content/statements/singular-values-581c9098.md,reviewed-proposal
 8647f4e3-cefb-5ae0-9fac-51da15589631,Nyström block Krylov iteration,definition,authored,explore/content/statements/nlalib-nystrombki-8647f4e3.md,reviewed-proposal
 023fc92c-a7f4-5544-8eaf-7774ad5ced2f,"Single start vector, relative form",result,authored,explore/content/statements/rbki-single-vector-gapless-error.md,pending
 9eae1af0-188b-5813-b0b9-54626065edae,Power iteration,definition,authored,explore/content/statements/power-iteration-9eae1af0.md,inspected-unchanged
-69d70e2e-9dfa-5224-b7b9-d22da53af29f,The program is a small-block Schur solver,result,authored,explore/content/statements/nlalib-smalleig-smalleigprog-randomschurleafcontract.md,inspected-unchanged
+69d70e2e-9dfa-5224-b7b9-d22da53af29f,The program is a small-block Schur solver,result,authored,explore/content/statements/nlalib-smalleig-smalleigprog-randomschurleafcontract.md,needs-mathematical-review
 057c76ad-28a7-5db1-b52a-2f9658bc0136,Evaluating a polynomial on a matrix,definition,authored,explore/content/statements/evaluating-a-polynomial-on-a-matrix-057c76ad.md,reviewed-proposal
 5979b536-df6b-57bf-932a-0f2b0dec440d,Residuals and spectral separation,definition,authored,explore/content/statements/residuals-and-spectral-separation-5979b536.md,reviewed-proposal
 40802520-a357-5db5-9410-9d519ed8a063,Smallest singular value of a shifted Ginibre matrix,result,authored,explore/content/statements/nlalib-measurereal-singularvalues-add-smul-le-le-exp-one-mul-of-haslaw-complexgaussianmatrix.md,reviewed-proposal
@@ -226,17 +226,17 @@ f80f0ee3-19d9-5a56-9908-696b3c4dda51,Rounded tape and ideal sample tree,result,a
 e1a72f9d-aab8-55c4-b50b-40b1279609fc,Forward error of iterative refinement,result,authored,explore/content/statements/iterative-refinement-forward-error.md,reviewed-proposal
 593daa98-8a52-5a89-a792-f46844fd76d6,Rounded run of the block Golub–Kahan process,definition,authored,explore/content/statements/nlalib-isblockgolubkahanerr-593daa98.md,reviewed-proposal
 d059f2c5-9a30-5050-9e0c-bfddc9d221d7,Gaussian relative-error guarantee,result,authored,explore/content/statements/etgn.md,reviewed-proposal
-f999f45d-a5f9-55fb-b592-dae1c50c70ab,Expected nuclear-norm error,result,authored,explore/content/statements/randomized-nystrom-expected-error.md,pending
+f999f45d-a5f9-55fb-b592-dae1c50c70ab,Expected nuclear-norm error,result,authored,explore/content/statements/randomized-nystrom-expected-error.md,reviewed-proposal
 be6e71b0-40da-513f-9790-9c44f41a3a31,Landweber iteration,definition,authored,explore/content/statements/landweber-iteration-be6e71b0.md,inspected-unchanged
-77274ec4-3d45-51a1-9390-7258d66c9efd,Expected Frobenius error,result,authored,explore/content/statements/randomized-svd-expected-error.md,pending
-5b8c8de4-ac54-5a02-a6ea-5cf2c96cee62,The solve with the computed factors,result,authored,explore/content/statements/nlalib-computation-norm-inv-mulvec-sub-le-of-ischoltrace.md,inspected-unchanged
+77274ec4-3d45-51a1-9390-7258d66c9efd,Expected Frobenius error,result,authored,explore/content/statements/randomized-svd-expected-error.md,reviewed-proposal
+5b8c8de4-ac54-5a02-a6ea-5cf2c96cee62,The solve with the computed factors,result,authored,explore/content/statements/nlalib-computation-norm-inv-mulvec-sub-le-of-ischoltrace.md,needs-mathematical-review
 ab283d6b-fe5a-5ca9-bae6-317a3a172f42,Minimum residual,result,authored,explore/content/statements/gmres-optimality.md,reviewed-proposal
 5c5ad6bf-3fdc-55bd-a427-6489b7c4a18d,Scratch storage,result,authored,explore/content/statements/nlalib-krylov-golubkahan-band-certification-staticpeak-solveprogram-le-solvepeak.md,inspected-unchanged
 cf55d814-21be-5b57-b8ce-33a3917607de,Certificate of the small-eigenvalue solver,definition,authored,explore/content/statements/nlalib-smalleig-smalleigalgorithm-cf55d814.md,inspected-unchanged
 27bc7cdd-514e-5fd6-8349-3561c58491be,Newton polar iteration,definition,authored,explore/content/statements/nlalib-polarnewtoniterate-27bc7cdd.md,inspected-unchanged
 b7f38d6d-61b5-5315-97b5-ad37f607e474,MINRES,definition,authored,explore/content/statements/minres-b7f38d6d.md,reviewed-proposal
 161639a0-5d37-530b-9f3f-52b80780a847,Exact execution correspondence,result,authored,explore/content/statements/nlalib-krylov-lanczos-runs-solve.md,reviewed-proposal
-4665c197-4b8f-5074-bbc4-261137cc421b,Forward error of the stored output,result,authored,explore/content/statements/nlalib-linearsystems-refinement-certification-algorithm-checked.md,inspected-unchanged
+4665c197-4b8f-5074-bbc4-261137cc421b,Forward error of the stored output,result,authored,explore/content/statements/nlalib-linearsystems-refinement-certification-algorithm-checked.md,needs-mathematical-review
 6d8bbd02-a064-5571-b084-98e3cfe2ee2d,Expected spectral error with a gap,result,authored,explore/content/statements/rsi-gapped-error.md,pending
 501be497-13e8-5f2d-b5bc-aeb5ccee7c75,Two exact passes give an exact extension,result,authored,explore/content/statements/cgs2-basis-extension.md,reviewed-proposal
 2fbe0187-6658-5dd5-8d09-3908e5df46fd,Full orthogonalization method,definition,authored,explore/content/statements/full-orthogonalization-method-2fbe0187.md,inspected-unchanged
@@ -247,18 +247,18 @@ b7f38d6d-61b5-5315-97b5-ad37f607e474,MINRES,definition,authored,explore/content/
 7fc80efd-a0b7-5ea9-8c6b-939e081bc549,MINRES attains the two-interval value,result,library-result,explore/content/statements/entry-7fc80efd-a0b7-5ea9-8c6b-939e081bc549.md,pending
 7fa78f1b-13dd-5b97-b7d1-541ce0393c68,PCG is CG on the split system,result,library-result,explore/content/statements/entry-7fa78f1b-13dd-5b97-b7d1-541ce0393c68.md,pending
 731bacba-eb21-566d-bb10-813628fe5a7e,Arnoldi basis of a Hessenberg reduction,result,library-result,explore/content/statements/entry-731bacba-eb21-566d-bb10-813628fe5a7e.md,pending
-730e2cb7-1bcf-55b8-900c-5a24af5ccfac,Rado's theorem,result,library-result,explore/content/statements/entry-730e2cb7-1bcf-55b8-900c-5a24af5ccfac.md,pending
+730e2cb7-1bcf-55b8-900c-5a24af5ccfac,Rado's theorem,result,library-result,explore/content/statements/entry-730e2cb7-1bcf-55b8-900c-5a24af5ccfac.md,reviewed-proposal
 73b5fcf9-e74e-5f12-851b-874d8eef0e2f,"Haar JL moments, asymptotic form",result,library-result,explore/content/statements/entry-73b5fcf9-e74e-5f12-851b-874d8eef0e2f.md,pending
 73112efa-07cc-5cc5-9629-c9dd13497da7,Derivative in relative coordinates,result,library-result,explore/content/statements/entry-73112efa-07cc-5cc5-9629-c9dd13497da7.md,reviewed-proposal
 2dab2e99-9e62-57a3-ac24-badfa56b765f,Perturbation of a least-squares solution,result,library-result,explore/content/statements/entry-2dab2e99-9e62-57a3-ac24-badfa56b765f.md,reviewed-proposal
-9deb67f6-0e95-59df-8f98-81b361e85ff9,The logarithm is operator monotone,result,library-result,explore/content/statements/entry-9deb67f6-0e95-59df-8f98-81b361e85ff9.md,pending
+9deb67f6-0e95-59df-8f98-81b361e85ff9,The logarithm is operator monotone,result,library-result,explore/content/statements/entry-9deb67f6-0e95-59df-8f98-81b361e85ff9.md,reviewed-proposal
 9db8c8d1-5fd1-5aa5-a233-89ae79ff0df1,Tomić–Weyl,result,library-result,explore/content/statements/entry-9db8c8d1-5fd1-5aa5-a233-89ae79ff0df1.md,pending
 e8903483-c817-5151-a9fb-abfc5a7b538a,"Scalar Lanczos with full reorthogonalization in rounded arithmetic: termination, operation count, orthogonality and Ritz values",result,library-result,explore/content/statements/entry-e8903483-c817-5151-a9fb-abfc5a7b538a.md,reviewed-proposal
 e8a57e12-c026-59cd-8eb4-c91d54498a5e,Smallest singular value of a square complex Gaussian matrix,result,library-result,explore/content/statements/entry-e8a57e12-c026-59cd-8eb4-c91d54498a5e.md,reviewed-proposal
 e835324a-a005-5849-bdab-fe6e1edd8e9c,Randomized SVD: tail bounds,result,library-result,explore/content/statements/entry-e835324a-a005-5849-bdab-fe6e1edd8e9c.md,pending
 e8e684bb-eddc-50eb-838e-041ca826629e,Physical energy and computed decrements,result,library-result,explore/content/statements/entry-e8e684bb-eddc-50eb-838e-041ca826629e.md,inspected-unchanged
 e85b3d46-730d-5c52-81db-26ebb0e609ce,Multivariate Golden–Thompson,result,library-result,explore/content/statements/entry-e85b3d46-730d-5c52-81db-26ebb0e609ce.md,pending
-0acaeceb-7ec8-5abb-a651-9930f4b82497,Minimal residual approximations minimise the residual,result,library-result,explore/content/statements/entry-0acaeceb-7ec8-5abb-a651-9930f4b82497.md,pending
+0acaeceb-7ec8-5abb-a651-9930f4b82497,Minimal residual approximations minimise the residual,result,library-result,explore/content/statements/entry-0acaeceb-7ec8-5abb-a651-9930f4b82497.md,reviewed-proposal
 0ad594f9-c3a8-54c2-a059-a31abe43cc24,The dilated recurrence,result,library-result,explore/content/statements/entry-0ad594f9-c3a8-54c2-a059-a31abe43cc24.md,reviewed-proposal
 0aec7dfa-d33c-5218-8aad-5af027f8faa8,The Chebyshev bound for MINRES,result,library-result,explore/content/statements/entry-0aec7dfa-d33c-5218-8aad-5af027f8faa8.md,pending
 0a1bbc90-3e21-50db-be7f-d99cd0acdeeb,Consecutive draws are independent,result,library-result,explore/content/statements/entry-0a1bbc90-3e21-50db-be7f-d99cd0acdeeb.md,pending
@@ -270,9 +270,9 @@ e85b3d46-730d-5c52-81db-26ebb0e609ce,Multivariate Golden–Thompson,result,libra
 c4d23d43-3249-5842-987f-06fe5083e715,The Kolmogorov-distance tail of the probe spectral measure,result,library-result,explore/content/statements/entry-c4d23d43-3249-5842-987f-06fe5083e715.md,pending
 c4ca8557-682b-537f-a057-fe5744e83313,The Frobenius norm of a deflation by top right singular vectors,result,library-result,explore/content/statements/entry-c4ca8557-682b-537f-a057-fe5744e83313.md,inspected-unchanged
 dabe6d5a-f560-585f-b374-4aca977368c7,Hoeffding's comparison,result,library-result,explore/content/statements/entry-dabe6d5a-f560-585f-b374-4aca977368c7.md,pending
-da7df3da-ed35-587d-91d2-eb92aa248785,Gaussian concentration of Lipschitz functions,result,library-result,explore/content/statements/entry-da7df3da-ed35-587d-91d2-eb92aa248785.md,pending
+da7df3da-ed35-587d-91d2-eb92aa248785,Gaussian concentration of Lipschitz functions,result,library-result,explore/content/statements/entry-da7df3da-ed35-587d-91d2-eb92aa248785.md,reviewed-proposal
 da7b5d1d-38ef-5066-8507-3db4bab7f32d,Mirsky's theorem,result,library-result,explore/content/statements/entry-da7b5d1d-38ef-5066-8507-3db4bab7f32d.md,pending
-dad6590f-cd4d-52a5-8acb-b2a889797085,The GMRES bound for diagonalisable $\mathbf{A}$,result,library-result,explore/content/statements/entry-dad6590f-cd4d-52a5-8acb-b2a889797085.md,pending
+dad6590f-cd4d-52a5-8acb-b2a889797085,The GMRES bound for diagonalisable $\mathbf{A}$,result,library-result,explore/content/statements/entry-dad6590f-cd4d-52a5-8acb-b2a889797085.md,reviewed-proposal
 da69d6c5-a7e3-5d09-893b-6e7523463f59,Optimality of Rademacher probes,result,library-result,explore/content/statements/entry-da69d6c5-a7e3-5d09-893b-6e7523463f59.md,pending
 2996b06c-3caa-5ac9-82b9-1762daa7da71,Polar Newton closed form,result,library-result,explore/content/statements/entry-2996b06c-3caa-5ac9-82b9-1762daa7da71.md,pending
 292e0479-ea41-5c55-80db-6667d29c4377,A Haar frame is left orthogonally invariant,result,library-result,explore/content/statements/entry-292e0479-ea41-5c55-80db-6667d29c4377.md,pending
@@ -289,7 +289,7 @@ da69d6c5-a7e3-5d09-893b-6e7523463f59,Optimality of Rademacher probes,result,libr
 0fad524f-7a6a-586e-86d9-014d206079d9,Strict positivity of the truncated exponential kernel,result,library-result,explore/content/statements/entry-0fad524f-7a6a-586e-86d9-014d206079d9.md,pending
 0f0379f3-85a7-5718-b24e-fc7160ffb980,Ostrowski's theorem,result,library-result,explore/content/statements/entry-0f0379f3-85a7-5718-b24e-fc7160ffb980.md,pending
 aa94b434-afe8-51dd-a7bb-bd57f4fdb619,The error of stochastic Lanczos quadrature and the minimax error,result,library-result,explore/content/statements/entry-aa94b434-afe8-51dd-a7bb-bd57f4fdb619.md,pending
-d3a6b1cd-705e-5757-9218-ac72cd31a64f,Nyström with a rotation-invariant test matrix has the Gaussian law,result,library-result,explore/content/statements/entry-d3a6b1cd-705e-5757-9218-ac72cd31a64f.md,pending
+d3a6b1cd-705e-5757-9218-ac72cd31a64f,Nyström with a rotation-invariant test matrix has the Gaussian law,result,library-result,explore/content/statements/entry-d3a6b1cd-705e-5757-9218-ac72cd31a64f.md,reviewed-proposal
 d305b3ba-c30e-5e65-8b8b-6b6d0081f842,The nuclear norm is the dual of the spectral norm,result,library-result,explore/content/statements/entry-d305b3ba-c30e-5e65-8b8b-6b6d0081f842.md,pending
 d3e99f30-f02a-5df8-ad99-70eb3a91c3fa,One block step of the loss of orthogonality,result,library-result,explore/content/statements/entry-d3e99f30-f02a-5df8-ad99-70eb3a91c3fa.md,reviewed-proposal
 b5ac9737-deca-511a-8796-65c282985c09,CountSketch OSI,result,library-result,explore/content/statements/entry-b5ac9737-deca-511a-8796-65c282985c09.md,reviewed-proposal
@@ -304,16 +304,16 @@ d6f2879b-b598-5a71-a4a2-397e19cf2912,MINRES on two symmetric intervals,result,li
 d6adf613-2ea6-5904-90f3-53743b8f6ec2,The spectral measure integrates the quadratic form,result,library-result,explore/content/statements/entry-d6adf613-2ea6-5904-90f3-53743b8f6ec2.md,pending
 4cf70613-9c2d-5d84-a325-a7e2d40fe039,Fan dominance,result,library-result,explore/content/statements/entry-4cf70613-9c2d-5d84-a325-a7e2d40fe039.md,reviewed-proposal
 4c389a32-c58b-5a0e-a722-666535bd2d7c,A monotone function gives a monotone trace function,result,library-result,explore/content/statements/entry-4c389a32-c58b-5a0e-a722-666535bd2d7c.md,pending
-4c463ffc-adfb-5a30-ba57-a9681f4d06a6,Gaussian subspace embedding,result,library-result,explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md,pending
+4c463ffc-adfb-5a30-ba57-a9681f4d06a6,Gaussian subspace embedding,result,library-result,explore/content/statements/entry-4c463ffc-adfb-5a30-ba57-a9681f4d06a6.md,reviewed-proposal
 4c9e5f1e-138d-55fa-9617-56ac424c71a5,The norm of a polynomial in a Hermitian matrix,result,library-result,explore/content/statements/entry-4c9e5f1e-138d-55fa-9617-56ac424c71a5.md,pending
 1d82859f-929b-5546-a3d6-98609644a6b8,Wedin's theorem with the gap of the unperturbed matrix,result,library-result,explore/content/statements/entry-1d82859f-929b-5546-a3d6-98609644a6b8.md,pending
 ec9593e3-fced-579a-b3b3-f8c1535a86eb,Hadamard's inequality,result,library-result,explore/content/statements/entry-ec9593e3-fced-579a-b3b3-f8c1535a86eb.md,pending
 ad185187-bc15-5b75-b77e-4eeca6bed53f,Localization of stabilised Ritz values,result,library-result,explore/content/statements/entry-ad185187-bc15-5b75-b77e-4eeca6bed53f.md,pending
-98eec1b5-59f3-5cee-818c-284866df505c,The generalised matrix Laplace transform bound,result,library-result,explore/content/statements/entry-98eec1b5-59f3-5cee-818c-284866df505c.md,pending
+98eec1b5-59f3-5cee-818c-284866df505c,The generalised matrix Laplace transform bound,result,library-result,explore/content/statements/entry-98eec1b5-59f3-5cee-818c-284866df505c.md,reviewed-proposal
 88cf0347-dbe0-53ee-ba2d-d7894f90a6b9,Real matrices unitarily similar over $\mathbb{C}$ are orthogonally similar over $\mathbb{R}$,result,library-result,explore/content/statements/entry-88cf0347-dbe0-53ee-ba2d-d7894f90a6b9.md,pending
 88e837fd-ea33-5f33-b16c-07239a5a4358,Gradient of the Rayleigh quotient,result,library-result,explore/content/statements/entry-88e837fd-ea33-5f33-b16c-07239a5a4358.md,reviewed-proposal
 a3ab3fcc-f067-5b26-a3b9-ec218bdb1074,Beta laws are sub-Gaussian with proxy $1/(4(\alpha+\beta+1))$,result,library-result,explore/content/statements/entry-a3ab3fcc-f067-5b26-a3b9-ec218bdb1074.md,reviewed-proposal
-a3c1fc4e-a1f4-5bb4-a453-7bafd4394411,Gaussian integration by parts,result,library-result,explore/content/statements/entry-a3c1fc4e-a1f4-5bb4-a453-7bafd4394411.md,pending
+a3c1fc4e-a1f4-5bb4-a453-7bafd4394411,Gaussian integration by parts,result,library-result,explore/content/statements/entry-a3c1fc4e-a1f4-5bb4-a453-7bafd4394411.md,reviewed-proposal
 1b98ad4f-9cac-578b-81cf-ba9d8a44c47f,Duality of Schatten norms,result,library-result,explore/content/statements/entry-1b98ad4f-9cac-578b-81cf-ba9d8a44c47f.md,pending
 9eea00c9-02e4-5cb5-a9a3-b03eb148c76d,Radical closed form of Chebyshev polynomials,result,library-result,explore/content/statements/entry-9eea00c9-02e4-5cb5-a9a3-b03eb148c76d.md,reviewed-proposal
 9e29534d-fb46-5f75-99cf-b774254614e5,Nuclear norm of a positive semidefinite difference,result,library-result,explore/content/statements/entry-9e29534d-fb46-5f75-99cf-b774254614e5.md,pending
@@ -325,22 +325,22 @@ d8971d3c-b85b-54eb-8089-7148a3b15095,Canonical Arnoldi basis is graded and uniqu
 d87a4d6a-1227-58b3-a62d-c7efe303ce7d,The dichotomy for forward-approximate Ritz values,result,library-result,explore/content/statements/entry-d87a4d6a-1227-58b3-a62d-c7efe303ce7d.md,pending
 5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8,Hermitian diagonalization needs $\log_2(1/\varepsilon) + \tfrac12\log_2 n - 2$ bits,result,library-result,explore/content/statements/entry-5f90ea70-40c1-54dd-9dc5-83fd2ea6fda8.md,pending
 5ea3fa86-65cd-584d-affa-921f27e54280,CG is $\mathbf{x}_0 + \mathbf{Q}(\mathbf{Q}^{\mathsf{H}}\mathbf{A}\mathbf{Q})^{-1}\mathbf{Q}^{\mathsf{H}}\mathbf{r}_0$ for any orthonormal basis $\mathbf{Q}$ of the Krylov space,result,library-result,explore/content/statements/entry-5ea3fa86-65cd-584d-affa-921f27e54280.md,reviewed-proposal
-ba64e102-5d7c-51aa-b7cb-f4998bffa60a,The log-determinant is strictly concave,result,library-result,explore/content/statements/entry-ba64e102-5d7c-51aa-b7cb-f4998bffa60a.md,pending
+ba64e102-5d7c-51aa-b7cb-f4998bffa60a,The log-determinant is strictly concave,result,library-result,explore/content/statements/entry-ba64e102-5d7c-51aa-b7cb-f4998bffa60a.md,reviewed-proposal
 ba3fed60-d049-594c-aa71-9fd4d19293e9,Kadison's inequality,result,library-result,explore/content/statements/entry-ba3fed60-d049-594c-aa71-9fd4d19293e9.md,pending
-ba8a28e0-cf39-56f3-8964-3b383dd0b37d,Equality in Minkowski's determinant inequality,result,library-result,explore/content/statements/entry-ba8a28e0-cf39-56f3-8964-3b383dd0b37d.md,pending
+ba8a28e0-cf39-56f3-8964-3b383dd0b37d,Equality in Minkowski's determinant inequality,result,library-result,explore/content/statements/entry-ba8a28e0-cf39-56f3-8964-3b383dd0b37d.md,reviewed-proposal
 ba2f33f2-dea9-5013-b381-0a45d55651a9,"From any start, randomized Kaczmarz converges to the least-squares solution nearest the start, up to the horizon",result,library-result,explore/content/statements/entry-ba2f33f2-dea9-5013-b381-0a45d55651a9.md,pending
 65abc507-e8cf-5e41-827a-352622e11905,The Gram commutator is small,result,library-result,explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md,reviewed-proposal
 65af7594-ed4f-5ae9-93e2-6c8ddf8141b7,Sketch-and-precondition is CGLS on $\mathbf{A}\mathbf{M}$,result,library-result,explore/content/statements/entry-65af7594-ed4f-5ae9-93e2-6c8ddf8141b7.md,pending
-6592fb57-590b-527a-a8b9-52262432f944,The Gaussian OSI,result,library-result,explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md,pending
+6592fb57-590b-527a-a8b9-52262432f944,The Gaussian OSI,result,library-result,explore/content/statements/entry-6592fb57-590b-527a-a8b9-52262432f944.md,reviewed-proposal
 658a1d83-1086-5980-812f-965071db365b,Noncommutative Khintchine inequality,result,library-result,explore/content/statements/entry-658a1d83-1086-5980-812f-965071db365b.md,pending
 6583e3cb-baf9-5c38-b395-67ee254eacf3,$O(\|\mathbf{A}\|_{\mathsf{F}}^2\|\mathbf{A}^{+}\|_2^2\log(1/\varepsilon))$ iterations suffice for randomized Kaczmarz,result,library-result,explore/content/statements/entry-6583e3cb-baf9-5c38-b395-67ee254eacf3.md,pending
 d92f32a4-6db9-57f9-afff-ae4712dda905,Lanczos-FA is interpolation at the Ritz values,result,library-result,explore/content/statements/entry-d92f32a4-6db9-57f9-afff-ae4712dda905.md,reviewed-proposal
 d9744d5b-669c-5f50-9f45-db8298d21851,Principal-submatrix eigenvalue survival,result,library-result,explore/content/statements/entry-d9744d5b-669c-5f50-9f45-db8298d21851.md,pending
-d920610a-25ab-515f-9268-afd22b97be47,Fréchet derivative of the exponential,result,library-result,explore/content/statements/entry-d920610a-25ab-515f-9268-afd22b97be47.md,pending
-d91e5856-418a-5362-a7f4-40942d67730d,The field-of-values bound,result,library-result,explore/content/statements/entry-d91e5856-418a-5362-a7f4-40942d67730d.md,pending
-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f,Golub–Welsch,result,library-result,explore/content/statements/entry-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f.md,pending
+d920610a-25ab-515f-9268-afd22b97be47,Fréchet derivative of the exponential,result,library-result,explore/content/statements/entry-d920610a-25ab-515f-9268-afd22b97be47.md,reviewed-proposal
+d91e5856-418a-5362-a7f4-40942d67730d,The field-of-values bound,result,library-result,explore/content/statements/entry-d91e5856-418a-5362-a7f4-40942d67730d.md,reviewed-proposal
+d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f,Golub–Welsch,result,library-result,explore/content/statements/entry-d93b4053-0c3c-5e9b-83e1-929bbf1e9e9f.md,reviewed-proposal
 1a7129dc-8352-56d1-a697-c06c7e85e61e,Golub–Welsch for the Radau rule,result,library-result,explore/content/statements/entry-1a7129dc-8352-56d1-a697-c06c7e85e61e.md,reviewed-proposal
-1afc0f25-2894-5653-bc30-492d21eac16c,Row inclusion characterizes LU existence,result,library-result,explore/content/statements/entry-1afc0f25-2894-5653-bc30-492d21eac16c.md,pending
+1afc0f25-2894-5653-bc30-492d21eac16c,Row inclusion characterizes LU existence,result,library-result,explore/content/statements/entry-1afc0f25-2894-5653-bc30-492d21eac16c.md,reviewed-proposal
 1a2fb5df-7070-5ba0-a231-3a874f199f98,The spectrum-minimax bound for CG is attained,result,library-result,explore/content/statements/entry-1a2fb5df-7070-5ba0-a231-3a874f199f98.md,reviewed-proposal
 1a144897-2587-53a0-b390-98d9125b4ecd,Uniqueness of the Gauss rule,result,library-result,explore/content/statements/entry-1a144897-2587-53a0-b390-98d9125b4ecd.md,reviewed-proposal
 c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6,Intrinsic-dimension matrix Chernoff for the mean,result,library-result,explore/content/statements/entry-c0dbd55a-6013-5ccf-9bf4-6bceef0ec8a6.md,pending
@@ -356,16 +356,16 @@ e3ec34a6-32b4-5af4-b93c-48465981edc2,The preconditioned Lanczos recurrence yield
 553bd396-7394-5f79-8007-a74a35678e64,Haynsworth inertia additivity,result,library-result,explore/content/statements/entry-553bd396-7394-5f79-8007-a74a35678e64.md,pending
 56dc5cd6-d573-52d3-a893-0c4152458d9c,MINRES kills outlying eigenvalues,result,library-result,explore/content/statements/entry-56dc5cd6-d573-52d3-a893-0c4152458d9c.md,pending
 560f3dc8-61bf-51b3-be18-4995c4f7fa1b,The spectral theorem for normal matrices,result,library-result,explore/content/statements/entry-560f3dc8-61bf-51b3-be18-4995c4f7fa1b.md,pending
-b71c3bb1-2e30-594f-a76c-2d86129bc184,Exact sign Newton iterates,result,library-result,explore/content/statements/entry-b71c3bb1-2e30-594f-a76c-2d86129bc184.md,pending
+b71c3bb1-2e30-594f-a76c-2d86129bc184,Exact sign Newton iterates,result,library-result,explore/content/statements/entry-b71c3bb1-2e30-594f-a76c-2d86129bc184.md,reviewed-proposal
 b763c179-e5f0-50dd-a4eb-93e2d7e8f772,The Paley–Zygmund inequality,result,library-result,explore/content/statements/entry-b763c179-e5f0-50dd-a4eb-93e2d7e8f772.md,pending
 e402bfcb-bd27-537c-92fa-126246113c4e,The best approximation interpolates,result,library-result,explore/content/statements/entry-e402bfcb-bd27-537c-92fa-126246113c4e.md,reviewed-proposal
 a8798d66-4c2c-5ef6-bb4d-216baa1cec68,Fischer's inequality,result,library-result,explore/content/statements/entry-a8798d66-4c2c-5ef6-bb4d-216baa1cec68.md,reviewed-proposal
 a8cb327d-7e48-5c55-8ecb-e5d90758d5d9,A differentiable branch through a simple eigenvalue,result,library-result,explore/content/statements/entry-a8cb327d-7e48-5c55-8ecb-e5d90758d5d9.md,pending
 a8d9fdcb-de24-57c9-95e9-41176f982d02,Unitary canonical form of an idempotent,result,library-result,explore/content/statements/entry-a8d9fdcb-de24-57c9-95e9-41176f982d02.md,pending
-a8883413-4c41-5c41-bdf5-2b28b2ad6b98,Finite termination of GMRES,result,library-result,explore/content/statements/entry-a8883413-4c41-5c41-bdf5-2b28b2ad6b98.md,pending
+a8883413-4c41-5c41-bdf5-2b28b2ad6b98,Finite termination of GMRES,result,library-result,explore/content/statements/entry-a8883413-4c41-5c41-bdf5-2b28b2ad6b98.md,reviewed-proposal
 df58a248-cf89-5823-a3c3-5db8a66d4f79,Chebyshev fixed-batch nuclear-norm query lower bound,result,library-result,explore/content/statements/entry-df58a248-cf89-5823-a3c3-5db8a66d4f79.md,inspected-unchanged
-af99298d-c770-5b19-83ef-20d7479f19b7,McDiarmid's inequality,result,library-result,explore/content/statements/entry-af99298d-c770-5b19-83ef-20d7479f19b7.md,pending
-af21c8a6-c63a-513c-b0d0-e68ca1221c5e,The Petrov–Galerkin condition characterises GMRES,result,library-result,explore/content/statements/entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e.md,pending
+af99298d-c770-5b19-83ef-20d7479f19b7,McDiarmid's inequality,result,library-result,explore/content/statements/entry-af99298d-c770-5b19-83ef-20d7479f19b7.md,reviewed-proposal
+af21c8a6-c63a-513c-b0d0-e68ca1221c5e,The Petrov–Galerkin condition characterises GMRES,result,library-result,explore/content/statements/entry-af21c8a6-c63a-513c-b0d0-e68ca1221c5e.md,reviewed-proposal
 afe0f1eb-e662-51a9-9535-5bacc015731b,Finite precision Lanczos for bounded functions,result,library-result,explore/content/statements/entry-afe0f1eb-e662-51a9-9535-5bacc015731b.md,reviewed-proposal
 afedaa05-0b41-5c03-8ce5-8e22f5887b51,Frobenius's rank inequality,result,library-result,explore/content/statements/entry-afedaa05-0b41-5c03-8ce5-8e22f5887b51.md,reviewed-proposal
 94d9203a-71f0-562f-bfd7-78afc2ebf73a,Ky Fan's majorization for sums,result,library-result,explore/content/statements/entry-94d9203a-71f0-562f-bfd7-78afc2ebf73a.md,pending
@@ -386,18 +386,18 @@ afedaa05-0b41-5c03-8ce5-8e22f5887b51,Frobenius's rank inequality,result,library-
 3a185898-f7ec-57b1-ae15-2d45d6c60fdf,Girard–Hutchinson variance: real Gaussian probe,result,library-result,explore/content/statements/entry-3a185898-f7ec-57b1-ae15-2d45d6c60fdf.md,pending
 3a2b9210-6d5f-5dcc-95fe-cfc1e049c6f8,Unshifted Gram gradient energy,result,library-result,explore/content/statements/entry-3a2b9210-6d5f-5dcc-95fe-cfc1e049c6f8.md,pending
 3a153dcc-6cc8-5135-a29b-1827909311f3,Lanczos quadrature is the Gauss rule of the spectral measure,result,library-result,explore/content/statements/entry-3a153dcc-6cc8-5135-a29b-1827909311f3.md,reviewed-proposal
-63753782-dbfb-527e-8ed6-f1b4a589bcce,Girard–Hutchinson: tail bound for sub-Gaussian probes,result,library-result,explore/content/statements/entry-63753782-dbfb-527e-8ed6-f1b4a589bcce.md,pending
+63753782-dbfb-527e-8ed6-f1b4a589bcce,Girard–Hutchinson: tail bound for sub-Gaussian probes,result,library-result,explore/content/statements/entry-63753782-dbfb-527e-8ed6-f1b4a589bcce.md,reviewed-proposal
 63d96901-9766-5f9f-837a-5a3ad67d413a,Quadratic decrease of the defect under perturbation,result,library-result,explore/content/statements/entry-63d96901-9766-5f9f-837a-5a3ad67d413a.md,pending
 63bef14c-4de8-587d-95ff-5cf13f156f27,The variance of a Haar compression,result,library-result,explore/content/statements/entry-63bef14c-4de8-587d-95ff-5cf13f156f27.md,pending
-66c1ca82-2fb5-5ebf-89a7-88a6b39ff453,Localized hard truncation,result,library-result,explore/content/statements/entry-66c1ca82-2fb5-5ebf-89a7-88a6b39ff453.md,pending
+66c1ca82-2fb5-5ebf-89a7-88a6b39ff453,Localized hard truncation,result,library-result,explore/content/statements/entry-66c1ca82-2fb5-5ebf-89a7-88a6b39ff453.md,inspected-unchanged
 669489a7-9aab-5484-83a4-7000f72d2e29,Lanczos breaks down exactly at the grade,result,library-result,explore/content/statements/entry-669489a7-9aab-5484-83a4-7000f72d2e29.md,reviewed-proposal
 a28dc5e5-5ab2-5e77-b374-b16218f9b27b,Delayed physical energy reliability,result,library-result,explore/content/statements/entry-a28dc5e5-5ab2-5e77-b374-b16218f9b27b.md,reviewed-proposal
 a22e2c27-0021-5728-97c0-8f69af49d01b,Hardy–Littlewood–Pólya,result,library-result,explore/content/statements/entry-a22e2c27-0021-5728-97c0-8f69af49d01b.md,pending
 cdcba4a1-cbd7-5bbf-8065-4a1a1b41972b,Quadratic backward error under small roundoff,result,library-result,explore/content/statements/entry-cdcba4a1-cbd7-5bbf-8065-4a1a1b41972b.md,inspected-unchanged
 62279fc0-cdb5-5913-9371-98376f572a0c,Local orthogonality of finite-precision Lanczos,result,library-result,explore/content/statements/entry-62279fc0-cdb5-5913-9371-98376f572a0c.md,reviewed-proposal
 62747732-0492-51d7-8d9a-8add091ef4b9,The dense eigendecomposition theorem,result,library-result,explore/content/statements/entry-62747732-0492-51d7-8d9a-8add091ef4b9.md,reviewed-proposal
-62f68313-689a-596f-9534-533c9d6ad004,Arnoldi with Givens QR yields GMRES,result,library-result,explore/content/statements/entry-62f68313-689a-596f-9534-533c9d6ad004.md,pending
-6220bcf7-a170-583c-b594-38dae3abbb89,The mean value trace inequality,result,library-result,explore/content/statements/entry-6220bcf7-a170-583c-b594-38dae3abbb89.md,pending
+62f68313-689a-596f-9534-533c9d6ad004,Arnoldi with Givens QR yields GMRES,result,library-result,explore/content/statements/entry-62f68313-689a-596f-9534-533c9d6ad004.md,reviewed-proposal
+6220bcf7-a170-583c-b594-38dae3abbb89,The mean value trace inequality,result,library-result,explore/content/statements/entry-6220bcf7-a170-583c-b594-38dae3abbb89.md,reviewed-proposal
 625c5e08-741c-5685-a51e-4014e295049b,The Hoffman–Wielandt theorem for normal matrices,result,library-result,explore/content/statements/entry-625c5e08-741c-5685-a51e-4014e295049b.md,pending
 623c5194-af38-5819-aaeb-d7f18db05ddb,Chebyshev truncation reproduces polynomials,result,library-result,explore/content/statements/entry-623c5194-af38-5819-aaeb-d7f18db05ddb.md,reviewed-proposal
 75d825fd-d8f5-514f-a172-b055c892f8e6,Approximate matrix multiplication from the JL moment property,result,library-result,explore/content/statements/entry-75d825fd-d8f5-514f-a172-b055c892f8e6.md,reviewed-proposal
@@ -406,8 +406,8 @@ cdcba4a1-cbd7-5bbf-8065-4a1a1b41972b,Quadratic backward error under small roundo
 d07c2685-3fcf-5beb-b5f4-6004950e0f09,A circulant is Toeplitz,result,library-result,explore/content/statements/entry-d07c2685-3fcf-5beb-b5f4-6004950e0f09.md,reviewed-proposal
 1978f16c-8800-58c7-ae75-01d2a63b6b8c,The implicit Q theorem,result,library-result,explore/content/statements/entry-1978f16c-8800-58c7-ae75-01d2a63b6b8c.md,pending
 8233784b-c268-54a7-a213-7fd515bf6595,Relative reliability of computed CG energy decrements,result,library-result,explore/content/statements/entry-8233784b-c268-54a7-a213-7fd515bf6595.md,reviewed-proposal
-b8d5ecfc-a16e-5433-9b6d-e7360fdde952,Löwner criterion,result,library-result,explore/content/statements/entry-b8d5ecfc-a16e-5433-9b6d-e7360fdde952.md,pending
-b8e33c6f-3357-53c2-b620-f2c91f2e4fc7,A nonsingular matrix has an LU factorization exactly when its leading principal minors are nonzero,result,library-result,explore/content/statements/entry-b8e33c6f-3357-53c2-b620-f2c91f2e4fc7.md,pending
+b8d5ecfc-a16e-5433-9b6d-e7360fdde952,Löwner criterion,result,library-result,explore/content/statements/entry-b8d5ecfc-a16e-5433-9b6d-e7360fdde952.md,reviewed-proposal
+b8e33c6f-3357-53c2-b620-f2c91f2e4fc7,A nonsingular matrix has an LU factorization exactly when its leading principal minors are nonzero,result,library-result,explore/content/statements/entry-b8e33c6f-3357-53c2-b620-f2c91f2e4fc7.md,no-NL-prose
 f81cdcf2-e641-5423-a741-447972fe242f,Singularity and the spectral condition number,result,library-result,explore/content/statements/entry-f81cdcf2-e641-5423-a741-447972fe242f.md,reviewed-proposal
 5babb442-b914-5018-80e7-9918a3c8d0d4,The perspective of an operator convex function is jointly operator convex,result,library-result,explore/content/statements/entry-5babb442-b914-5018-80e7-9918a3c8d0d4.md,pending
 5b57cbc1-a689-59b4-850b-659c6a4278b4,Chebyshev fixed-batch Frobenius query lower bound,result,library-result,explore/content/statements/entry-5b57cbc1-a689-59b4-850b-659c6a4278b4.md,inspected-unchanged
@@ -419,7 +419,7 @@ f81cdcf2-e641-5423-a741-447972fe242f,Singularity and the spectral condition numb
 3faeb6bf-2f2b-5fe5-b29a-35a0b4005715,Stahl's trace-exponential representation,result,library-result,explore/content/statements/entry-3faeb6bf-2f2b-5fe5-b29a-35a0b4005715.md,pending
 9a127b93-df2e-5efb-af2e-7b7d2ef0ed86,Uniqueness of the Radau rule,result,library-result,explore/content/statements/entry-9a127b93-df2e-5efb-af2e-7b7d2ef0ed86.md,reviewed-proposal
 43bb15f8-039a-5235-a6ad-28c571f72377,Foster's identity,result,library-result,explore/content/statements/entry-43bb15f8-039a-5235-a6ad-28c571f72377.md,reviewed-proposal
-43f77e9c-4ff7-509d-9b92-053d5dc60e17,Gaussian rows suffice for a rank-$d$ projection-cost-preserving sketch,result,library-result,explore/content/statements/entry-43f77e9c-4ff7-509d-9b92-053d5dc60e17.md,pending
+43f77e9c-4ff7-509d-9b92-053d5dc60e17,Gaussian rows suffice for a rank-$d$ projection-cost-preserving sketch,result,library-result,explore/content/statements/entry-43f77e9c-4ff7-509d-9b92-053d5dc60e17.md,reviewed-proposal
 09717760-6c8d-50ba-89c2-82cb93b5abe2,The Wielandt inequality,result,library-result,explore/content/statements/entry-09717760-6c8d-50ba-89c2-82cb93b5abe2.md,pending
 09437ddf-6768-5687-b6bf-6737318d7d70,Closed spectral disks for a normal matrix,result,library-result,explore/content/statements/entry-09437ddf-6768-5687-b6bf-6737318d7d70.md,pending
 09c415ab-71d6-54a8-9368-71c4bb24bcb1,AMM with a CountSketch,result,library-result,explore/content/statements/entry-09c415ab-71d6-54a8-9368-71c4bb24bcb1.md,reviewed-proposal
@@ -438,7 +438,7 @@ f44f6ec6-3fbb-55f0-8bd2-f1916518bcf1,Strict contraction factorization,result,lib
 672a168c-d15f-55ce-a891-de8949c3ce2d,The condition number of a preconditioned matrix,result,library-result,explore/content/statements/entry-672a168c-d15f-55ce-a891-de8949c3ce2d.md,pending
 6767bb9a-026f-5710-bd11-a09a4dd7074d,Finite-horizon Chebyshev bound for the computed residual,result,library-result,explore/content/statements/entry-6767bb9a-026f-5710-bd11-a09a4dd7074d.md,reviewed-proposal
 679343b6-80c1-5385-a332-77ac1d420b6b,The Haar OSI,result,library-result,explore/content/statements/entry-679343b6-80c1-5385-a332-77ac1d420b6b.md,pending
-dec3e901-f091-5ac5-8d66-eb65341876ce,"Matrix Chernoff without replacement, lower tail",result,library-result,explore/content/statements/entry-dec3e901-f091-5ac5-8d66-eb65341876ce.md,pending
+dec3e901-f091-5ac5-8d66-eb65341876ce,"Matrix Chernoff without replacement, lower tail",result,library-result,explore/content/statements/entry-dec3e901-f091-5ac5-8d66-eb65341876ce.md,reviewed-proposal
 deb9cd0c-d96b-5430-81a8-91998791c218,Hermitian diagonalization in linear precision,result,library-result,explore/content/statements/entry-deb9cd0c-d96b-5430-81a8-91998791c218.md,pending
 de798c5d-2e88-57bb-9343-65f30c7b915b,"Sketch-and-precondition with a random embedding, sketch-and-solve start",result,library-result,explore/content/statements/entry-de798c5d-2e88-57bb-9343-65f30c7b915b.md,pending
 ed39a224-8977-5a2f-abe0-23290ac526c0,Chebyshev's inequality,result,library-result,explore/content/statements/entry-ed39a224-8977-5a2f-abe0-23290ac526c0.md,reviewed-proposal
@@ -460,7 +460,7 @@ eac223be-0768-54e1-803e-7d2236ab7fda,Sketch-and-precondition converges geometric
 13b1b57c-4f33-50d6-a920-d8dcb168b35e,"The power method, gapped",result,library-result,explore/content/statements/entry-13b1b57c-4f33-50d6-a920-d8dcb168b35e.md,pending
 1351eb09-b212-5c2c-b227-91317234b040,Bernstein's inequality,result,library-result,explore/content/statements/entry-1351eb09-b212-5c2c-b227-91317234b040.md,reviewed-proposal
 13ec0b5e-45b1-54fa-ae8a-a294863548ca,Inverse Jensen inequality,result,library-result,explore/content/statements/entry-13ec0b5e-45b1-54fa-ae8a-a294863548ca.md,pending
-b9d73fd0-6ba9-5070-8075-06d93d6f631e,Matrix Bernstein without replacement,result,library-result,explore/content/statements/entry-b9d73fd0-6ba9-5070-8075-06d93d6f631e.md,pending
+b9d73fd0-6ba9-5070-8075-06d93d6f631e,Matrix Bernstein without replacement,result,library-result,explore/content/statements/entry-b9d73fd0-6ba9-5070-8075-06d93d6f631e.md,reviewed-proposal
 57d84c54-43c3-5088-833f-b6c68d83649e,The sub-exponential tail,result,library-result,explore/content/statements/entry-57d84c54-43c3-5088-833f-b6c68d83649e.md,pending
 57a50ed5-8ec1-58c2-87c3-9e66b8fe18c0,The sample mean of projected uniform unit vectors,result,library-result,explore/content/statements/entry-57a50ed5-8ec1-58c2-87c3-9e66b8fe18c0.md,pending
 570ff539-3455-5335-9839-a06991167562,The Neumann series,result,library-result,explore/content/statements/entry-570ff539-3455-5335-9839-a06991167562.md,pending
@@ -468,12 +468,12 @@ b9d73fd0-6ba9-5070-8075-06d93d6f631e,Matrix Bernstein without replacement,result
 0238f056-1528-5095-a223-00cd694baaed,Absolute conditioning in coordinates,result,library-result,explore/content/statements/entry-0238f056-1528-5095-a223-00cd694baaed.md,reviewed-proposal
 02c7b0d8-8c6d-5565-b28e-2e05c8fde113,The expectation of the error of randomized block Krylov iteration from one start vector on the head event,result,library-result,explore/content/statements/entry-02c7b0d8-8c6d-5565-b28e-2e05c8fde113.md,pending
 02127273-0123-506e-bd97-1c88b7db3ba9,The SRHT OSI,result,library-result,explore/content/statements/entry-02127273-0123-506e-bd97-1c88b7db3ba9.md,pending
-0262ff5e-b8f2-5f92-8c9b-7102c720abbf,The variance of the Girard–Hutchinson estimator,result,library-result,explore/content/statements/entry-0262ff5e-b8f2-5f92-8c9b-7102c720abbf.md,pending
+0262ff5e-b8f2-5f92-8c9b-7102c720abbf,The variance of the Girard–Hutchinson estimator,result,library-result,explore/content/statements/entry-0262ff5e-b8f2-5f92-8c9b-7102c720abbf.md,reviewed-proposal
 c352085a-fd88-5493-a92d-97c059c35625,A commuting family of Hermitian matrices is simultaneously unitarily diagonalisable,result,library-result,explore/content/statements/entry-c352085a-fd88-5493-a92d-97c059c35625.md,pending
 cb28fc5e-ad1e-5cbd-b266-c3193e81ac6e,Positive definite block matrices,result,library-result,explore/content/statements/entry-cb28fc5e-ad1e-5cbd-b266-c3193e81ac6e.md,pending
 cb00736a-896e-5f36-924a-07dda2cd1b05,The zeros of the orthogonal polynomial are real,result,library-result,explore/content/statements/entry-cb00736a-896e-5f36-924a-07dda2cd1b05.md,pending
 42d2a6c9-1ae6-5582-9553-0bd56d9699cb,"The head–tail constructor, tail form",result,library-result,explore/content/statements/entry-42d2a6c9-1ae6-5582-9553-0bd56d9699cb.md,pending
-2ac03293-50e9-5cc8-ade1-64f0afa9bd35,Residual squaring,result,library-result,explore/content/statements/entry-2ac03293-50e9-5cc8-ade1-64f0afa9bd35.md,pending
+2ac03293-50e9-5cc8-ade1-64f0afa9bd35,Residual squaring,result,library-result,explore/content/statements/entry-2ac03293-50e9-5cc8-ade1-64f0afa9bd35.md,reviewed-proposal
 2a7fc0a6-889a-5d36-a4cb-0f493165d7d8,The triangle inequality for Schatten norms,result,library-result,explore/content/statements/entry-2a7fc0a6-889a-5d36-a4cb-0f493165d7d8.md,pending
 6f1e12f5-1e2c-5e1c-b2fb-4b994584196d,Lanczos quadrature in finite precision,result,library-result,explore/content/statements/entry-6f1e12f5-1e2c-5e1c-b2fb-4b994584196d.md,reviewed-proposal
 6f0239db-692b-5c68-bd8b-fd58f0bf9839,Orthogonality of the computed basis on the admissible prefix,result,library-result,explore/content/statements/entry-6f0239db-692b-5c68-bd8b-fd58f0bf9839.md,reviewed-proposal
@@ -491,7 +491,7 @@ f1433717-69c2-5a3c-bea3-430636a45b8d,The three-term recurrence,result,library-re
 f1600a5e-0645-5003-ba16-a2daea807d6b,Epperly and Webber's Nyström factor is sharp,result,library-result,explore/content/statements/entry-f1600a5e-0645-5003-ba16-a2daea807d6b.md,pending
 5cda890a-761e-56b0-ae12-ff9ae8b18418,The spectrum-optimal bound for MINRES,result,library-result,explore/content/statements/entry-5cda890a-761e-56b0-ae12-ff9ae8b18418.md,pending
 5c72e755-869c-5895-859e-a6d3107340d5,Operator capacity under invertible scaling,result,library-result,explore/content/statements/entry-5c72e755-869c-5895-859e-a6d3107340d5.md,pending
-e95208f6-1315-58ff-a164-9abf10fa7a89,Gelfand's formula,result,library-result,explore/content/statements/entry-e95208f6-1315-58ff-a164-9abf10fa7a89.md,pending
+e95208f6-1315-58ff-a164-9abf10fa7a89,Gelfand's formula,result,library-result,explore/content/statements/entry-e95208f6-1315-58ff-a164-9abf10fa7a89.md,reviewed-proposal
 e962a3b2-c298-5787-98e1-6894fca5f05c,CountSketch OSE,result,library-result,explore/content/statements/entry-e962a3b2-c298-5787-98e1-6894fca5f05c.md,pending
 118e2a84-a71c-5cbd-ab4a-b52c95b517b0,The bounded differences inequality,result,library-result,explore/content/statements/entry-118e2a84-a71c-5cbd-ab4a-b52c95b517b0.md,reviewed-proposal
 1155ee97-45ea-5225-bf8a-2261f7feebed,The mean logarithmic overlap,result,library-result,explore/content/statements/entry-1155ee97-45ea-5225-bf8a-2261f7feebed.md,pending
@@ -501,11 +501,11 @@ e962a3b2-c298-5787-98e1-6894fca5f05c,CountSketch OSE,result,library-result,explo
 116e28c1-c1b5-5ea1-a935-df2f03e52ae8,The perturbed Newton–Schulz step does not decrease the modulus,result,library-result,explore/content/statements/entry-116e28c1-c1b5-5ea1-a935-df2f03e52ae8.md,pending
 6cf4698e-0d4d-54e6-8eaf-f7b63d2b78d1,Simultaneous triangularization by a similarity is equivalent to unitary triangularization,result,library-result,explore/content/statements/entry-6cf4698e-0d4d-54e6-8eaf-f7b63d2b78d1.md,pending
 6d05ea34-879f-54da-a8d9-e717ccae09e6,Chebyshev minimax property of the residual,result,library-result,explore/content/statements/entry-6d05ea34-879f-54da-a8d9-e717ccae09e6.md,reviewed-proposal
-6d667d1c-ed95-5960-84f6-93735cee11ef,Gaussian interpolation,result,library-result,explore/content/statements/entry-6d667d1c-ed95-5960-84f6-93735cee11ef.md,pending
+6d667d1c-ed95-5960-84f6-93735cee11ef,Gaussian interpolation,result,library-result,explore/content/statements/entry-6d667d1c-ed95-5960-84f6-93735cee11ef.md,reviewed-proposal
 e5be87d4-ee32-5eeb-afe7-b9e1a4141af3,Characterization of the Haar frame,result,library-result,explore/content/statements/entry-e5be87d4-ee32-5eeb-afe7-b9e1a4141af3.md,pending
 361a1c7a-d5fa-56af-a8f4-22bb1ef481d6,The preconditioned recurrence is the split recurrence,result,library-result,explore/content/statements/entry-361a1c7a-d5fa-56af-a8f4-22bb1ef481d6.md,pending
 365add15-fe5d-5e68-9930-d4e53211abf6,The polar factor is the nearest matrix with orthonormal columns,result,library-result,explore/content/statements/entry-365add15-fe5d-5e68-9930-d4e53211abf6.md,pending
-3685c564-f3b0-5c93-8761-4c18d3e94be0,GMRES beats every residual polynomial,result,library-result,explore/content/statements/entry-3685c564-f3b0-5c93-8761-4c18d3e94be0.md,pending
+3685c564-f3b0-5c93-8761-4c18d3e94be0,GMRES beats every residual polynomial,result,library-result,explore/content/statements/entry-3685c564-f3b0-5c93-8761-4c18d3e94be0.md,reviewed-proposal
 36cee481-00bd-5b3e-bb79-d62854aaf414,Rank detection by pivoted Cholesky,result,library-result,explore/content/statements/entry-36cee481-00bd-5b3e-bb79-d62854aaf414.md,pending
 6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2,Sign-sketch OSE,result,library-result,explore/content/statements/entry-6b52c6e8-159c-5bb5-8caa-bd1b8a2962b2.md,pending
 9029dfc5-3636-50d5-8f56-1e084b2601a9,Partial pivoting,result,library-result,explore/content/statements/entry-9029dfc5-3636-50d5-8f56-1e084b2601a9.md,pending
@@ -515,7 +515,7 @@ e5be87d4-ee32-5eeb-afe7-b9e1a4141af3,Characterization of the Haar frame,result,l
 8dbe8fda-2215-54d7-bd9c-c7ef4e103b28,Past $k_\star(\delta)$ the true residual is the gap,result,library-result,explore/content/statements/entry-8dbe8fda-2215-54d7-bd9c-c7ef4e103b28.md,reviewed-proposal
 7aefc4af-a55e-5ad7-a7f3-cc695402cac2,Triangular coefficients of modified Gram–Schmidt,result,library-result,explore/content/statements/entry-7aefc4af-a55e-5ad7-a7f3-cc695402cac2.md,pending
 7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2,Attainment for commuting coefficients,result,library-result,explore/content/statements/entry-7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2.md,reviewed-proposal
-d5aa8c62-cf4f-52b4-a631-4303da76fdc7,Measurable selection from a closed set with compact sections,result,library-result,explore/content/statements/entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7.md,pending
+d5aa8c62-cf4f-52b4-a631-4303da76fdc7,Measurable selection from a closed set with compact sections,result,library-result,explore/content/statements/entry-d5aa8c62-cf4f-52b4-a631-4303da76fdc7.md,reviewed-proposal
 a7ef2fb1-a9b2-5172-8850-fdcda423c175,The structural bound of Nyström approximation,result,library-result,explore/content/statements/entry-a7ef2fb1-a9b2-5172-8850-fdcda423c175.md,pending
 a7f24738-6669-5c5f-ba6d-1f91a7aab07c,Hoffman–Wielandt for Hermitian matrices,result,library-result,explore/content/statements/entry-a7f24738-6669-5c5f-ba6d-1f91a7aab07c.md,pending
 a7a9a748-bebd-53d4-bf6c-1a0ccb475a57,"Gaussian approximate matrix multiplication, exact error",result,library-result,explore/content/statements/entry-a7a9a748-bebd-53d4-bf6c-1a0ccb475a57.md,reviewed-proposal
@@ -533,7 +533,7 @@ bdc1d912-abe4-54eb-9550-fc16cf50cc5c,Finite inverse-power Gram Laplacian bound,r
 ca12c08e-6518-5efb-b1d7-78063a6b6cce,Arnoldi compression is upper Hessenberg,result,library-result,explore/content/statements/entry-ca12c08e-6518-5efb-b1d7-78063a6b6cce.md,no-NL-prose
 037164dd-5f07-50d1-a2bf-6cf09b0477d4,Sign-sketch distributional JL,result,library-result,explore/content/statements/entry-037164dd-5f07-50d1-a2bf-6cf09b0477d4.md,pending
 7493eadd-f3e6-5cc1-817d-8294db8253a1,The tail of the singular values in the nuclear norm,result,library-result,explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md,reviewed-proposal
-74d83d09-9d5c-567e-9827-f1b5300a9238,The GMRES residual estimate,result,library-result,explore/content/statements/entry-74d83d09-9d5c-567e-9827-f1b5300a9238.md,pending
+74d83d09-9d5c-567e-9827-f1b5300a9238,The GMRES residual estimate,result,library-result,explore/content/statements/entry-74d83d09-9d5c-567e-9827-f1b5300a9238.md,reviewed-proposal
 122f4300-7a23-5007-9a91-425f0b399816,$O(\lambda^{-1}\log(1/\varepsilon))$ iterations suffice for sketch-and-project,result,library-result,explore/content/statements/entry-122f4300-7a23-5007-9a91-425f0b399816.md,pending
 12da4c9d-c791-5216-ba60-4ea100585cfd,The Paige–Saunders iterates are the preconditioned MINRES iterates,result,library-result,explore/content/statements/entry-12da4c9d-c791-5216-ba60-4ea100585cfd.md,pending
 12384cb4-62ed-50eb-8650-268d4f7ea1cf,Convergence of the perturbed Newton–Schulz iteration,result,library-result,explore/content/statements/entry-12384cb4-62ed-50eb-8650-268d4f7ea1cf.md,pending
@@ -543,7 +543,7 @@ f038c3d4-1b55-56e9-a24f-6874c571cff1,Gauss–Radau quadrature,result,library-res
 db5e8fd7-91be-50ea-91ec-732fe04ed59d,A quadratic probe detects the spectral norm,result,library-result,explore/content/statements/entry-db5e8fd7-91be-50ea-91ec-732fe04ed59d.md,pending
 dbd5fda4-ab5b-5d5f-87e1-de0a920f424e,Jacobi's complementary minor formula,result,library-result,explore/content/statements/entry-dbd5fda4-ab5b-5d5f-87e1-de0a920f424e.md,pending
 97c305e5-1cea-5248-9638-b057e2934081,Spectral equivalence through generalized eigenvalues,result,library-result,explore/content/statements/entry-97c305e5-1cea-5248-9638-b057e2934081.md,pending
-9794888e-2508-5257-ba81-696b0334c689,Daleckii–Krein derivative,result,library-result,explore/content/statements/entry-9794888e-2508-5257-ba81-696b0334c689.md,pending
+9794888e-2508-5257-ba81-696b0334c689,Daleckii–Krein derivative,result,library-result,explore/content/statements/entry-9794888e-2508-5257-ba81-696b0334c689.md,reviewed-proposal
 97e35c29-1a51-5347-b40d-317aae9d5e0f,"Early-truncated randomized SVD, structural bound",result,library-result,explore/content/statements/entry-97e35c29-1a51-5347-b40d-317aae9d5e0f.md,reviewed-proposal
 0b60d407-d697-537c-8075-6a6412fde68c,Leverage-score sampling: subspace injection,result,library-result,explore/content/statements/entry-0b60d407-d697-537c-8075-6a6412fde68c.md,reviewed-proposal
 0b4775b2-6efc-5b80-84b7-328ca2394f08,Reverse Eckart–Young for late-truncated Nyström,result,library-result,explore/content/statements/entry-0b4775b2-6efc-5b80-84b7-328ca2394f08.md,pending
@@ -552,7 +552,7 @@ dbd5fda4-ab5b-5d5f-87e1-de0a920f424e,Jacobi's complementary minor formula,result
 2f759b79-435c-58b7-b69c-f032ceaf5a21,The Lanczos vectors are the orthogonal polynomials of the spectral measure,result,library-result,explore/content/statements/entry-2f759b79-435c-58b7-b69c-f032ceaf5a21.md,reviewed-proposal
 2ff54907-142a-5aab-b1ed-7ef773490a4c,The Hanson–Wright inequality,result,library-result,explore/content/statements/entry-2ff54907-142a-5aab-b1ed-7ef773490a4c.md,pending
 60b21f16-92a6-525f-b458-1d1118bbdc59,Von Neumann's symmetric gauge representation,result,library-result,explore/content/statements/entry-60b21f16-92a6-525f-b458-1d1118bbdc59.md,pending
-a6225e42-7d0a-5eaf-84f3-bedd59958b35,The pseudoinverse solution has the smallest norm,result,library-result,explore/content/statements/entry-a6225e42-7d0a-5eaf-84f3-bedd59958b35.md,pending
+a6225e42-7d0a-5eaf-84f3-bedd59958b35,The pseudoinverse solution has the smallest norm,result,library-result,explore/content/statements/entry-a6225e42-7d0a-5eaf-84f3-bedd59958b35.md,reviewed-proposal
 31990abb-844c-57f6-af5c-5d27986d72ef,The projection of a uniform unit vector is Beta,result,library-result,explore/content/statements/entry-31990abb-844c-57f6-af5c-5d27986d72ef.md,pending
 317a0fa0-5efb-51b1-b3d3-69ca54884c34,The pseudoinverse solves least squares,result,library-result,explore/content/statements/entry-317a0fa0-5efb-51b1-b3d3-69ca54884c34.md,reviewed-proposal
 31230bd6-7306-5980-a55f-4a557ca361cb,Rapid decoupling for normal Hessenberg matrices,result,library-result,explore/content/statements/entry-31230bd6-7306-5980-a55f-4a557ca361cb.md,pending
@@ -561,14 +561,14 @@ be09257d-1504-52e0-b6df-6400c354ad11,"Distributional JL for the SRHT, asymptotic
 b629a0e9-a95d-52f2-8a4f-f462a3a50aac,The Lanczos tridiagonal is the Jacobi matrix of the spectral measure,result,library-result,explore/content/statements/entry-b629a0e9-a95d-52f2-8a4f-f462a3a50aac.md,reviewed-proposal
 b6b8acf3-83c9-5ac2-9ca6-144e7eb71b12,Total least squares infimum,result,library-result,explore/content/statements/entry-b6b8acf3-83c9-5ac2-9ca6-144e7eb71b12.md,pending
 b6186659-9ac3-5ed4-8d2b-a4809261a416,"Approximate matrix multiplication by sampling, domination form",result,library-result,explore/content/statements/entry-b6186659-9ac3-5ed4-8d2b-a4809261a416.md,reviewed-proposal
-b6a90830-b596-504f-8f44-a5b912c8aea0,Gross's logarithmic Sobolev inequality,result,library-result,explore/content/statements/entry-b6a90830-b596-504f-8f44-a5b912c8aea0.md,pending
+b6a90830-b596-504f-8f44-a5b912c8aea0,Gross's logarithmic Sobolev inequality,result,library-result,explore/content/statements/entry-b6a90830-b596-504f-8f44-a5b912c8aea0.md,reviewed-proposal
 86711b27-fe33-5eb8-9fd6-378c45d81bca,"Randomized block Krylov iteration with a single start vector, Frobenius norm",result,library-result,explore/content/statements/entry-86711b27-fe33-5eb8-9fd6-378c45d81bca.md,pending
 860331bc-50fb-5a46-8041-0dbc13a9eb05,Hutchinson's identity,result,library-result,explore/content/statements/entry-860331bc-50fb-5a46-8041-0dbc13a9eb05.md,pending
 86f124a4-cb74-570d-bb01-8bfaab2bd74e,Schur's theorem,result,library-result,explore/content/statements/entry-86f124a4-cb74-570d-bb01-8bfaab2bd74e.md,pending
 f67bedbe-c1e0-5d73-9c75-58aefd15bf99,Greenbaum-type backward model for finite-precision Lanczos,result,library-result,explore/content/statements/entry-f67bedbe-c1e0-5d73-9c75-58aefd15bf99.md,pending
 9511af16-a914-5b99-9aa5-33eb0779991e,"Poincaré separation, upper",result,library-result,explore/content/statements/entry-9511af16-a914-5b99-9aa5-33eb0779991e.md,reviewed-proposal
-95b619db-2c96-559f-8618-9dfeafd6e94c,Uniqueness on the penalty kernel,result,library-result,explore/content/statements/entry-95b619db-2c96-559f-8618-9dfeafd6e94c.md,pending
-95aeca8d-53ce-5f82-a5c7-f0049ca1475c,The Arnoldi basis yields GMRES,result,library-result,explore/content/statements/entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c.md,pending
+95b619db-2c96-559f-8618-9dfeafd6e94c,Uniqueness on the penalty kernel,result,library-result,explore/content/statements/entry-95b619db-2c96-559f-8618-9dfeafd6e94c.md,inspected-unchanged
+95aeca8d-53ce-5f82-a5c7-f0049ca1475c,The Arnoldi basis yields GMRES,result,library-result,explore/content/statements/entry-95aeca8d-53ce-5f82-a5c7-f0049ca1475c.md,reviewed-proposal
 95f178f2-030a-5479-b195-5c4660af3b80,"Containment of the computed Ritz values, below",result,library-result,explore/content/statements/entry-95f178f2-030a-5479-b195-5c4660af3b80.md,pending
 95c11cac-5984-50ef-9aca-729630af3676,Lower Chernoff tail of $\chi^2$,result,library-result,explore/content/statements/entry-95c11cac-5984-50ef-9aca-729630af3676.md,reviewed-proposal
 4ee993e5-350e-5cd5-a44e-a974c88c0c51,Sketch-and-precondition,result,library-result,explore/content/statements/entry-4ee993e5-350e-5cd5-a44e-a974c88c0c51.md,pending
@@ -583,7 +583,7 @@ dc8e0c8e-14ca-54b7-bf8d-4bea26c61c35,Left-right eigenvector deflation,result,lib
 3c38c3c8-dd57-5421-8893-4e183e5a4239,Chebyshev coefficient decay for analytic functions,result,library-result,explore/content/statements/entry-3c38c3c8-dd57-5421-8893-4e183e5a4239.md,reviewed-proposal
 fc258a11-9745-5641-ab57-0bba6f88f4c2,Intrinsic-dimension matrix Bernstein for the mean,result,library-result,explore/content/statements/entry-fc258a11-9745-5641-ab57-0bba6f88f4c2.md,pending
 fcd9f4b3-e804-5a41-abc6-90062f08c70f,A Gaussian tape draws a Gaussian matrix,result,library-result,explore/content/statements/entry-fcd9f4b3-e804-5a41-abc6-90062f08c70f.md,pending
-fcfb07b1-c66d-553f-86fa-f9dbf1bd9874,K-transform derivative witness,result,library-result,explore/content/statements/entry-fcfb07b1-c66d-553f-86fa-f9dbf1bd9874.md,pending
+fcfb07b1-c66d-553f-86fa-f9dbf1bd9874,K-transform derivative witness,result,library-result,explore/content/statements/entry-fcfb07b1-c66d-553f-86fa-f9dbf1bd9874.md,reviewed-proposal
 1fdf9511-071e-5d1b-a468-e6ec671bc59f,Normwise conditioning of a linear system,result,library-result,explore/content/statements/entry-1fdf9511-071e-5d1b-a468-e6ec671bc59f.md,reviewed-proposal
 1f752449-b731-552c-ba44-764dd368105f,An equioscillating error is the minimax error,result,library-result,explore/content/statements/entry-1f752449-b731-552c-ba44-764dd368105f.md,reviewed-proposal
 1fa42a52-effa-52f9-a1ed-2c7ce8a4be2c,Certified delayed-energy stopping,result,library-result,explore/content/statements/entry-1fa42a52-effa-52f9-a1ed-2c7ce8a4be2c.md,inspected-unchanged
@@ -633,14 +633,14 @@ fb973dac-1f61-57be-a373-65b0d2d0de5e,Sharpness of partial pivoting growth,result
 2e7f8ace-6907-5bb3-aacb-da96f9401a03,Fourier diagonalisation of a circulant matrix,result,library-result,explore/content/statements/entry-2e7f8ace-6907-5bb3-aacb-da96f9401a03.md,reviewed-proposal
 2eb2d541-d15c-56f8-acbe-e3ae22c51a23,"The Gram defect on the support bounds the distance to the range projector, Frobenius norm",result,library-result,explore/content/statements/entry-2eb2d541-d15c-56f8-acbe-e3ae22c51a23.md,pending
 2e76e626-f2d5-5e11-a53c-60fcca367d9c,"$O(c^2\log(\lvert n\rvert/\delta)/(\lvert n\rvert\tau^2))$ probes suffice for SLQ to approximate the spectral density, uniformly in Lipschitz test functions",result,library-result,explore/content/statements/entry-2e76e626-f2d5-5e11-a53c-60fcca367d9c.md,pending
-48a159d2-ce28-544a-932d-187fe56160f0,A $1$-Lipschitz function is $1$-Lipschitz in the Frobenius norm on Hermitian matrices,result,library-result,explore/content/statements/entry-48a159d2-ce28-544a-932d-187fe56160f0.md,pending
+48a159d2-ce28-544a-932d-187fe56160f0,A $1$-Lipschitz function is $1$-Lipschitz in the Frobenius norm on Hermitian matrices,result,library-result,explore/content/statements/entry-48a159d2-ce28-544a-932d-187fe56160f0.md,reviewed-proposal
 484e0bc1-28b6-53c1-be7b-2d3fd0a1d244,The Arnoldi process computes the Hessenberg matrix,result,library-result,explore/content/statements/entry-484e0bc1-28b6-53c1-be7b-2d3fd0a1d244.md,reviewed-proposal
 48074178-7df9-55e8-ab1d-60478ec10404,Russo–Dye norm attainment,result,library-result,explore/content/statements/entry-48074178-7df9-55e8-ab1d-60478ec10404.md,pending
 c2882939-91b2-583e-acda-f0aeaa409e6b,Fourth-order Wick formula,result,library-result,explore/content/statements/entry-c2882939-91b2-583e-acda-f0aeaa409e6b.md,reviewed-proposal
 c231916d-1bfc-5f5f-b8c4-9a43fff1d328,"The inverse mean of a Beta matrix, trace form",result,library-result,explore/content/statements/entry-c231916d-1bfc-5f5f-b8c4-9a43fff1d328.md,reviewed-proposal
 0ede5147-2b69-5e88-9b61-0da666b4709c,The diagonals of the unitary orbit of a Hermitian matrix,result,library-result,explore/content/statements/entry-0ede5147-2b69-5e88-9b61-0da666b4709c.md,pending
 0e36be15-0462-5354-afb0-ce872eea4be4,The common-kernel block of a GSVD,result,library-result,explore/content/statements/entry-0e36be15-0462-5354-afb0-ce872eea4be4.md,pending
-20cfab05-8067-59d4-9c8e-2ed17cf5a349,Gordon's min-max inequality,result,library-result,explore/content/statements/entry-20cfab05-8067-59d4-9c8e-2ed17cf5a349.md,pending
+20cfab05-8067-59d4-9c8e-2ed17cf5a349,Gordon's min-max inequality,result,library-result,explore/content/statements/entry-20cfab05-8067-59d4-9c8e-2ed17cf5a349.md,reviewed-proposal
 20132c0f-a804-533f-bdf3-26a2adc56611,The perturbed Newton–Schulz step keeps the sign,result,library-result,explore/content/statements/entry-20132c0f-a804-533f-bdf3-26a2adc56611.md,pending
 20c1b332-e297-5258-bf5f-b260cf03eb23,Diagonalizability by multiplicities,result,library-result,explore/content/statements/entry-20c1b332-e297-5258-bf5f-b260cf03eb23.md,reviewed-proposal
 45402c52-00f1-590a-94ec-492e6929c68f,The Ritz residual bound for finite-precision Lanczos,result,library-result,explore/content/statements/entry-45402c52-00f1-590a-94ec-492e6929c68f.md,inspected-unchanged
@@ -669,7 +669,7 @@ c1132a93-5994-5464-b42b-6cad88aa507a,Haar rows suffice for a rank-$d$ projection
 ae325865-5edf-5230-babb-d1cb28595cce,The spectrum-optimal bound for CG,result,library-result,explore/content/statements/entry-ae325865-5edf-5230-babb-d1cb28595cce.md,reviewed-proposal
 aed71f7b-0fbc-53c8-a330-6096e92b82f8,Frobenius-norm preservation from the JL moment property,result,library-result,explore/content/statements/entry-aed71f7b-0fbc-53c8-a330-6096e92b82f8.md,pending
 aeab26bc-fd0e-5daa-abc8-4ae5e787ed49,Johnson–Lindenstrauss lemma,result,library-result,explore/content/statements/entry-aeab26bc-fd0e-5daa-abc8-4ae5e787ed49.md,pending
-ae297753-ca7b-53b1-ad33-7cc1680d8adc,The Gram correspondence for block Krylov Nyström of a positive semidefinite matrix,result,library-result,explore/content/statements/entry-ae297753-ca7b-53b1-ad33-7cc1680d8adc.md,pending
+ae297753-ca7b-53b1-ad33-7cc1680d8adc,The Gram correspondence for block Krylov Nyström of a positive semidefinite matrix,result,library-result,explore/content/statements/entry-ae297753-ca7b-53b1-ad33-7cc1680d8adc.md,reviewed-proposal
 6a2fb974-d57e-53aa-a786-7210c451feba,"Stein equation, unique solvability",result,library-result,explore/content/statements/entry-6a2fb974-d57e-53aa-a786-7210c451feba.md,pending
 6a70fef4-9145-5a08-a14f-7dd6e8a80c81,The trace of $f(\mathbf{A})$,result,library-result,explore/content/statements/entry-6a70fef4-9145-5a08-a14f-7dd6e8a80c81.md,pending
 3776285a-f2bd-5fed-af56-2696b22f0fb1,Reduction to Hessenberg form,result,library-result,explore/content/statements/entry-3776285a-f2bd-5fed-af56-2696b22f0fb1.md,pending
@@ -687,9 +687,9 @@ ce2443fb-7e9e-5355-a69a-2dc2cbc06a07,Lieb's concavity theorem,result,library-res
 a02bb557-2080-5fed-b687-2d2ecab3b290,Sylvester's rank inequality,result,library-result,explore/content/statements/entry-a02bb557-2080-5fed-b687-2d2ecab3b290.md,pending
 92a6acbe-0347-5f12-bdbd-db5a544447c2,Eckart–Young in the spectral norm,result,library-result,explore/content/statements/entry-92a6acbe-0347-5f12-bdbd-db5a544447c2.md,inspected-unchanged
 924dba06-93c2-554e-8e09-ddf7cddbcbfc,"Small-ball bound for $\chi^2$, exact density",result,library-result,explore/content/statements/entry-924dba06-93c2-554e-8e09-ddf7cddbcbfc.md,reviewed-proposal
-fa7ce73f-7de8-5c16-a7fb-263f2197d1e0,Exponential growth and the Hermitian part,result,library-result,explore/content/statements/entry-fa7ce73f-7de8-5c16-a7fb-263f2197d1e0.md,pending
+fa7ce73f-7de8-5c16-a7fb-263f2197d1e0,Exponential growth and the Hermitian part,result,library-result,explore/content/statements/entry-fa7ce73f-7de8-5c16-a7fb-263f2197d1e0.md,reviewed-proposal
 faa9a467-a3b4-508c-9446-0f246057405a,Core noise,result,library-result,explore/content/statements/entry-faa9a467-a3b4-508c-9446-0f246057405a.md,pending
-fa887509-a259-580a-9584-00609d5e19fc,Homogeneous determinant in QZ form,result,library-result,explore/content/statements/entry-fa887509-a259-580a-9584-00609d5e19fc.md,pending
+fa887509-a259-580a-9584-00609d5e19fc,Homogeneous determinant in QZ form,result,library-result,explore/content/statements/entry-fa887509-a259-580a-9584-00609d5e19fc.md,reviewed-proposal
 eeeef45c-3dfd-592a-b51c-057f97bc13e7,The gap-free Ritz-value bound,result,library-result,explore/content/statements/entry-eeeef45c-3dfd-592a-b51c-057f97bc13e7.md,pending
 b3b054a2-5414-5f31-99e8-f869f1fcefb0,Every matrix with at least as many rows as columns has a QR factorization,result,library-result,explore/content/statements/entry-b3b054a2-5414-5f31-99e8-f869f1fcefb0.md,pending
 b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7,The spectral measures are Wasserstein-close,result,library-result,explore/content/statements/entry-b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7.md,inspected-unchanged
@@ -702,17 +702,17 @@ d7984a84-f8a7-5cdf-8065-b57b269c6be8,The Lagrange interpolation remainder,result
 d7b0e014-56ec-5ce9-aeb0-b6e21e6297eb,Euler identity for the unshifted Gram potential,result,library-result,explore/content/statements/entry-d7b0e014-56ec-5ce9-aeb0-b6e21e6297eb.md,pending
 c605fd44-c0ee-56da-8719-3311ec815486,Multiplicativity of compound matrices,result,library-result,explore/content/statements/entry-c605fd44-c0ee-56da-8719-3311ec815486.md,inspected-unchanged
 feec1d16-d467-5583-8f45-c7176544dfbf,Monotonicity of eigenvalues,result,library-result,explore/content/statements/entry-feec1d16-d467-5583-8f45-c7176544dfbf.md,reviewed-proposal
-78d72c7f-80e8-5c34-aaa3-6b232a2d688d,Freedman's inequality for matrix martingales,result,library-result,explore/content/statements/entry-78d72c7f-80e8-5c34-aaa3-6b232a2d688d.md,pending
+78d72c7f-80e8-5c34-aaa3-6b232a2d688d,Freedman's inequality for matrix martingales,result,library-result,explore/content/statements/entry-78d72c7f-80e8-5c34-aaa3-6b232a2d688d.md,reviewed-proposal
 7822ac76-a0dc-569a-a29e-b4c7974963d5,Rouché–Capelli,result,library-result,explore/content/statements/entry-7822ac76-a0dc-569a-a29e-b4c7974963d5.md,pending
-f7987cc3-68d4-538b-a7f0-520cfe1dc47f,The Golden–Thompson inequality,result,library-result,explore/content/statements/entry-f7987cc3-68d4-538b-a7f0-520cfe1dc47f.md,pending
+f7987cc3-68d4-538b-a7f0-520cfe1dc47f,The Golden–Thompson inequality,result,library-result,explore/content/statements/entry-f7987cc3-68d4-538b-a7f0-520cfe1dc47f.md,reviewed-proposal
 f718cafe-d505-5dc5-b3cb-153ad204ca6d,The Hestenes–Stiefel iterates are the CG iterates,result,library-result,explore/content/statements/entry-f718cafe-d505-5dc5-b3cb-153ad204ca6d.md,reviewed-proposal
 a182fc4a-cc92-5f01-9cf8-5999c4bc9293,Fourth moment of a Gaussian sandwich,result,library-result,explore/content/statements/entry-a182fc4a-cc92-5f01-9cf8-5999c4bc9293.md,reviewed-proposal
 a4d06846-2e96-5963-9c28-7e6fed02fb0b,Uniform smoothness for even Schatten moments,result,library-result,explore/content/statements/entry-a4d06846-2e96-5963-9c28-7e6fed02fb0b.md,pending
-a4e0e962-596b-5810-93f6-ca9e511cad39,"Interlacing under a low-rank perturbation, upper",result,library-result,explore/content/statements/entry-a4e0e962-596b-5810-93f6-ca9e511cad39.md,pending
-a4ee409a-49ef-5449-b214-d4e46bb6636e,The actual second Fréchet derivative is the sum of the two ordered second block differences,result,library-result,explore/content/statements/entry-a4ee409a-49ef-5449-b214-d4e46bb6636e.md,pending
-a41e75c8-5744-5380-88ae-9369e138a9a0,The matrix sign of a Sylvester block,result,library-result,explore/content/statements/entry-a41e75c8-5744-5380-88ae-9369e138a9a0.md,pending
+a4e0e962-596b-5810-93f6-ca9e511cad39,"Interlacing under a low-rank perturbation, upper",result,library-result,explore/content/statements/entry-a4e0e962-596b-5810-93f6-ca9e511cad39.md,reviewed-proposal
+a4ee409a-49ef-5449-b214-d4e46bb6636e,The actual second Fréchet derivative is the sum of the two ordered second block differences,result,library-result,explore/content/statements/entry-a4ee409a-49ef-5449-b214-d4e46bb6636e.md,no-NL-prose
+a41e75c8-5744-5380-88ae-9369e138a9a0,The matrix sign of a Sylvester block,result,library-result,explore/content/statements/entry-a41e75c8-5744-5380-88ae-9369e138a9a0.md,reviewed-proposal
 a4df81d0-303c-59d7-956e-a8f427da92fc,The Euclidean factor for CG cannot be improved,result,library-result,explore/content/statements/entry-a4df81d0-303c-59d7-956e-a8f427da92fc.md,reviewed-proposal
-ace666af-d41a-54ea-b172-a637e0305747,"Lyapunov coercivity, unitarily invariant inverse estimate",result,library-result,explore/content/statements/entry-ace666af-d41a-54ea-b172-a637e0305747.md,pending
+ace666af-d41a-54ea-b172-a637e0305747,"Lyapunov coercivity, unitarily invariant inverse estimate",result,library-result,explore/content/statements/entry-ace666af-d41a-54ea-b172-a637e0305747.md,inspected-unchanged
 ac4a92f5-9c82-5e61-8d8d-bb953923f8cd,The maximal inequality,result,library-result,explore/content/statements/entry-ac4a92f5-9c82-5e61-8d8d-bb953923f8cd.md,pending
 5db51b3c-3a3f-5953-be3d-0b3ad171eac7,Oppenheim's inequality,result,library-result,explore/content/statements/entry-5db51b3c-3a3f-5953-be3d-0b3ad171eac7.md,pending
 5dc6ffb0-b124-527e-b32a-8995f8e836eb,Reciprocal condition number and distance to singularity,result,library-result,explore/content/statements/entry-5dc6ffb0-b124-527e-b32a-8995f8e836eb.md,reviewed-proposal
@@ -728,7 +728,7 @@ b4245d70-3734-5993-9271-386b0060d9e4,Componentwise relative conditioning,result,
 b41ed397-a8b7-5006-9d9f-b22ec3723243,Sub-Gaussian rows suffice for a rank-$d$ projection-cost-preserving sketch,result,library-result,explore/content/statements/entry-b41ed397-a8b7-5006-9d9f-b22ec3723243.md,pending
 f9f50c3a-1f3f-5e80-8eb7-b971f56ff32c,Beta as a ratio of Gammas,result,library-result,explore/content/statements/entry-f9f50c3a-1f3f-5e80-8eb7-b971f56ff32c.md,inspected-unchanged
 f963f11a-d3ed-53f1-9520-5ccddc95250a,"Ky Fan's maximum principle for singular values, equality case",result,library-result,explore/content/statements/entry-f963f11a-d3ed-53f1-9520-5ccddc95250a.md,pending
-f3b1a9a0-1f80-51ae-be79-27607349c0e8,Generalized Nyström to relative error,result,library-result,explore/content/statements/entry-f3b1a9a0-1f80-51ae-be79-27607349c0e8.md,pending
+f3b1a9a0-1f80-51ae-be79-27607349c0e8,Generalized Nyström to relative error,result,library-result,explore/content/statements/entry-f3b1a9a0-1f80-51ae-be79-27607349c0e8.md,reviewed-proposal
 f3cb624f-5ed5-557f-97f5-18d1c3791658,The Gauss quadrature remainder,result,library-result,explore/content/statements/entry-f3cb624f-5ed5-557f-97f5-18d1c3791658.md,reviewed-proposal
 f3d5de0b-f49a-541f-b3d6-402f7e5fe79e,MINRES residual estimate,result,library-result,explore/content/statements/entry-f3d5de0b-f49a-541f-b3d6-402f7e5fe79e.md,pending
 711f7aa0-b0e8-5381-8ba3-f9b112b49525,"The dense eigendecomposition theorem, on one counted run",result,library-result,explore/content/statements/entry-711f7aa0-b0e8-5381-8ba3-f9b112b49525.md,reviewed-proposal
@@ -741,7 +741,7 @@ f3d5de0b-f49a-541f-b3d6-402f7e5fe79e,MINRES residual estimate,result,library-res
 77d93dbf-24e9-531c-ae63-006a6e6e810a,Existence of the orthogonal polynomials,result,library-result,explore/content/statements/entry-77d93dbf-24e9-531c-ae63-006a6e6e810a.md,pending
 774b6a11-1381-59cb-b721-210b71f82edf,The operator Jensen inequality for an isometry,result,library-result,explore/content/statements/entry-774b6a11-1381-59cb-b721-210b71f82edf.md,pending
 4f249573-64bc-59f8-9915-ab1cf82a86ac,Iterative sketching error propagation,result,library-result,explore/content/statements/entry-4f249573-64bc-59f8-9915-ab1cf82a86ac.md,pending
-415072ce-196e-567e-a16f-bd970cbb91a4,Gordon's upper bound,result,library-result,explore/content/statements/entry-415072ce-196e-567e-a16f-bd970cbb91a4.md,pending
+415072ce-196e-567e-a16f-bd970cbb91a4,Gordon's upper bound,result,library-result,explore/content/statements/entry-415072ce-196e-567e-a16f-bd970cbb91a4.md,reviewed-proposal
 4152f80e-4e93-5988-b228-5ab3264d16ba,Singular directions of the inverse-free polar iteration,result,library-result,explore/content/statements/entry-4152f80e-4e93-5988-b228-5ab3264d16ba.md,pending
 41e7588a-0b75-5486-9e74-ee831166343e,"The truncation lemma, constant one",result,library-result,explore/content/statements/entry-41e7588a-0b75-5486-9e74-ee831166343e.md,pending
 0d0b9eae-a2ba-513a-b73c-ea9154bdc595,Perturbation of the inverse,result,library-result,explore/content/statements/entry-0d0b9eae-a2ba-513a-b73c-ea9154bdc595.md,pending
@@ -757,16 +757,16 @@ e1ed1e65-6958-5553-a2dc-53f302ea4457,Extremal growth of Chebyshev polynomials,re
 684663de-9bd8-59eb-8e47-d0a7aa3c19f8,The trace inequality for Hermitian matrices,result,library-result,explore/content/statements/entry-684663de-9bd8-59eb-8e47-d0a7aa3c19f8.md,pending
 68f20c05-e02f-504f-a1e0-20a30f9f493d,Uniqueness of the pseudoinverse,result,library-result,explore/content/statements/entry-68f20c05-e02f-504f-a1e0-20a30f9f493d.md,pending
 84348898-f0eb-5b7b-89eb-b0abb1dc5fb6,The Lanczos recurrence computes Lanczos-FA,result,library-result,explore/content/statements/entry-84348898-f0eb-5b7b-89eb-b0abb1dc5fb6.md,reviewed-proposal
-8492751d-6381-5fea-aee5-db977ed7ae70,Uniqueness of the matrix sign,result,library-result,explore/content/statements/entry-8492751d-6381-5fea-aee5-db977ed7ae70.md,pending
-d4615792-ac4b-5664-a44c-a1c6d8137e8a,"Epperly and Webber's generalized Nyström factor is sharp, Gaussian co-range",result,library-result,explore/content/statements/entry-d4615792-ac4b-5664-a44c-a1c6d8137e8a.md,pending
-d42ad32d-79ae-51a1-8cc7-a7fafcb236d1,Givens QR gives the thin QR factorization,result,library-result,explore/content/statements/entry-d42ad32d-79ae-51a1-8cc7-a7fafcb236d1.md,pending
+8492751d-6381-5fea-aee5-db977ed7ae70,Uniqueness of the matrix sign,result,library-result,explore/content/statements/entry-8492751d-6381-5fea-aee5-db977ed7ae70.md,reviewed-proposal
+d4615792-ac4b-5664-a44c-a1c6d8137e8a,"Epperly and Webber's generalized Nyström factor is sharp, Gaussian co-range",result,library-result,explore/content/statements/entry-d4615792-ac4b-5664-a44c-a1c6d8137e8a.md,reviewed-proposal
+d42ad32d-79ae-51a1-8cc7-a7fafcb236d1,Givens QR gives the thin QR factorization,result,library-result,explore/content/statements/entry-d42ad32d-79ae-51a1-8cc7-a7fafcb236d1.md,needs-mathematical-review
 d46c049e-ac23-59c6-a1e5-a29386b87e0a,The Hsu–Kakade–Zhang tail,result,library-result,explore/content/statements/entry-d46c049e-ac23-59c6-a1e5-a29386b87e0a.md,pending
 ff3b2108-4b1b-54c2-952c-7d33ac89c1e2,The normal equations,result,library-result,explore/content/statements/entry-ff3b2108-4b1b-54c2-952c-7d33ac89c1e2.md,pending
 9b740f3d-ca04-5277-8671-cdb00a961b61,The spectrum-optimal bound for PCG,result,library-result,explore/content/statements/entry-9b740f3d-ca04-5277-8671-cdb00a961b61.md,pending
 a9502b62-fec8-5aae-811e-a7f38f4542c4,Forward error of an inner product,result,library-result,explore/content/statements/entry-a9502b62-fec8-5aae-811e-a7f38f4542c4.md,pending
 a9936b37-3be0-5000-8215-e47134912157,The gap between two orthogonal projectors,result,library-result,explore/content/statements/entry-a9936b37-3be0-5000-8215-e47134912157.md,pending
-7de56e62-d5d7-5646-bd48-f837f78e75ed,Greatest positive block completion,result,library-result,explore/content/statements/entry-7de56e62-d5d7-5646-bd48-f837f78e75ed.md,pending
-50d6d028-f599-5ffd-a6cd-4146905f8428,"Continuous Lyapunov equation, positivity",result,library-result,explore/content/statements/entry-50d6d028-f599-5ffd-a6cd-4146905f8428.md,pending
+7de56e62-d5d7-5646-bd48-f837f78e75ed,Greatest positive block completion,result,library-result,explore/content/statements/entry-7de56e62-d5d7-5646-bd48-f837f78e75ed.md,reviewed-proposal
+50d6d028-f599-5ffd-a6cd-4146905f8428,"Continuous Lyapunov equation, positivity",result,library-result,explore/content/statements/entry-50d6d028-f599-5ffd-a6cd-4146905f8428.md,inspected-unchanged
 50d71316-8cab-5e08-8143-3b72d640aa8a,The Lie product formula,result,library-result,explore/content/statements/entry-50d71316-8cab-5e08-8143-3b72d640aa8a.md,reviewed-proposal
 28a10657-127b-5015-8c28-1d4cb747d1d5,PSD Nyström: tail bounds,result,library-result,explore/content/statements/entry-28a10657-127b-5015-8c28-1d4cb747d1d5.md,pending
 28e5d2a5-ee79-5725-b0a4-ace52f8820f9,Sylvester's criterion,result,library-result,explore/content/statements/entry-28e5d2a5-ee79-5725-b0a4-ace52f8820f9.md,pending

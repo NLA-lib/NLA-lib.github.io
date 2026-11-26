@@ -1,3 +1,5 @@
+> Coordinator decision: `d42ad32d-79ae-51a1-8cc7-a7fafcb236d1` needs-mathematical-review. Its body is only “of a tall upper Hessenberg matrix.” The source file is not materialized; a complete readable claim is needed.
+
 # Luna generated matrix cohort 08, part 22
 
 All UUIDs were checked for authored aliases before materialization; none was found. Baseline revisions and inherited references are from the corresponding pinned generated records.
