@@ -202,9 +202,22 @@ superseded by their appended authoritative declaration-reference tables.
 
 All 778 pinned research-facing UUIDs are inspected; no scope entry remains
 pending. The final outcome table is in README.md, and each record retains its
-original revision token. 606 citation key/locator associations are preserved in
+original revision token. 605 citation key/locator associations are preserved in
 both the original records and current build metadata. The six concurrent BCW
 statements remain unchanged and outside this pinned count. Root-level source
 polish preserves original source ownership and qualifications rather than
 introducing stronger claims. The follow-up list separates missing formulations,
 source-locator verification, aliases and field/domain questions.
+
+The final complete build caught a generated theorem template bound to the
+Haar-frame invariance instance. Its new Markdown file was held without changing
+the UUID or formal binding. The report records the kind-policy question; the
+generated library result remains accessible. The final source audit covers 609
+files, including three template-identical files already present on main.
+
+Final validation: the full current-library build succeeds (152 authored pages,
+19,711 library records, 17,854 collaboration objects). The test suite completes
+139 tests with eight optional skips; 6,311 authored equations have no KaTeX
+errors. Chromium checks confirm rendered math, styled discussions and definition
+previews on three representative pages with no JavaScript errors. The local
+preview was refreshed while preserving its session data.

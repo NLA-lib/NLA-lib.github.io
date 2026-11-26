@@ -31,6 +31,9 @@ supply peer-review attestations. The detailed per-UUID reports and
 
 ## Review identities and definition targets separately
 
+- The Haar-frame invariance result has a generated theorem template linked to a
+  Lean instance. Its Markdown materialization is held until the display-kind
+  policy for proposition-valued instances is resolved; the generated result remains.
 - `possible-authored-aliases.csv` records 68 possible generated/authored aliases.
   `root-generated-aliases.md` records two additional named-result pairs. Distinct
   UUIDs, discussion threads and histories were preserved.

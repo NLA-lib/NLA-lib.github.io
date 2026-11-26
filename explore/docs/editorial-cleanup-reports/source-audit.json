@@ -920,15 +920,6 @@
       "links": []
     },
     {
-      "path": "explore/content/statements/entry-292e0479-ea41-5c55-80db-6667d29c4377.md",
-      "uuid": "292e0479-ea41-5c55-80db-6667d29c4377",
-      "materialized": true,
-      "metadata_preserved": true,
-      "mathematical_fragments_preserved": true,
-      "reference_metadata_changed": false,
-      "links": []
-    },
-    {
       "path": "explore/content/statements/entry-2996b06c-3caa-5ac9-82b9-1762daa7da71.md",
       "uuid": "2996b06c-3caa-5ac9-82b9-1762daa7da71",
       "materialized": true,
