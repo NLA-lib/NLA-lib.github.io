@@ -3,7 +3,7 @@ uid: 77f86c7e-1915-53f0-9ece-42d42c5f9cc4
 kind: task
 id: trace-estimation
 title: Trace estimation and spectral statistics
-summary: Estimate $\operatorname{tr}(A)$, $\operatorname{tr}(f(A))$, and related quantities.
+summary: Estimate $\operatorname{tr}(\mathbf{A})$, $\operatorname{tr}(f(\mathbf{A}))$, and related quantities.
 status: ready
 sections_collapsed: true
 order: 5
@@ -38,7 +38,7 @@ groups:
     lanczos: Build the small tridiagonal matrix used for each probe in stochastic Lanczos quadrature.
 ---
 
-Estimate $\operatorname{tr}(A)$, $\operatorname{tr}(f(A))$, and related quantities.
+Estimate $\operatorname{tr}(\mathbf{A})$, $\operatorname{tr}(f(\mathbf{A}))$, and related quantities.
 
 {{ generated:task-groups }}
 

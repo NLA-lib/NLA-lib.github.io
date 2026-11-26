@@ -3,7 +3,7 @@ uid: 87da49c2-cdfe-5afc-bf89-861c47499895
 kind: task
 id: least-squares
 title: Least squares
-summary: Minimize $\|A x-b\|_2$, exactly or using a sketch.
+summary: Minimize $\|\mathbf{A}\mathbf{x}-\mathbf{b}\|_2$, exactly or using a sketch.
 status: ready
 sections_collapsed: true
 order: 2
@@ -46,7 +46,7 @@ groups:
   - randomized-kaczmarz
 ---
 
-Minimize $\|A x-b\|_2$, exactly or using a sketch.
+Minimize $\|\mathbf{A}\mathbf{x}-\mathbf{b}\|_2$, exactly or using a sketch.
 
 {{ generated:task-groups }}
 

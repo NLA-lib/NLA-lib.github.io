@@ -3,7 +3,7 @@ uid: 2bc92c70-5694-5d42-aeb2-82cfe2ad80b4
 kind: task
 id: matrix-functions
 title: Matrix functions
-summary: Approximate $f(A)b$ or evaluate a matrix function.
+summary: Approximate $f(\mathbf{A})\mathbf{b}$ or evaluate a matrix function.
 status: ready
 sections_collapsed: true
 order: 4
@@ -33,7 +33,7 @@ groups:
     lanczos: Build the tridiagonal matrix on which the function will be evaluated.
 ---
 
-Approximate $f(A)b$ or evaluate a matrix function.
+Approximate $f(\mathbf{A})\mathbf{b}$ or evaluate a matrix function.
 
 {{ generated:task-groups }}
 
