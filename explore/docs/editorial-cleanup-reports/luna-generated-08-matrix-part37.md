@@ -1,0 +1,13 @@
+# Luna generated matrix cohort 08, part 37
+
+All five assigned UUIDs were checked against authored result and declaration bindings before materialization; no aliases were found. Baselines and source text are from the pinned generated records. Citation evidence is from `reference_links.inherited`, not `object.references`; inherited pairs and exact locators are reused.
+
+| UUID / result | Baseline revision and source path | Outcome | Citation evidence and changes |
+|---|---|---|---|
+| `22288406-3484-5b2a-b5a3-239cf576cad5` / `jl-moment-subgaussian` | `6a13fb4ff6dfe74c72df04e4b20ab3cbfd2a58ff4abed7e2fbd90597e3ee87ea`; `explore/content/statements/entry-22288406-3484-5b2a-b5a3-239cf576cad5.md` | proposed | Reused inherited `Woodruff2014` (Definition 12 and Theorem 13); removed inline key/locator. |
+| `037164dd-5f07-50d1-a2bf-6cf09b0477d4` / `jl-rademacher` | `ea155c237fe38751d4eae550414f70c2d6afdceaea03b146520a9125a7bd5fdf`; `explore/content/statements/entry-037164dd-5f07-50d1-a2bf-6cf09b0477d4.md` | proposed | Reused inherited `Woodruff2014` (§2.1, after Theorem 6) and `Achlioptas2003` (Theorem 1.1). Removed inline citation strings, retained the attribution, and kept the existing warning that the Achlioptas locator needs confirmation. The inherited locator remains unverified; it was not treated as confirmed merely because an association exists. |
+| `be09257d-1504-52e0-b6df-6400c354ad11` / `jl-srht` | `997b9277eb9caeb5c95fb2b6384ab8458be31e26f839e181a0fc199cf9199bb3`; `explore/content/statements/entry-be09257d-1504-52e0-b6df-6400c354ad11.md` | proposed | Reused inherited `Woodruff2014` (Theorem 7); removed inline key/locator. |
+| `e684992e-b847-54c2-b7c5-dff4e42c8e04` / `jl-subgaussian` | `e57d7a2644c27b1ddbdc93390a84ca3d7d42c1f9111aa6ac7780d1e6568ef70d`; `explore/content/statements/entry-e684992e-b847-54c2-b7c5-dff4e42c8e04.md` | proposed | Reused inherited `Vershynin2018` (Exercise 5.3.3); removed inline key/locator. |
+| `641e2c2a-7823-53ae-b524-ef76f3105fe1` / `kaczmarz-inconsistent` | `2a79ee00665b048264aaf4d51083010fa14ba5920f15f273af86000d87cd9b72`; `explore/content/statements/entry-641e2c2a-7823-53ae-b524-ef76f3105fe1.md` | proposed | Reused inherited `ZouziasFreris2013` (Theorem 7); removed inline key/locator. |
+
+No mathematical equation, hypothesis, field, norm, title or metadata changed. No direct canonical definition target was verified for these JL property notions or the randomized row sampling law; no related concept link was added. No notation-role additions were warranted. Parser, notation and shared audit results validate source syntax and identity, not theorem correctness or formal correspondence; no rendered preview was available.

@@ -1,5 +1,11 @@
 # Coordinator review of Luna pilot
 
+Current publication status: GitHub PR #24 merged checkpoint `b2bd09d` into main
+at `8ba81cac`. Later batches remain on this review branch. Earlier sections below
+record the status when each checkpoint was reviewed, not current publication
+status. `reviewed-inventory.csv` marks whether each current source version and its
+inspection record are present in the observed main revision.
+
 Release baseline: `a1d2898`. Pinned library extraction:
 `83c32ccbc1cadb2fd73c94081f5f9f6fe052a817`. Three Luna agents inspected
 12 canonical shared statement files in separate worktrees. Their reports and
@@ -126,3 +132,92 @@ Validation at this checkpoint: 139 Explorer tests passed (8 optional skips),
 build completed. Three representative generated/shared entries were checked in
 Chromium with math, styled discussion and direct definition previews. Later
 source batches remain proposals until individually reviewed and recorded.
+
+## Subsequent bounded-batch review
+
+Generated matrix08 parts1–2 and research06 part1 have been inspected. Source math
+and identities pass the comparison audit. Citation removal in physical-energy
+convergence retains the exact-model qualification; the coordinator repaired its
+sentence transition and normalized bracing/capitalization in physical-energy
+quadrature. Generated-title escape normalization retains the same parsed title.
+A separate 68-row possible-authored-alias queue records identity questions without
+merging pages; two additional named-result aliases are recorded in
+`root-generated-aliases.md`. The full pending/reviewed scope remains explicit.
+
+## Citation and parser review through matrix08 part7
+
+Research06 and research07 part1, generated05, and matrix08 parts1–7 are now
+reviewed. Coverage is 239 UUIDs with 162 retained source proposals. The source
+audit still reports only the five explicitly reviewed exceptions described above.
+The coordinator corrected citation sentence transitions, kept the difference
+between the cited qualitative tiny-interval formulation and the explicit physical-
+energy bounds, and capitalized initial prose without changing math.
+
+A malformed closing directive in matrix08 part3 was corrected before build
+validation. The agent playbook now requires statement-source parsing and a staged
+whitespace check as well as KaTeX, and emphasizes preserving source qualifications
+after citation removal. Agent reports retain uncertainty about citation locators
+and missing standalone hypotheses; inspected is not mathematically certified.
+
+## Mid-run evidence checkpoint
+
+Coverage: 384 of 778 research-facing UUIDs, with 278 retained source proposals.
+The remaining scope is explicit in the inventory. The citation audit checks all
+known bibliography keys, retains 197 removed key/locator associations exactly,
+and reports no missing association. `source-audit.json` contains the unchanged
+identity/binding and formula comparison evidence, with only the five previously
+reviewed layout/notation exceptions. These audits compare source associations and
+presentation, not the truth of the claims or the adequacy of the cited proofs.
+
+The coordinator held matrix08 part17 until its degree bound and eigenvector-weight
+clause were restored exactly from the pinned template. The current source passes
+the audit. Report07 part8 was corrected to its actual assigned UUIDs; its out-of-
+order spectral-bisection font edit is recorded separately from coverage. All agents
+now compare staged expressions and parsed titles to the pinned baseline and
+validate report UUIDs and changed paths against the supplied manifest.
+
+## Current-data compatibility checkpoint
+
+The initial editorial scope remains the pinned 778 research-facing entries. All
+242 authored entries have now been inspected; overall coverage is 572 UUIDs.
+There are 420 retained source proposals and 376 removed key/locator associations
+confirmed against the pinned records, with no missing association found.
+
+Main concurrently merged PR #25, adding six BCW statements. They are preserved
+byte for byte and separately documented in `concurrent-main-additions.md`. Their
+new declarations require the newer rolling library data. The complete build
+succeeds with data/source revision `e207eefa3d0c91354b42affc0bfcd982a3b05807`
+(19,711 library records, 17,283 declarations, 611 result groups); comparison of
+cleanup edits remains pinned to `83c32cc` rather than treating newer mathematics
+as editorial changes. The refreshed loopback preview passes representative
+Chromium math, discussion-style and definition-preview checks.
+
+The coordinator retained the original factor provenance in the Higham/Carson
+inner-product bounds, restored precise nonnumeric clause attribution, and kept
+unverified sharpness locators as unresolved rather than asserting that source
+checks were completed. Original reports with citation-record omissions are
+superseded by their appended authoritative declaration-reference tables.
+
+## Completed editorial scope
+
+All 778 pinned research-facing UUIDs are inspected; no scope entry remains
+pending. The final outcome table is in README.md, and each record retains its
+original revision token. 605 citation key/locator associations are preserved in
+both the original records and current build metadata. The six concurrent BCW
+statements remain unchanged and outside this pinned count. Root-level source
+polish preserves original source ownership and qualifications rather than
+introducing stronger claims. The follow-up list separates missing formulations,
+source-locator verification, aliases and field/domain questions.
+
+The final complete build caught a generated theorem template bound to the
+Haar-frame invariance instance. Its new Markdown file was held without changing
+the UUID or formal binding. The report records the kind-policy question; the
+generated library result remains accessible. The final source audit covers 609
+files, including three template-identical files already present on main.
+
+Final validation: the full current-library build succeeds (152 authored pages,
+19,711 library records, 17,854 collaboration objects). The test suite completes
+139 tests with eight optional skips; 6,311 authored equations have no KaTeX
+errors. Chromium checks confirm rendered math, styled discussions and definition
+previews on three representative pages with no JavaScript errors. The local
+preview was refreshed while preserving its session data.

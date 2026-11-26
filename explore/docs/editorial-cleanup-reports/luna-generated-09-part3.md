@@ -1,0 +1,13 @@
+# Luna generated cohort 09, part 3
+
+All five assigned UUIDs were checked against authored result and declaration bindings before materialization; no aliases were found. Baselines and statement text are from the pinned generated records. Citation evidence comes from `reference_links.inherited`, not the authored `object.references` arrays; those exact inherited associations and locators are reused.
+
+| UUID / result | Baseline revision and source path | Outcome | Citation evidence and changes |
+|---|---|---|---|
+| `57d84c54-43c3-5088-833f-b6c68d83649e` / `subexponential-tail` | `39f5e21bb0fa16f11f4c9e8f1de1b0a942f23b1bffd05df8e5a87894cd5abd45`; `explore/content/statements/entry-57d84c54-43c3-5088-833f-b6c68d83649e.md` | proposed | Reused inherited `Wainwright2019` (Proposition 2.9); removed the inline citation. |
+| `be35d101-2ac6-523d-9fa1-c7756989abb5` / `subgaussian-def` | `3f50b97022018e81ffb77fd20de2e4e43cc9c8367c6a3a556264a75f58269dc8`; `explore/content/statements/entry-be35d101-2ac6-523d-9fa1-c7756989abb5.md` | proposed | Reused inherited `Vershynin2018` (Proposition 2.5.2); removed inline citation and retained the (iv) to (v) implication and the $ψ_2$-norm parameter conversion. |
+| `e0532caf-d94a-527b-9cc7-24ff92c95c33` / `subgaussian-matrix-norm` | `f5faf6fb921e175d7434880a1da4e64d0a1bd7fe59a6d8a198230f701ee4934f`; `explore/content/statements/entry-e0532caf-d94a-527b-9cc7-24ff92c95c33.md` | proposed | Reused inherited `Vershynin2018` (Theorem 4.6.1); removed inline citation and preserved the unspecified $C K^2$ singular-value comparison and the named-constant Loewner form. |
+| `ac4a92f5-9c82-5e61-8d8d-bb953923f8cd` / `subgaussian-maximal-inequality` | `b6f4eed5834d46eaf93426bd7eaa39f1ab41e29f68a8e809cb5382bc17c41761`; `explore/content/statements/entry-ac4a92f5-9c82-5e61-8d8d-bb953923f8cd.md` | proposed | Reused inherited `BoucheronLugosiMassart2013` (Theorem 2.5); removed inline citation. |
+| `22068c08-f2e5-5029-bef4-45ef0370144f` / `subgaussian-ose` | `257d85ea35baa0f18dc2513f4c1abe0fdfef46e7079bae0785b950cb6b76c20b`; `explore/content/statements/entry-22068c08-f2e5-5029-bef4-45ef0370144f.md` | proposed | Reused inherited `Vershynin2018` (Theorem 4.6.1, (4.22)); removed inline citation and retained its singular-value comparison. Linked the existing term “oblivious subspace embedding” to the general squared-norm definition `dd0c654f-b783-516b-b7c3-04b96f1a90f3`; the target states no real-only restriction. |
+
+No formula, hypothesis, field, norm, title or metadata changed. No notation-role proposal was needed. The shared audit/parser/notation checks validate syntax and source identity, not theorem correctness or formalization correspondence; no rendered preview was available.

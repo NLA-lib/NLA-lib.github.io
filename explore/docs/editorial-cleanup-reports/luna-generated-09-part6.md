@@ -1,0 +1,13 @@
+# Luna generated cohort 09, part 6
+
+All five assigned UUIDs were checked against authored result and declaration bindings before materialization; no aliases were found. Baselines and source text are from the pinned generated records. Citation evidence below is each record's `reference_links.inherited`; empty `object.references` arrays were not treated as evidence of absent citations. Existing inherited associations and locators are reused.
+
+| UUID / result | Baseline revision and source path | Outcome | Citation evidence and changes |
+|---|---|---|---|
+| `fcd9f4b3-e804-5a41-abc6-90062f08c70f` / `tape-gaussian-matrix` | `14903a2d5500b0c0a5086ecf1d11c0ca2b3f179b757644e62b4ffc16de0992c2`; assigned path `explore/content/statements/entry-fcd9f4b3-e804-5a41-abc6-90062f08c70f.md` | already-consistent | `reference_links.inherited` is empty. The scalar tape variable and matrix dimensions are already represented clearly; no citation or notation change, so no file materialized. |
+| `0a1bbc90-3e21-50db-be7f-d99cd0acdeeb` / `tape-independent-draws` | `013a988e45e86a9e008ee1628d2c55e4fcae9fd38e56372bcba2f695f0908ffc`; assigned path `explore/content/statements/entry-0a1bbc90-3e21-50db-be7f-d99cd0acdeeb.md` | already-consistent | `reference_links.inherited` is empty. No inline bibliography or notation issue; no file materialized. |
+| `642cf6ec-9823-5bc0-96c2-e34f1f7685a5` / `tikhonov-spectral-filter` | `204eeb28545f1c2fa4254b5408737882c37c27462838b1fc37d85219e662610d`; `explore/content/statements/entry-642cf6ec-9823-5bc0-96c2-e34f1f7685a5.md` | proposed | Reused inherited `FesslerNadakuditi2024` (§5.6.5, equations (5.44)–(5.48)); removed inline citation. |
+| `9db8c8d1-5fd1-5aa5-a233-89ae79ff0df1` / `tomic-weyl-inequality` | `9122f290b91bc8d8d90b7c79998f7ae411fecdd293def8ea551ef9d3b5cdf54e`; `explore/content/statements/entry-9db8c8d1-5fd1-5aa5-a233-89ae79ff0df1.md` | proposed | Reused inherited `HornJohnson1991` (Theorem 3.3.14 context); removed inline citation. No exact weak-majorization definition target was found, so no related majorization link was substituted. |
+| `b6b8acf3-83c9-5ac2-9ca6-144e7eb71b12` / `total-least-squares-svd` | `5f0298cda70dc10428b59862d7d935d8da2aea424a13e210fd188fe98916895a`; `explore/content/statements/entry-b6b8acf3-83c9-5ac2-9ca6-144e7eb71b12.md` | proposed | Reused inherited `GolubVanLoan2013` (§6.3); removed inline citation while retaining the statement's coverage of wide and empty-row data. |
+
+No formula, hypothesis, field, norm, title or metadata changed. No notation-role proposal was needed. Checks validate source syntax and identity, not mathematical correctness or formalization correspondence; no rendered preview was available.
