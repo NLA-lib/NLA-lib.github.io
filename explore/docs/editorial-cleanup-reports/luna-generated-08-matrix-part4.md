@@ -1,0 +1,15 @@
+# Luna generated matrix cohort 08, part 4
+
+All five UUIDs were checked for existing authored result/declaration aliases before materialization; none was found. Revision tokens and citation associations were read from their respective pinned generated records' inherited references.
+
+| UUID / result | Baseline revision and source path | Outcome | Changes and source associations |
+|---|---|---|---|
+| `69aa3732-d98a-5ff7-b089-1c5f1b2ba4df` / `cg-tiny-interval-computed-residual` | `39e6bfa02afdcef2cc7c15562a3f2aaaa3b545246195c5d5f567ecd6873c7c2e`; `explore/content/statements/entry-69aa3732-d98a-5ff7-b089-1c5f1b2ba4df.md` | proposed | Removed inline citation, reusing inherited `GreenbaumLiuChen2021` (§1.3, (9)). Kept the qualification about the polynomial set and residual gap as its own sentence. |
+| `d61b216e-bd47-5b26-86d3-d6ec43791566` / `cg-tiny-interval-minimax-convergence` | `d099128556a84980751912f12eb856822ca809294c87c4b273ef0ee5cd94e20c`; `explore/content/statements/entry-d61b216e-bd47-5b26-86d3-d6ec43791566.md` | proposed | Removed inline citation, reusing inherited `GreenbaumLiuChen2021` (§1.3, (9)). Capitalized the following explanatory sentence; retained its qualifier. |
+| `5da0ca0a-493a-5fba-9898-00a2bbb35d60` / `cg-tiny-interval-polynomial-convergence` | `6d282ea1cd6946f1e00e98511df7e803b9d02d095b9472b1a10ed6667dedda3a`; `explore/content/statements/entry-5da0ca0a-493a-5fba-9898-00a2bbb35d60.md` | proposed | Removed inline citation, reusing inherited `GreenbaumLiuChen2021` (§1.3, (9)). Capitalized the following explanatory sentence; retained its qualifier. |
+| `96fbe0e8-126a-5c92-8e04-70263820b9ff` / `cgls` | `7d51c9a0dfbf98a1dc1d65df997602d3cec523b85c4ea01837bd0421763f623e`; `explore/content/statements/entry-96fbe0e8-126a-5c92-8e04-70263820b9ff.md` | proposed | Removed inline `[Saad2003, §8.3]; locator to verify`, reusing inherited `Saad2003` (§8.3). The locator now comes from the exact inherited association. No formulas or assumptions changed. |
+| `3c38c3c8-dd57-5421-8893-4e183e5a4239` / `chebyshev-coeff-analytic-decay` | `bd423691cb34ab38974e766893b4731bfad7c9cbf2804b1653cd5a1ad40e62e9`; `explore/content/statements/entry-3c38c3c8-dd57-5421-8893-4e183e5a4239.md` | proposed | Removed inline `Trefethen2019, Theorem 8.1` and made its following attribution grammatical: the coefficient bound is generalized to RCLike values via the compatible complex extension. Reused inherited `Trefethen2019` (Theorem 8.1). |
+
+The four removed citation strings matched each object's inherited association. No aliases or missing citations were found. Templates retain the original IDs, kinds, result bindings, math, and metadata. No semantic definition link or notation-registry proposal was needed. The explanatory sentence after the Trefethen citation was rephrased only to keep its original generalization claim grammatical after citation relocation.
+
+Checks: notation checker, `git diff --cached --check`, and the `statement_sources.load_statements(Path('content'))` parser were run. These establish parseability, not mathematical validity or source-to-claim correctness. No rendered-site preview was available.
