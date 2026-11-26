@@ -1,5 +1,11 @@
 # Coordinator review of Luna pilot
 
+Current publication status: GitHub PR #24 merged checkpoint `b2bd09d` into main
+at `8ba81cac`. Later batches remain on this review branch. Earlier sections below
+record the status when each checkpoint was reviewed, not current publication
+status. `reviewed-inventory.csv` marks whether each current source version and its
+inspection record are present in the observed main revision.
+
 Release baseline: `a1d2898`. Pinned library extraction:
 `83c32ccbc1cadb2fd73c94081f5f9f6fe052a817`. Three Luna agents inspected
 12 canonical shared statement files in separate worktrees. Their reports and
@@ -152,3 +158,20 @@ validation. The agent playbook now requires statement-source parsing and a stage
 whitespace check as well as KaTeX, and emphasizes preserving source qualifications
 after citation removal. Agent reports retain uncertainty about citation locators
 and missing standalone hypotheses; inspected is not mathematically certified.
+
+## Mid-run evidence checkpoint
+
+Coverage: 384 of 778 research-facing UUIDs, with 278 retained source proposals.
+The remaining scope is explicit in the inventory. The citation audit checks all
+known bibliography keys, retains 197 removed key/locator associations exactly,
+and reports no missing association. `source-audit.json` contains the unchanged
+identity/binding and formula comparison evidence, with only the five previously
+reviewed layout/notation exceptions. These audits compare source associations and
+presentation, not the truth of the claims or the adequacy of the cited proofs.
+
+The coordinator held matrix08 part17 until its degree bound and eigenvector-weight
+clause were restored exactly from the pinned template. The current source passes
+the audit. Report07 part8 was corrected to its actual assigned UUIDs; its out-of-
+order spectral-bisection font edit is recorded separately from coverage. All agents
+now compare staged expressions and parsed titles to the pinned baseline and
+validate report UUIDs and changed paths against the supplied manifest.

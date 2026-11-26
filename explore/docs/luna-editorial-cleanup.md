@@ -211,13 +211,19 @@ weakening a statement, inventing a proof or upgrading a page's readiness status.
 2. Record the baseline revision and prepare the smallest editorial diff.
 3. Preview each edited entry. Check math rendering, definition hover targets,
    references outside the statement box, and repeated placements of shared content.
-4. Run the repository notation check (`node explore/tests/check_notation.cjs`) and
+4. Compare the assigned UUID set with the report and the staged source paths with
+   the assigned paths. Derive both from the coordinator manifest, not a remembered
+   group number. Compare parsed title/options and mathematical expressions to the
+   pinned template, allowing only explicitly reviewed font/bracing changes. A
+   parser or successful KaTeX render cannot detect a lost degree bound or a weight
+   definition expressed in prose. Reread those definitions and conditions too.
+5. Run the repository notation check (`node explore/tests/check_notation.cjs`) and
    relevant content validation when a workspace is provided. A successful render is
    not a mathematical correctness check. CI validates the complete published build.
-5. Submit a proposal with a short explanation and an idempotency key, using the
+6. Submit a proposal with a short explanation and an idempotency key, using the
    existing API schema and at most five changed entries. Keep drafts private. A
    stale-revision conflict requires rereading/comparison, never a silent overwrite.
-6. Do not self-approve, publish, push to main, deploy, change permissions or modify
+7. Do not self-approve, publish, push to main, deploy, change permissions or modify
    Lean. A reviewer accepts the contribution through the normal workflow.
 
 ## Required batch report

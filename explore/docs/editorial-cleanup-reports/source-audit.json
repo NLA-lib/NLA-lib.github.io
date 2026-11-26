@@ -1,0 +1,2684 @@
+{
+  "baseline_site_commit": "a1d2898",
+  "lean_revision": "83c32ccbc1cadb2fd73c94081f5f9f6fe052a817",
+  "rows": [
+    {
+      "path": "explore/content/statements/arnoldi-relation.md",
+      "uuid": "dfe0f5c1-7607-5831-98c2-83dedb7248da",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "1ebd9712-579d-596a-966f-9119a353806b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-band-structure.md",
+      "uuid": "30ae638f-d7d8-5b6c-91f0-65d57ae2c0de",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-existence.md",
+      "uuid": "38da53a6-399c-573c-8a5f-af35c80fc1e3",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-factored-output.md",
+      "uuid": "4acf79f1-542a-5cb1-ad06-82ac78de683b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58",
+        "ce25720b-6102-5bb3-a0e2-a679814dd9d8"
+      ]
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-orthogonality.md",
+      "uuid": "744bc84b-2659-5cf7-9107-9cf1b628c872",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393"
+      ]
+    },
+    {
+      "path": "explore/content/statements/block-golub-kahan-residual.md",
+      "uuid": "b5af9bf0-05f0-5bd0-a29b-b8f4e5d279ea",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "593daa98-8a52-5a89-a792-f46844fd76d6"
+      ]
+    },
+    {
+      "path": "explore/content/statements/cg-chebyshev-bound.md",
+      "uuid": "845426ae-8454-5066-81fd-41b93a3e12c0",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/cg-finite-termination.md",
+      "uuid": "7cff0d5e-11c8-51c3-8620-0c3b8dc915fe",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/cg-polynomial-bound.md",
+      "uuid": "aa1d5b60-6ec3-58e0-9168-e25e60a9d5a7",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/cg-scalar-rounded-operation-count-energy-error.md",
+      "uuid": "ea514d30-5b7f-5590-a122-8ec993658af3",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "65719e4e-6ea0-536c-91c1-7624e92b30d1"
+      ]
+    },
+    {
+      "path": "explore/content/statements/cgs2-basis-extension-error.md",
+      "uuid": "3f4f0fa3-7a5c-5871-83e4-2b9fceb23147",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393"
+      ]
+    },
+    {
+      "path": "explore/content/statements/cgs2-basis-extension.md",
+      "uuid": "501be497-13e8-5f2d-b5bc-aeb5ccee7c75",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "12a7ec72-6c64-59e6-b7de-7aff8d055ba2"
+      ]
+    },
+    {
+      "path": "explore/content/statements/cholesky-existence.md",
+      "uuid": "73049bd9-26db-573c-bb15-c64708b469fb",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d00946c1-7d12-50e4-a6da-635456a9fca7"
+      ]
+    },
+    {
+      "path": "explore/content/statements/countsketch-second-moment.md",
+      "uuid": "257222e6-7828-5cbd-82ba-e05f7e257514",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "161d8fd6-2f0a-5e7e-8b4c-e7e67c1e6289"
+      ]
+    },
+    {
+      "path": "explore/content/statements/dense-schur-certificate-accuracy.md",
+      "uuid": "db934d13-3642-524f-9980-66c833e0f17a",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "9fd58d97-e831-5cb7-9bf8-24b035ded4c6"
+      ]
+    },
+    {
+      "path": "explore/content/statements/dense-schur-eigenvalues.md",
+      "uuid": "cb17877c-5b47-5eee-848b-379ce1751a61",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "9fd58d97-e831-5cb7-9bf8-24b035ded4c6"
+      ]
+    },
+    {
+      "path": "explore/content/statements/dense-schur-exact-unitary.md",
+      "uuid": "76f46a7e-26fd-5477-b3af-e95d89422696",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "9fd58d97-e831-5cb7-9bf8-24b035ded4c6"
+      ]
+    },
+    {
+      "path": "explore/content/statements/early-and-late-truncation-200f4a3a.md",
+      "uuid": "200f4a3a-dbac-5835-8b48-0b498cf09ba3",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/eckart-young-frobenius.md",
+      "uuid": "35e54249-105c-5da3-980b-30e3d93943b4",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d5bca832-63a1-5043-ab6e-03b8402a2a55"
+      ]
+    },
+    {
+      "path": "explore/content/statements/entry-00a27249-178a-5ab2-874f-d1911f8ddac4.md",
+      "uuid": "00a27249-178a-5ab2-874f-d1911f8ddac4",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-00bdfcf2-cefd-567e-afe3-3e7542366848.md",
+      "uuid": "00bdfcf2-cefd-567e-afe3-3e7542366848",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-00e83819-1eb1-5eae-84d4-ff117f645f97.md",
+      "uuid": "00e83819-1eb1-5eae-84d4-ff117f645f97",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-01a2a133-dda7-506f-8b1e-23a886081919.md",
+      "uuid": "01a2a133-dda7-506f-8b1e-23a886081919",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-0238f056-1528-5095-a223-00cd694baaed.md",
+      "uuid": "0238f056-1528-5095-a223-00cd694baaed",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-051dc68b-f768-524f-8a7b-7ca18e061a4c.md",
+      "uuid": "051dc68b-f768-524f-8a7b-7ca18e061a4c",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-06cfdd26-ce4f-5a5a-a27c-e2df3a72175c.md",
+      "uuid": "06cfdd26-ce4f-5a5a-a27c-e2df3a72175c",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-09243e3f-7b27-5465-9b71-50ec2a1d6fd2.md",
+      "uuid": "09243e3f-7b27-5465-9b71-50ec2a1d6fd2",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-095830f7-f116-5956-8031-a82709c77dd3.md",
+      "uuid": "095830f7-f116-5956-8031-a82709c77dd3",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-09c415ab-71d6-54a8-9368-71c4bb24bcb1.md",
+      "uuid": "09c415ab-71d6-54a8-9368-71c4bb24bcb1",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-0ad594f9-c3a8-54c2-a059-a31abe43cc24.md",
+      "uuid": "0ad594f9-c3a8-54c2-a059-a31abe43cc24",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-0b60d407-d697-537c-8075-6a6412fde68c.md",
+      "uuid": "0b60d407-d697-537c-8075-6a6412fde68c",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-102b8c07-bd6f-5c32-91af-9497410a350b.md",
+      "uuid": "102b8c07-bd6f-5c32-91af-9497410a350b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-105e8101-06f4-5d32-a84b-78e826a6e268.md",
+      "uuid": "105e8101-06f4-5d32-a84b-78e826a6e268",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-112dc441-2dd8-5bb4-9146-27050ee983f7.md",
+      "uuid": "112dc441-2dd8-5bb4-9146-27050ee983f7",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-118e2a84-a71c-5cbd-ab4a-b52c95b517b0.md",
+      "uuid": "118e2a84-a71c-5cbd-ab4a-b52c95b517b0",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-11c4284e-b2ea-516d-aa9a-47f07f62d9a6.md",
+      "uuid": "11c4284e-b2ea-516d-aa9a-47f07f62d9a6",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1351eb09-b212-5c2c-b227-91317234b040.md",
+      "uuid": "1351eb09-b212-5c2c-b227-91317234b040",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1626e38d-7b50-553b-8634-1b9cda95b03d.md",
+      "uuid": "1626e38d-7b50-553b-8634-1b9cda95b03d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "604d3a67-5a4c-5dc9-9933-06e04ea9ac41"
+      ]
+    },
+    {
+      "path": "explore/content/statements/entry-1a144897-2587-53a0-b390-98d9125b4ecd.md",
+      "uuid": "1a144897-2587-53a0-b390-98d9125b4ecd",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1a2fb5df-7070-5ba0-a231-3a874f199f98.md",
+      "uuid": "1a2fb5df-7070-5ba0-a231-3a874f199f98",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1a7129dc-8352-56d1-a697-c06c7e85e61e.md",
+      "uuid": "1a7129dc-8352-56d1-a697-c06c7e85e61e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1f752449-b731-552c-ba44-764dd368105f.md",
+      "uuid": "1f752449-b731-552c-ba44-764dd368105f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-1fdf9511-071e-5d1b-a468-e6ec671bc59f.md",
+      "uuid": "1fdf9511-071e-5d1b-a468-e6ec671bc59f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-20c1b332-e297-5258-bf5f-b260cf03eb23.md",
+      "uuid": "20c1b332-e297-5258-bf5f-b260cf03eb23",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-29af3d8a-55bc-56f9-b742-8ce9f120cdb5.md",
+      "uuid": "29af3d8a-55bc-56f9-b742-8ce9f120cdb5",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-2bb9ce32-c710-521c-bd0f-e1067b716400.md",
+      "uuid": "2bb9ce32-c710-521c-bd0f-e1067b716400",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-2dab2e99-9e62-57a3-ac24-badfa56b765f.md",
+      "uuid": "2dab2e99-9e62-57a3-ac24-badfa56b765f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-2e7f8ace-6907-5bb3-aacb-da96f9401a03.md",
+      "uuid": "2e7f8ace-6907-5bb3-aacb-da96f9401a03",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-2efbb8ba-bbc2-54fe-ac31-6b50c6ee844a.md",
+      "uuid": "2efbb8ba-bbc2-54fe-ac31-6b50c6ee844a",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-2f759b79-435c-58b7-b69c-f032ceaf5a21.md",
+      "uuid": "2f759b79-435c-58b7-b69c-f032ceaf5a21",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3008c9fd-4f35-54bb-b0aa-033cbe67cac3.md",
+      "uuid": "3008c9fd-4f35-54bb-b0aa-033cbe67cac3",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-317a0fa0-5efb-51b1-b3d3-69ca54884c34.md",
+      "uuid": "317a0fa0-5efb-51b1-b3d3-69ca54884c34",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-32569e9a-bd08-5fe4-a6d4-4e985e217334.md",
+      "uuid": "32569e9a-bd08-5fe4-a6d4-4e985e217334",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-329be497-eaac-5ded-8e53-229f108a0f5b.md",
+      "uuid": "329be497-eaac-5ded-8e53-229f108a0f5b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-35e7db26-58bf-5c14-956e-cb3a86293e7d.md",
+      "uuid": "35e7db26-58bf-5c14-956e-cb3a86293e7d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-38342b39-b8eb-5460-afbc-59fe3832654f.md",
+      "uuid": "38342b39-b8eb-5460-afbc-59fe3832654f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-38c71f67-f044-51f6-8726-81dc71f88857.md",
+      "uuid": "38c71f67-f044-51f6-8726-81dc71f88857",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-39557fa9-2841-5d3e-911e-23bdfea4778f.md",
+      "uuid": "39557fa9-2841-5d3e-911e-23bdfea4778f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3964a32e-4c84-5ac5-a301-4b427bb5c4de.md",
+      "uuid": "3964a32e-4c84-5ac5-a301-4b427bb5c4de",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3978a571-496d-5e2f-8a9c-a603cbce6f4e.md",
+      "uuid": "3978a571-496d-5e2f-8a9c-a603cbce6f4e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3a153dcc-6cc8-5135-a29b-1827909311f3.md",
+      "uuid": "3a153dcc-6cc8-5135-a29b-1827909311f3",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3c38c3c8-dd57-5421-8893-4e183e5a4239.md",
+      "uuid": "3c38c3c8-dd57-5421-8893-4e183e5a4239",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3d90708e-a3e4-54b9-853a-c88e3efbc832.md",
+      "uuid": "3d90708e-a3e4-54b9-853a-c88e3efbc832",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-3faa5c16-11c9-54df-90e3-249c13c166d2.md",
+      "uuid": "3faa5c16-11c9-54df-90e3-249c13c166d2",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-406e3c74-bea5-521e-ad3a-df96d1fcaacb.md",
+      "uuid": "406e3c74-bea5-521e-ad3a-df96d1fcaacb",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-43bb15f8-039a-5235-a6ad-28c571f72377.md",
+      "uuid": "43bb15f8-039a-5235-a6ad-28c571f72377",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-45402c52-00f1-590a-94ec-492e6929c68f.md",
+      "uuid": "45402c52-00f1-590a-94ec-492e6929c68f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-47f2341b-17b2-504e-bd55-4c359ec0b529.md",
+      "uuid": "47f2341b-17b2-504e-bd55-4c359ec0b529",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-484e0bc1-28b6-53c1-be7b-2d3fd0a1d244.md",
+      "uuid": "484e0bc1-28b6-53c1-be7b-2d3fd0a1d244",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-4cf70613-9c2d-5d84-a325-a7e2d40fe039.md",
+      "uuid": "4cf70613-9c2d-5d84-a325-a7e2d40fe039",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-4e366eac-bdb1-5474-8d2f-3e7b4bcbae92.md",
+      "uuid": "4e366eac-bdb1-5474-8d2f-3e7b4bcbae92",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-50d71316-8cab-5e08-8143-3b72d640aa8a.md",
+      "uuid": "50d71316-8cab-5e08-8143-3b72d640aa8a",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5145e687-da93-5a11-985f-7ea8b8fbd3fa.md",
+      "uuid": "5145e687-da93-5a11-985f-7ea8b8fbd3fa",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-54393ec6-774c-510b-8e5d-df4f4f7b7a0d.md",
+      "uuid": "54393ec6-774c-510b-8e5d-df4f4f7b7a0d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": false,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-57f68b2b-c251-53a5-b684-3d3be1c25dfc.md",
+      "uuid": "57f68b2b-c251-53a5-b684-3d3be1c25dfc",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5b38d0bc-dd09-5e4e-a8e9-20562ccfc537.md",
+      "uuid": "5b38d0bc-dd09-5e4e-a8e9-20562ccfc537",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5d7d4e70-75df-5dbd-b253-5fc2ebd69d89.md",
+      "uuid": "5d7d4e70-75df-5dbd-b253-5fc2ebd69d89",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5da0ca0a-493a-5fba-9898-00a2bbb35d60.md",
+      "uuid": "5da0ca0a-493a-5fba-9898-00a2bbb35d60",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5dc6ffb0-b124-527e-b32a-8995f8e836eb.md",
+      "uuid": "5dc6ffb0-b124-527e-b32a-8995f8e836eb",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5dec5253-d674-52b3-ac78-6486e3ac3276.md",
+      "uuid": "5dec5253-d674-52b3-ac78-6486e3ac3276",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-5ea3fa86-65cd-584d-affa-921f27e54280.md",
+      "uuid": "5ea3fa86-65cd-584d-affa-921f27e54280",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": false,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-62279fc0-cdb5-5913-9371-98376f572a0c.md",
+      "uuid": "62279fc0-cdb5-5913-9371-98376f572a0c",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-623c5194-af38-5819-aaeb-d7f18db05ddb.md",
+      "uuid": "623c5194-af38-5819-aaeb-d7f18db05ddb",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-62747732-0492-51d7-8d9a-8add091ef4b9.md",
+      "uuid": "62747732-0492-51d7-8d9a-8add091ef4b9",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-65abc507-e8cf-5e41-827a-352622e11905.md",
+      "uuid": "65abc507-e8cf-5e41-827a-352622e11905",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-669489a7-9aab-5484-83a4-7000f72d2e29.md",
+      "uuid": "669489a7-9aab-5484-83a4-7000f72d2e29",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-6767bb9a-026f-5710-bd11-a09a4dd7074d.md",
+      "uuid": "6767bb9a-026f-5710-bd11-a09a4dd7074d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-69aa3732-d98a-5ff7-b089-1c5f1b2ba4df.md",
+      "uuid": "69aa3732-d98a-5ff7-b089-1c5f1b2ba4df",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-6d05ea34-879f-54da-a8d9-e717ccae09e6.md",
+      "uuid": "6d05ea34-879f-54da-a8d9-e717ccae09e6",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-6ebfe062-a419-5299-b877-bbd1506a7d71.md",
+      "uuid": "6ebfe062-a419-5299-b877-bbd1506a7d71",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-6f0239db-692b-5c68-bd8b-fd58f0bf9839.md",
+      "uuid": "6f0239db-692b-5c68-bd8b-fd58f0bf9839",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-6f1e12f5-1e2c-5e1c-b2fb-4b994584196d.md",
+      "uuid": "6f1e12f5-1e2c-5e1c-b2fb-4b994584196d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-711f7aa0-b0e8-5381-8ba3-f9b112b49525.md",
+      "uuid": "711f7aa0-b0e8-5381-8ba3-f9b112b49525",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-73112efa-07cc-5cc5-9629-c9dd13497da7.md",
+      "uuid": "73112efa-07cc-5cc5-9629-c9dd13497da7",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-7493eadd-f3e6-5cc1-817d-8294db8253a1.md",
+      "uuid": "7493eadd-f3e6-5cc1-817d-8294db8253a1",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-75d825fd-d8f5-514f-a172-b055c892f8e6.md",
+      "uuid": "75d825fd-d8f5-514f-a172-b055c892f8e6",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-76e9e78e-a1de-5455-a7c5-1a368fd364b0.md",
+      "uuid": "76e9e78e-a1de-5455-a7c5-1a368fd364b0",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-7733da1c-31eb-5110-985b-53f17e59cc1e.md",
+      "uuid": "7733da1c-31eb-5110-985b-53f17e59cc1e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-793618af-b438-5251-9e1a-acb242dd734f.md",
+      "uuid": "793618af-b438-5251-9e1a-acb242dd734f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2.md",
+      "uuid": "7a5d6fbb-06c2-50ca-b5d5-2fba3cf5eaf2",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-7f9c5c3f-ac97-5df8-b3ee-9a3916517830.md",
+      "uuid": "7f9c5c3f-ac97-5df8-b3ee-9a3916517830",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-800aded9-c90a-585c-9f5c-6de118919f6b.md",
+      "uuid": "800aded9-c90a-585c-9f5c-6de118919f6b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-81978087-c08d-5057-811b-cd7c41d33d7d.md",
+      "uuid": "81978087-c08d-5057-811b-cd7c41d33d7d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-8233784b-c268-54a7-a213-7fd515bf6595.md",
+      "uuid": "8233784b-c268-54a7-a213-7fd515bf6595",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-84348898-f0eb-5b7b-89eb-b0abb1dc5fb6.md",
+      "uuid": "84348898-f0eb-5b7b-89eb-b0abb1dc5fb6",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-85b63a3d-6e69-5f62-b799-d61a036c63b6.md",
+      "uuid": "85b63a3d-6e69-5f62-b799-d61a036c63b6",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-88e837fd-ea33-5f33-b16c-07239a5a4358.md",
+      "uuid": "88e837fd-ea33-5f33-b16c-07239a5a4358",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-8bacba74-840f-56ee-b16a-0756a32886a1.md",
+      "uuid": "8bacba74-840f-56ee-b16a-0756a32886a1",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-8cf8a008-8593-55e7-8779-7c9d17132d0a.md",
+      "uuid": "8cf8a008-8593-55e7-8779-7c9d17132d0a",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-8dbe8fda-2215-54d7-bd9c-c7ef4e103b28.md",
+      "uuid": "8dbe8fda-2215-54d7-bd9c-c7ef4e103b28",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-8ede3e75-01f1-52ee-ac5e-09bd60a613a0.md",
+      "uuid": "8ede3e75-01f1-52ee-ac5e-09bd60a613a0",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-924dba06-93c2-554e-8e09-ddf7cddbcbfc.md",
+      "uuid": "924dba06-93c2-554e-8e09-ddf7cddbcbfc",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-94394009-acd7-5013-bf64-31e1dfa675a7.md",
+      "uuid": "94394009-acd7-5013-bf64-31e1dfa675a7",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9511af16-a914-5b99-9aa5-33eb0779991e.md",
+      "uuid": "9511af16-a914-5b99-9aa5-33eb0779991e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-95c11cac-5984-50ef-9aca-729630af3676.md",
+      "uuid": "95c11cac-5984-50ef-9aca-729630af3676",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-96fbe0e8-126a-5c92-8e04-70263820b9ff.md",
+      "uuid": "96fbe0e8-126a-5c92-8e04-70263820b9ff",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-97e35c29-1a51-5347-b40d-317aae9d5e0f.md",
+      "uuid": "97e35c29-1a51-5347-b40d-317aae9d5e0f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9a127b93-df2e-5efb-af2e-7b7d2ef0ed86.md",
+      "uuid": "9a127b93-df2e-5efb-af2e-7b7d2ef0ed86",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9eea00c9-02e4-5cb5-a9a3-b03eb148c76d.md",
+      "uuid": "9eea00c9-02e4-5cb5-a9a3-b03eb148c76d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9f290078-5e91-5a7a-b19e-cc8d43b8b7de.md",
+      "uuid": "9f290078-5e91-5a7a-b19e-cc8d43b8b7de",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9f6262cd-4f38-5e52-9bbb-9d3f19f886b4.md",
+      "uuid": "9f6262cd-4f38-5e52-9bbb-9d3f19f886b4",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-9fee2c19-888c-541b-ac5c-3862db618205.md",
+      "uuid": "9fee2c19-888c-541b-ac5c-3862db618205",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a182fc4a-cc92-5f01-9cf8-5999c4bc9293.md",
+      "uuid": "a182fc4a-cc92-5f01-9cf8-5999c4bc9293",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a28dc5e5-5ab2-5e77-b374-b16218f9b27b.md",
+      "uuid": "a28dc5e5-5ab2-5e77-b374-b16218f9b27b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a3ab3fcc-f067-5b26-a3b9-ec218bdb1074.md",
+      "uuid": "a3ab3fcc-f067-5b26-a3b9-ec218bdb1074",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a4df81d0-303c-59d7-956e-a8f427da92fc.md",
+      "uuid": "a4df81d0-303c-59d7-956e-a8f427da92fc",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a7a9a748-bebd-53d4-bf6c-1a0ccb475a57.md",
+      "uuid": "a7a9a748-bebd-53d4-bf6c-1a0ccb475a57",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-a8798d66-4c2c-5ef6-bb4d-216baa1cec68.md",
+      "uuid": "a8798d66-4c2c-5ef6-bb4d-216baa1cec68",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-ae325865-5edf-5230-babb-d1cb28595cce.md",
+      "uuid": "ae325865-5edf-5230-babb-d1cb28595cce",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-afe0f1eb-e662-51a9-9535-5bacc015731b.md",
+      "uuid": "afe0f1eb-e662-51a9-9535-5bacc015731b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-afedaa05-0b41-5c03-8ce5-8e22f5887b51.md",
+      "uuid": "afedaa05-0b41-5c03-8ce5-8e22f5887b51",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b0ce97a6-15df-56de-9524-49165314ede3.md",
+      "uuid": "b0ce97a6-15df-56de-9524-49165314ede3",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b16e27ab-ea91-5cf8-a17c-110b88ab8929.md",
+      "uuid": "b16e27ab-ea91-5cf8-a17c-110b88ab8929",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7.md",
+      "uuid": "b3c6efe3-cf1e-571d-86b8-2112fc6f6cf7",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b4012e69-339b-5cb9-9b26-fa8e915d61e2.md",
+      "uuid": "b4012e69-339b-5cb9-9b26-fa8e915d61e2",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b4245d70-3734-5993-9271-386b0060d9e4.md",
+      "uuid": "b4245d70-3734-5993-9271-386b0060d9e4",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b4dbfa7d-8ab1-5914-b260-6726863e02ee.md",
+      "uuid": "b4dbfa7d-8ab1-5914-b260-6726863e02ee",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b5ac9737-deca-511a-8796-65c282985c09.md",
+      "uuid": "b5ac9737-deca-511a-8796-65c282985c09",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b5d079e2-0c06-547d-bf97-8c505409106b.md",
+      "uuid": "b5d079e2-0c06-547d-bf97-8c505409106b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": false,
+      "reference_metadata_changed": true,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b6186659-9ac3-5ed4-8d2b-a4809261a416.md",
+      "uuid": "b6186659-9ac3-5ed4-8d2b-a4809261a416",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-b629a0e9-a95d-52f2-8a4f-f462a3a50aac.md",
+      "uuid": "b629a0e9-a95d-52f2-8a4f-f462a3a50aac",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-bb5a9831-6279-569f-b38a-0892eaa26399.md",
+      "uuid": "bb5a9831-6279-569f-b38a-0892eaa26399",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-bcacf146-da41-5661-af89-a0cdb2acd901.md",
+      "uuid": "bcacf146-da41-5661-af89-a0cdb2acd901",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c231916d-1bfc-5f5f-b8c4-9a43fff1d328.md",
+      "uuid": "c231916d-1bfc-5f5f-b8c4-9a43fff1d328",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c2882939-91b2-583e-acda-f0aeaa409e6b.md",
+      "uuid": "c2882939-91b2-583e-acda-f0aeaa409e6b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c5a8c939-5002-53fb-9619-f78a7342d70f.md",
+      "uuid": "c5a8c939-5002-53fb-9619-f78a7342d70f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c734cb04-fd47-5ab8-913b-0f2ad9488d91.md",
+      "uuid": "c734cb04-fd47-5ab8-913b-0f2ad9488d91",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c76c0b2b-6b40-5e1c-a88d-8bfa4efcc042.md",
+      "uuid": "c76c0b2b-6b40-5e1c-a88d-8bfa4efcc042",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c9023b9f-f87d-5ae2-b7ea-5d6fb396478f.md",
+      "uuid": "c9023b9f-f87d-5ae2-b7ea-5d6fb396478f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-c94b8241-564e-5b8a-a15b-23311631158e.md",
+      "uuid": "c94b8241-564e-5b8a-a15b-23311631158e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-ce2443fb-7e9e-5355-a69a-2dc2cbc06a07.md",
+      "uuid": "ce2443fb-7e9e-5355-a69a-2dc2cbc06a07",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d07c2685-3fcf-5beb-b5f4-6004950e0f09.md",
+      "uuid": "d07c2685-3fcf-5beb-b5f4-6004950e0f09",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d26453a3-df54-5377-8832-1975906f9e91.md",
+      "uuid": "d26453a3-df54-5377-8832-1975906f9e91",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d3e99f30-f02a-5df8-ad99-70eb3a91c3fa.md",
+      "uuid": "d3e99f30-f02a-5df8-ad99-70eb3a91c3fa",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393"
+      ]
+    },
+    {
+      "path": "explore/content/statements/entry-d61b216e-bd47-5b26-86d3-d6ec43791566.md",
+      "uuid": "d61b216e-bd47-5b26-86d3-d6ec43791566",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d64809e6-707b-5089-84b8-56aec703b5db.md",
+      "uuid": "d64809e6-707b-5089-84b8-56aec703b5db",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d8971d3c-b85b-54eb-8089-7148a3b15095.md",
+      "uuid": "d8971d3c-b85b-54eb-8089-7148a3b15095",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-d92f32a4-6db9-57f9-afff-ae4712dda905.md",
+      "uuid": "d92f32a4-6db9-57f9-afff-ae4712dda905",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-dc8e0c8e-14ca-54b7-bf8d-4bea26c61c35.md",
+      "uuid": "dc8e0c8e-14ca-54b7-bf8d-4bea26c61c35",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e0118898-bd0e-5173-b422-a7f43632025f.md",
+      "uuid": "e0118898-bd0e-5173-b422-a7f43632025f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e0a9e93d-e469-59c7-b1b0-9773acc61932.md",
+      "uuid": "e0a9e93d-e469-59c7-b1b0-9773acc61932",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e1ed1e65-6958-5553-a2dc-53f302ea4457.md",
+      "uuid": "e1ed1e65-6958-5553-a2dc-53f302ea4457",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e34ae886-e86b-5a12-8d4b-4027073d4d2f.md",
+      "uuid": "e34ae886-e86b-5a12-8d4b-4027073d4d2f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e402bfcb-bd27-537c-92fa-126246113c4e.md",
+      "uuid": "e402bfcb-bd27-537c-92fa-126246113c4e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "89ab2263-0730-583c-89db-9695bea9604d"
+      ]
+    },
+    {
+      "path": "explore/content/statements/entry-e60d7a83-c487-5dd1-99be-868bae8e591f.md",
+      "uuid": "e60d7a83-c487-5dd1-99be-868bae8e591f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e8903483-c817-5151-a9fb-abfc5a7b538a.md",
+      "uuid": "e8903483-c817-5151-a9fb-abfc5a7b538a",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-e8a57e12-c026-59cd-8eb4-c91d54498a5e.md",
+      "uuid": "e8a57e12-c026-59cd-8eb4-c91d54498a5e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-eb00ac4d-005b-5055-a3e9-0b9d146e013b.md",
+      "uuid": "eb00ac4d-005b-5055-a3e9-0b9d146e013b",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-ed39a224-8977-5a2f-abe0-23290ac526c0.md",
+      "uuid": "ed39a224-8977-5a2f-abe0-23290ac526c0",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md",
+      "uuid": "f038c3d4-1b55-56e9-a24f-6874c571cff1",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-f3cb624f-5ed5-557f-97f5-18d1c3791658.md",
+      "uuid": "f3cb624f-5ed5-557f-97f5-18d1c3791658",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-f44f6ec6-3fbb-55f0-8bd2-f1916518bcf1.md",
+      "uuid": "f44f6ec6-3fbb-55f0-8bd2-f1916518bcf1",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-f718cafe-d505-5dc5-b3cb-153ad204ca6d.md",
+      "uuid": "f718cafe-d505-5dc5-b3cb-153ad204ca6d",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-f81cdcf2-e641-5423-a741-447972fe242f.md",
+      "uuid": "f81cdcf2-e641-5423-a741-447972fe242f",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-fd02acb4-21b0-545b-ab5a-02437b42c018.md",
+      "uuid": "fd02acb4-21b0-545b-ab5a-02437b42c018",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-fd8baa3d-6b35-53c5-ab98-22ad69012871.md",
+      "uuid": "fd8baa3d-6b35-53c5-ab98-22ad69012871",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-fddcd6d1-2a85-518d-aec9-14e5da5bdd1e.md",
+      "uuid": "fddcd6d1-2a85-518d-aec9-14e5da5bdd1e",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/entry-feec1d16-d467-5583-8f45-c7176544dfbf.md",
+      "uuid": "feec1d16-d467-5583-8f45-c7176544dfbf",
+      "materialized": true,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/etgn.md",
+      "uuid": "d059f2c5-9a30-5050-9e0c-bfddc9d221d7",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "cdd691bb-6aef-5d59-b7e9-615785a98d27"
+      ]
+    },
+    {
+      "path": "explore/content/statements/evaluating-a-polynomial-on-a-matrix-057c76ad.md",
+      "uuid": "057c76ad-28a7-5db1-b52a-2f9658bc0136",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "af61ef21-9f45-5d71-87c8-6d01c16be15e"
+      ]
+    },
+    {
+      "path": "explore/content/statements/filtered-range-finder-approximation-36be1f8d.md",
+      "uuid": "36be1f8d-abc5-5dfd-b557-ff75ebe97822",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/generalized-nystrom-expected-error.md",
+      "uuid": "07a22a07-cf1a-5eab-9c15-e691321845a2",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d5bca832-63a1-5043-ab6e-03b8402a2a55"
+      ]
+    },
+    {
+      "path": "explore/content/statements/girard-hutchinson-unbiased.md",
+      "uuid": "5feae0f6-b290-5ff9-8c2e-4103573b92b7",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "cb5e0fa7-3425-5848-83bd-fd73b4aa314e"
+      ]
+    },
+    {
+      "path": "explore/content/statements/gmres-7d1681b7.md",
+      "uuid": "7d1681b7-7670-532a-98d3-4e7886e4adcc",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "1ebd9712-579d-596a-966f-9119a353806b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/gmres-optimality.md",
+      "uuid": "ab283d6b-fe5a-5ca9-bae6-317a3a172f42",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "7d1681b7-7670-532a-98d3-4e7886e4adcc"
+      ]
+    },
+    {
+      "path": "explore/content/statements/hermitian-functional-calculus-af61ef21.md",
+      "uuid": "af61ef21-9f45-5d71-87c8-6d01c16be15e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357"
+      ]
+    },
+    {
+      "path": "explore/content/statements/hermitian-spectral-decomposition-49f5c3f6.md",
+      "uuid": "49f5c3f6-f926-5bc6-b401-16993ec1e357",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/hutchpp-unbiased.md",
+      "uuid": "e14bcce7-62ce-54e6-998e-40ef966c42bb",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/isotropic-probes-cb5e0fa7.md",
+      "uuid": "cb5e0fa7-3425-5848-83bd-fd73b4aa314e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "84f513cb-f346-53d2-a25c-d47827a8967b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/iterative-refinement-forward-error.md",
+      "uuid": "e1a72f9d-aab8-55c4-b50b-40b1279609fc",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "c07e970e-5e57-5ffc-95c4-0a61ec4b2f4d"
+      ]
+    },
+    {
+      "path": "explore/content/statements/jacobi-eigenvalue-method-9daaad7c.md",
+      "uuid": "9daaad7c-093e-59a8-a0a5-b86b31c81bc3",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357"
+      ]
+    },
+    {
+      "path": "explore/content/statements/lanczos-fa-uniform-bound.md",
+      "uuid": "ba9a80b1-12cc-5be5-b98c-0834104cd8f5",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239"
+      ]
+    },
+    {
+      "path": "explore/content/statements/lanczos-process-d9e8ae48.md",
+      "uuid": "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357"
+      ]
+    },
+    {
+      "path": "explore/content/statements/lanczos-scalar-rounded-operation-count-ritz-residual.md",
+      "uuid": "1b2b66d6-11bb-5c95-be41-014310fedb97",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/lanczos-tridiagonal.md",
+      "uuid": "0b4b1b6d-b0a4-52dc-90e9-53494f3cbdf4",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-gn-08c095ab.md",
+      "uuid": "08c095ab-87a1-5868-9d7c-58a93e407feb",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-nystr-m-block-krylov-iteration-9762adf8.md",
+      "uuid": "9762adf8-8884-5899-b695-2aa9850f0186",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-nystr-m-subspace-iteration-21bd0b0f.md",
+      "uuid": "21bd0b0f-4c55-5413-bc01-5a13cb925690",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-rbki-100d7ac0.md",
+      "uuid": "100d7ac0-44b3-5c2a-8737-9d2b4faad068",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-rsi-c87bfc3a.md",
+      "uuid": "c87bfc3a-e18e-553a-90a0-c82558421a6d",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/late-truncated-rsvd-e8701eac.md",
+      "uuid": "e8701eac-1468-573d-bb7a-8a6e8f3bb811",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/loewner-order-and-majorization-94212462.md",
+      "uuid": "94212462-4541-5bf1-96ea-38d5e791525e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357",
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/lsqr-0368af89.md",
+      "uuid": "0368af89-f05c-573a-9e87-1799faf5909b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d881b1fc-87da-5f4f-a75d-8d11c09f6fbf"
+      ]
+    },
+    {
+      "path": "explore/content/statements/markov-inequality.md",
+      "uuid": "6cf5cbfe-3caa-5917-b1b9-e00daab48ffa",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": false,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/matrix-norms-19646f49.md",
+      "uuid": "19646f49-e8db-5918-a0df-83eaf8db1648",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": false,
+      "reference_metadata_changed": false,
+      "links": [
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/matrix-possemidef-integral-nuclearnorm-sub-truncatedsvd-nystrom-pow-mul-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "a5e449d4-fd34-5212-96fa-75ce7fa2feaf",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/matrix-possemidef-integral-nuclearnorm-sub-truncatedsvd-nystrombki-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "e59d814f-e0b1-56c7-af02-203f32b258da",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/minres-b7f38d6d.md",
+      "uuid": "b7f38d6d-61b5-5315-97b5-ad37f607e474",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239"
+      ]
+    },
+    {
+      "path": "explore/content/statements/newton-schulz-sign-iteration-33cd8a3d.md",
+      "uuid": "33cd8a3d-4740-5cbd-82aa-7e67e7c152da",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-cgs2-cgs2extendroutine-meets-exact.md",
+      "uuid": "8c857b38-dcb9-5698-b8b0-0f647fe28c56",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "12a7ec72-6c64-59e6-b7de-7aff8d055ba2"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-cgs2-cgs2extendroutine-meets.md",
+      "uuid": "4e574a88-17af-5903-a933-df1cef419a4e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-countsketchmatrix-161d8fd6.md",
+      "uuid": "161d8fd6-2f0a-5e7e-8b4c-e7e67c1e6289",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "dd0c654f-b783-516b-b7c3-04b96f1a90f3"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-earlytruncatedgeneralizednystrom-cdd691bb.md",
+      "uuid": "cdd691bb-6aef-5d59-b7e9-615785a98d27",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-earlytruncatedrsvd-a10be3ad.md",
+      "uuid": "a10be3ad-32a7-5746-ab21-26a6bf70c410",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-forall-integral-nuclearnorm-sub-truncatedsvd-nystrom-pow-mul-le-of-singulargapratio-pos-of-haslaw-gaussianmatrix.md",
+      "uuid": "e9cd7afc-bec4-59b6-b5d9-8b006e4b1d5b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-forall-integral-nuclearnorm-sub-truncatedsvd-nystrombki-le-of-singulargapratio-pos-of-haslaw-gaussianmatrix.md",
+      "uuid": "84d02c77-a2fc-5e91-9252-6a5c17632cf4",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-forall-integral-specnorm-sub-truncatedsvd-rbki-sq-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "dcf428cb-b48d-5638-ac05-ad9f844a1630",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-forall-integral-specnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "0ed7fc6a-e23a-5cc1-a1d8-2055f3edf2a8",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-exists-iseigenvaluelisting-norm-sub-le-of-class.md",
+      "uuid": "57ec5e8f-9d28-5793-b43a-fa7abfa993c3",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "f83d1bc1-e6b7-54ed-a19a-e944c02f33c6"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-floatmachine-isaccurate-measurereal-not-isapproxdiagonalization-eigh-bisectiondepth-le-of-logb-le-of-haslaw-eighsamplelaw.md",
+      "uuid": "0510eeec-6054-5ba1-8745-0037739c3d9a",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-frobnorm-sub-truncatedsvd-rsvd-sq.md",
+      "uuid": "25803ed2-ec86-5406-bad1-718ee3c6f0bf",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "22476dc5-4a8c-59f3-95a5-929740cd4e5b"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-generalizednystrom-a93c5a2a.md",
+      "uuid": "a93c5a2a-f071-5e53-ad6e-926ccafcbdad",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "2fa76a05-ce3c-5a1c-9aee-625c01bfd829"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-girardhutchinson-d1ee9b33.md",
+      "uuid": "d1ee9b33-de78-5b4f-8a2d-d80147ea5587",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "cb5e0fa7-3425-5848-83bd-fd73b4aa314e"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-hutchpp-b6d6ec43.md",
+      "uuid": "b6d6ec43-d148-5545-bb84-195688281b33",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "2fa76a05-ce3c-5a1c-9aee-625c01bfd829",
+        "d1ee9b33-de78-5b4f-8a2d-d80147ea5587"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "c895cc03-43bf-5ab0-831d-8720e5af74b6",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "bca995a9-a2a8-5034-b4bb-565f08cbb95b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-generalizednystrom-sq-le-one-add-of-haslaw-gaussianmatrix-of-truncatedgeneralizednystromrangedim-le.md",
+      "uuid": "1266e5b2-8402-52e9-b859-115a81dc709f",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "93310fa9-d261-5f3c-b56f-f8a9bf1d8124",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-frobnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "09cd1af3-5651-547a-a481-b16bf9a1dcba",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-rbki-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md",
+      "uuid": "1e71ef0b-3edf-5d7b-9a7b-f202eb006a97",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-rsvd-aeval-sq-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "8f2f113d-fe93-5cfc-8e86-00d35dd428ff",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-rsvd-pow-mul-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md",
+      "uuid": "c9146d75-6940-51e0-b74c-ae8dc5904fac",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rbki-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md",
+      "uuid": "ab58d6c1-feba-55f1-928f-db09057451b9",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rbki-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "61e06e3d-bf47-552c-9e75-a9af204ad122",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-one-add-sq-mul-of-haslaw-gaussianmatrix.md",
+      "uuid": "8e47438a-9c8e-5414-ab32-1d0cdeb3e198",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-integral-specnorm-sub-truncatedsvd-rsvd-pow-mul-sq-le-singulargapratio-of-haslaw-gaussianmatrix.md",
+      "uuid": "ce90654e-db13-5ef8-bd4d-3c665dd98c60",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahan-4dfc5d02.md",
+      "uuid": "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "12a7ec72-6c64-59e6-b7de-7aff8d055ba2"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahan-conjtranspose-mul-left-eq.md",
+      "uuid": "07503cd9-ef53-5b6f-94ec-3b3203ebf50b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahan-gramdefect-right-eq-zero.md",
+      "uuid": "e16ffb73-7768-5557-9cc1-029af7b0a416",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahan-mul-blockprefix-right-eq.md",
+      "uuid": "975091bf-ef10-570b-99f0-6e3b30609d5e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahan-range-blockprefix-right.md",
+      "uuid": "c52e956e-6658-55db-a3ff-01104cb2ade8",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-isblockgolubkahanerr-593daa98.md",
+      "uuid": "593daa98-8a52-5a89-a792-f46844fd76d6",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-krylov-golubkahan-band-certification-certifies.md",
+      "uuid": "d8206024-5e81-58e5-ae97-3f5e3e459750",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "12a7ec72-6c64-59e6-b7de-7aff8d055ba2",
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-krylov-golubkahan-band-isexactstoredrun-mul-conjtranspose-mul-conjtranspose-eq-rbki.md",
+      "uuid": "22bf30ab-6185-5d8f-8b97-3a1ef452ff55",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-krylov-lanczos-runs-solve.md",
+      "uuid": "161639a0-5d37-530b-9f3f-52b80780a847",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "3318f77c-2fb6-5ae5-a52e-c7239d83ab69",
+        "ca6ffb21-49a0-54fc-81a5-dae0dd103639",
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239",
+        "8a730a7c-e552-5641-bd95-fa635dcebc98"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-lanczosfa-bc762b7b.md",
+      "uuid": "bc762b7b-4199-51cc-b90c-187c41dc3af9",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357",
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-lanczosquadrature-6d8b12f4.md",
+      "uuid": "6d8b12f4-2783-5f4b-8c76-53d3c62f914f",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357",
+        "d9e8ae48-2c48-5c42-9da5-0bd6cdd8f239"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-norm-mulvec-add-le-le-of-haslaw-complexgaussianvector.md",
+      "uuid": "f8e62433-bfdf-565e-bcc7-5fa20530c2d0",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-not-exists-class-le-of-haslaw-complexgaussianmatrix.md",
+      "uuid": "d12d207c-4b10-5d38-b3af-794f3ecfb298",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d8fd5d15-a8e2-53c0-aaf5-f021e9b3cb9b",
+        "33c3f20b-3401-544f-aaa4-a0644553f22e"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-not-exists-iseigenvaluelisting-le-le-log-sq-of-haslaw-complexgaussianmatrix.md",
+      "uuid": "d8fd5d15-a8e2-53c0-aaf5-f021e9b3cb9b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-not-exists-pseudoconditionnumber-le-le-log-sq-of-haslaw-complexgaussianmatrix.md",
+      "uuid": "33c3f20b-3401-544f-aaa4-a0644553f22e",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-singularvalues-add-smul-le-le-exp-one-mul-of-haslaw-complexgaussianmatrix.md",
+      "uuid": "40802520-a357-5db5-9410-9d519ed8a063",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-singularvalues-add-smul-le-le-pow-four-of-haslaw-complexgaussianmatrix.md",
+      "uuid": "2a591816-ee5e-5295-99ac-adfaafad0e31",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-specnorm-sub-rbki-sq-gt-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "a5d91c5d-df40-55e9-ac3f-92bb1c0dbf85",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "b6e3068d-bde4-5d5c-aafe-f3918ea961e1"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-specnorm-sub-rbki-sq-gt-le-of-haslaw-gaussianvector.md",
+      "uuid": "b6e3068d-bde4-5d5c-aafe-f3918ea961e1",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-specnorm-sub-truncatedsvd-rbki-sq-gt-le-of-haslaw-gaussianmatrix.md",
+      "uuid": "830039af-0d41-5fa5-886e-01b1c11815c0",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-measurereal-specnorm-sub-truncatedsvd-rbki-sq-gt-le-of-haslaw-gaussianvector.md",
+      "uuid": "b89d095b-73c0-59e2-a3f9-173e6d19b29c",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-mgs-factorroutine-meets.md",
+      "uuid": "60522b5b-99ce-5e10-9702-ddaea0dbe79a",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "47fa9a99-bf7f-54d6-ad4e-a307c2efa85a"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-nystrom-254f7f6f.md",
+      "uuid": "254f7f6f-1199-596d-9347-4d32f1eab873",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-nystrombki-8647f4e3.md",
+      "uuid": "8647f4e3-cefb-5ae0-9fac-51da15589631",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "254f7f6f-1199-596d-9347-4d32f1eab873"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-oddmatrixiterate-062e6bec.md",
+      "uuid": "062e6bec-6230-5042-9571-8edf07f8ae3c",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-rbki-ce25720b.md",
+      "uuid": "ce25720b-6102-5bb3-a0e2-a679814dd9d8",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-smalleig-smalleig-measurereal-not-spectrum-le-unconditional.md",
+      "uuid": "4db025d7-bfbb-5ade-a7bc-94a4f0d7e94f",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/nlalib-spectralbisection-bisectionprogram-c1b568f6.md",
+      "uuid": "c1b568f6-4bc5-5e42-91e7-8b77a20c9e57",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "33cd8a3d-4740-5cbd-82aa-7e67e7c152da",
+        "adb72f11-3503-58f9-89c4-98a60c4f7a40"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nlalib-truncatedsvd-22476dc5.md",
+      "uuid": "22476dc5-4a8c-59f3-95a5-929740cd4e5b",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/nystr-m-subspace-iteration-a2eae5c1.md",
+      "uuid": "a2eae5c1-9838-5481-bd1e-23c8c937297c",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "254f7f6f-1199-596d-9347-4d32f1eab873",
+        "8647f4e3-cefb-5ae0-9fac-51da15589631"
+      ]
+    },
+    {
+      "path": "explore/content/statements/pivoted-cholesky-7ba672b5.md",
+      "uuid": "7ba672b5-064e-59ab-a9bf-4618f6a93878",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d00946c1-7d12-50e4-a6da-635456a9fca7"
+      ]
+    },
+    {
+      "path": "explore/content/statements/preconditioned-minres-c9704060.md",
+      "uuid": "c9704060-abeb-5a36-9da4-7c1c288ebce6",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357"
+      ]
+    },
+    {
+      "path": "explore/content/statements/probe-spectral-estimation-b414dcaf.md",
+      "uuid": "b414dcaf-295f-5cf2-b402-53aed405eae8",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "49f5c3f6-f926-5bc6-b401-16993ec1e357",
+        "cb5e0fa7-3425-5848-83bd-fd73b4aa314e",
+        "6d8b12f4-2783-5f4b-8c76-53d3c62f914f"
+      ]
+    },
+    {
+      "path": "explore/content/statements/qr-factorization-adb72f11.md",
+      "uuid": "adb72f11-3503-58f9-89c4-98a60c4f7a40",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "47fa9a99-bf7f-54d6-ad4e-a307c2efa85a"
+      ]
+    },
+    {
+      "path": "explore/content/statements/randomized-subspace-iteration-90f9c5f5.md",
+      "uuid": "90f9c5f5-2db3-5dde-afe2-c2d2f5bdd092",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "2fa76a05-ce3c-5a1c-9aee-625c01bfd829",
+        "15e6c9dc-370c-5cb2-b684-46e5f33e39f2",
+        "ce25720b-6102-5bb3-a0e2-a679814dd9d8"
+      ]
+    },
+    {
+      "path": "explore/content/statements/relative-error-blas-matvec-5bd8642a.md",
+      "uuid": "5bd8642a-3621-59ba-b33e-e63b422d2803",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/residuals-and-spectral-separation-5979b536.md",
+      "uuid": "5979b536-df6b-57bf-932a-0f2b0dec440d",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    },
+    {
+      "path": "explore/content/statements/sequential-summation-in-standard-rounding-01b91c62.md",
+      "uuid": "01b91c62-c0a4-5fb4-b5a3-c4049d568957",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "65719e4e-6ea0-536c-91c1-7624e92b30d1"
+      ]
+    },
+    {
+      "path": "explore/content/statements/singular-value-decomposition-d5bca832.md",
+      "uuid": "d5bca832-63a1-5043-ab6e-03b8402a2a55",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "581c9098-24f3-55b6-bd36-a47af48b21ff"
+      ]
+    },
+    {
+      "path": "explore/content/statements/singular-values-581c9098.md",
+      "uuid": "581c9098-24f3-55b6-bd36-a47af48b21ff",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "d5bca832-63a1-5043-ab6e-03b8402a2a55"
+      ]
+    },
+    {
+      "path": "explore/content/statements/sketch-and-precondition-least-squares-b2f1a8ae.md",
+      "uuid": "b2f1a8ae-a178-59b9-93a3-cb761460b941",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": [
+        "adb72f11-3503-58f9-89c4-98a60c4f7a40"
+      ]
+    },
+    {
+      "path": "explore/content/statements/spectral-bisection-operation-count-accuracy.md",
+      "uuid": "c6b82b37-af7d-54c6-8a6e-3649062c1667",
+      "materialized": false,
+      "metadata_preserved": true,
+      "mathematical_fragments_preserved": true,
+      "reference_metadata_changed": false,
+      "links": []
+    }
+  ]
+}
