@@ -4,7 +4,7 @@ kind: algorithm
 id: pivoted-cholesky
 title: Pivoted Cholesky
 summary: Factor a positive-semidefinite matrix by selecting residual diagonal pivots.
-status: outline
+status: ready
 result_ids:
 - pivoted-cholesky-rank
 theory:
@@ -14,6 +14,14 @@ theory:
 families:
 - matrix-factorizations
 ---
+
+Pivoted Cholesky selects residual diagonal pivots and applies symmetric row and column exchanges. The stored scalar implementation below computes a full exact factor for every real PSD matrix, including singular input, and returns its actual exchange log.
+
+## Implementations
+
+{{ generated:implementations }}
+
+## Definition
 
 {{ statement:pivoted-cholesky-7ba672b5 }}
 

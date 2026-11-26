@@ -4,7 +4,7 @@ kind: algorithm
 id: plu
 title: PLU factorization
 summary: Use row permutations in a lower–upper triangular factorization.
-status: outline
+status: ready
 theory:
 - subspaces
 - matrix-factorization-theory
@@ -24,13 +24,17 @@ search_aliases:
 
 {{ statement:plu-factorization-a6e9180a }}
 
+Row-pivoted LU selects rows during elimination and returns factors of the row-permuted original matrix. The implementations below distinguish first-maximum partial pivoting, a fixed rational threshold policy, and partial pivoting scaled by fixed original row norms. Their current-position pivot logs compose into the final row permutation.
+
+Partial pivoting has both exact and standard-rounding guarantees for the same stored scalar tree. Threshold and scaled policies currently present exact arithmetic. For independent row and column choices, see [PLUQ factorization](/explore/algorithms/pluq/).
+
 ## Implementations
 
 {{ generated:implementations }}
 
 ## Mathematical guarantees
 
-Permutation conventions, existence conditions, and solve guarantees will be curated here.
+The results below retain the mathematical partial-pivoting success and growth guarantees. Each implementation page specifies its own actual pivot policy, original-input domain, arithmetic assumptions, and stored execution bounds.
 
 ## Results
 

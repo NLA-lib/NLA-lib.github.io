@@ -4,7 +4,7 @@ kind: algorithm
 id: lu
 title: LU factorization
 summary: Factor a matrix into lower- and upper-triangular factors without row permutations.
-status: outline
+status: ready
 theory:
 - subspaces
 - matrix-factorization-theory
@@ -18,13 +18,15 @@ result_ids:
 
 {{ statement:lu-factorization-a7033c37 }}
 
+Unpivoted LU writes $A=LU$ with a unit lower-triangular factor and an upper-triangular factor. The scalar and blocked stored implementations below require nonzero canonical Gaussian pivots of the original matrix. Their pages give the actual instruction listings and certified work/storage bounds; the blocked routine uses scalar matrix-product updates.
+
 ## Implementations
 
 {{ generated:implementations }}
 
 ## Mathematical guarantees
 
-Existence conditions, factorization identities, and solve guarantees will be curated here.
+The results below give mathematical existence, inclusion, and pivoting guarantees. Stored execution, arithmetic assumptions, and resource certificates are presented on the implementation pages.
 
 ## Results
 

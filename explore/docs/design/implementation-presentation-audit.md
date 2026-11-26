@@ -96,3 +96,46 @@ For each implementation, review its actual source guarantees and ask whether the
 5. Which proved arithmetic/representation alternatives are exposed, and which remain uncurated.
 
 A generic result listing establishes discoverability, not completion of this checklist.
+
+## Dense factorization presentation against `e207eefa`
+
+Reviewed the dense implementation pages against published library snapshot
+`e207eefa3d0c91354b42affc0bfcd982a3b05807` (2026-11-26).
+
+Twelve implementation pages are now ready across LU, PLU, PLUQ, Cholesky,
+diagonal-pivoted Cholesky and LDL. The task groups in Matrix factorizations and
+Linear systems link to the applicable methods. Existing LU and PLU standard URLs
+are preserved. The site currently has 36 implementation pages: 24 ready, three
+outline and nine placeholders; those statuses describe presentation coverage.
+
+The dense review checked actual instruction order, column-major layouts, stored
+current-position pivot histories, input domains, empty and singular cases, unit
+instruction counts and caller-plus-scratch storage. It corrected operand order
+in residual updates and distinguished the actual blocked-LU-to-Cholesky scaling
+adapter from a textbook tiled Cholesky algorithm.
+
+Only ordinary right-looking Cholesky presents guarded finite-range and
+additive-underflow guarantees. Standard-rounding LU pages retain bounded exact
+index literals and the library's componentwise factor-error expression; their
+rounded routine judgments are distinct from the exact boxed certificates.
+Threshold and fixed-original-scale pivoting expose reviewed exact models only.
+Scaled pivoting does not claim an unweighted unit multiplier bound. LDL excludes
+zero original Gaussian pivots and does not claim a general symmetric-indefinite
+pivoting algorithm. No page claims universal native IEEE accuracy or bit costs.
+
+Implementation listings and definition values are shown only after extraction
+source fingerprints and the full declaration prefix match. Theorem proof bodies
+are never displayed. These source disclosures supplement the readable reviewed
+pseudocode and source-backed statements; they do not establish execution or
+accuracy merely by association. The ordinary-CG source adapter gap is separate
+and is not repaired by this dense presentation work.
+
+Validation for this update: the matching published-data build, all 150 website
+regressions (eight optional integrations skipped), 2,820 authored KaTeX equations,
+and organization audit pass. HTTP checks cover all twelve implementation routes,
+verified source disclosures, model selectors and all six method links from the
+factorization task. The broad mathematical audit has the same findings under
+unchanged baseline content: four unplaced named results, one unplaced tagged
+method, and 607 legacy inline-signature checks incompatible with the current
+separate statement pages. This update adds no findings and changes no audit rules.
+Browser QA was unavailable because the environment lacks Chromium system libraries.

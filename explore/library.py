@@ -158,6 +158,8 @@ def make_records(data, pages, *, overrides=None, bibliography=None, rename_maps=
             'statement_changed': changed.get(name, []),
             'source': {'path': path, 'line': original.get('line'), 'end_line': original.get('endLine'),
                        'sha256': data.get('sourceHashes', {}).get(path),
+                       'definition_verified': bool(snapshot.get('source_hashes_checked') and
+                                                   original.get('_definition_source_verified')),
                        'url': f"{REPO}/blob/{snapshot['commit']}/{path}#L{original.get('line') or 1}" if snapshot['versioned'] else None},
         }
     for rid, names in grouped.items():

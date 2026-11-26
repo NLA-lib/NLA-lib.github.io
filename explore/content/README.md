@@ -157,6 +157,23 @@ Generated sections are single lines of `{{ generated:<name> }}`. Available names
 `task-membership`, `results`, `definitions`, `library-counts`, `library-index`,
 `arithmetic-model-selector`.
 
+Implementation pages can show the actual Lean routine bodies after their readable
+pseudocode. Declare the definitions explicitly:
+
+```yaml
+implementation_declarations:
+- NLAlib.LU.factorPartial
+- NLAlib.LU.pivotedLoop
+```
+
+Then insert `{{ generated:implementation-source }}` in the Algorithm section. The resulting
+"Lean implementation" disclosure uses complete definitions from fingerprint-verified source,
+with links to the exact published files. Unknown, admitted, theorem, or unverified selectors
+reject the build instead of producing an empty implementation. This is source provenance;
+correctness, admissible inputs, and resources still require their own linked statements.
+Definition evidence in the Library also offers its verified value in a disclosure. Theorem
+evidence continues to show signatures only, never proof bodies.
+
 For example, one task can use:
 
 ```yaml

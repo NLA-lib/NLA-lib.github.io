@@ -75,6 +75,7 @@ def whole_definitions(decls, src):
     source agrees with the statement; elsewhere the statement stays as it is."""
     files, n = {}, 0
     for d in decls:
+        d.pop('_definition_source_verified', None)
         if d['kind'] not in DEF_KINDS or not d.get('statement') or not d.get('line'):
             continue
         path = Path(src) / (d['module'].replace('.', '/') + '.lean')
@@ -84,9 +85,13 @@ def whole_definitions(decls, src):
             continue
         text = '\n'.join(files[path][d['line'] - 1:d['endLine']]).rstrip()
         k = text.find(d['statement'].split('\n')[0].strip())
-        if k >= 0 and text[k:].startswith(d['statement'].strip()[:40]) and len(text) - k > len(d['statement']):
-            d['statement'] = text[k:]
-            n += 1
+        if k >= 0 and text[k:].startswith(d['statement'].strip()):
+            if len(text) - k > len(d['statement']):
+                d['statement'] = text[k:]
+                n += 1
+            # Only the CLI's fingerprint-checked source enrichment establishes this.
+            # A signature or an unchecked value from extraction metadata is not a listing.
+            d['_definition_source_verified'] = True
     return n
 
 

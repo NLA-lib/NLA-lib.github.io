@@ -13,12 +13,14 @@ theory:
 - singular-values
 groups:
 - id: triangular
-  title: Triangular factorizations
-  summary: Use matrix structure or row pivoting to obtain triangular factors.
+  title: Dense triangular factorizations
+  summary: Cholesky, LDL and LU implementations, including blocked execution, singular positive-semidefinite inputs, and row or two-sided pivoting.
   algorithms:
   - cholesky
+  - ldl
   - lu
   - plu
+  - pluq
   - pivoted-cholesky
   family: matrix-factorizations
 - id: orthogonal
@@ -47,6 +49,12 @@ groups:
 ---
 
 Construct orthogonal bases, triangular factors, or spectral factorizations.
+
+The dense triangular factorization pages below lead to the actual scalar and blocked
+implementations, their arithmetic models, input conditions, and certified work and storage.
+Cholesky uses positive-definite or positive-semidefinite structure; LDL uses one-by-one
+diagonal pivots; the LU family provides unpivoted, partial, threshold, scaled, complete
+and rook pivoting choices.
 
 {{ generated:task-groups }}
 

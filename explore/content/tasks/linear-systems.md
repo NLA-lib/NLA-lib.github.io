@@ -35,7 +35,9 @@ groups:
     conditions determine which factors are available.
   algorithms:
   - cholesky
+  - ldl
   - plu
+  - pluq
   - lu
   family: matrix-factorizations
 - id: refinement

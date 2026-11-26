@@ -166,6 +166,13 @@ def load_pages(directory, overrides=None):
             raise ValueError(f'{file}: invalid status')
         if not isinstance(meta.get('sections_collapsed', False), bool):
             raise ValueError(f'{file}: sections_collapsed must be a boolean')
+        if 'implementation_declarations' in meta:
+            declarations = meta['implementation_declarations']
+            if (meta['kind'] != 'implementation' or not isinstance(declarations, list)
+                    or not declarations or any(not isinstance(name, str) or not name.strip()
+                                               for name in declarations)
+                    or len(set(declarations)) != len(declarations)):
+                raise ValueError(f'{file}: implementation_declarations requires unique definition names')
         if 'arithmetic_models' in meta:
             models = meta['arithmetic_models']
             if meta['kind'] != 'implementation' or not isinstance(models, list) or not models:
@@ -424,8 +431,23 @@ class Explorer:
 
     def evidence(self, declaration):
         link = declaration['source']['url']
-        return '<pre><code>' + self.linked_signature(declaration) + '</code></pre>' + (
+        return '<pre><code>' + self.linked_signature(declaration) + '</code></pre>' + self.definition_code(declaration) + (
             '<p><a href="' + html.escape(link, quote=True) + '">Full source on GitHub</a></p>' if link else '<p><a href="https://github.com/NLA-lib/NLAlib">Source repository on GitHub</a> · <code>' + html.escape(declaration['source'].get('path', declaration['module'])) + '</code></p><p>This statement comes from an unpublished working-tree snapshot; a revision-specific source link is unavailable.</p>')
+
+    @staticmethod
+    def definition_code(declaration, *, required=False):
+        """Show source-verified definition values, never theorem proof bodies."""
+        allowed = declaration.get('kind') in {'def', 'abbrev', 'instance', 'opaque', 'structure', 'class', 'inductive'}
+        verified = declaration.get('source', {}).get('definition_verified') is True
+        text = declaration.get('statement', '')
+        has_value = ':=' in text or (declaration.get('kind') in {'structure', 'class', 'inductive'} and
+                                    re.search(r'\bwhere\b|^\s*\|', text, re.M))
+        if not allowed or not verified or not has_value or declaration.get('admission_reported'):
+            if required:
+                raise ValueError('Verified definition source required for implementation: ' + declaration['id'])
+            return ''
+        return disclosure('<pre><code class="language-lean">' + html.escape(text) + '</code></pre>',
+                          'Definition from verified source')
 
     def badges(self, declaration, result=None, headline=True):
         """Small markers: the headline of `result` (or, without one, of any result of the
@@ -641,6 +663,25 @@ class Explorer:
         self.write('references', 'Shared bibliography', bibliography, 'references')
 
     def generated(self, slot, page):
+        if slot == 'implementation-source':
+            names = page.meta.get('implementation_declarations')
+            if page.kind != 'implementation' or not names:
+                raise ValueError(f'{page.source}: implementation-source requires implementation_declarations')
+            blocks = []
+            for name in names:
+                declaration = self.records['declarations'].get(name)
+                if declaration is None:
+                    raise ValueError('Unknown implementation declaration: ' + name)
+                self.definition_code(declaration, required=True)
+                source = declaration['source'].get('url')
+                blocks.append('<h3><a href="' + html.escape(declaration['url'], quote=True) + '"><code>' +
+                              html.escape(name.removeprefix('NLAlib.')) + '</code></a></h3>' +
+                              '<pre><code class="language-lean">' + html.escape(declaration['statement']) + '</code></pre>' +
+                              ('<p><a href="' + html.escape(source, quote=True) + '">Full source on GitHub</a></p>'
+                               if source else '<p class="source-label">Verified working-tree source; no published source link.</p>'))
+            return disclosure('<p>The definitions below come from source files verified against the library snapshot. '
+                              'Their correctness and resource guarantees are stated separately on this page.</p>' +
+                              ''.join(blocks), 'Lean implementation')
         if slot == 'arithmetic-model-selector':
             models = page.meta.get('arithmetic_models')
             if not models:

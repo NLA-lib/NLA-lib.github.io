@@ -17,7 +17,9 @@ python3 explore/build.py --data /path/to/explore-data.json \
 
 `--src` accepts a checkout or an archive at the extraction's revision. Source hashes
 must cover every extracted module and match before definition bodies are loaded.
-Theorems expose their signatures, never source proof bodies. Matching Ops sources
+Theorems expose their signatures, never source proof bodies. Verified definition values are
+available in Library disclosures and in explicitly selected implementation listings;
+`source.definition_verified` records successful fingerprint-checked source enrichment. Matching Ops sources
 supply CG implementation fragments automatically; `--core-src` explicitly previews
 a different working core. A file receives a pinned GitHub link only when its bytes
 match the published snapshot or a published checkout revision.

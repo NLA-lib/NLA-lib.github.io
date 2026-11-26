@@ -3,8 +3,8 @@ uid: c70cbd4f-5c0e-5366-9a6a-add845b7cc9f
 kind: algorithm
 id: cholesky
 title: Cholesky factorization
-summary: Construct a triangular factor of a positive-definite matrix.
-status: outline
+summary: Construct a triangular Gram factor of a positive-definite or positive-semidefinite matrix.
+status: ready
 order: 24
 theory:
 - spectral-theory
@@ -17,7 +17,7 @@ result_ids:
 - cholesky-backward-error
 ---
 
-Construct a triangular factor of a positive-definite matrix.
+Cholesky factorization writes $\mathbf A=\mathbf L\mathbf L^{\mathsf T}$ with a lower triangular factor. Positive-definite input has a positive factor diagonal; the zero-guarded semidefinite implementation also handles singular PSD input with nonnegative diagonal. The ordinary scalar implementation exposes exact, relative-rounding and guarded finite-range guarantees; the blocked implementation uses an actual LU-to-Cholesky adapter.
 
 ## Implementations
 
