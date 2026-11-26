@@ -16,6 +16,6 @@ of this file follows from it by bounding the minimax value. For each $\mathbf{A}
 $\mathbf{b}$ attains it (Greenbaum):
 `Matrix.PosDef.exists_re_quadForm_sub_cgIterate_eq_residualMinimax_sq_mul` and
 `Matrix.PosDef.isGreatest_re_quadForm_sub_cgIterate_div` in
-`NLAlib.Krylov.LinearSystems.WorstCase`. its proof gives this bound, with the maximum over the eigenvalues,
+`NLAlib.Krylov.LinearSystems.WorstCase`. Saad's proof gives this bound, with the maximum over the eigenvalues,
 before passing to an interval, for real symmetric $\mathbf{A}$.
 :::
