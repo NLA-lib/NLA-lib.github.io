@@ -11,7 +11,7 @@ $$\ell\ge\frac{200k}{\varepsilon},\qquad p\ge14\ell.$$
 
 Then
 
-$$\mathbb E\|\mathbf{A}-[\mathsf{gn}(\mathbf{A},\mathbf\Omega,\mathbf\Psi)]_k\|_{\mathrm F}^2\le(1+\varepsilon)\|\mathbf{A}-[\mathbf{A}]_k\|_{\mathrm F}^2.$$
+$$\mathbb{E}\|\mathbf{A}-[\mathsf{gn}(\mathbf{A},\boldsymbol{\Omega},\boldsymbol{\Psi})]_k\|_{\mathrm F}^2\le(1+\varepsilon)\|\mathbf{A}-[\mathbf{A}]_k\|_{\mathrm F}^2.$$
 
 Both sketch widths can be chosen of order $k/\varepsilon$. This is a sufficient upper bound on the expected squared approximation error, valid for every real input matrix. The source also retains alternative bounds with different sufficient sketch sizes.
 :::
