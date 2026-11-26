@@ -63,3 +63,8 @@ mathematical content stays in Git; a restricted GitHub App publishes through
 checked pull requests. See [setup and publication](explore/backend/COLLABORATION.md).
 The loopback-only [local editor](explore/editor/README.md) remains available for
 preview without AWS and never publishes its SQLite workspace.
+
+The shared website bibliography is maintained in
+[`explore/content/references/`](explore/content/references/README.md). The References
+page offers BibTeX downloads and reviewed entry editing. The Lean repository
+retains its separate bibliography for its own docstrings.

@@ -22,6 +22,9 @@ SHARED = ROOT.parent
 def build(data, bib, out, *, content=None, src=None, core_src=None, renames_dir=None, module_map=None):
     import content_pages
     pages = content_pages.load_pages(content or ROOT / 'content')
+    from bibliography import frontend_references
+    own_bibliography=frontend_references(content or ROOT/'content')
+    if own_bibliography:bib=own_bibliography
     model = library.make_records(data, pages, overrides=load_toml('results.toml'), bibliography=bib,
                                  rename_maps=library.load_rename_maps(renames_dir), source=src, module_map=module_map)
     out = Path(out)

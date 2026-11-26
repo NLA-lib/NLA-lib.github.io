@@ -210,3 +210,80 @@ class SnapshotTests(unittest.TestCase):
   snapshot=Snapshot();snapshot.fetch=Mock(side_effect=HTTPError('https://nla-lib.org',503,'unavailable',{},None))
   with self.assertRaises(HTTPError):snapshot.get(OID)
   self.assertEqual(snapshot.fetch.call_count,1)
+
+class ExternalProofPolicyTests(unittest.TestCase):
+ setUp=CollaborationTests.setUp
+ call=CollaborationTests.call
+ def submission(self,kind='result',proofs=None):
+  return {'idempotency_key':'new-proof-'+kind,'explanation':'Add a mathematical statement','changes':[{'operation':'create_statement','id':'66666666-6666-4666-8666-666666666666','base_revision':None,'fields':{'title':'New statement','statement_kind':kind,'body_markdown':'A mathematical statement.','proofs':proofs or []}}]}
+ def test_result_without_lean_requires_a_proof_link_but_exempt_kinds_do_not(self):
+  with self.assertRaisesRegex(ValueError,'no Lean proof'):self.call('proposals','POST',self.submission())
+  self.assertFalse(self.db.rows)
+  for kind in ['definition','conjecture']:
+   self.assertEqual(self.call('proposals','POST',self.submission(kind))['status'],'submitted')
+ def test_external_proof_allows_result_submission_without_marking_it_lean_verified(self):
+  proof={'label':'Natural-language proof','url':'https://example.org/proof.pdf','locator':'Theorem 2'}
+  proposal=self.call('proposals','POST',self.submission(proofs=[proof]))
+  row=self.db.get('ENTRY#66666666-6666-4666-8666-666666666666','REV#'+next(iter(proposal['revisions'].values())))
+  self.assertFalse(row['object']['evidence'].get('declaration'));self.assertEqual(row['object']['proofs'],[proof])
+ def test_formal_proofs_and_admissions_are_distinguished(self):
+  from content import require_external_proof
+  obj={'type':'statement','statement_kind':'result','evidence':{'declaration':'N.proved','admission_reported':False},'proofs':[]}
+  require_external_proof(obj)
+  obj['evidence']['admission_reported']=True
+  with self.assertRaises(ValueError):require_external_proof(obj)
+ def test_agent_cannot_bypass_proof_policy_by_placing_a_result_inline(self):
+  payload={'idempotency_key':'inline-bypass','explanation':'Add an inline statement','changes':[{'operation':'update_page','id':OID,'base_revision':'baseline-token','fields':{'document_markdown':SOURCE+'\n::: result name="Claim"\nClaim without a proof.\n:::\n'}}]}
+  with self.assertRaisesRegex(ValueError,'Add statement'):self.call('proposals','POST',payload)
+  self.assertFalse(self.db.rows)
+ def test_old_pending_result_cannot_be_approved_or_published_without_a_proof(self):
+  pid='77777777-7777-4777-8777-777777777777';rid='revision'
+  obj={'type':'statement','statement_kind':'result','evidence':{},'proofs':[]}
+  proposal={'id':pid,'status':'submitted','responsible_person_id':PERSON['id'],'revisions':{OID:rid}}
+  self.db.commit([('PROPOSAL#'+pid,'META',proposal,None),('ENTRY#'+OID,'REV#'+rid,{'object':obj},None)])
+  with self.assertRaisesRegex(ValueError,'no Lean proof'):self.call('proposals/'+pid+'/review','POST',{'decision':'approve','message':''},person=EDITOR)
+  stored=self.db.get('PROPOSAL#'+pid,'META');stored['status']='approved';self.db.commit([('PROPOSAL#'+pid,'META',stored,stored['_version'])])
+  self.api.publisher=Mock()
+  with self.assertRaisesRegex(ValueError,'no Lean proof'):self.call('proposals/'+pid+'/publish','POST',{},person=EDITOR)
+  self.api.publisher.open.assert_not_called()
+
+class ReferenceEditingTests(unittest.TestCase):
+ setUp=CollaborationTests.setUp
+ call=CollaborationTests.call
+ BIB='@book{Key2020,\n author={Doe, Jane},\n title={A Book},\n publisher={Publisher},\n year={2020}\n}\n'
+ def test_create_reference_uses_a_stable_key_and_allowlisted_bibtex_path(self):
+  from content import fresh_reference
+  state=fresh_reference(self.BIB);oid=state['object']['id']
+  proposal=self.call('proposals','POST',{'idempotency_key':'create-reference','explanation':'Add the cited book','changes':[{'operation':'create_reference','id':oid,'base_revision':None,'fields':{'bibtex':self.BIB}}]})
+  revision=self.db.get('ENTRY#'+oid,'REV#'+proposal['revisions'][oid])
+  self.assertEqual(revision['source_path'],'explore/content/references/Key2020.bib')
+  self.assertEqual(revision['document_markdown'],self.BIB)
+  self.assertEqual(Publisher.path(revision['source_path']),revision['source_path'])
+ def test_existing_reference_preview_preserves_key_and_formats_fields(self):
+  from content import fresh_reference,preview
+  state=fresh_reference(self.BIB);state['source_markdown']=self.BIB
+  changed=self.BIB.replace('A Book','A Corrected Book')
+  result=preview(self.snapshot,state,{'bibtex':changed})
+  self.assertIn('reference-authors',result['html']);self.assertIn('<cite',result['html'])
+  self.assertIn('A Corrected Book',result['diff'])
+  with self.assertRaisesRegex(ValueError,'citation key'):preview(self.snapshot,state,{'bibtex':changed.replace('Key2020','AnotherKey')})
+ def test_bibliography_paths_cannot_escape_their_directory(self):
+  for path in ['explore/content/other.bib','explore/content/references/../Secret.bib','.github/workflows/Key.bib','explore/content/references/Key.json']:
+   with self.assertRaises(PublishingError):Publisher.path(path)
+
+class PublishedReferenceWorkflowTests(unittest.TestCase):
+ setUp=CollaborationTests.setUp
+ call=CollaborationTests.call
+ def test_reference_drafts_history_and_reviewer_preview_use_citation_rendering(self):
+  from content import fresh_reference
+  bib=ReferenceEditingTests.BIB;state=fresh_reference(bib);oid=state['object']['id']
+  state.update(revision='reference-base',baseline='reference-base',source_sha='reference-blob',source_markdown=bib,document_markdown=bib)
+  original_get=self.snapshot.get
+  self.snapshot.get=lambda key:copy.deepcopy(state) if key==oid else original_get(key)
+  revised=bib.replace('A Book','A Revised Book')
+  self.call('objects/'+oid+'/draft','POST',{'base_revision':'reference-base','draft_revision':None,'fields':{'bibtex':revised}})
+  self.assertEqual(self.call('objects/'+oid)['draft']['object']['bibtex'],revised)
+  result=self.call('proposals','POST',{'idempotency_key':'update-reference','explanation':'Correct the book title','changes':[{'operation':'update_reference','id':oid,'base_revision':'reference-base','fields':{'bibtex':revised}}]})
+  revision=self.call('objects/'+oid,query='revision='+result['revisions'][oid],person=EDITOR)
+  self.assertIn('reference-title',revision['html']);self.assertIn('A Revised Book',revision['html'])
+  self.assertEqual(self.call('objects/'+oid+'/history')['revisions'][-1]['proposal_id'],result['id'])

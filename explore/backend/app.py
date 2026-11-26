@@ -7,7 +7,8 @@ from pathlib import Path
 import re
 import secrets
 from http.cookies import SimpleCookie
-from urllib.parse import parse_qs, urlsplit
+from urllib.parse import parse_qs, urlsplit, unquote
+import posixpath
 
 from provider import Orcid, ProviderError
 from store import Store, LimitReached
@@ -40,6 +41,24 @@ def valid_orcid(value):
         total = (total+int(digit))*2
     result = (12-total%11)%11
     return raw[-1] == ('X' if result == 10 else str(result))
+
+
+def sign_in_return(value):
+    default='/explore/?auth=complete'
+    if not isinstance(value,str) or len(value)>2000 or any(ord(c)<33 for c in value) or chr(92) in value:
+        return default
+    decoded=unquote(value)
+    if any(ord(c)<32 for c in decoded) or chr(92) in decoded:
+        return default
+    try:
+        parsed=urlsplit(value)
+    except ValueError:
+        return default
+    if parsed.scheme or parsed.netloc or not parsed.path.startswith('/explore/'):
+        return default
+    if not (posixpath.normpath(unquote(parsed.path))+'/').startswith('/explore/'):
+        return default
+    return value
 
 
 def profile_fields(payload):
@@ -157,18 +176,24 @@ class Application:
                     # Do not echo malformed input or parser snippets containing user text.
                     raise HttpError(400, 'Invalid content or request fields. Check the source, entry IDs and required fields.') from None
             if method == 'GET' and path == '/health':
-                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles'] + (['editing', 'discussions', 'reactions'] if self.collaboration else [])})
+                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles', 'signin-return'] + (['editing', 'discussions', 'reactions'] if self.collaboration else []) + (['external-proof-required'] if getattr(self.collaboration,'proof_policy',None) else []) + (['bibliography-editing'] if getattr(self.collaboration,'bibliography_editing',False) else [])})
             if method == 'GET' and path == '/auth/login':
                 self.store.login_limit(context.get('http', {}).get('sourceIp', 'unknown'), self.daily_limit)
                 state, browser = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
-                self.store.create_flow(state, browser)
+                query=parse_qs(event.get('rawQueryString',''),keep_blank_values=True)
+                requested=query.get('return_to',[])
+                return_to=sign_in_return(requested[0]) if len(requested)==1 else '/explore/?auth=complete'
+                self.store.create_flow(state, browser, return_to)
                 return self.response(302, '', [cookie(FLOW_COOKIE, browser, 600)],
                     {'Location': self.provider.authorization_url(state)}, 'text/plain; charset=utf-8')
             if method == 'GET' and path == '/auth/callback':
                 query = parse_qs(event.get('rawQueryString', ''), keep_blank_values=True)
                 state = query.get('state', [])
                 browser = cookies[FLOW_COOKIE].value if FLOW_COOKIE in cookies else ''
-                if len(state)!=1 or not re.fullmatch(r'[A-Za-z0-9_-]{32,128}', state[0]) or not re.fullmatch(r'[A-Za-z0-9_-]{32,128}', browser) or not self.store.consume_flow(state[0], browser):
+                if len(state)!=1 or not re.fullmatch(r'[A-Za-z0-9_-]{32,128}', state[0]) or not re.fullmatch(r'[A-Za-z0-9_-]{32,128}', browser):
+                    raise HttpError(400, 'This sign-in request expired or is invalid. Start sign-in again.')
+                flow=self.store.consume_flow(state[0],browser)
+                if not flow:
                     raise HttpError(400, 'This sign-in request expired or is invalid. Start sign-in again.')
                 if 'error' in query:
                     raise HttpError(400, 'ORCID sign-in was declined. You can start again when ready.')
@@ -185,7 +210,7 @@ class Application:
                 self.store.create_session(session, person['id'], csrf)
                 self.store.delete_session(token)
                 return self.response(302, '', [cookie(SESSION_COOKIE, session, 43200), cookie(FLOW_COOKIE)],
-                    {'Location': self.frontend+'/explore/?auth=complete'}, 'text/plain; charset=utf-8')
+                    {'Location': self.frontend+sign_in_return(flow.get('return_to'))}, 'text/plain; charset=utf-8')
             if method == 'GET' and path.startswith('/assets/'):
                 assets = {'/assets/account.js': ('account.js', 'application/javascript; charset=utf-8'),
                           '/assets/account.css': ('account.css', 'text/css; charset=utf-8')}

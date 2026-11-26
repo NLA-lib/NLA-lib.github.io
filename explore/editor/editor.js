@@ -11,6 +11,7 @@
       apiRoot = config.apiOrigin + '/editor-api/';
     } catch { return; }
   }
+  const signInUrl=()=> 'https://api.nla-lib.org/auth/login?return_to='+encodeURIComponent(location.pathname+location.search+location.hash);
   let session, currentPerson, reactionOptions = [], readOnlyLibrary = false;
   async function api(path, payload) {
     const response = await fetch(apiRoot + path, payload === undefined ? {cache: 'no-store', credentials:'include'} : {
@@ -18,7 +19,7 @@
     });
     const result = await response.json();
     if (response.status === 401 && payload !== undefined && hosted) {
-      const view=modal('Sign in to contribute'); const link=node('a','Sign in with ORCID');link.href='https://api.nla-lib.org/auth/login';view.content.append(node('p','Your text stays in this window. Sign in in a new tab, then choose Continue here and retry your submission.'),link);link.target='_blank';link.rel='noopener';
+      const view=modal('Sign in to contribute'); const link=signInLink('Sign in with ORCID');view.content.append(node('p','Your text stays in this window. Sign in in a new tab, then choose Continue here and retry your submission.'),link);link.target='_blank';link.rel='noopener';
       button('Continue here',guarded(view,async()=>{const bootstrap=await api('bootstrap');if(!bootstrap.person)throw new Error('Complete ORCID sign-in in the other tab first.');session=bootstrap.session;currentPerson=bootstrap.person;role=bootstrap.role;publishing=bootstrap.publishing;view.clean();view.dialog.close();}),view.content);
     }
     if (!response.ok) throw new Error(result.error || 'The request failed. Your text remains in the editor.');
@@ -30,6 +31,10 @@
     if (className) element.className = className;
     return element;
   }
+  function signInLink(label) {
+    const link=node('a',label);link.href=signInUrl();
+    link.addEventListener('click',()=>{link.href=signInUrl();});return link;
+  }
   function button(label, action, parent, className) {
     const element = node('button', label, className); element.type = 'button';
     element.addEventListener('click', action); if (parent) parent.append(element); return element;
@@ -39,6 +44,13 @@
     const input = node(multiline ? 'textarea' : 'input'); input.value = value || '';
     if (multiline) input.rows = 8;
     wrapper.append(input); parent.append(wrapper); return input;
+  }
+  function proofRequired(object) {return object.statement_kind==='result' && (!object.evidence?.declaration || object.evidence.admission_reported);}
+  function verificationNotice(object, changed = false) {
+    changed=changed || object.evidence?.formalization_status==='needs_reassessment';
+    const linked=!!object.evidence?.declaration && !object.evidence.admission_reported;
+    const label=!linked?'Not Lean-verified':changed?'Lean link needs reassessment':object.statement_kind==='definition'?'Lean definition linked':'Lean proof linked';
+    return node('p',label,'verification-status verification-'+(!linked?'unverified':changed?'reassessment':'linked'));
   }
   function typeset(parent) {
     const errors=[];
@@ -71,6 +83,9 @@
     dialog.addEventListener('cancel', event => { event.preventDefault(); close(); });
     dialog.addEventListener('input', () => { dirty = true; });
     dialog.addEventListener('close', () => dialog.remove());
+    const mathTitle=/\$([^$\n]+)\$/g;let cursor=0,match;heading.replaceChildren();
+    while((match=mathTitle.exec(title))){heading.append(document.createTextNode(title.slice(cursor,match.index)));const span=node('span',match[1],'math');heading.append(span);cursor=mathTitle.lastIndex;}
+    heading.append(document.createTextNode(title.slice(cursor)));typeset(heading);
     document.body.append(dialog); dialog.showModal();
     return {dialog, content, status, clean: () => {dirty = false;}, dirty: () => {dirty = true; dialog.dispatchEvent(new Event('editorchange'));}};
   }
@@ -87,20 +102,23 @@
   }
   async function openEditor(id, options = {}) {
     const fresh = options.fresh;
-    let state = fresh ? {object: {id, type: 'statement', title: 'New result', body_markdown: '', statement_kind: 'result', proofs: [], evidence: {type: 'local'}}, revision: null} : await api('objects/' + id);
+    let state = fresh ? {object: {id, type: 'statement', title: 'New statement', body_markdown: '', statement_kind: 'result', proofs: [], evidence: {type: 'local'}}, revision: null} : await api('objects/' + id);
+    if(state.object.type==='reference')return openReferenceEditor(id,options,state);
     let obj = structuredClone(options.restore || state.draft?.object || state.object);
     let draftRevision = state.draft?.draft_revision || null;
     let staleDraft = !!state.draft && state.draft.base_revision !== state.revision && !options.restore;
     const isPage = obj.type === 'page';
-    const view = modal((fresh ? 'Add result' : isPage ? 'Edit page' : 'Edit statement') + ' · ' + obj.title, true);
+    const view = modal((fresh ? 'Add statement' : isPage ? 'Edit page' : 'Edit statement') + ' · ' + obj.title, true);
     view.content.append(node('p', hosted ? 'Drafts are private. Submit your change for editorial review; the published page updates after acceptance and repository checks.' : 'Local workspace · changes are stored on this computer and are not published.', 'editor-notice'));
+    if(fresh)view.content.append(node('p','A Lean link is optional. Results need an external natural-language proof link when no Lean proof is linked. Definitions and conjectures do not require proofs.','editor-notice'));
     if (state.draft) view.content.append(node('p', state.draft.base_revision === state.revision ? 'Your saved draft has been restored.' : 'A draft from an older revision was restored. Compare carefully before saving; the current revision is the new base.', 'editor-status'));
     if (staleDraft) button('I have compared this draft; use the latest revision as its base', () => {
       staleDraft = false; view.status.textContent = 'The latest revision is now the explicit base for your draft.';
     }, view.content);
     if (state.used_by?.length) view.content.append(node('p', 'Appears in: ' + state.used_by.map(item => item.title).join(', '), 'editor-notice'));
     const tabs = node('div', undefined, 'editor-actions');
-    const form = node('div'); const preview = node('section', undefined, 'editor-preview'); preview.hidden = true;
+    const form = node('div'); const preview = node('section', undefined, 'editor-preview'); preview.hidden = false;
+    const previewStatus=node('p','','editor-preview-message');previewStatus.setAttribute('role','status');preview.append(previewStatus);
     const diff = node('pre', undefined, 'editor-diff'); diff.hidden = true;
     const title = !isPage ? field('Title', obj.title, form) : null;
     let kind, body;
@@ -111,8 +129,10 @@
       for (const value of ['result', 'conjecture', 'definition']) { const option = node('option', value); option.value = value; kind.append(option); }
       kind.value = obj.statement_kind; kind.disabled = !!obj.evidence.declaration; label.append(kind); form.append(label);
       body = field('Statement · Markdown and LaTeX', obj.body_markdown, form, true); body.rows = 14;
-      form.append(node('h3', 'Proof references'));
-      form.append(node('p', 'Link a versioned paper, DOI, arXiv record or proof document. A reference does not confer review or Lean proof status.', 'editor-notice'));
+      const proofHeading=node('h3','Proof references');form.append(proofHeading);
+      const updateProofLabel=()=>{proofHeading.textContent='Proof references'+(proofRequired({...obj,statement_kind:kind.value})?' · required':' · optional');};
+      kind.addEventListener('change',updateProofLabel);updateProofLabel();
+      form.append(node('p', 'Link to a natural-language proof hosted elsewhere, with a version or location if available. A link does not establish that the argument is correct or Lean-verified.', 'editor-notice'));
       const proofs = node('div'); form.append(proofs);
       const addProof = (proof = {}) => {
         const row = node('fieldset'); row.append(node('legend', 'External proof'));
@@ -147,7 +167,7 @@
         body.setRangeText('\n\n{{ statement:' + sid + ' }}\n\n', body.selectionStart, body.selectionEnd, 'end');
         body.dispatchEvent(new Event('input', {bubbles: true})); body.focus();
       };
-      button('Add new result', () => openEditor(crypto.randomUUID(), {fresh: true, onCreated: insert}).catch(error => {view.status.textContent = error.message;}), add);
+      button('Add statement', () => openEditor(crypto.randomUUID(), {fresh: true, onCreated: insert}).catch(error => {view.status.textContent = error.message;}), add);
       button('Insert statement', guarded(view, async () => {
         const picker = modal('Insert statement'); const search = field('Search statement titles', '', picker.content);
         const select = node('select'); select.setAttribute('aria-label', 'Statement'); picker.content.append(select);
@@ -167,29 +187,28 @@
       if (isPage) return {document_markdown: body.value};
       return {title: title.value, body_markdown: body.value, statement_kind: kind.value, references: referenceInputs.filter(item => item.row.isConnected && item.select.value).map(item => ({key: item.select.value, locator: item.locator.value})), proofs: proofInputs.filter(item => item.row.isConnected).map(item => Object.fromEntries(Object.entries(item.inputs).map(([key, input]) => [key, input.value])))};
     }
-    const panes = node('div', undefined, 'editor-panes'); panes.append(form, preview);
+    const panes = node('div', undefined, 'editor-panes editor-split'); panes.append(form, diff, preview);
+    preview.setAttribute('aria-label','Live preview');
     let currentMode = 'edit', previewRequest = 0;
     const show = async mode => {
       currentMode = mode;
-      form.hidden = mode === 'diff'; preview.hidden = mode !== 'preview'; diff.hidden = mode !== 'diff';
-      panes.classList.toggle('editor-split', mode === 'preview');
+      form.hidden = mode === 'diff'; preview.hidden = false; diff.hidden = mode !== 'diff';
+      panes.classList.add('editor-split');
       for (const control of tabs.children) control.setAttribute('aria-pressed', String(control.dataset.mode === mode));
-      if (mode === 'edit') {view.status.textContent = ''; return;}
       const request = ++previewRequest;
       const result = await api(fresh ? 'preview' : 'objects/' + id + '/preview', {fields: fields()});
       if (request !== previewRequest || mode !== currentMode) return;
-      preview.innerHTML = result.html; const errors=typeset(preview); diff.textContent = result.diff; view.status.textContent = [...(result.diagnostics||[]).map(issue=>'Line '+issue.line+': '+issue.message),...errors].join(' ');
+      preview.innerHTML = result.html;if(!isPage)preview.prepend(verificationNotice({...obj,...fields()},!fresh && fields().body_markdown!==undefined && fields().body_markdown!==state.object.body_markdown)); const errors=typeset(preview); diff.textContent = result.diff; previewStatus.textContent = [...(result.diagnostics||[]).map(issue=>'Line '+issue.line+': '+issue.message),...errors].join(' ');preview.append(previewStatus);if(view.status.textContent==='Working…')view.status.textContent='';
     };
     let previewTimer;
     form.addEventListener('input', () => {
-      if (currentMode !== 'preview') return;
-      clearTimeout(previewTimer); previewTimer = setTimeout(guarded(view, () => show('preview')), 400);
+      clearTimeout(previewTimer); previewTimer = setTimeout(()=>show(currentMode).catch(error=>{previewStatus.textContent=error.message;preview.append(previewStatus);}), 400);
     });
     view.dialog.addEventListener('close', () => clearTimeout(previewTimer));
-    for (const [label, mode] of [['Edit', 'edit'], ['Preview', 'preview'], ['Changes', 'diff']]) {
+    for (const [label, mode] of [['Edit', 'edit'], ['Changes', 'diff']]) {
       const control = button(label, guarded(view, () => show(mode)), tabs); control.dataset.mode = mode; control.setAttribute('aria-pressed', String(mode === 'edit'));
     }
-    view.content.append(tabs, panes, diff);
+    view.content.append(tabs, panes);
     const explanation = field('Explanation of this change', options.restore ? 'Restore content from an earlier revision.' : '', view.content, true); explanation.rows = 2;
     const actions = node('div', undefined, 'editor-actions'); view.content.append(actions);
     if (!fresh) button('Save draft', guarded(view, async () => {
@@ -210,8 +229,12 @@
     }, actions);
     button(hosted ? 'Submit for review' : 'Save local revision', guarded(view, async () => {
       if (staleDraft) throw new Error('Compare the older draft with Changes, then explicitly choose the latest revision as its base.');
+      const submitted=fields();
+      if(fresh && !submitted.body_markdown.trim())throw new Error('Write the statement before submitting.');
+      if(proofRequired({...obj,...submitted}) && !submitted.proofs?.some(proof=>proof.url.startsWith('https://')))throw new Error('Add a link to an external natural-language proof under Proof references. Definitions and conjectures are exempt.');
       if(!window.katex)throw new Error('Math validation is unavailable. Save a draft and reload before submitting a revision.');
       const checked=await api(fresh?'preview':'objects/'+id+'/preview',{fields:fields()});
+      if(checked.diagnostics?.some(issue=>issue.severity==='error'))throw new Error('Fix the mathematical delimiters or braces before submitting. You can save a draft.');
       const mathCheck=node('div');mathCheck.innerHTML=checked.html;const mathErrors=typeset(mathCheck);
       if(mathErrors.length)throw new Error('Fix the LaTeX before saving a revision: '+mathErrors[0]);
       const result = await api('proposals', proposal());
@@ -222,10 +245,37 @@
       if (fresh && !hosted) {options.onCreated?.(id); view.dialog.close(); return;}
       proposalKey = crypto.randomUUID();
     }), actions, 'editor-primary');
+    show('edit').catch(error => {view.status.textContent=error.message;});
     if (!fresh) button('History', () => openHistory(id).catch(error => {view.status.textContent = error.message;}), actions);
     view.dialog.addEventListener('close', () => {
       if (!document.querySelector('dialog[open]')) location.reload();
     });
+  }
+  async function openReferenceEditor(id, options = {}, suppliedState = null) {
+    const fresh=!id;
+    const state=suppliedState || (fresh?{revision:null,draft:null,object:{bibtex:'@misc{NewReference,\n  author = {},\n  title = {},\n  year = {}\n}\n'}}:await api('objects/'+id));
+    const view=modal(fresh?'Add reference':'Edit reference · '+state.object.evidence.reference_key,true);
+    view.content.append(node('p','Edit the BibTeX entry. Existing citation keys stay fixed. Drafts are private; accepted changes update the shared bibliography.','editor-notice'));
+    const source=field('BibTeX',options.restore?.bibtex || state.draft?.object.bibtex || state.object.bibtex,view.content,true);source.rows=20;
+    const pane=node('div',undefined,'editor-panes editor-split');pane.append(source.parentElement);
+    const right=node('section',undefined,'editor-preview');right.setAttribute('aria-label','Live preview');pane.append(right);view.content.append(pane);
+    const diff=node('pre','', 'editor-diff');const changes=node('details');changes.append(node('summary','Source changes'),diff);view.content.append(changes);
+    const explanation=field('Explanation of this change','',view.content,true);
+    let draftRevision=state.draft?.draft_revision || null,key=crypto.randomUUID(),timer,sequence=0;
+    let stale=!!state.draft && state.draft.base_revision!==state.revision && !options.restore;
+    if(stale){view.content.append(node('p','This draft predates the published reference. Compare Source changes before using the latest version as its base.','editor-notice'));button('I have compared this draft with the latest reference',()=>{stale=false;view.status.textContent='The latest published version is now the explicit base.';},view.content);}
+    view.dialog.addEventListener('input',()=>{key=crypto.randomUUID();});
+    const fields=()=>({bibtex:source.value});
+    async function update(){const request=++sequence;try{const result=await api(fresh?'references/preview':'objects/'+id+'/preview',{fields:fields()});if(request!==sequence)return;right.innerHTML=result.html;typeset(right);diff.textContent=result.diff;return result;}catch(error){if(request===sequence)right.textContent=error.message;throw error;}}
+    source.addEventListener('input',()=>{clearTimeout(timer);timer=setTimeout(()=>update().catch(()=>{}),400);});
+    view.dialog.addEventListener('close',()=>clearTimeout(timer));update().catch(()=>{});
+    const actions=node('div',undefined,'editor-actions');view.content.append(actions);
+    if(!fresh)button('Save draft',guarded(view,async()=>{if(stale)throw new Error('Compare the older draft with the current reference first.');const result=await api('objects/'+id+'/draft',{base_revision:state.revision,fields:fields(),draft_revision:draftRevision});draftRevision=result.draft_revision;view.clean();view.status.textContent='Private draft saved.';}),actions);
+    button('Submit for review',guarded(view,async()=>{if(stale)throw new Error('Compare the older draft with the current reference first.');const checked=await update();const objectId=fresh?checked.id:id;
+      const result=await api('proposals',{idempotency_key:key,explanation:explanation.value,changes:[{operation:fresh?'create_reference':'update_reference',id:objectId,base_revision:state.revision,fields:fields()}]});
+      view.clean();view.status.textContent='Submitted for review. The published bibliography is unchanged until accepted.';button('View submission',()=>showProposal(result.id),view.content,'editor-footer-link');
+    }),actions,'editor-primary');
+    if(!fresh)button('History',()=>openHistory(id),actions);
   }
   async function reportContent(id, commentId = null) {
     const view=modal('Report content');const reason=field('Reason for this report','',view.content,true);
@@ -263,7 +313,7 @@
     for (const item of data.objects) {
       const revision=await api('objects/'+item.id+'?revision='+item.revision);
       view.content.append(node('h3',item.title));
-      const rendered=node('div',undefined,'editor-preview');rendered.innerHTML=revision.html;typeset(rendered);view.content.append(rendered);
+      const rendered=node('div',undefined,'editor-preview');rendered.innerHTML=revision.html;typeset(rendered);if(revision.object.type==='statement')rendered.prepend(verificationNotice(revision.object,true));view.content.append(rendered);
       const changes=node('details');changes.append(node('summary','Source changes'));
       const diff=node('pre',revision.diff || revision.document_markdown,'editor-diff');changes.append(diff);view.content.append(changes);
     }
@@ -447,6 +497,11 @@
   try {
     const bootstrap = await api('bootstrap'); session = bootstrap.session; currentPerson = bootstrap.person; reactionOptions = bootstrap.reaction_options;role=bootstrap.role;publishing=bootstrap.publishing;
     const main = document.querySelector('main'); if (!main) return; readOnlyLibrary = !!main.dataset.editorReadonly;
+    const header=document.querySelector('.site-header-row');
+    if(header)button('Add statement',()=>{
+      if(hosted && !currentPerson){const view=modal('Sign in to add a statement');view.content.append(signInLink('Sign in with ORCID'));return;}
+      openEditor(crypto.randomUUID(),{fresh:true}).catch(error=>{const view=modal('Could not open editor');view.status.textContent=error.message;});
+    },header,'site-contribute');
     const footer = document.querySelector('.site-footer-links') || document.querySelector('footer');
     if (footer) {
       if (currentPerson) {
@@ -460,7 +515,7 @@
           if (['trusted_editor','admin'].includes(role)) button('Review contributions', () => contributions(true), footer, 'editor-footer-link');
         } else button('Research feedback', queue, footer, 'editor-footer-link');
       } else if (hosted) {
-        const signin=node('a','Sign in with ORCID');signin.href='https://api.nla-lib.org/auth/login';footer.append(signin);
+        const signin=signInLink('Sign in with ORCID');footer.append(signin);
       }
       if (!hosted) footer.parentElement.append(node('p', 'Local preview · changes are saved on this computer', 'editor-preview-status'));
     }
@@ -468,6 +523,13 @@
       const profile=new URLSearchParams(location.search).get('profile') || currentPerson?.id;
       if(profile) main.dataset.profileId=profile;
       else document.getElementById('profile-content').textContent='Sign in with ORCID to manage your profile, drafts, contributions and bots.';
+    }
+    if(hosted && bootstrap.features?.includes('bibliography-editing') && location.pathname.replace(/\/$/,'')==='/explore/references'){
+      const registry=await api('objects?type=reference&limit=100');let entries=[...registry.objects],cursor=registry.next_cursor;
+      while(cursor){const next=await api('objects?type=reference&limit=100&cursor='+encodeURIComponent(cursor));entries.push(...next.objects);cursor=next.next_cursor;}
+      const byKey=new Map(entries.map(item=>[item.reference_key,item.id]));
+      for(const row of main.querySelectorAll('[data-reference-id]')){const id=byKey.get(row.dataset.referenceId);if(!id)continue;const tools=node('span',undefined,'reference-actions');button('Edit',()=>openReferenceEditor(id).catch(error=>{const view=modal('Reference editor');view.status.textContent=error.message;}),tools,'editor-footer-link');button('History',()=>openHistory(id),tools,'editor-footer-link');row.append(tools);}
+      const heading=main.querySelector('.page-heading');if(heading)button('Add reference',()=>openReferenceEditor(null),heading,'editor-footer-link');
     }
     if(main.dataset.profileId) await renderProfile(main.dataset.profileId);
     const objectId = main.dataset.editorPage || main.dataset.editorStatement;
@@ -507,7 +569,7 @@
     document.addEventListener('editor-discussion-changed', event => {
       for (const count of document.querySelectorAll('[data-discussion-count]')) if (count.dataset.discussionCount === event.detail.id) {updateDiscussionCount(count, event.detail.id, event.detail.count); count.hidden = false;}
     });
-    if (objectId && hosted && !currentPerson) {const notice=node('p','Sign in with ORCID to comment, react or propose an edit.','editor-notice');const link=node('a','Sign in');link.href='https://api.nla-lib.org/auth/login';notice.append(' ',link);heading?.after(notice);}
+    if (objectId && hosted && !currentPerson) {const notice=node('p','Sign in with ORCID to comment, react or propose an edit.','editor-notice');const link=signInLink('Sign in');notice.append(' ',link);heading?.after(notice);}
     if (objectId) openDiscussion(objectId).catch(error => console.error('Discussion:', error));
     const query = new URLSearchParams(location.search); const id = query.get('editor-object');
     if (id && query.get('revision')) {

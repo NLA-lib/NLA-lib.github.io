@@ -37,9 +37,9 @@ class Store:
         self.limit('IP#'+fingerprint(address)+'#'+str(current//3600), 20, current+7200)
         self.limit('DAY#'+str(current//86400), daily_limit, current+172800)
 
-    def create_flow(self, state, browser):
+    def create_flow(self, state, browser, return_to='/explore/?auth=complete'):
         self.table.put_item(Item={'pk': 'STATE#'+fingerprint(state), 'sk': 'STATE',
-            'browser_hash': fingerprint(browser), 'expires_at': int(self.clock())+600},
+            'browser_hash': fingerprint(browser), 'return_to': return_to, 'expires_at': int(self.clock())+600},
             ConditionExpression='attribute_not_exists(pk)')
 
     def consume_flow(self, state, browser):
@@ -48,7 +48,7 @@ class Store:
                 ConditionExpression='browser_hash=:browser AND expires_at > :now',
                 ExpressionAttributeValues={':browser': fingerprint(browser), ':now': int(self.clock())},
                 ReturnValues='ALL_OLD')
-            return bool(result.get('Attributes'))
+            return result.get('Attributes') or False
         except ClientError as error:
             if error.response['Error']['Code'] == 'ConditionalCheckFailedException':
                 return False

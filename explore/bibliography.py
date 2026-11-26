@@ -6,6 +6,7 @@ import re
 from urllib.parse import urlsplit
 
 from rendering import safe_link
+from bibtex import citation_parts, parse_bib_text, one_reference
 
 
 def editorial_references(content):
@@ -25,6 +26,17 @@ def editorial_references(content):
     return data['references']
 
 
+def frontend_references(content):
+    root=Path(content)/'references'
+    records={}
+    for file in sorted(root.glob('*.bib')):
+        key,record=one_reference(file.read_text())
+        if file.stem!=key:raise ValueError('Reference filename must match its citation key: '+str(file))
+        if key in records:raise ValueError('Duplicate reference key: '+key)
+        records[key]=record
+    return records
+
+
 def references_panel(citations, registry, *, disclosure=True):
     seen, rows = set(), []
     for citation in citations:
@@ -33,12 +45,9 @@ def references_panel(citations, registry, *, disclosure=True):
             continue
         seen.add((key, locator))
         record = registry.get(key) or citation
-        text = record.get('text') or key
-        url = record.get('url')
-        label = html.escape(text)
-        if url and safe_link(url):
-            label = '<a href="' + html.escape(url, quote=True) + '" rel="noopener noreferrer">' + label + '</a>'
+        label = citation_parts(record)
         rows.append('<li id="reference-' + html.escape(key, quote=True) + '" data-reference-id="' + html.escape(key, quote=True) + '">' + label +
+                    ' <a class="reference-bibtex" href="/explore/references/'+html.escape(key,quote=True)+'.bib" download="'+html.escape(key,quote=True)+'.bib">BibTeX</a>'+
                     (' <span class="reference-locator">' + html.escape(locator) + '</span>' if locator else '') + '</li>')
     body = '<ol>' + ''.join(rows) + '</ol>' if rows else '<p>No references have been attached to this statement yet.</p>'
     if not disclosure:

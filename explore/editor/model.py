@@ -82,6 +82,8 @@ class Catalog:
                     evidence.pop('page')
                     evidence.update(statement_id=shared.id, source_file=str(shared.source.relative_to(self.explorer.content)))
                     self.statement_references[sid] = list(shared.references)
+                    if shared.formalization_status:evidence['formalization_status']=shared.formalization_status
+                    if shared.review_status:evidence['review_status']=shared.review_status
                 if source_kind:
                     record = (self.explorer.records['results'][source_key] if source_kind == 'result' else None)
                     decl = self.explorer.records['declarations'][record['primary'] if record else source_key]
@@ -98,6 +100,28 @@ class Catalog:
                 'evidence': {'type': 'page', 'key': page.key, 'source': str(page.source.relative_to(self.explorer.content))}}
             self.pages[oid] = page
             self.routes[page.url] = oid
+        # A first edit of extracted prose creates a shared file without requiring
+        # a page import. Register it immediately and preserve the generated UUID.
+        for shared in self.explorer.shared_statements.values():
+            if self.objects.get(shared.uid, {}).get('evidence', {}).get('source_file'):
+                continue
+            kind, source_kind, source_key, options, body = STATEMENT.fullmatch(shared.block).groups()
+            opts = dict(token.split('=',1) for token in shlex.split(options))
+            evidence = {'type':'authored','source_kind':source_kind,'source_key':source_key,
+                'block_kind':kind,'options':options,'statement_id':shared.id,
+                'source_file':str(shared.source.relative_to(self.explorer.content))}
+            if shared.formalization_status:evidence['formalization_status']=shared.formalization_status
+            if shared.review_status:evidence['review_status']=shared.review_status
+            if source_kind:
+                declaration_key = self.explorer.records['results'][source_key]['primary'] if source_kind=='result' else source_key
+                decl=self.explorer.records['declarations'][declaration_key]
+                evidence.update(declaration=decl['id'],signature=decl['signature'],source=decl.get('source',{}),admission_reported=decl.get('admission_reported',False))
+                self.declarations[declaration_key]=shared.uid
+            title=opts.get('name') or source_key or 'Result'
+            obj=self.statement(shared.uid,title,body,evidence,kind='definition' if kind=='definition' else 'conjecture' if kind=='conjecture' else 'result')
+            obj['proofs']=list(shared.proofs)
+            self.objects[shared.uid]=obj
+            self.statement_references[shared.uid]=list(shared.references)
         # A unique curated shared formulation also supplies the generated result.
         shared_by_result = {}
         for obj in self.objects.values():
@@ -225,7 +249,7 @@ class Catalog:
             from rendering import split_notes
             text, _ = split_notes(text)
             text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
-            text = re.sub(r'^\*\*[^*]+\*\*\s*[:.]?\s*', '', text).strip() or text
+            text = re.sub(r'^\*\*[^*]+\*\*\s*[,;:.]?\s*', '', text).strip() or text
         kind = 'Definition' if obj['statement_kind'] == 'definition' else 'Statement' if evidence.get('admission_reported') else 'Theorem' if declaration else obj['statement_kind'].capitalize()
         citations = list((declaration or {}).get('references', [])) + obj.get('references', self.statement_references.get(obj['id'], []))
         return self.explorer.detail_layout(obj['title'], markdown(text), kind, obj['id'], declaration,
@@ -242,12 +266,12 @@ class Catalog:
             from rendering import split_notes
             text, _ = split_notes(text)
             text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
-            text = re.sub(r'^\*\*[^*]+\*\*\s*[:.]?\s*', '', text).strip() or text
+            text = re.sub(r'^\*\*[^*]+\*\*\s*[,;:.]?\s*', '', text).strip() or text
         label = 'Definition' if obj['statement_kind'] == 'definition' else 'Statement' if evidence.get('admission_reported') else 'Theorem' if evidence.get('declaration') else obj['statement_kind'].capitalize()
         options = dict(token.split('=', 1) for token in shlex.split(evidence.get('options', '')))
         anchor = options.get('id') or ((evidence.get('block_kind', 'theorem') + '-' + slug(evidence.get('source_key') or evidence.get('result'))) if evidence.get('source_key') or evidence.get('result') else None)
         body = markdown(text)
-        card = self.explorer.overview_card(obj['title'], body, obj['id'], label, anchor)
+        card = self.explorer.overview_card(obj['title'], body, obj['id'], label, anchor, self.explorer.verification_badge(self.explorer.records['declarations'].get(evidence.get('declaration')),revised))
         return card + ('<p class="editor-status">Local revision · review needs reassessment</p>' if revised else '')
 
     def render_page(self, obj, lookup):

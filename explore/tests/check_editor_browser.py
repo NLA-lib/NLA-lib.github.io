@@ -22,6 +22,7 @@ with tempfile.TemporaryDirectory() as tmp:
    overview=page.locator('.statement-overview').first
    expect(overview.get_by_role('button',name='Add reaction',exact=True)).to_have_count(0)
    count=overview.locator('[data-discussion-count]');expect(count).to_be_visible();assert count.bounding_box()['x']+count.bounding_box()['width']<=overview.locator('.statement-expand').bounding_box()['x'];
+   span_box=overview.locator('.statement-expand span').bounding_box();summary_box=overview.locator('summary').bounding_box();assert abs(span_box['y']+span_box['height']/2-summary_box['y']-summary_box['height']/2)<2, 'Collapsed arrow must be vertically centered'
    before=overview.evaluate('e=>getComputedStyle(e).backgroundColor');overview.hover();assert overview.evaluate('e=>getComputedStyle(e).backgroundColor')!=before;overview.locator('summary a').hover();expect(overview.locator('summary a')).to_have_css('background-color','rgba(0, 0, 0, 0)');expect(overview.locator('.statement-expand')).to_have_css('border-top-width','0px');
    click(overview,'Expand statement');expect(overview.locator('.explorer-disclosure-body')).to_be_visible()
    expect(overview.locator('a[href$="#discussion"]')).to_have_count(0)
@@ -32,7 +33,7 @@ with tempfile.TemporaryDirectory() as tmp:
    expect(page.locator('main a[href$="#discussion"]')).to_have_count(0)
    reactions=page.locator('.theorem-reaction-slot');click(reactions,'Add reaction');click(dialog(),'React with 👍 · Helpful');expect(reactions.get_by_role('button',name='👍 Helpful, 1 reaction',exact=True)).to_have_attribute('aria-pressed','true')
    discussion=page.locator('#discussion');expect(discussion.locator('.primer-discussion')).to_be_visible();assert discussion.evaluate("e=>Array.from(e.shadowRoot.querySelectorAll('link[rel=stylesheet]')).every(link=>link.sheet!==null)")
-   tools('Edit statement');body=dialog().get_by_label('Statement · Markdown and LaTeX',exact=True);original=body.input_value();body.fill(original+'\n\nBrowser check: clarify $n=0$.');click(dialog(),'Preview');expect(dialog().locator('.editor-preview')).to_contain_text('Browser check');click(dialog(),'Changes');expect(dialog().locator('.editor-diff')).to_contain_text('+Browser check');click(dialog(),'Edit')
+   tools('Edit statement');body=dialog().get_by_label('Statement · Markdown and LaTeX',exact=True);original=body.input_value();body.fill(original+'\n\nBrowser check: clarify $n=0$.');click(dialog(),'Edit');expect(dialog().locator('.editor-preview')).to_contain_text('Browser check');click(dialog(),'Changes');expect(dialog().locator('.editor-diff')).to_contain_text('+Browser check');click(dialog(),'Edit')
    click(dialog(),'Save draft');expect(dialog().locator('.editor-message')).to_contain_text('Draft saved locally')
    with page.expect_navigation(wait_until='domcontentloaded'):close()
    tools('Edit statement');expect(dialog().get_by_label('Statement · Markdown and LaTeX',exact=True)).to_have_value(original+'\n\nBrowser check: clarify $n=0$.')

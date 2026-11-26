@@ -19,11 +19,11 @@ class MemoryStore:
     def __init__(self):self.now=1000;self.flows={};self.sessions={};self.people={};self.audits=[];self.limited=False
     def login_limit(self,*args):
         if self.limited:raise LimitReached()
-    def create_flow(self,state,browser):self.flows[state]=(browser,self.now+600)
+    def create_flow(self,state,browser,return_to='/explore/?auth=complete'):self.flows[state]=(browser,self.now+600,return_to)
     def consume_flow(self,state,browser):
         flow=self.flows.get(state)
         if not flow or flow[0]!=browser or flow[1]<=self.now:return False
-        del self.flows[state];return True
+        del self.flows[state];return {'return_to':flow[2]}
     def ensure_person(self,orcid,name):
         self.people.setdefault('person-a',{'id':'person-a','kind':'person','orcid':orcid,'display_name':name,'role':'contributor','status':'active','bio':'','website':'','interests':'','affiliation':''})
         return self.people['person-a']
@@ -70,6 +70,21 @@ class AuthTests(unittest.TestCase):
         for flag in ['__Host-','Secure','HttpOnly','SameSite=Lax','Path=/','Max-Age=43200']:self.assertIn(flag,cookie)
         self.assertNotIn('Domain=',cookie);self.assertEqual(response['headers']['Location'],'https://nla-lib.org/explore/?auth=complete')
         self.assertEqual(self.request('/me')['statusCode'],401)
+    def test_signin_returns_to_the_original_page_and_ignores_callback_override(self):
+        from urllib.parse import urlencode
+        target='/explore/algorithms/conjugate-gradient/?model=exact#discussion'
+        response=self.request('/auth/login',query=urlencode({'return_to':target}))
+        self.assertEqual(response['statusCode'],302)
+        state=next(iter(self.store.flows));browser=response['cookies'][0].split(';')[0]
+        callback=self.request('/auth/callback',cookies=[browser],query=urlencode({'state':state,'code':'x','return_to':'https://evil.test'}))
+        self.assertEqual(callback['headers']['Location'],'https://nla-lib.org'+target)
+        self.assertEqual(self.request('/auth/callback',cookies=[browser],query=urlencode({'state':state,'code':'x'}))['statusCode'],400)
+
+    def test_signin_rejects_external_and_malformed_return_destinations(self):
+        from app import sign_in_return
+        for target in ['https://evil.test/explore/','//evil.test/explore/','/explore/../../evil','/explore/\\evil','/explore/%0d%0aLocation:evil','/account','/explore/%2e%2e/outside']:
+            self.assertEqual(sign_in_return(target),'/explore/?auth=complete',target)
+
     def test_state_is_browser_bound_one_time_and_expiring(self):
         state,browser=self.start();query='state='+state+'&code=example-code'
         self.assertEqual(self.request('/auth/callback',query=query)['statusCode'],400)

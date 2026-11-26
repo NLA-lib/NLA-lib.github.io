@@ -15,6 +15,7 @@ from urllib.parse import urlsplit
 import yaml
 from markdown_it import MarkdownIt
 from notation import math_spans, diagnostics
+from bibtex import one_reference, citation_html
 
 MAX_BODY = 120_000
 UUID = r'[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}'
@@ -109,6 +110,15 @@ class Snapshot:
         return self.fetch('references.json')['references']
 
 
+def fresh_reference(source):
+    key,record=one_reference(source)
+    oid=str(uuid.uuid5(uuid.NAMESPACE_URL,'https://nla-lib.org/editor/reference:'+key))
+    obj={'id':oid,'type':'reference','title':key+' — '+record['title'],'bibtex':source,'record':record,
+         'evidence':{'type':'bibliography','reference_key':key}}
+    return {'object':obj,'revision':None,'editable':True,'source_sha':None,'source_markdown':'',
+            'source_path':'explore/content/references/'+key+'.bib','url':'/explore/references/#reference-'+key}
+
+
 def validate(snapshot, state, fields):
     obj = copy.deepcopy(state['object'])
     if not state.get('editable'):
@@ -116,6 +126,12 @@ def validate(snapshot, state, fields):
     if not isinstance(fields, dict) or not fields:
         raise ValueError('Supply editable fields')
     source = state.get('source_markdown', '')
+    if obj['type']=='reference':
+        if set(fields)!={'bibtex'}:raise ValueError('Reference edits require one bibtex field')
+        key,record=one_reference(fields['bibtex'],obj['evidence']['reference_key'])
+        document=fields['bibtex'].strip()+'\n'
+        obj.update(title=key+' — '+record['title'],bibtex=document,record=record)
+        return obj,document
     if obj['type'] == 'page':
         if set(fields) != {'document_markdown'}:
             raise ValueError('Page edits require the complete document_markdown')
@@ -141,6 +157,8 @@ def validate(snapshot, state, fields):
         aliases = meta.get('search_aliases', [])
         if not isinstance(aliases, list) or len(aliases)>50 or any(not isinstance(x,str) or len(x)>200 for x in aliases):
             raise ValueError('Invalid search aliases')
+        if re.search(r'^:::\s+(?:theorem|definition|result|conjecture)\b',body,re.M):
+            raise ValueError('Use Add statement to create a mathematical statement, then insert its shared reference.')
         imports = re.findall(r'^\{\{\s*statement:([a-z0-9-]+)\s*\}\}[ \t]*$', body, re.M)
         if imports:
             aliases={x['id']:x['statement_id'] for x in snapshot.index() if x.get('statement_id')}
@@ -212,13 +230,29 @@ def validate(snapshot, state, fields):
     return obj, document
 
 
+def require_external_proof(obj):
+    if obj.get('type')!='statement' or obj.get('statement_kind')!='result':return
+    evidence=obj.get('evidence',{})
+    if evidence.get('declaration') and not evidence.get('admission_reported'):return
+    for proof in obj.get('proofs',[]):
+        if not isinstance(proof,dict) or not isinstance(proof.get('url'),str):continue
+        try:url=urlsplit(proof['url'])
+        except ValueError:continue
+        if url.scheme=='https' and url.hostname and not url.username and not url.password and not any(c.isspace() for c in proof['url']):return
+    raise ValueError('This result has no Lean proof. Add an HTTPS link under Proof references before submitting or publishing. Definitions and conjectures are exempt.')
+
+
+def render_object(obj):
+    return citation_html(obj['record']) if obj['type']=='reference' else markdown(obj['body_markdown'])
+
+
 def preview(snapshot, state, fields):
     obj, document=validate(snapshot,state,fields)
-    body=obj['body_markdown']
+    body=obj.get('body_markdown','')
     if obj['type']=='page':
         # Generated content is immutable; label its source placeholder in preview.
         body=re.sub(r'^\{\{\s*(?:statement|generated):.*?\}\}[ \t]*$',
                     lambda m:'\n`'+m[0]+'`\n',body,flags=re.M)
-    return {'object':obj,'document_markdown':document,'html':markdown(body),
+    return {'object':obj,'document_markdown':document,'html':render_object(obj) if obj['type']=='reference' else markdown(body),
         'diff':''.join(difflib.unified_diff(state.get('source_markdown','').splitlines(True),document.splitlines(True),fromfile='Published',tofile='Proposed')),
         'diagnostics':diagnostics(body,None)}

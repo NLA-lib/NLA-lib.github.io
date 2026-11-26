@@ -101,7 +101,7 @@ short-lived installation tokens and does not retain them in DynamoDB.
 6. The existing Pages workflow rebuilds the site. A failed deployment does not
    remove Git history or DynamoDB revisions.
 
-The App only writes `explore/content/**/*.md`. It refuses stale source blobs,
+The App only writes `explore/content/**/*.md` and individual bibliography `.bib` entries. It refuses stale source blobs,
 never force-pushes, and cannot edit workflows or Lean source through this API.
 Each accepted contribution becomes one commit on main. Commit messages preserve
 ORCID, revision ID, reviewer and contributor/coauthor attribution. Researchers do
@@ -162,3 +162,50 @@ Restore the previous `auth.zip`, its hash file and template from the original se
 folder and run its deployment script to roll back application code. The DynamoDB
 table is retained and auth records remain compatible. Published mathematical edits
 are reverted through new reviewed commits; do not rewrite the repository history.
+
+## Statement creation and proof requirements
+
+Use **Add statement** in the Explorer header to create a standalone result,
+conjecture or definition. A Lean link is optional. A result claiming to be proved
+must have a complete linked Lean proof or at least one HTTPS link explicitly
+entered under Proof references for a natural-language proof hosted elsewhere.
+Bibliographic citations alone do not satisfy that requirement. Definitions and
+conjectures are exempt. The API checks submissions, approval of older pending
+contributions, and publication; bot credentials follow the same policy. Draft
+validation does not require a proof link. Typed statements belong in shared files
+rather than inline page blocks.
+
+Unlinked statements are labelled **Not Lean-verified**, even with external proof
+links. Linked Lean declarations with reported admissions are also unverified.
+A changed readable formulation is labelled **Lean link needs reassessment**.
+A linked definition is not presented as a proved theorem. A proof URL indicates
+a supplied source; editorial review must assess its argument.
+
+The editor keeps its live preview visible while editing and viewing changes.
+Sign-in links carry the current Explorer path, query and fragment. The backend
+binds that destination to the browser's single-use OAuth state and accepts only
+local Explorer destinations. For an existing deployment, the generated
+`update-nla-editor.py` helper updates the affected Lambda modules, preserves the
+original package and redeploys the existing stack without changing stored data.
+
+## Frontend-owned bibliography
+
+`explore/content/references/*.bib` is the website's canonical shared bibliography.
+The initial entries were copied from the Lean repository; its bibliography remains
+independent for Lean docstrings. Website builds use the frontend entries when that
+directory exists. They do not overwrite these entries from Lean.
+
+The References page provides a complete BibTeX download, per-entry downloads,
+formatted citations, and Add reference / Edit / History actions. BibTeX edits keep
+existing citation keys fixed and use the same private drafts, source diffs, review
+and checked publication workflow. New entries get stable IDs from their keys.
+The API accepts only one entry per reference and validates citation links.
+Publishing is restricted to individual `.bib` files under the references directory
+in addition to the existing mathematical Markdown paths. No permission to write
+Lean source or workflows is introduced.
+
+New public references become available to the shared statement-reference picker
+after publication. The raw entries retain extra BibTeX fields; formatting separates
+authors, titles, publication information and identifiers. Peer-review attestations
+for mathematical or external proofs remain deferred. Supplied external proof URLs
+are labelled as sources, without an assertion that their contents were reviewed.

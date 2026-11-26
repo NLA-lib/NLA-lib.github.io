@@ -42,3 +42,10 @@ class NotationTests(unittest.TestCase):
         self.assertTrue(all(issue['severity']=='warning' for issue in issues))
         self.assertEqual(normalize(source),source)
         self.assertFalse(diagnostics(r'$\mathbf{A}^{\mathsf{T}}+\mathbf{A}^{\mathsf{H}}+z^*$'))
+
+    def test_inline_math_accepts_soft_line_breaks_but_not_paragraphs(self):
+        text='$\\mathbf{Q}\\mathbf{A}\n\\mathbf{Q}^{\\mathsf{H}}$'
+        spans,issues=math_spans(text)
+        self.assertEqual(len(spans),1);self.assertFalse(issues)
+        self.assertIn('class="math"',markdown(text))
+        self.assertTrue(diagnostics('$x\n\nAnother paragraph $'))

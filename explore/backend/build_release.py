@@ -22,7 +22,7 @@ def build(runtime,output):
                 add(archive,file,file.relative_to(runtime).as_posix())
         for name in ['app.py','store.py','provider.py','account.js','account.css','collaboration.py','content.py','documents.py','publisher.py']:
             add(archive,ROOT/name,name)
-        for name in ['notation.py','notation.json']:
+        for name in ['notation.py','notation.json','bibtex.py']:
             add(archive,ROOT.parent/name,name)
     with zipfile.ZipFile(code) as archive:
         if sum(info.file_size for info in archive.infolist())>250*1024*1024:
@@ -45,6 +45,9 @@ def build(runtime,output):
     with zipfile.ZipFile(browser_fix,'w') as archive:
         for name in ['app.py','apply-cors-fix.sh','patch_archive.py']:
             add(archive,ROOT/name,name)
+    from build_auth_return_update import build as build_return_update
+    build_return_update(output/'update-nla-signin.py')
+    build_return_update(output/'update-nla-editor.py',('app.py','store.py','content.py','collaboration.py','publisher.py','bibtex.py','notation.py'))
     print(json.dumps({'bundle':str(bundle),'bundle_bytes':bundle.stat().st_size,'recovery':str(recovery),'browser_fix':str(browser_fix),'lambda_sha256':digest}))
     return bundle
 

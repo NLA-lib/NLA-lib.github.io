@@ -20,7 +20,12 @@ class Snapshot:
  def get(self,oid):
   file=args.site/'api/v1/editor/objects'/f'{oid}.json'
   if file.is_file():return json.loads(file.read_text())
-  return json.loads((args.site/'api/v1/editor/generated'/f'{oid[:2]}.json').read_text())[oid]
+  shard=args.site/'api/v1/editor/generated'/f'{oid[:2]}.json'
+  result=json.loads(shard.read_text()).get(oid) if shard.is_file() else None
+  if result is None:
+   from urllib.error import HTTPError
+   raise HTTPError('https://nla-lib.org',404,'missing',{},None)
+  return result
  def index(self):return json.loads((args.site/'api/v1/editor/index.json').read_text())['objects']
  def references(self):return json.loads((args.site/'api/v1/references.json').read_text())['references']
 class BrowserAuth(Auth):
@@ -57,9 +62,9 @@ with sync_playwright() as pw:
  signin('valid');url='https://nla-lib.org/explore/theory/matrix-norms/'
  assert page.goto(url,wait_until='domcontentloaded').status==200
  expect(page.get_by_role('button',name='My contributions',exact=True)).to_be_visible()
- tool('Edit page');body=dialog().get_by_label('Page Markdown',exact=True);original=body.input_value();assert original.startswith('---\nuid:')
+ tool('Edit page');expect(dialog().get_by_label('Live preview',exact=True)).to_be_visible();body=dialog().get_by_label('Page Markdown',exact=True);original=body.input_value();assert original.startswith('---\nuid:')
  body.fill(original+'\n\n## Browser workflow check\n\nLet $\\mathbf{A}^{\\mathsf{T}}$ be the transpose.\n')
- click(dialog(),'Preview');expect(dialog().locator('.editor-preview')).to_contain_text('Browser workflow check');expect(dialog().locator('.katex-error')).to_have_count(0)
+ expect(dialog().locator('.editor-preview')).to_contain_text('Browser workflow check');expect(dialog().locator('.katex-error')).to_have_count(0)
  click(dialog(),'Save draft');expect(dialog().locator('.editor-message')).to_contain_text('Private draft saved')
  with page.expect_navigation(wait_until='domcontentloaded'):click(dialog(),'Close')
  tool('Edit page');expect(dialog().get_by_label('Page Markdown',exact=True)).to_contain_text('')
@@ -80,13 +85,56 @@ with sync_playwright() as pw:
  discussion.get_by_label('Message · Markdown and LaTeX',exact=True).fill('Could we cite a source for $\\mathbf{A}$?');click(discussion,'Comment')
  expect(discussion.locator('.comment-message')).to_have_count(1);expect(discussion.locator('.katex-error')).to_have_count(0)
  page.screenshot(path='/tmp/nlalib-platform-theorem.png',full_page=False)
- # Generated Lean results also support discussion while their source stays read-only.
- records=Snapshot().index();editable={x['id'] for x in records if x['editable']}
+ # Generated Lean prose is editable while its formal statement remains fixed.
+ records=Snapshot().index();editable={x['id'] for x in records if x.get('statement_id')}
  generated=next(x for x in json.loads((args.site/'api/v1/statements.json').read_text())['statements'] if x['id'] not in editable)
  page.goto('https://nla-lib.org'+generated['url'],wait_until='domcontentloaded')
- expect(page.locator('main[data-editor-readonly] #discussion .primer-discussion')).to_be_visible()
- page.get_by_label('Page actions',exact=True).click();expect(page.locator('.page-tools-menu').get_by_role('button',name='Edit statement',exact=True)).to_have_count(0)
+ expect(page.locator('main #discussion .primer-discussion')).to_be_visible()
+ page.get_by_label('Page actions',exact=True).click();expect(page.locator('.page-tools-menu').get_by_role('button',name='Edit statement',exact=True)).to_have_count(1)
  page.get_by_label('Page actions',exact=True).click()
+ # Reproduce the reported CG entry and verify preview updates without a toggle.
+ import uuid
+ cg_id=str(uuid.uuid5(uuid.NAMESPACE_URL,'https://nla-lib.org/editor/result:cg-galerkin-formula'))
+ page.goto('https://nla-lib.org/explore/statements/'+cg_id+'/',wait_until='domcontentloaded')
+ tool('Edit statement');expect(dialog().get_by_label('Live preview',exact=True)).to_be_visible()
+ statement_body=dialog().get_by_label('Statement · Markdown and LaTeX',exact=True)
+ statement_body.fill(statement_body.input_value()+'\n\nLive CG preview check.')
+ expect(dialog().locator('.editor-preview')).to_contain_text('Live CG preview check.')
+ click(dialog(),'Changes');expect(dialog().locator('.editor-diff')).to_contain_text('Live CG preview check.');expect(dialog().get_by_label('Live preview',exact=True)).to_be_visible()
+ page.screenshot(path='/tmp/nlalib-cg-editor-preview.png',full_page=False)
+ with page.expect_navigation(wait_until='domcontentloaded'):click(dialog(),'Close')
+ # Add an unlinked result directly; a proof URL is mandatory for submission.
+ click(page,'Add statement');expect(dialog().get_by_label('Live preview',exact=True)).to_be_visible()
+ dialog().get_by_label('Title',exact=True).fill('Browser external result')
+ dialog().get_by_label('Statement · Markdown and LaTeX',exact=True).fill('A result with an externally hosted proof.')
+ dialog().get_by_label('Explanation of this change',exact=True).fill('Add a result with a natural-language proof.')
+ click(dialog(),'Submit for review');expect(dialog().locator('.editor-message')).to_contain_text('external natural-language proof')
+ expect(dialog().locator('.editor-preview')).to_contain_text('Not Lean-verified')
+ click(dialog(),'Add proof reference');dialog().get_by_label('Reference label',exact=True).fill('External proof')
+ dialog().get_by_label('HTTPS link',exact=True).fill('https://example.org/proof.pdf')
+ click(dialog(),'Submit for review');expect(dialog().locator('.editor-message')).to_contain_text('Submitted for review')
+ with page.expect_navigation(wait_until='domcontentloaded'):click(dialog(),'Close')
+ # Frontend bibliography: structured typography, downloads, private drafts and review.
+ page.goto('https://nla-lib.org/explore/references/',wait_until='domcontentloaded')
+ with page.expect_download() as complete:page.get_by_role('link',name='Download the complete bibliography (BibTeX)',exact=True).click()
+ assert complete.value.suggested_filename=='nla-lib-references.bib'
+ row=page.locator('[data-reference-id="HornJohnson2013"]')
+ expect(row.locator('.reference-authors')).to_be_visible();expect(row.locator('cite.reference-title')).to_have_css('font-style','italic')
+ expect(row.locator('.reference-publisher')).to_have_css('font-style','normal')
+ assert not row.locator('.reference-authors a').count()
+ with page.expect_download() as individual:row.get_by_role('link',name='BibTeX',exact=True).click()
+ assert individual.value.suggested_filename=='HornJohnson2013.bib'
+ page.screenshot(path='/tmp/nlalib-bibliography-formatted.png',full_page=False)
+ click(row,'Edit');citation=dialog().get_by_label('BibTeX',exact=True)
+ citation.fill(citation.input_value().replace('Matrix Analysis','Matrix Analysis (browser edit)'))
+ expect(dialog().get_by_label('Live preview',exact=True)).to_contain_text('browser edit')
+ click(dialog(),'Save draft');expect(dialog().locator('.editor-message')).to_contain_text('Private draft saved')
+ dialog().get_by_label('Explanation of this change',exact=True).fill('Correct the bibliographic title for browser QA.')
+ click(dialog(),'Submit for review');expect(dialog().locator('.editor-message')).to_contain_text('Submitted for review')
+ click(dialog(),'View submission');expect(dialog()).to_contain_text('Matrix Analysis (browser edit)')
+ page.screenshot(path='/tmp/nlalib-bibliography-editor.png',full_page=False)
+ page.goto('https://nla-lib.org/explore/references/',wait_until='domcontentloaded')
+ expect(page.locator('[data-reference-id="HornJohnson2013"]')).not_to_contain_text('browser edit')
  page.get_by_role('link',name='My profile',exact=True).click();expect(page.locator('.page-title')).to_have_text('Editor');expect(page.locator('#profile-content')).to_contain_text('Authenticated ORCID')
  page.set_viewport_size({'width':390,'height':844});page.screenshot(path='/tmp/nlalib-platform-mobile.png',full_page=True)
  assert not errors,errors

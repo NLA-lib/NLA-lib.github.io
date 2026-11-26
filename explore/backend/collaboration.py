@@ -8,7 +8,7 @@ import uuid
 from urllib.parse import parse_qs
 from urllib.error import HTTPError
 
-from content import UUID, REACTIONS, Snapshot, digest, markdown, packed, preview
+from content import UUID, REACTIONS, Snapshot, digest, markdown, packed, preview, require_external_proof, render_object, fresh_reference
 from documents import Conflict, Documents
 from publisher import PublishingError
 from store import fingerprint
@@ -24,6 +24,8 @@ def public(person):
 
 
 class Collaboration:
+    proof_policy = 'external-proof-required-for-results-without-lean'
+    bibliography_editing = True
     def __init__(self,auth,documents,snapshot=None,publisher=None,clock=time.time):
         self.auth,self.db=auth,documents
         self.snapshot=snapshot or Snapshot();self.publisher=publisher;self.clock=clock
@@ -42,7 +44,7 @@ class Collaboration:
             if error.code!=404:raise
             state=None
         if revision and state and revision==state['revision']:
-            state.update(html=markdown(state['object']['body_markdown']),draft=None)
+            state.update(html=render_object(state['object']),draft=None)
             return state
         if revision:
             row=self.db.get('ENTRY#'+oid,'REV#'+revision)
@@ -52,7 +54,7 @@ class Collaboration:
             return {'object':row['object'],'revision':row['id'],'baseline':row['base_revision'],
                 'document_markdown':row['document_markdown'],'source_markdown':row.get('base_document',''),
                 'editable':True,'url':row['url'],'draft':None,'used_by':[], 'dependencies':{},
-                'html':markdown(row['object']['body_markdown']),
+                'html':render_object(row['object']),
                 'diff': ''.join(__import__('difflib').unified_diff(row.get('base_document','').splitlines(True),row['document_markdown'].splitlines(True),fromfile='Published',tofile='Proposed'))}
         if state is None:raise ApiError(404,'Entry not found.')
         state['draft']=None
@@ -120,23 +122,36 @@ class Collaboration:
                  if isinstance(x,dict) and x.get('operation')=='create_statement' and isinstance(x.get('id'),str)]
         class StagedSnapshot:
             def index(self):return parent_snapshot.index()+created
-            def references(self):return parent_snapshot.references()
+            def references(self):return {**parent_snapshot.references(),**new_references}
+        new_references={}
+        from bibtex import one_reference
+        for change in changes:
+            if isinstance(change,dict) and change.get('operation')=='create_reference':
+                key,record=one_reference(change.get('fields',{}).get('bibtex'))
+                new_references[key]=record
         validation_snapshot=StagedSnapshot()
         for change in changes:
             if not isinstance(change,dict) or set(change)!={'operation','id','base_revision','fields'}:raise ValueError('Invalid change fields')
             oid=change['id']
             if oid in seen:raise ValueError('Combine changes to the same entry')
             seen.add(oid)
-            if change['operation']=='create_statement':
+            if change['operation']=='create_reference':
+                state=fresh_reference(change['fields'].get('bibtex'))
+                if oid!=state['object']['id']:raise ValueError('Use the reference ID returned by references/preview')
+                if state['object']['evidence']['reference_key'] in self.snapshot.references():raise Conflict('This citation key already exists. Edit its existing reference.')
+            elif change['operation']=='create_statement':
                 state=self.fresh(oid)
                 try:self.snapshot.get(oid)
                 except HTTPError as error:
                     if error.code!=404:raise
                 else:raise Conflict('This statement already exists')
             else:state=self.state(oid,person)
-            if change['operation'] not in {'create_statement','update_'+state['object']['type']}:raise ValueError('Invalid operation')
+            if change['operation'] not in {'create_statement','create_reference','update_'+state['object']['type']}:raise ValueError('Invalid operation')
             if state['revision']!=change['base_revision']:raise Conflict('Published content changed. Compare your draft with the latest source before submitting.')
             checked=preview(validation_snapshot,state,change['fields'])
+            if any(issue.get('severity')=='error' for issue in checked.get('diagnostics',[])):
+                raise ValueError('Fix the mathematical delimiters or braces before submitting. Drafts can remain unfinished.')
+            require_external_proof(checked['object'])
             if checked['document_markdown']==state.get('source_markdown'):raise ValueError('There are no changes to submit')
             rid=str(uuid.uuid4());proposal['revisions'][oid]=rid
             proposal['objects'].append({'id':oid,'title':checked['object']['title'],'revision':rid})
@@ -179,6 +194,9 @@ class Collaboration:
         if set(payload)!={'decision','message'} or payload['decision'] not in {'approve','reject','request_changes'} or not isinstance(payload['message'],str) or len(payload['message'])>2000:
             raise ValueError('Choose approve, reject or request_changes and supply a short message')
         if proposal['status'] not in {'submitted','changes_requested'}:raise Conflict('This contribution has already been reviewed')
+        if payload['decision']=='approve':
+            for oid,rid in proposal['revisions'].items():
+                require_external_proof(self.db.get('ENTRY#'+oid,'REV#'+rid)['object'])
         proposal.update(status={'approve':'approved','reject':'rejected','request_changes':'changes_requested'}[payload['decision']],
             reviewer=public(person),review_message=payload['message'],reviewed_at=self.now())
         self.db.commit([('PROPOSAL#'+pid,'META',proposal,proposal['_version'])])
@@ -191,6 +209,7 @@ class Collaboration:
         if proposal['status']=='published':return proposal
         if proposal['status'] not in {'approved','awaiting_checks'}:raise Conflict('Approve this contribution before publishing')
         revisions=[self.db.get('ENTRY#'+oid,'REV#'+rid) for oid,rid in proposal['revisions'].items()]
+        for revision in revisions:require_external_proof(revision['object'])
         if not proposal.get('pull_request'):
             proposal['pull_request']=self.publisher.open(proposal,revisions)
             proposal['status']='awaiting_checks'
@@ -227,7 +246,7 @@ class Collaboration:
         if path=='bootstrap' and method=='GET':
             return {'session':session['record']['csrf'] if session else '', 'person':public(person) if person else None,
                 'role':person.get('role','contributor') if person else None,'reaction_options':[{'emoji':e,'label':l} for e,l in REACTIONS],
-                'hosted':True,'features':['editing','review','discussions','reactions','drafts','bots'], 'publishing':bool(self.publisher)}
+                'hosted':True,'proof_policy':self.proof_policy,'features':['editing','review','discussions','reactions','drafts','bots','bibliography-editing'], 'publishing':bool(self.publisher)}
         if method=='POST':
             self.require(person)
             if path.endswith('preview'):
@@ -238,7 +257,7 @@ class Collaboration:
         if cursor=='0':cursor=None
         if cursor and (len(cursor)>300 or '\x00' in cursor):raise ValueError('Invalid cursor')
         if path=='schema':
-            return {'schema_version':1,'operations':['update_page','update_statement','create_statement'],
+            return {'schema_version':1,'operations':['update_page','update_statement','create_statement','update_reference','create_reference'],
                 'change':{'operation':'update_page','id':'UUID','base_revision':'published revision token','fields':{'document_markdown':'complete source'}},
                 'submission':{'idempotency_key':'unique request ID','explanation':'reason for change','changes':'1–5 changes'},
                 'workflow':'draft → submitted → approved → awaiting_checks → published','authentication':'ORCID cookie + X-CSRF-Token, or scoped bot Bearer token'}
@@ -266,6 +285,9 @@ class Collaboration:
         if path=='feedback/preview' and method=='POST':
             if set(payload)!={'body'} or not isinstance(payload['body'],str) or len(payload['body'])>10000:raise ValueError('Invalid message')
             return {'html':markdown(payload['body'])}
+        if path=='references/preview' and method=='POST':
+            state=fresh_reference(payload.get('fields',{}).get('bibtex'))
+            return {**preview(self.snapshot,state,payload.get('fields')),'id':state['object']['id']}
         if path=='preview' and method=='POST':return preview(self.snapshot,self.fresh(str(uuid.uuid4())),payload.get('fields'))
         if path=='proposals':
             self.require(person)

@@ -36,12 +36,14 @@ with sync_playwright() as p:
     else:context.add_cookies([{'name':name,'value':value.value,'url':'https://api.nla-lib.org/','secure':True,'httpOnly':True,'sameSite':'Lax','expires':time.time()+int(value['max-age'])}])
   request_route.fulfill(status=result['statusCode'],headers={**result['headers'],**cors},body=result['body'])
  context.route('**/*',route)
- page.goto('https://nla-lib.org/explore/');expect(page.get_by_role('link',name='Sign in with ORCID')).to_be_visible();expect(page.get_by_role('link',name='Sign in with ORCID')).to_have_attribute('href','https://api.nla-lib.org/auth/login')
+ target='/explore/theory/matrix-norms/?model=exact#discussion'
+ page.goto('https://nla-lib.org'+target);expect(page.get_by_role('link',name='Sign in with ORCID')).to_be_visible();expect(page.get_by_role('link',name='Sign in with ORCID')).to_have_attribute('href',__import__('re').compile(r'^https://api\.nla-lib\.org/auth/login\?return_to='))
  # Provision a session through the real callback handler with a simulated provider.
  # Unit tests cover redirects; the browser checks the actual account/CORS/cookie UI.
  def event(path,query='',cookies=()):return {'rawPath':path,'rawQueryString':query,'headers':{},'cookies':list(cookies),'requestContext':{'domainName':'api.nla-lib.org','http':{'method':'GET','sourceIp':'192.0.2.2'}}}
- login=app.handle(event('/auth/login'));state=parse_qs(urlsplit(login['headers']['Location']).query)['state'][0];flow=login['cookies'][0].split(';')[0]
- callback=app.handle(event('/auth/callback','state='+state+'&code=simulated',[flow]));assert callback['statusCode']==302
+ login=app.handle(event('/auth/login','return_to='+__import__('urllib.parse',fromlist=['quote']).quote(target,safe='')));state=parse_qs(urlsplit(login['headers']['Location']).query)['state'][0];flow=login['cookies'][0].split(';')[0]
+ callback=app.handle(event('/auth/callback','state='+state+'&code=simulated',[flow]));assert callback['statusCode']==302;assert callback['headers']['Location']=='https://nla-lib.org'+target
  values=SimpleCookie();values.load(callback['cookies'][0]);name=next(iter(values));value=values[name]
  context.add_cookies([{'name':name,'value':value.value,'url':'https://api.nla-lib.org/','secure':True,'httpOnly':True,'sameSite':'Lax','expires':time.time()+43200}])
+ page.goto('about:blank') # Simulate leaving the Explorer for ORCID before returning.
  page.goto(callback['headers']['Location']);expect(page.get_by_role('link',name='Browser Researcher · My profile')).to_be_visible();page.get_by_role('link',name='Browser Researcher · My profile').click();expect(page.get_by_label('Display name',exact=True)).to_have_value('Browser Researcher');page.get_by_label('About you',exact=True).fill('Researching matrix algorithms.');page.get_by_role('button',name='Save profile').click();expect(page.get_by_role('status')).to_have_text('Profile saved.');page.get_by_role('link',name='View public profile').click();expect(page.get_by_role('heading',name='Browser Researcher')).to_be_visible();expect(page.locator('.bio')).to_have_text('Researching matrix algorithms.');page.goto('https://api.nla-lib.org/account');page.get_by_role('button',name='Sign out',exact=True).click();expect(page.get_by_role('link',name='Sign in with ORCID')).to_be_visible();assert not errors,errors;browser.close();print('Browser smoke passed: cross-origin session, profile update, public profile, logout; provider simulated.')

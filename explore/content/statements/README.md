@@ -49,3 +49,19 @@ fingerprints even when a page's own Markdown file did not change.
 Publishing remains separate from the local editor. Local draft/revision saves do
 not write these files; future accepted proposals will update these fixed source
 files through the protected GitHub workflow.
+
+## Editing text initially supplied by Lean
+
+Extracted result and definition prose is also editable through the Explorer.
+Until its first accepted edit it uses the Lean docstring as the default text.
+The build exports an editable template; saving drafts does not create a file.
+Acceptance creates `entry-{uuid}.md` with the existing result UUID and formal
+result/declaration binding. It does not modify the Lean declaration or proof.
+Standalone files are registered even when no authored page imports them.
+
+A unique editorial formulation supplies the readable text in generated result
+cards, statement pages and library reference pages. Subsequent Lean extraction
+updates the formal evidence while the editorial wording stays in Markdown.
+Changes to the readable statement flag mathematical review and its formalization
+link for reassessment. Discussion identity and accepted revision history survive
+the transition from extracted prose to the shared file.

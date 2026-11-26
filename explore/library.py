@@ -371,48 +371,9 @@ def rename_tables(maps, names):
 
 
 
-ACCENTS = {"'": "\u0301", "`": "\u0300", "^": "\u0302", '"': "\u0308", "~": "\u0303", "c": "\u0327", "v": "\u030c"}
-
-def tex_accents(s):
-    """`in{\\'e}galit{\\'e}`, `\\"o`, `\\c{c}` -> the accented letters."""
-    import unicodedata
-    s = re.sub(r'\\([\'`^"~]|[cv](?=[{ ]))\s*\{?(\w)\}?', lambda m: unicodedata.normalize(
-        'NFC', m.group(2) + ACCENTS[m.group(1)]), s)
-    for cmd, ch in (('AA', 'Å'), ('aa', 'å'), ('ss', 'ß'), ('o', 'ø'), ('O', 'Ø'), ('l', 'ł')):
-        s = re.sub(r'\\' + cmd + r'(?![a-zA-Z])\s?', ch, s)
-    return s.replace('--', '–')
+from bibtex import tex_accents, parse_bib_text
 
 
 def parse_bib(path):
-    """A minimal BibTeX reader: key -> {text, url}."""
-    if not path or not Path(path).exists():
-        return {}
-    src = Path(path).read_text()
-    out = {}
-    for m in re.finditer(r'@(\w+)\s*\{\s*([^,\s]+)\s*,(.*?)\n\}', src, re.S):
-        kind, key, body = m.groups()
-        fields = {}
-        for f in re.finditer(r'(\w+)\s*=\s*\{((?:[^{}]|\{[^{}]*\})*)\}', body):
-            fields[f.group(1).lower()] = re.sub(r'[{}]', '', tex_accents(' '.join(f.group(2).split())))
-        authors = [a.strip() for a in fields.get('author', '').split(' and ') if a.strip()]
-        names = []
-        for a in authors:
-            if ',' in a:
-                last, first = [x.strip() for x in a.split(',', 1)]
-                names.append(f'{first} {last}')
-            else:
-                names.append(a)
-        who = ', '.join(names[:-1]) + (' and ' if len(names) > 1 else '') + (names[-1] if names else '')
-        venue = fields.get('journal') or fields.get('booktitle') or fields.get('publisher') or ''
-        if fields.get('series') and kind == 'book':
-            venue = f"{fields['series']} {fields.get('volume', '')}".strip() + (f", {fields['publisher']}" if fields.get('publisher') else '')
-        year = fields.get('year', '')
-        if year and venue.endswith(year):
-            year = ''                         # `booktitle = {Surveys in Combinatorics, 1989}`
-        text = f"{who}. {fields.get('title', '')}. {venue}{', ' if venue and year else ''}{year}."
-        url = fields.get('url') or (f"https://doi.org/{fields['doi']}" if fields.get('doi') else
-                                    f"https://arxiv.org/abs/{fields['eprint']}" if fields.get('eprint') else None)
-        out[key] = {'text': ' '.join(text.split()).replace(' .', '.'), 'url': url,
-                    'title': fields.get('title', ''), 'authors': names, 'year': fields.get('year', ''),
-                    'doi': fields.get('doi'), 'arxiv': fields.get('eprint')}
-    return out
+    if not path or not Path(path).exists():return {}
+    return parse_bib_text(Path(path).read_text())

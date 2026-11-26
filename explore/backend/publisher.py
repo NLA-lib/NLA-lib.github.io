@@ -45,8 +45,8 @@ class Publisher:
 
     @staticmethod
     def path(value):
-        if not isinstance(value,str) or not re.fullmatch(r'explore/content/(?:[a-z0-9-]+/)*[a-z0-9-]+\.md',value) or value.endswith('/README.md'):
-            raise PublishingError('Publication is restricted to mathematical content Markdown.')
+        if not isinstance(value,str) or not (re.fullmatch(r'explore/content/(?:[a-z0-9-]+/)*[a-z0-9-]+\.md',value) or re.fullmatch(r'explore/content/references/[A-Za-z][A-Za-z0-9_-]*\.bib',value)) or value.endswith('/README.md'):
+            raise PublishingError('Publication is restricted to mathematical content and bibliography entries.')
         return value
 
     def open(self,proposal,revisions):

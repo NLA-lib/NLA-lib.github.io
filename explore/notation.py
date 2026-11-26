@@ -34,7 +34,7 @@ def math_spans(text):
             end=text.find(closer,end)
             if end<0:break
             if escaped(end) or any(a<=end<b for a,b in excluded):end+=len(closer);continue
-            if opener=='$' and '\n' in text[index:end]:end=-1
+            if opener=='$' and (re.search(r'\n[ \t]*\n',text[index:end]) or any(index<a<end for a,b in excluded)):end=-1
             break
         if end<0:
             issues.append({'severity':'error','code':'math-delimiter','line':text.count('\n',0,index)+1,'message':'Unclosed '+opener+' math delimiter.'});index+=len(opener);continue
