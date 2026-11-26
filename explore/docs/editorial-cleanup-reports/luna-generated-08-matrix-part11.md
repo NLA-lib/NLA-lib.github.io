@@ -1,0 +1,13 @@
+# Luna generated matrix cohort 08, part 11
+
+All five results were checked for an authored binding alias before materialization; none was found. Baselines and reference associations below are from their pinned generated records.
+
+| UUID / result | Baseline revision and source path | Outcome | Citation treatment and notes |
+|---|---|---|---|
+| `3978a571-496d-5e2f-8a9c-a603cbce6f4e` / `deflate-accuracy` | `22d46c84706d5881685b1beb18924f14061f0f5248f302c3192cdbe3c01f5fde`; `explore/content/statements/entry-3978a571-496d-5e2f-8a9c-a603cbce6f4e.md` | proposed | Removed inline Shah citation and retained the comparison to Shah's Theorem 3.3, including the distribution/failure-bound and requirement differences. Reused inherited `Shah2024` (Theorem 3.3). |
+| `5dec5253-d674-52b3-ac78-6486e3ac3276` / `deflate-accuracy-deterministic` | `44b1d4a6d42b52ec5272219f28f1a5ab40f1d4442d5af06488417d3142f4484d`; `explore/content/statements/entry-5dec5253-d674-52b3-ac78-6486e3ac3276.md` | proposed | Removed inline Shah citation while retaining that Shah's Theorem 3.3 uses a diagonal singular-value matrix and folds in probability. Reused inherited `Shah2024` (Theorem 3.3). |
+| `62747732-0492-51d7-8d9a-8add091ef4b9` / `dense-eigendecomposition` | `6308622dddebfdb7f9eeb941da9bb0cd8316eaca038085bd3a9c14558ffd78b3`; `explore/content/statements/entry-62747732-0492-51d7-8d9a-8add091ef4b9.md` | proposed | Removed inline citation brackets while retaining that no source is given for the stronger claim and the referenced theorem computes eigenvalues only. Reused inherited `BanksGarzaVargasSrivastava2022` (Theorem 1.4). |
+| `711f7aa0-b0e8-5381-8ba3-f9b112b49525` / `dense-eigendecomposition-certificate` | `c25067eb60c62895b9f0eac9b787651d60892ae68bfa26867cfab3c8f70bc4d7`; `explore/content/statements/entry-711f7aa0-b0e8-5381-8ba3-f9b112b49525.md` | proposed | Same treatment as the preceding entry: removed inline brackets, retained the no-source/limited-eigenvalue statement. Reused inherited `BanksGarzaVargasSrivastava2022` (Theorem 1.4). |
+| `20c1b332-e297-5258-bf5f-b260cf03eb23` / `diagonalizable-def` | `a64a3346b82d22c0030adb7c60564855686b0405c566e91f56b8f88ce18d32ea`; `explore/content/statements/entry-20c1b332-e297-5258-bf5f-b260cf03eb23.md` | proposed | Removed inline citation, reusing inherited `HornJohnson2013` (§§1.3–1.4). Kept the note that the statement is generalized from complex scalars and preserved the formal-source provenance. |
+
+No hypotheses, formulas, field scopes, or algorithm conditions were changed. No semantic links or role-registry suggestions were warranted. The check suite confirms notation parsing and content-block parsing only; no rendered preview was available.
