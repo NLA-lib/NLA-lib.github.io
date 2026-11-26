@@ -10,7 +10,7 @@ Let $\mathbf{Q}$ be a real basis, $\mathbf{W}$ the block, $\mathbf{W}'$ the redu
 1. the step from $\mathbf{w}_c$ to $\mathbf{w}'_c$, with coefficients $(\mathbf{H}_c,\mathbf{R}_{<c,c})$, meets the single-vector guarantee on the support with parameters $(\eta_0,\varepsilon_1,\varepsilon_2,\varepsilon_3)$ for the basis $\mathbf{V}_c=[\mathbf{Q},\mathbf{Q}'_{<c}]$: whenever the Gram defect on the support of $\mathbf{V}_c$ has spectral norm at most $\eta_0$, $\|\mathbf{w}_c-\mathbf{V}_c\mathbf{h}-\mathbf{w}'_c\|\le\varepsilon_2\|\mathbf{w}_c\|$ and $\|\mathbf{V}_c^{\mathsf{T}}\mathbf{w}'_c\|\le\varepsilon_1\|\mathbf{w}'_c\|+\varepsilon_3\|\mathbf{w}_c\|$;
 2. a zero $\mathbf{w}_c$ gives a zero $\mathbf{w}'_c$;
 3. the computed norms satisfy $|\nu_c-\|\mathbf{w}_c\||\le E\|\mathbf{w}_c\|$ and $|\beta_c-\|\mathbf{w}'_c\||\le E\|\mathbf{w}'_c\|$;
-4. either the column is dropped, with $\beta_c\le\tfrac32\tau\nu_c$, $\mathbf{q}'_c=\mathbf{0}$, and $\mathbf{R}_{cc}=0$; or it is kept, with $\tfrac12\tau\nu_c<\beta_c$, $\mathbf{R}_{cc}=\beta_c$, and $\|\beta_c\mathbf{q}'_c-\mathbf{w}'_c\|\le E\|\mathbf{w}'_c\|$.
+4. either the column is dropped, with $\beta_c\le\tfrac32\tau\nu_c$, $\mathbf{q}'_c=\mathbf{0}$, and $r_{cc}=0$; or it is kept, with $\tfrac12\tau\nu_c<\beta_c$, $r_{cc}=\beta_c$, and $\|\beta_c\mathbf{q}'_c-\mathbf{w}'_c\|\le E\|\mathbf{w}'_c\|$.
 
 If $\eta_0\le1/100$, $0\le\varepsilon_1,\varepsilon_2,\varepsilon_3\le1/10$, $0\le E\le1/100$, and $\tau>0$, then $(\mathbf{Q}',\mathbf{H},\mathbf{R})$ is a [rounded extension](/explore/statements/fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393/) of $\mathbf{Q}$ by $\mathbf{W}$ with window $\eta_0$ and parameters
 

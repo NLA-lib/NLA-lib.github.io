@@ -87,3 +87,21 @@ CG files have separately reviewed layout/citation relocations. These checks are
 editorial safeguards and do not certify theorem truth or complete missing hypotheses.
 All cleanup proposals remain off main. See `reviewed-inventory.csv` for UUID-level
 coverage; the remaining research inventory and possible aliases are still pending.
+
+## Cohorts 04 and definitions 05
+
+The coordinator retained the assigned definitions and research-theorem typography
+and direct concept links after reading each diff. The research04 part3 source
+changes were outside that agent's assignment and duplicated the separately assigned
+definitions04 work. Its report reviewed the wrong five files and receives no additional coverage credit;
+the intended files have been reassigned. Its source edits were
+not cherry-picked. The broad rank-k-subspace link was rejected in favor of the
+precise singular-values link from the definition batch. The original scalar
+`r_{cc}` was restored: a formatting pass does not authorize renaming it to R.
+
+Fourteen additional named results were materialized with stable original UUIDs and
+bindings. The citation-only Arnoldi-Hessenberg record is inspected but not
+materialized as an empty theorem. A Gram-defect link was moved to the actual
+rounded-extension phrase defined by its target. Unconfirmed citations, field-scope
+questions and incomplete standalone hypotheses remain explicitly flagged in the
+generated-batch reports; no mathematical certification is implied.
