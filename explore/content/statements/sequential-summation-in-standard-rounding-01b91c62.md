@@ -5,7 +5,7 @@ uid: 01b91c62-c0a4-5fb4-b5a3-c4049d568957
 ---
 
 ::: definition name="Sequential summation in standard rounding" id=sequential
-The standard-rounding model of the solver pages sums sequentially. Scalar operations obey
+The [standard-rounding model](/explore/statements/65719e4e-6ea0-536c-91c1-7624e92b30d1/) of the solver pages sums sequentially. Scalar operations obey
 standard rounding with unit roundoff $u$. A sum of $n$ terms accumulated in order has the
 error coefficient $(1+u)^{n-1}-1$ (`Ops.Blas.seqSumErr`), and a dot product, which forms
 rounded products and sums them, has

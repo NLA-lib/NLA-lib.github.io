@@ -5,7 +5,7 @@ uid: 33cd8a3d-4740-5cbd-82aa-7e67e7c152da
 ---
 
 ::: definition name="Newton–Schulz sign iteration"
-Scale a Hermitian matrix to obtain an initial iterate $\mathbf{X}_0$, then apply
+Scale a [Hermitian](/explore/statements/49f5c3f6-f926-5bc6-b401-16993ec1e357/) matrix to obtain an initial iterate $\mathbf{X}_0$, then apply
 
 $$\mathbf{X}_{j+1}=\tfrac12\mathbf{X}_j(3\mathbf{I}-\mathbf{X}_j^2).$$
 

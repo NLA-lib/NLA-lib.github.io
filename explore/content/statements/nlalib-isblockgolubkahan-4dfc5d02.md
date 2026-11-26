@@ -5,9 +5,9 @@ uid: 4dfc5d02-1a58-53ba-8b1b-f151f3a1fa58
 ---
 
 ::: definition decl:NLAlib.IsBlockGolubKahan name="Block Golub–Kahan process"
-Write $\operatorname{extend}(\mathbf{Q},\mathbf{W})$ for any exact extension of $\mathbf{Q}$ by $\mathbf{W}$. All blocks have width $\ell$ and are stored side by side.
+Write $\operatorname{extend}(\mathbf{Q},\mathbf{W})$ for any [exact extension](/explore/statements/12a7ec72-6c64-59e6-b7de-7aff8d055ba2/) of $\mathbf{Q}$ by $\mathbf{W}$. All blocks have width $\ell$ and are stored side by side.
 
-1. $\mathbf{V}_0,\ \mathbf{R}_0=\operatorname{extend}(\emptyset,\mathbf\Omega)$.
+1. $\mathbf{V}_0,\ \mathbf{R}_0=\operatorname{extend}(\emptyset,\boldsymbol{\Omega})$.
 2. For $j=0,\ldots,q-1$:
    1. $\mathbf{U}_j=\operatorname{extend}(\mathbf{U}_{<j},\ \mathbf{A}\mathbf{V}_j)$, with coefficients stored in block column $j$ of $\mathbf{R}$;
    2. $\mathbf{V}_{j+1}=\operatorname{extend}(\mathbf{V}_{\le j},\ \mathbf{A}^{\mathsf{H}}\mathbf{U}_j)$, with coefficients stored in block column $j$ of $\mathbf{S}$.

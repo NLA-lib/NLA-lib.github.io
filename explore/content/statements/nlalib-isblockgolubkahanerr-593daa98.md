@@ -5,7 +5,7 @@ uid: 593daa98-8a52-5a89-a792-f46844fd76d6
 ---
 
 ::: definition decl:NLAlib.IsBlockGolubKahanErr name="Rounded run of the block Golub–Kahan process"
-A rounded run with scheme parameters $(\eta_0,\mu,\varepsilon)$ and product parameter $\varepsilon_{\mathrm{mv}}$ has the same stored shape as an exact run. Block $0$ of $\mathbf{V}$ is a rounded extension of the empty basis by $\mathbf\Omega$. For each $j<q$ there are computed products $\mathbf{P}\approx\mathbf{A}\mathbf{V}_j$ and $\mathbf{P}'\approx\mathbf{A}^{\mathsf{T}}\mathbf{U}_j$ whose columns satisfy
+A rounded run with scheme parameters $(\eta_0,\mu,\varepsilon)$ and product parameter $\varepsilon_{\mathrm{mv}}$ has the same stored shape as an exact run. Block $0$ of $\mathbf{V}$ is a [rounded extension](/explore/statements/fb78aa8d-2d5c-5c09-8bde-5ce9dd46a393/) of the empty basis by $\boldsymbol{\Omega}$. For each $j<q$ there are computed products $\mathbf{P}\approx\mathbf{A}\mathbf{V}_j$ and $\mathbf{P}'\approx\mathbf{A}^{\mathsf{T}}\mathbf{U}_j$ whose columns satisfy
 
 $$\|(\mathbf{P}-\mathbf{A}\mathbf{V}_j)\mathbf{e}_c\|\le\varepsilon_{\mathrm{mv}}\|\mathbf{A}\|_2\|\mathbf{V}_j\mathbf{e}_c\|,\qquad\|(\mathbf{P}'-\mathbf{A}^{\mathsf{T}}\mathbf{U}_j)\mathbf{e}_c\|\le\varepsilon_{\mathrm{mv}}\|\mathbf{A}\|_2\|\mathbf{U}_j\mathbf{e}_c\|,$$
 

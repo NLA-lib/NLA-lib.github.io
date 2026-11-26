@@ -9,5 +9,5 @@ For every comparison matrix $\mathbf{B}$ with rank at most $k$,
 
 $$\|\mathbf{A}-[\mathbf{A}]_k\|_{\mathrm F}\le\|\mathbf{A}-\mathbf{B}\|_{\mathrm F}.$$
 
-Thus retaining the leading singular components gives a best rank-at-most-$k$ approximation in Frobenius norm. A separate checked result gives the spectral-norm optimum.
+Thus retaining the [leading singular components](/explore/statements/d5bca832-63a1-5043-ab6e-03b8402a2a55/) gives a best rank-at-most-$k$ approximation in Frobenius norm. A separate checked result gives the spectral-norm optimum.
 :::

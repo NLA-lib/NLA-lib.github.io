@@ -5,6 +5,13 @@ Prepare proposals; do not run a library-wide rewrite or publish without an assig
 batch and the existing editorial approval process. No cleanup agents are started
 by adding this guide.
 
+## Current authorized scope
+
+Clean research-facing statements and named results first: authored shared statements
+and additional named-result entries. Raw extracted Lean helper descriptions are
+queued for a later pass. Check possible authored/generated aliases before creating
+files; the inventory tracks their distinct IDs rather than silently merging them.
+
 ## Assignment for each agent
 
 You are a Luna editorial agent for NLA-lib. Clean the assigned natural-language
@@ -45,6 +52,9 @@ formal evidence, inherited citations and editable source. A generated entry can 
 materialized through its exported Markdown template with the same UUID and Lean
 binding; do not patch its generated HTML/JSON or create a second identity. A blank
 readable body is an inventory finding, not permission to invent a theorem summary.
+Before materializing a generated entry, check whether an authored file already
+uses the same result/declaration binding. Report possible aliases instead of
+creating another formulation or merging their distinct IDs/discussions silently.
 
 Keep `uid`, `id`, theorem/definition/result/conjecture kind, `result:` / `decl:`
 bindings, relationships, imports and unrelated front matter intact. Do not rename
@@ -94,7 +104,10 @@ norm, Frobenius norm or Schatten norm. Keep sets, fields, probability, expectati
 functions and operators in their appropriate existing fonts. Preserve formal Lean
 identifiers verbatim inside Lean code.
 
-Use supported math delimiters and braced font commands. Avoid display math inside
+Preserve existing mathematical expressions and their inline/display segmentation in
+bulk cleanup; do not combine or split environments to redesign the layout. Report
+layout issues separately so a source comparison can distinguish formatting from a
+lost condition. Use supported math delimiters and braced font commands. Avoid display math inside
 link labels, raw HTML, custom macros or layout tricks. Keep formulas as mathematical
 text rather than images. Suggest reviewed symbol-role additions for
 `explore/notation.json` in the batch report; the coordinator merges those proposals
@@ -108,11 +121,17 @@ reuse on several topic pages. Do not transfer all sources to just one topic page
 
 - Remove bibliographic citation strings from readable theorem/definition prose and
   retain them as structured references rendered below the statement.
-- Reuse inherited reference associations when they already contain the citation.
+- `object.references` lists authored associations only. An empty list does not
+  mean there are no inherited citations. Check `reference_links.inherited`; if that
+  field is absent in an older snapshot, read the linked declaration's
+  `/explore/api/v1/declarations/{declaration}.json` `record.references`. Record the
+  actual key/locator pairs. Reuse those associations instead of duplicating them.
   Otherwise use an existing citation key from the shared frontend bibliography.
 - Preserve the edition/version and exact locator: theorem, section, equation or page.
   Preserve which claim a source supports when a statement has several parts. If that
   association cannot be represented clearly, flag it rather than dropping it.
+- Do not add a citation from a related declaration as if it were already attached
+  to this statement. Report that source as a separate candidate.
 - Do not invent citation keys, DOI/arXiv IDs, theorem numbers or source metadata.
   Report missing bibliography entries for a separate reference proposal.
 - Keep source attribution that is mathematically essential unless it can be replaced
@@ -145,7 +164,12 @@ Use ordinary Markdown links to the existing permanent definition/result page:
 The site supplies the hover preview. Do not add "click here," "hover to see," or
 other procedural explanation to mathematical prose.
 
-- Verify the exact target and read its definition. Similar names are insufficient:
+- Preserve the original prose when adding a link. Do not introduce a new clause
+  or mathematical claim just to obtain another link.
+- Verify the exact target and read its definition. Check its field, domain and
+  hypotheses as well as its name. A real-only definition is not automatically an
+  acceptable target for a statement allowing complex matrices; report the mismatch
+  and leave the term unlinked until resolved. Similar names are insufficient:
   first-kind `T_q` and second-kind `U_q`, for example, must not be confused.
 - Link the first useful occurrence in each independently readable statement or
   section. Avoid linking every occurrence, isolated generic symbols or already
