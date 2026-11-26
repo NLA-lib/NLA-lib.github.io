@@ -41,11 +41,12 @@ groups:
   family: subspace-iteration-methods
 - id: block-krylov
   title: Block Krylov methods
-  summary: Project onto a block Krylov space that keeps every power applied to the start block, with
-    a separate choice for truncating the final approximation.
+  summary: Keep every Krylov block from one start, or combine two spaces with different widths and depths;
+    truncate the completed projection to obtain a target-rank approximation.
   algorithms:
   - rbki
   - late-truncated-rbki
+  - rbki-sum
   family: block-krylov-methods
 - id: nystrom
   title: Nyström methods for PSD matrices
