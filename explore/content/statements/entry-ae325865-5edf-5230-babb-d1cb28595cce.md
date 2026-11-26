@@ -4,7 +4,7 @@ id: entry-ae325865-5edf-5230-babb-d1cb28595cce
 uid: ae325865-5edf-5230-babb-d1cb28595cce
 ---
 ::: theorem result:cg-spectrum-minimax-bound name="The spectrum-optimal bound for CG"
-for positive definite $\mathbf{A}$ and
+For positive definite $\mathbf{A}$ and
 $\mathbf{A}\mathbf{x}_\star = \mathbf{b}$,
 $$\|\mathbf{x}_\star - \mathsf{cgIterate}(\mathbf{A}, \mathbf{b}, \mathbf{x}_0, q)\|_{\mathbf{A}}^2
 \le \mathsf{residualMinimax}(\sigma(\mathbf{A}), q)^2

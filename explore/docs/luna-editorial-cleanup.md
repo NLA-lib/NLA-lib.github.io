@@ -127,6 +127,9 @@ reuse on several topic pages. Do not transfer all sources to just one topic page
   `/explore/api/v1/declarations/{declaration}.json` `record.references`. Record the
   actual key/locator pairs. Reuse those associations instead of duplicating them.
   Otherwise use an existing citation key from the shared frontend bibliography.
+- Reread the whole sentence after removing a citation. Preserve author attribution
+  or an exact-model qualification when needed to identify which subclaim the source
+  supports. Do not leave a dangling “is” or a pronoun that now points to another proof.
 - Preserve the edition/version and exact locator: theorem, section, equation or page.
   Preserve which claim a source supports when a statement has several parts. If that
   association cannot be represented clearly, flag it rather than dropping it.

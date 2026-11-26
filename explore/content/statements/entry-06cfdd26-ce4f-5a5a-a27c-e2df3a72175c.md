@@ -4,7 +4,7 @@ id: entry-06cfdd26-ce4f-5a5a-a27c-e2df3a72175c
 uid: 06cfdd26-ce4f-5a5a-a27c-e2df3a72175c
 ---
 ::: theorem result:chevet-inequality name="Chevet's inequality"
-for a standard Gaussian matrix $\mathbf{G}$ and fixed $\mathbf{S}$,
+For a standard Gaussian matrix $\mathbf{G}$ and fixed $\mathbf{S}$,
 $\mathbf{T}$,
 $\mathbb{E} \|\mathbf{S}\mathbf{G}\mathbf{T}\|_2
 \le \|\mathbf{S}\|_2 \|\mathbf{T}\|_{\mathsf{F}} + \|\mathbf{S}\|_{\mathsf{F}} \|\mathbf{T}\|_2$.

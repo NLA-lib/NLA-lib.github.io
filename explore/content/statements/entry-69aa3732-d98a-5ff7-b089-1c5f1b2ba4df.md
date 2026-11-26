@@ -13,7 +13,7 @@ $\lvert p\rvert\le\eta$ on $S$ gives
 $$\|\mathbf{r}_j\|^2\le(a'+a/2)\eta^2
 (\|\mathbf{x}_\star\|_{\mathbf{A}}^2+\Delta)\,.$$
 Here $\mathbf{A}\mathbf{x}_\star=\mathbf{b}$; the coefficient
-is <!-- value cgBackwardFactor k -->$c=6000k^2\sqrt{k}\varepsilon\kappa a'$ gives
+<!-- value cgBackwardFactor k -->$c=6000k^2\sqrt{k}\varepsilon\kappa a'$ gives
 $\Delta=2\|\mathbf{b}\|^2c/a^2$.
 Exact $\mathsf{cgIterate}$ on the full model reproduces the computed residual norms.
 The polynomial set is retained and no residual gap is assumed.

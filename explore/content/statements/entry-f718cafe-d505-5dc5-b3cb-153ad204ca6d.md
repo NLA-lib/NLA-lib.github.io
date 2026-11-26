@@ -4,7 +4,7 @@ id: entry-f718cafe-d505-5dc5-b3cb-153ad204ca6d
 uid: f718cafe-d505-5dc5-b3cb-153ad204ca6d
 ---
 ::: theorem result:cg-recurrence name="The Hestenes–Stiefel iterates are the CG iterates"
-for positive definite $\mathbf{A}$ and
+For positive definite $\mathbf{A}$ and
 every $k$, with no breakdown hypothesis,
 $\mathbf{x}_k = \mathsf{cgIterate}(\mathbf{A}, \mathbf{b}, \mathbf{x}_0, k)$.
 Hestenes and Stiefel show

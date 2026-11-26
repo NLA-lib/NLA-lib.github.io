@@ -9,5 +9,5 @@ For every matrix $\mathbf{A}$, sketch $\boldsymbol{\Omega}$, and target rank $k$
 
 $$\|\mathbf{A}-[\mathbf{B}]_k\|_{\mathrm F}^2=\|\mathbf{A}-\mathbf{B}\|_{\mathrm F}^2+\|\mathbf{B}-[\mathbf{B}]_k\|_{\mathrm F}^2,\qquad\mathbf{B}=\mathbf{P}_{\mathbf{A}\boldsymbol{\Omega}}\mathbf{A}.$$
 
-The squared error separates into the range-finding error and the error from [truncating within that range](/explore/statements/d5bca832-63a1-5043-ab6e-03b8402a2a55/).
+The squared error separates into the range-finding error and the error from [truncating within that range](/explore/statements/22476dc5-4a8c-59f3-95a5-929740cd4e5b/).
 :::

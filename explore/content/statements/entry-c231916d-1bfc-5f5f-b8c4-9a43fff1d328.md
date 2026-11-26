@@ -4,7 +4,7 @@ id: entry-c231916d-1bfc-5f5f-b8c4-9a43fff1d328
 uid: c231916d-1bfc-5f5f-b8c4-9a43fff1d328
 ---
 ::: theorem result:beta-matrix-inverse-mean name="The inverse mean of a Beta matrix, trace form"
-for an $n \times k$ Haar frame
+For an $n \times k$ Haar frame
 $\mathbf{Q}$, $\mathbf{W}$ with $p$ orthonormal rows and $p + 2 \le k \le n$,
 $$\mathbb{E}\|(\mathbf{W}\mathbf{Q})^{+}\|_{\mathsf{F}}^2 =
 \mathbb{E}\operatorname{tr}\bigl((\mathbf{W}\mathbf{Q}\mathbf{Q}^{\mathsf{H}}

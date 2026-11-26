@@ -17,6 +17,6 @@ the value <!-- value cgBackwardFactor k -->$c=6000k^2\sqrt{k}\varepsilon\kappa a
 comparison error is $\Delta=2\|\mathbf{b}\|^2c/a^2$.
 The term is <!-- value cgEnergyFactor j -->$R_j=135j^2\varepsilon\kappa\|\mathbf{b}\|^2/a$.
 The model error is that of exact $\mathsf{cgIterate}$ on the full backward model.
-Here a squared physical-energy statement with explicit
-additive errors, rather than the qualitative tiny-interval minimax discussion.
+This is a squared physical-energy statement with explicit additive errors, rather
+than the qualitative tiny-interval minimax discussion in the cited source.
 :::

@@ -137,3 +137,18 @@ quadrature. Generated-title escape normalization retains the same parsed title.
 A separate 68-row possible-authored-alias queue records identity questions without
 merging pages; two additional named-result aliases are recorded in
 `root-generated-aliases.md`. The full pending/reviewed scope remains explicit.
+
+## Citation and parser review through matrix08 part7
+
+Research06 and research07 part1, generated05, and matrix08 parts1–7 are now
+reviewed. Coverage is 239 UUIDs with 162 retained source proposals. The source
+audit still reports only the five explicitly reviewed exceptions described above.
+The coordinator corrected citation sentence transitions, kept the difference
+between the cited qualitative tiny-interval formulation and the explicit physical-
+energy bounds, and capitalized initial prose without changing math.
+
+A malformed closing directive in matrix08 part3 was corrected before build
+validation. The agent playbook now requires statement-source parsing and a staged
+whitespace check as well as KaTeX, and emphasizes preserving source qualifications
+after citation removal. Agent reports retain uncertainty about citation locators
+and missing standalone hypotheses; inspected is not mathematically certified.
