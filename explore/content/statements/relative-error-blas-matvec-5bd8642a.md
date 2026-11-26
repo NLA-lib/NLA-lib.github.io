@@ -9,14 +9,14 @@ The implementation supplies error coefficients rather than a particular reductio
 order. The dot-product contract is
 
 $$|\widehat{\langle\mathbf{x},\mathbf{y}\rangle}-\langle\mathbf{x},\mathbf{y}\rangle|
-\le d_n\sum_{i=1}^n |x_i y_i|.$$
+\le d_n\sum_{i=1}^n |\mathbf{x}_i \mathbf{y}_i|.$$
 
 This scales with the sum of absolute products, not with the absolute value of the
 dot product; the distinction matters when there is cancellation.
 
 A scaled vector addition satisfies
 
-$$|\widehat z_i-(y_i+\alpha x_i)|\le e_a(|y_i|+|\alpha x_i|),$$
+$$|\widehat{\mathbf{z}}_i-(\mathbf{y}_i+\alpha \mathbf{x}_i)|\le e_a(|\mathbf{y}_i|+|\alpha \mathbf{x}_i|),$$
 
 and matrix–vector multiplication satisfies
 
