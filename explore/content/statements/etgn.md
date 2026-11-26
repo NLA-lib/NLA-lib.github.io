@@ -9,9 +9,9 @@ For a real input $\mathbf{A}$, independent standard Gaussian sketches of widths 
 
 $$\ell\ge\frac{1600k}{\varepsilon^2},\qquad p\ge k+1+\frac{(2+\varepsilon)k}{\varepsilon}.$$
 
-Then the mathematical early-truncated output satisfies
+Then the mathematical [early-truncated output](/explore/statements/cdd691bb-6aef-5d59-b7e9-615785a98d27/) satisfies
 
-$$\mathbb E\|\mathbf{A}-\widehat{\mathbf{A}}\|_{\mathrm F}^2\le(1+\varepsilon)\|\mathbf{A}-[\mathbf{A}]_k\|_{\mathrm F}^2.$$
+$$\mathbb{E}\|\mathbf{A}-\widehat{\mathbf{A}}\|_{\mathrm F}^2\le(1+\varepsilon)\|\mathbf{A}-[\mathbf{A}]_k\|_{\mathrm F}^2.$$
 
 Thus the expected squared error is within a factor $1+\varepsilon$ of the optimal rank-$k$ squared Frobenius error. The two sketch sizes have different accuracy dependence.
 :::
