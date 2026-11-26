@@ -7,7 +7,7 @@ bibliography for its docstrings. It does not overwrite the website's entries.
 
 A filename must match its citation key, for example `HornJohnson2013.bib`. Keep
 existing keys stable. The References page supports editing, private drafts,
-review, history and full / individual BibTeX downloads. A published reference edit
+review, history, a full BibTeX download and individual copy dialogs. A published reference edit
 updates every citation that uses its key. Extra fields remain in the raw BibTeX.
 
 Math-source relationships, proof links and assessments are distinct from

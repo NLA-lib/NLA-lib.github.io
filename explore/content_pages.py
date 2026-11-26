@@ -511,23 +511,9 @@ class Explorer:
     def statement_url(uid):
         return BASE + 'statements/' + uid + '/'
 
-    @staticmethod
-    def verification_badge(declaration=None, reassessment=False):
-        if not declaration or declaration.get('admission_reported'):
-            state,label='unverified','Not Lean-verified'
-            explanation='No complete Lean proof is linked. External proof links are separate sources.'
-        elif reassessment:
-            state,label='reassessment','Lean link needs reassessment'
-            explanation='The readable wording changed; its correspondence with the linked Lean declaration needs review.'
-        else:
-            state,label='linked','Lean proof linked' if declaration.get('kind')=='theorem' else 'Lean definition linked'
-            explanation='The formal Lean declaration is linked below; readable prose is an editorial formulation.'
-        return '<span class="verification-status verification-'+state+'" data-lean-status="'+state+'" title="'+explanation+'">'+label+'</span>'
-
-    def overview_card(self, title, body, uid, label='Theorem', anchor=None, verification=''):
+    def overview_card(self, title, body, uid, label='Theorem', anchor=None):
         url = self.statement_url(uid)
         summary = '<span class="explorer-statement-label"><strong>' + label + '</strong> (<a href="' + url + '">' + inline_title(mathematics(title)) + '</a>)<strong>.</strong></span>'
-        summary += verification
         footer = '<span class="statement-overview-meta"><span data-discussion-count="' + uid + '" hidden></span></span>'
         return '<article class="explorer-card cg-result explorer-result-reference statement-overview" data-statement-id="' + uid + '"' + (' id="' + html.escape(anchor, quote=True) + '"' if anchor else '') + ' aria-label="' + html.escape(label + ' (' + title + ')', quote=True) + '"><details class="explorer-disclosure explorer-result-details"><summary tabindex="-1">' + summary + footer + '<button type="button" class="statement-expand" aria-label="Expand statement" aria-expanded="false"><span aria-hidden="true">↓</span></button></summary><div class="explorer-disclosure-body">' + body + '</div></details></article>'
 
@@ -568,17 +554,7 @@ class Explorer:
 
     def detail_layout(self, title, body, kind, uid, declaration=None, citations=(), proofs=(), notice=''):
         content = '<section class="theorem-statement explorer-card" data-editor-object="' + uid + '"><p class="theorem-kind">' + html.escape(kind) + '.</p>'
-        verification=self.verification_badge(declaration,bool(notice))
-        if proofs:
-            verification+=' <a class="statement-proof-link" href="'+html.escape(proofs[0]['url'],quote=True)+'" rel="noopener noreferrer">External proof</a>'
-        content += '<p class="statement-verification">'+verification+'</p>'+body + '</section>'
-        if notice:
-            content += '<p class="editor-status">' + html.escape(notice) + '</p>'
-        content += '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div>'
-        if citations:
-            content += references_panel(citations, self.references, disclosure=False)
-        if proofs:
-            content += '<section class="proof-sources"><h2>Proof sources</h2><ul>' + ''.join('<li><a href="' + html.escape(p['url'], quote=True) + '" rel="noopener noreferrer">' + html.escape(p['label'] or p['url']) + '</a> ' + html.escape(p['locator']) + '</li>' for p in proofs) + '</ul><p class="source-label">External proof links have not been verified by this editor.</p></section>'
+        content += body + '</section>'
         if declaration:
             content += '<details class="theorem-formal" id="formalization"><summary><h2>Lean statement</h2></summary><div class="theorem-formal-body"><p class="source-label">Linked names open their definitions.</p>'
             if declaration.get('admission_reported'):
@@ -588,8 +564,15 @@ class Explorer:
             if notes:
                 content += notes_html(notes, prose_html)
             content += '</div></details>'
-        elif kind != 'Definition':
-            content += '<p class="source-label">No Lean proof is linked to this result.</p>'
+        else:
+            content += '<p class="source-label theorem-no-lean">No linked Lean statement.</p>'
+        if notice:
+            content += '<p class="editor-status">' + html.escape(notice) + '</p>'
+        content += '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div>'
+        if citations:
+            content += references_panel(citations, self.references, disclosure=False)
+        if proofs:
+            content += '<section class="proof-sources"><h2>Proof sources</h2><ul>' + ''.join('<li><a href="' + html.escape(p['url'], quote=True) + '" rel="noopener noreferrer">' + html.escape(p['label'] or p['url']) + '</a> ' + html.escape(p['locator']) + '</li>' for p in proofs) + '</ul><p class="source-label">External proof links have not been verified by this editor.</p></section>'
         return content + self.statement_context(uid)
 
     def statement_overview(self, match):
@@ -599,9 +582,7 @@ class Explorer:
         title = opts.get('name') or (self.records['results'][key]['title'] if source_kind == 'result' else key) or 'Definition'
         item = self.shared_blocks.get(match[0].strip())
         uid = item.uid if item else str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/inline/' + match[0].strip()))
-        declaration=(self.records['declarations'][self.records['results'][key]['primary']] if source_kind=='result' else self.records['declarations'].get(key) if source_kind=='decl' else None)
-        reassessment=bool(item and item.formalization_status=='needs_reassessment')
-        return self.overview_card(title, markdown(body), uid, kind.capitalize(), opts.get('id') or (kind + '-' + slug(key) if key else None), self.verification_badge(declaration,reassessment))
+        return self.overview_card(title, markdown(body), uid, kind.capitalize(), opts.get('id') or (kind + '-' + slug(key) if key else None))
 
     def result_overview(self, key):
         shared = self.shared_uids.get(self.result_statement_ids[key])
@@ -614,7 +595,7 @@ class Explorer:
         text = re.sub(r'^(?:Result|Algorithm):[^\n]*$', '', text, flags=re.M).strip()
         text = re.sub(r'^\*\*[^*]+\*\*\s*[,;:.]?\s*', '', text).strip() or text
         label = 'Statement' if decl.get('admission_reported') else 'Theorem' if decl['kind'] == 'theorem' else 'Definition'
-        return self.overview_card(record['title'], prose_html(text), self.result_statement_ids[key], label, label.lower() + '-' + slug(key), self.verification_badge(decl))
+        return self.overview_card(record['title'], prose_html(text), self.result_statement_ids[key], label, label.lower() + '-' + slug(key))
 
     def render_statement_pages(self):
         entries = {}
@@ -951,9 +932,6 @@ class Explorer:
                     options=dict(token.split('=',1) for token in shlex.split(STATEMENT.fullmatch(editorial.block)[4]))
                     page_title=options.get('name') or page_title
                     citations=list(citations)+list(editorial.references)
-                if kind in {'results','declarations'}:
-                    declaration=self.records['declarations'][record['primary']] if kind=='results' else record
-                    body='<p class="statement-verification">'+self.verification_badge(declaration,bool(editorial and editorial.formalization_status=='needs_reassessment'))+'</p>'+body
                 if citations:
                     body += references_panel(citations, self.references)
                 self.write('library/' + kind + '/' + record_component(key), page_title, body, 'library')

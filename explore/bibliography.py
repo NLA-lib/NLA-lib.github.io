@@ -47,7 +47,7 @@ def references_panel(citations, registry, *, disclosure=True):
         record = registry.get(key) or citation
         label = citation_parts(record)
         rows.append('<li id="reference-' + html.escape(key, quote=True) + '" data-reference-id="' + html.escape(key, quote=True) + '">' + label +
-                    ' <a class="reference-bibtex" href="/explore/references/'+html.escape(key,quote=True)+'.bib" download="'+html.escape(key,quote=True)+'.bib">BibTeX</a>'+
+                    ' <a class="reference-bibtex" href="/explore/references/'+html.escape(key,quote=True)+'.bib">BibTeX</a>'+
                     (' <span class="reference-locator">' + html.escape(locator) + '</span>' if locator else '') + '</li>')
     body = '<ol>' + ''.join(rows) + '</ol>' if rows else '<p>No references have been attached to this statement yet.</p>'
     if not disclosure:

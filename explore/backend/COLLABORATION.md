@@ -175,11 +175,11 @@ contributions, and publication; bot credentials follow the same policy. Draft
 validation does not require a proof link. Typed statements belong in shared files
 rather than inline page blocks.
 
-Unlinked statements are labelled **Not Lean-verified**, even with external proof
-links. Linked Lean declarations with reported admissions are also unverified.
-A changed readable formulation is labelled **Lean link needs reassessment**.
-A linked definition is not presented as a proved theorem. A proof URL indicates
-a supplied source; editorial review must assess its argument.
+The Lean statement appears directly below the readable formulation in a collapsed
+code section. Unlinked results, conjectures and definitions display **No linked
+Lean statement** there. Admissions and changes requiring reassessment are explained
+in the Lean section or editorial notice, without verification badges on cards.
+A proof URL indicates a supplied source; editorial review must assess its argument.
 
 The editor keeps its live preview visible while editing and viewing changes.
 Sign-in links carry the current Explorer path, query and fragment. The backend
@@ -195,7 +195,7 @@ The initial entries were copied from the Lean repository; its bibliography remai
 independent for Lean docstrings. Website builds use the frontend entries when that
 directory exists. They do not overwrite these entries from Lean.
 
-The References page provides a complete BibTeX download, per-entry downloads,
+The References page provides a complete BibTeX download, per-entry copy dialogs,
 formatted citations, and Add reference / Edit / History actions. BibTeX edits keep
 existing citation keys fixed and use the same private drafts, source diffs, review
 and checked publication workflow. New entries get stable IDs from their keys.

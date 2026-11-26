@@ -271,7 +271,7 @@ class Catalog:
         options = dict(token.split('=', 1) for token in shlex.split(evidence.get('options', '')))
         anchor = options.get('id') or ((evidence.get('block_kind', 'theorem') + '-' + slug(evidence.get('source_key') or evidence.get('result'))) if evidence.get('source_key') or evidence.get('result') else None)
         body = markdown(text)
-        card = self.explorer.overview_card(obj['title'], body, obj['id'], label, anchor, self.explorer.verification_badge(self.explorer.records['declarations'].get(evidence.get('declaration')),revised))
+        card = self.explorer.overview_card(obj['title'], body, obj['id'], label, anchor)
         return card + ('<p class="editor-status">Local revision · review needs reassessment</p>' if revised else '')
 
     def render_page(self, obj, lookup):

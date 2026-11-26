@@ -46,11 +46,9 @@
     wrapper.append(input); parent.append(wrapper); return input;
   }
   function proofRequired(object) {return object.statement_kind==='result' && (!object.evidence?.declaration || object.evidence.admission_reported);}
-  function verificationNotice(object, changed = false) {
-    changed=changed || object.evidence?.formalization_status==='needs_reassessment';
-    const linked=!!object.evidence?.declaration && !object.evidence.admission_reported;
-    const label=!linked?'Not Lean-verified':changed?'Lean link needs reassessment':object.statement_kind==='definition'?'Lean definition linked':'Lean proof linked';
-    return node('p',label,'verification-status verification-'+(!linked?'unverified':changed?'reassessment':'linked'));
+  function leanLinkNotice(object) {
+    const linked=!!object.evidence?.declaration;
+    return node('p',linked?'Linked Lean statement.':'No linked Lean statement.','editor-notice');
   }
   function typeset(parent) {
     const errors=[];
@@ -89,6 +87,24 @@
     document.body.append(dialog); dialog.showModal();
     return {dialog, content, status, clean: () => {dirty = false;}, dirty: () => {dirty = true; dialog.dispatchEvent(new Event('editorchange'));}};
   }
+  document.addEventListener('click',async event=>{
+    const link=event.target.closest('a.reference-bibtex');
+    if(!link || event.button!==0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey)return;
+    event.preventDefault();
+    const view=modal('BibTeX');
+    try {
+      const response=await fetch(link.href);
+      if(!response.ok)throw new Error('Could not load this reference. Please try again.');
+      const source=await response.text();
+      const text=field('BibTeX citation',source,view.content,true);text.readOnly=true;text.rows=12;
+      const actions=node('div',undefined,'editor-actions');view.content.append(actions);
+      button('Copy BibTeX',async()=>{
+        try{await navigator.clipboard.writeText(source);view.status.textContent='BibTeX copied.';}
+        catch{text.focus();text.select();view.status.textContent='Select and copy the BibTeX text above.';}
+      },actions);
+      text.focus();text.select();
+    }catch(error){view.status.textContent=error.message;}
+  });
   function download(value, name) {
     const url = URL.createObjectURL(new Blob([JSON.stringify(value, null, 2) + '\n'], {type: 'application/json'}));
     const link = node('a'); link.href = url; link.download = name; link.click();
@@ -198,7 +214,7 @@
       const request = ++previewRequest;
       const result = await api(fresh ? 'preview' : 'objects/' + id + '/preview', {fields: fields()});
       if (request !== previewRequest || mode !== currentMode) return;
-      preview.innerHTML = result.html;if(!isPage)preview.prepend(verificationNotice({...obj,...fields()},!fresh && fields().body_markdown!==undefined && fields().body_markdown!==state.object.body_markdown)); const errors=typeset(preview); diff.textContent = result.diff; previewStatus.textContent = [...(result.diagnostics||[]).map(issue=>'Line '+issue.line+': '+issue.message),...errors].join(' ');preview.append(previewStatus);if(view.status.textContent==='Working…')view.status.textContent='';
+      preview.innerHTML = result.html;if(!isPage)preview.append(leanLinkNotice(obj)); const errors=typeset(preview); diff.textContent = result.diff; previewStatus.textContent = [...(result.diagnostics||[]).map(issue=>'Line '+issue.line+': '+issue.message),...errors].join(' ');preview.append(previewStatus);if(view.status.textContent==='Working…')view.status.textContent='';
     };
     let previewTimer;
     form.addEventListener('input', () => {
@@ -313,7 +329,7 @@
     for (const item of data.objects) {
       const revision=await api('objects/'+item.id+'?revision='+item.revision);
       view.content.append(node('h3',item.title));
-      const rendered=node('div',undefined,'editor-preview');rendered.innerHTML=revision.html;typeset(rendered);if(revision.object.type==='statement')rendered.prepend(verificationNotice(revision.object,true));view.content.append(rendered);
+      const rendered=node('div',undefined,'editor-preview');rendered.innerHTML=revision.html;typeset(rendered);if(revision.object.type==='statement')rendered.append(leanLinkNotice(revision.object));view.content.append(rendered);
       const changes=node('details');changes.append(node('summary','Source changes'));
       const diff=node('pre',revision.diff || revision.document_markdown,'editor-diff');changes.append(diff);view.content.append(changes);
     }
@@ -497,11 +513,10 @@
   try {
     const bootstrap = await api('bootstrap'); session = bootstrap.session; currentPerson = bootstrap.person; reactionOptions = bootstrap.reaction_options;role=bootstrap.role;publishing=bootstrap.publishing;
     const main = document.querySelector('main'); if (!main) return; readOnlyLibrary = !!main.dataset.editorReadonly;
-    const header=document.querySelector('.site-header-row');
-    if(header)button('Add statement',()=>{
+    const addStatement=async()=>{
       if(hosted && !currentPerson){const view=modal('Sign in to add a statement');view.content.append(signInLink('Sign in with ORCID'));return;}
-      openEditor(crypto.randomUUID(),{fresh:true}).catch(error=>{const view=modal('Could not open editor');view.status.textContent=error.message;});
-    },header,'site-contribute');
+      return openEditor(crypto.randomUUID(),{fresh:true});
+    };
     const footer = document.querySelector('.site-footer-links') || document.querySelector('footer');
     if (footer) {
       if (currentPerson) {
@@ -547,11 +562,13 @@
       const follow=button('Follow',action(async()=>{const data=await api('objects/'+objectId+'/follow',{active:follow.dataset.following!=='true'});follow.dataset.following=String(data.following);follow.textContent=data.following?'Unfollow':'Follow';}),menu);
       api('objects/'+objectId+'/follow').then(data=>{follow.dataset.following=String(data.following);follow.textContent=data.following?'Unfollow':'Follow';});
       if(hosted)button('Report a problem',action(()=>reportContent(objectId)),menu);
+      button('Add statement', action(addStatement), menu);
       button('Copy page link', action(async () => {await navigator.clipboard.writeText(location.origin + location.pathname);}), menu);
       tools.append(summary, menu); heading.append(tools);
       document.addEventListener('click', event => {if (!tools.contains(event.target)) tools.open = false;});
       document.addEventListener('keydown', event => {if (event.key === 'Escape') tools.open = false;});
     }
+    if (!(objectId && heading) && footer) button('Add statement',()=>addStatement().catch(error=>{const view=modal('Could not open editor');view.status.textContent=error.message;}),footer,'editor-footer-link');
     const ids=[...new Set([...main.querySelectorAll('[data-statement-id]')].map(card=>card.dataset.statementId).concat(objectId?[objectId]:[]))];
     for(let offset=0;offset<ids.length;offset+=150){const group=ids.slice(offset,offset+150),batch=api('activity?ids='+group.join(','));for(const id of group)pageActivity.set(id,batch.then(data=>data.objects[id]));}
     for (const overview of main.querySelectorAll('[data-statement-id]')) {

@@ -60,17 +60,17 @@ class GeneratedEditingTests(unittest.TestCase):
         (directory/'unlinked.md').write_text('---\nkind: statement\nid: unlinked\nuid: '+uid+'\n---\n::: conjecture name="Standalone conjecture"\nA deliberately unproved statement.\n:::\n')
         explorer=Explorer(self.fixture.site,self.fixture.content);explorer.build()
         page=(self.fixture.site/'statements'/uid/'index.html').read_text()
-        self.assertIn('Not Lean-verified',page);self.assertNotIn('Lean proof linked',page)
+        self.assertIn('No linked Lean statement.',page);self.assertNotIn('Lean proof linked',page)
         entries=json.loads((self.fixture.api/'search-index.json').read_text())['entries']
         self.assertTrue(any(x['id']==uid and x['url']=='/explore/statements/'+uid+'/' for x in entries))
         explorer=Explorer(self.fixture.site,self.fixture.content);explorer.build()
         entries=json.loads((self.fixture.api/'search-index.json').read_text())['entries']
         self.assertEqual(sum(x['id']==uid for x in entries),1)
 
-    def test_changed_readable_wording_is_not_badged_as_a_verified_translation(self):
+    def test_lean_section_immediately_follows_readable_statement_without_badges(self):
         explorer=Explorer(self.fixture.site,self.fixture.content)
         declaration=explorer.records['declarations']['N.bound']
-        self.assertIn('Lean link needs reassessment',explorer.verification_badge(declaration,True))
-        self.assertIn('Lean proof linked',explorer.verification_badge(declaration,False))
-        declaration['admission_reported']=True
-        self.assertIn('Not Lean-verified',explorer.verification_badge(declaration,False))
+        markup=explorer.detail_layout('Bound','<p>Readable statement.</p>','Theorem','test',declaration)
+        self.assertIn('</section><details class="theorem-formal"',markup)
+        self.assertNotIn('verification-status',markup)
+        self.assertLess(markup.index('id="formalization"'),markup.index('theorem-reaction-slot'))

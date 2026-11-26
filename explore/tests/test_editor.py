@@ -98,7 +98,7 @@ class EditorTests(unittest.TestCase):
         response = self.store.propose(proposal)
         html = self.store.preview(self.store.get(self.pid)['object'])
         self.assertIn('An external result', html)
-        self.assertIn('No Lean proof is linked to this result.', self.store.preview(self.store.get(sid)['object']))
+        self.assertIn('No linked Lean statement.', self.store.preview(self.store.get(sid)['object']))
         self.assertNotIn('N.bound (', html)
         reopened = Store(Catalog(self.fixture.site, self.fixture.content), self.fixture.root / 'editor.sqlite3')
         self.addCleanup(reopened.db.close)
