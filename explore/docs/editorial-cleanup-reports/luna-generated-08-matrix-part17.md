@@ -11,3 +11,7 @@ The five assigned bindings were checked against authored statements before mater
 | `f038c3d4-1b55-56e9-a24f-6874c571cff1` / `gauss-radau-quadrature` | `7647ee8f0332b7fb4668bb512d0d533ada891feb6f4aa6b3c26006b9b216f19c`; `explore/content/statements/entry-f038c3d4-1b55-56e9-a24f-6874c571cff1.md` | proposed | Removed inline citations; reused `Gautschi2004` (Theorem 3.2) and `GolubMeurant2010` (Ch. 6). Kept locator uncertainty and the support-point condition. |
 
 No formulas, hypotheses, or claims were added. No definition links or role-registry suggestions were warranted. Syntax/parser checks cannot validate the quadrature mathematics or inherited citation support; no rendered preview was available.
+
+## Corrective review
+
+Coordinator review found that citation-transition edits had dropped two adjacent prose math details. Restored from the pinned templates: `integrates every real polynomial of degree at most $2k$ exactly.` and `its weights $\mu(\mathbb{R})$ times the squared first eigenvector components.` Formula islands, titles, UUIDs, kinds, and bindings match the pinned source; the content audit passed with no part-17 mathematical-fragment differences.
