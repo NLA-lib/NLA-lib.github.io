@@ -71,7 +71,7 @@ def export(site, content):
             generated.setdefault(oid[:2], {})[oid] = state
         index.append({'id': oid, 'title': obj['title'], 'type': obj['type'], 'editable': editable, 'url': url,
                       'statement_id': evidence.get('statement_id')})
-        paths={site / url.removeprefix('/explore/') / 'index.html'}
+        paths={site / 'index.html' if url=='/' else site / url.removeprefix('/explore/') / 'index.html'}
         if obj['type']=='statement':paths.add(site / 'statements' / oid / 'index.html')
         if evidence.get('declaration') and catalog.declarations.get(evidence['declaration'])==oid:
             paths.add(site / catalog.explorer.records['declarations'][evidence['declaration']]['url'].removeprefix('/explore/') / 'index.html')

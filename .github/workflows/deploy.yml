@@ -79,9 +79,10 @@ jobs:
           fi
           python3 build.py --data data/explore-data.json --bib data/references.bib --src data/src \
             --out ../_site/explore $renames $module_map
-      - name: Add the homepage
-        # everything at the top of the repository except the explorer's source, as before the move
+      - name: Add shared assets, About and Design pages
         run: rsync -a --exclude .git --exclude .github --exclude explore --exclude _site ./ _site/
+      - name: Make the Explorer the homepage
+        run: python3 explore/assemble_site.py --site _site
       - uses: actions/configure-pages@v5
       # one artifact name per attempt: a re-run would otherwise find two "github-pages" artifacts
       - id: upload

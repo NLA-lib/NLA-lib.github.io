@@ -102,6 +102,39 @@ class CollaborationTests(unittest.TestCase):
   self.assertEqual(self.call('objects/'+OID+'/reaction')['reactions'][0]['count'],2)
   self.call('objects/'+OID+'/reaction','POST',{'emoji':'👍','active':False})
   self.assertFalse(self.call('objects/'+OID+'/reaction')['reactions'][0]['reacted'])
+ def test_comment_reactions_are_idempotent_persistent_and_separate_from_entry(self):
+  from urllib.parse import quote
+  cid=self.call('objects/'+OID+'/feedback','POST',{'kind':'comment','body':'A comment','parent_id':None})['id']
+  path='objects/'+OID+'/comments/'+quote(cid,safe='')+'/reaction'
+  for _ in range(2):self.call(path,'POST',{'emoji':'👍','active':True})
+  self.call(path,'POST',{'emoji':'👍','active':True},person=EDITOR)
+  reactions=self.call('objects/'+OID+'/feedback')['items'][0]['reactions']
+  self.assertEqual(reactions,[{'emoji':'👍','label':'Helpful','count':2,'reacted':True}])
+  self.assertFalse(self.call(path,person=None)['reactions'][0]['reacted'])
+  self.assertEqual(self.call('objects/'+OID+'/reaction')['reactions'],[])
+  self.assertEqual(self.call('activity',query='ids='+OID)['objects'][OID]['count'],1)
+  self.call(path,'POST',{'emoji':'👍','active':False})
+  self.assertEqual(self.call(path)['reactions'][0]['count'],1)
+  self.assertFalse(self.call(path)['reactions'][0]['reacted'])
+ def test_comment_reactions_reject_unknown_hidden_unauthenticated_and_unsupported(self):
+  from urllib.parse import quote
+  cid=self.call('objects/'+OID+'/feedback','POST',{'kind':'comment','body':'A comment','parent_id':None})['id']
+  path='objects/'+OID+'/comments/'+quote(cid,safe='')+'/reaction'
+  with self.assertRaises(ApiError):self.call(path,'POST',{'emoji':'👍','active':True},person=None)
+  with self.assertRaises(ValueError):self.call(path,'POST',{'emoji':'invalid','active':True})
+  with self.assertRaises(ApiError):self.call('objects/'+OID+'/comments/missing/reaction','POST',{'emoji':'👍','active':True})
+  comment=self.db.get('ENTRY#'+OID,'COMMENT#'+cid);comment['hidden']=True
+  self.db.commit([('ENTRY#'+OID,'COMMENT#'+cid,comment,comment['_version'])])
+  with self.assertRaises(ApiError):self.call(path,'POST',{'emoji':'👍','active':True})
+  self.assertEqual(self.call('objects/'+OID+'/feedback')['items'][0]['reactions'],[])
+ def test_comment_reactions_obey_bot_scopes(self):
+  from urllib.parse import quote
+  cid=self.call('objects/'+OID+'/feedback','POST',{'kind':'comment','body':'A comment','parent_id':None})['id']
+  path='objects/'+OID+'/comments/'+quote(cid,safe='')+'/reaction'
+  bot=self.call('bots','POST',{'display_name':'Feedback bot','bio':'','scopes':['feedback']})
+  with self.assertRaises(ApiError):self.call(path,'POST',{'emoji':'👍','active':True},person=None,token='Bearer '+bot['token'])
+  bot=self.call('bots','POST',{'display_name':'Reaction bot','bio':'','scopes':['reactions']})
+  self.assertTrue(self.call(path,'POST',{'emoji':'👍','active':True},person=None,token='Bearer '+bot['token'])['reactions'][0]['reacted'])
  def test_notifications_and_scoped_owned_revocable_bots(self):
   self.call('objects/'+OID+'/follow','POST',{'active':True});self.call('objects/'+OID+'/feedback','POST',{'kind':'comment','body':'A question','parent_id':None},person=EDITOR)
   inbox=self.call('notifications');self.assertEqual(inbox['unread'],1);self.call('notifications/read','POST',{'id':inbox['items'][0]['id']});self.assertEqual(self.call('notifications')['unread'],0)

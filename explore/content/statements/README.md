@@ -65,3 +65,16 @@ updates the formal evidence while the editorial wording stays in Markdown.
 Changes to the readable statement flag mathematical review and its formalization
 link for reassessment. Discussion identity and accepted revision history survive
 the transition from extracted prose to the shared file.
+
+## Definition links in prose
+
+Use ordinary Markdown links to a definition's permanent statement page, for example:
+
+```markdown
+[Chebyshev polynomials](/explore/statements/e7470c95-5c37-5fa0-94b3-ee795973f79d/)
+```
+
+The site renders the link and provides a definition preview on hover or keyboard
+focus. The same syntax works in page exposition and individual statements. Keep
+the definition UUID stable; the display text can use the notation appropriate to
+the surrounding prose. No extra syntax or generated text replacement is needed.

@@ -15,7 +15,7 @@ result_ids:
 - chebyshev-growth
 ---
 
-Chebyshev polynomials provide an oscillating basis on an interval and explicit extremal polynomials. They appear both in polynomial approximations to matrix functions and in convergence bounds for Krylov solvers.
+[Chebyshev polynomials](/explore/statements/e7470c95-5c37-5fa0-94b3-ee795973f79d/) provide an oscillating basis on an interval and explicit extremal polynomials. They appear both in polynomial approximations to matrix functions and in convergence bounds for Krylov solvers.
 
 {{ statement:chebyshev-polynomials-e7470c95 }}
 

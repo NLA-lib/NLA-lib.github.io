@@ -5,7 +5,7 @@ import re
 import secrets
 import time
 import uuid
-from urllib.parse import parse_qs
+from urllib.parse import parse_qs, unquote
 from urllib.error import HTTPError
 
 from content import UUID, REACTIONS, Snapshot, digest, markdown, packed, preview, require_external_proof, render_object, fresh_reference
@@ -26,6 +26,7 @@ def public(person):
 class Collaboration:
     proof_policy = 'external-proof-required-for-results-without-lean'
     bibliography_editing = True
+    comment_reactions_enabled = True
     def __init__(self,auth,documents,snapshot=None,publisher=None,clock=time.time):
         self.auth,self.db=auth,documents
         self.snapshot=snapshot or Snapshot();self.publisher=publisher;self.clock=clock
@@ -229,6 +230,19 @@ class Collaboration:
             self.db.commit(writes)
         return proposal
 
+    def comment_reactions(self,oid,comments,actor):
+        pk='ENTRY#'+oid
+        keys=[(pk,'COMMENT-META#'+row['id']) for row in comments if not row.get('hidden')]
+        if actor:keys.extend((pk,'COMMENT-REACTIONS#'+row['id']+'#'+actor['id']) for row in comments if not row.get('hidden'))
+        records=self.db.many(keys) if keys else {}
+        for row in comments:
+            meta=records.get((pk,'COMMENT-META#'+row['id']),{})
+            selected=records.get((pk,'COMMENT-REACTIONS#'+row['id']+'#'+actor['id']),{}) if actor else {}
+            row['reactions']=[] if row.get('hidden') else [
+                {'emoji':emoji,'label':label,'count':meta.get('reactions',{}).get(emoji,0),'reacted':emoji in selected.get('emojis',[])}
+                for emoji,label in REACTIONS if meta.get('reactions',{}).get(emoji,0)]
+        return comments
+
     def handle(self,method,path,query,payload,session,authorization=''):
         person=session['person'] if session else None
         actor=person;bot=False
@@ -246,7 +260,7 @@ class Collaboration:
         if path=='bootstrap' and method=='GET':
             return {'session':session['record']['csrf'] if session else '', 'person':public(person) if person else None,
                 'role':person.get('role','contributor') if person else None,'reaction_options':[{'emoji':e,'label':l} for e,l in REACTIONS],
-                'hosted':True,'proof_policy':self.proof_policy,'features':['editing','review','discussions','reactions','drafts','bots','bibliography-editing'], 'publishing':bool(self.publisher)}
+                'hosted':True,'proof_policy':self.proof_policy,'features':['editing','review','discussions','reactions','drafts','bots','bibliography-editing','comment-reactions'], 'publishing':bool(self.publisher)}
         if method=='POST':
             self.require(person)
             if path.endswith('preview'):
@@ -304,6 +318,27 @@ class Collaboration:
             self.require(person,{'trusted_editor','admin'})
             refs,next_cursor=self.db.query('REVIEW','PROPOSAL#',cursor=cursor,reverse=True)
             return {'items':[self.proposal(x['id'],person) for x in refs],'next_cursor':next_cursor}
+        comment_match=re.fullmatch(r'objects/('+UUID+r')/comments/([^/]+)/reaction',path)
+        if comment_match:
+            oid,cid=comment_match.groups();cid=unquote(cid)
+            self.state(oid,None if bot else person)
+            if len(cid)>100 or '/' in cid:raise ValueError('Invalid comment identifier')
+            pk='ENTRY#'+oid;comment=self.db.get(pk,'COMMENT#'+cid)
+            if not comment or comment.get('hidden'):raise ApiError(404,'Comment not found.')
+            if method=='POST':
+                if set(payload)!={'emoji','active'} or payload['emoji'] not in dict(REACTIONS) or not isinstance(payload['active'],bool):raise ValueError('Choose a supported emoji and active boolean')
+                previous=self.db.get(pk,'COMMENT-REACTIONS#'+cid+'#'+actor['id'])
+                emojis=set((previous or {}).get('emojis',[]));emoji=payload['emoji']
+                if (emoji in emojis)!=payload['active']:
+                    meta=self.db.get(pk,'COMMENT-META#'+cid) or {'reactions':{}}
+                    meta['reactions'][emoji]=max(0,meta['reactions'].get(emoji,0)+(1 if payload['active'] else -1))
+                    if payload['active']:emojis.add(emoji)
+                    else:emojis.discard(emoji)
+                    self.db.commit([(pk,'COMMENT-REACTIONS#'+cid+'#'+actor['id'],{'emojis':sorted(emojis)},(previous or {}).get('_version')),
+                        (pk,'COMMENT-META#'+cid,meta,meta.get('_version')),
+                        (pk,'COMMENT#'+cid,comment,comment['_version'])])
+            elif method!='GET':raise ApiError(405,'Use GET or POST.')
+            return {'reactions':self.comment_reactions(oid,[comment],actor)[0]['reactions']}
         match=re.fullmatch(r'objects/('+UUID+r')(?:/(draft|preview|history|feedback|reaction|follow|report))?',path)
         if match:
             oid,action=match.groups()
@@ -320,6 +355,7 @@ class Collaboration:
                     meta=self.meta(oid)
                     if query.get('summary')==['1']:return {'count':meta['count']}
                     rows,next_cursor=self.db.query('ENTRY#'+oid,'COMMENT#',cursor=cursor)
+                    self.comment_reactions(oid,rows,actor)
                     return {'items':rows,'count':meta['count'],'next_cursor':next_cursor,'reactions':self.reactions(oid,actor,meta)}
                 if action=='reaction':return {'reactions':self.reactions(oid,actor)}
                 if action=='follow':return {'following':bool(person and self.db.get('PERSON#'+person['id'],'FOLLOW#'+oid))}

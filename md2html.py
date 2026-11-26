@@ -439,7 +439,7 @@ def main():
         output.write_text(PAGE.format(title=html.escape(text('tab-title'), quote=False) or title, lang=text('lang') or 'en',
                                       meta='\n'.join(meta),
                                       css=css,
-                                      body='%s\n%s%s' % (header, body, ('\n<footer class="site-footer"><a href="/">About NLA-lib</a> · <a href="/design/">Design</a> · <a href="https://github.com/NLA-lib/nlalib">Source</a></footer>' if menu else ''))),
+                                      body='%s\n%s%s' % (header, body, ('\n<footer class="site-footer"><a href="/about/">About NLA-lib</a> · <a href="/design/">Design</a> · <a href="https://github.com/NLA-lib/nlalib">Source</a></footer>' if menu else ''))),
                           encoding='utf-8')
         print('wrote %s' % output)
 

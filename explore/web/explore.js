@@ -2,6 +2,7 @@
 (async function () {
   const root = document.body.dataset.root || './';
   const api = root + 'api/v1/';
+  import(new URL(root+'definition-previews.js',location.href).href).catch(()=>{});
   const read = async name => {
     const version = name === 'search-index.json' ? document.body.dataset.searchVersion : document.body.dataset.snapshot;
     const response = await fetch(api + name + '?v=' + version);

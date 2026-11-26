@@ -39,4 +39,6 @@ math again before saving a revision. The structured API rejects unclosed math,
 unbalanced braces and violations of declared symbol roles. Drafts can remain
 unfinished. Full KaTeX validation is a publication CI gate, including for agent
 contributions; the Python API's structural check is not a complete TeX compiler.
-Generated Lean docstrings remain upstream content and require source fixes there.
+Formal Lean statements remain upstream content. Readable prose initially generated
+from Lean docstrings can acquire a shared frontend Markdown file through the editor,
+keeping its UUID and Lean binding; this does not modify the Lean source.

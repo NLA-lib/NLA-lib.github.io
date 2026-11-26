@@ -2,17 +2,22 @@
 
 The NLA-lib website, deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 
-- **Homepage** (`index.md`) and **Design page** (`design/index.md`, how NLA-lib defines things):
-  Markdown converted by `python3 md2html.py index.md design/index.md` (needs pandoc). Commit the
+- **About page** (`about/index.md`) and **Design page** (`design/index.md`, how NLA-lib defines things):
+  Markdown converted by `python3 md2html.py about/index.md design/index.md` (needs pandoc). Commit the
   `.md` and the `.html`. A page's menu is the `menu:` list in its front matter; a page with
   mathematics loads KaTeX. A citation `[@Key]` becomes a sidenote with the reference of that
   key in NLAlib's `docs/references.bib`, found in a checkout at `../nlalib` or given with `--bib`.
-- **Explorer** (`explore/`, served at nla-lib.org/explore/): the static viewer of the NLAlib
+- **Explorer homepage** (`explore/`, served at nla-lib.org/): the static viewer of the NLAlib
   library, built from NLAlib's extracted data at every deploy. See `explore/README.md`. It was
   the repository `NLA-lib/explore` until 2026-11-06; its history is kept here.
 - **Shared** by both halves, one copy each: `css/site.css` (fonts, links, the reading column, the
   title and the menu, so the header does not move between pages), `font/` and `vendor/katex/`.
   The explorer's build copies them into its output.
+
+After copying the root assets and built Explorer into `_site/explore`, run
+`python3 explore/assemble_site.py --site _site` to publish the Explorer homepage at
+`/` and a query/fragment-preserving redirect from `/explore/`. Existing nested
+Explorer page and API URLs stay accessible. The former homepage is at `/about/`.
 
 Every menu must list the same pages; `explore/tests/test_menu.py` checks it. Run the explorer's
 tests with `cd explore && python3 -m unittest discover -s tests`.
@@ -68,3 +73,7 @@ The shared website bibliography is maintained in
 [`explore/content/references/`](explore/content/references/README.md). The References
 page offers BibTeX downloads and reviewed entry editing. The Lean repository
 retains its separate bibliography for its own docstrings.
+
+The [Luna editorial cleanup playbook](explore/docs/luna-editorial-cleanup.md) defines
+bounded, reviewed batches for consistent natural-language statements, citations
+and definition links. Preparing the guide does not start a cleanup run.

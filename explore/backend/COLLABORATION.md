@@ -184,7 +184,7 @@ A proof URL indicates a supplied source; editorial review must assess its argume
 The editor keeps its live preview visible while editing and viewing changes.
 Sign-in links carry the current Explorer path, query and fragment. The backend
 binds that destination to the browser's single-use OAuth state and accepts only
-local Explorer destinations. For an existing deployment, the generated
+local Explorer destinations, including the canonical homepage `/`. For an existing deployment, the generated
 `update-nla-editor.py` helper updates the affected Lambda modules, preserves the
 original package and redeploys the existing stack without changing stored data.
 
@@ -209,3 +209,14 @@ after publication. The raw entries retain extra BibTeX fields; formatting separa
 authors, titles, publication information and identifiers. Peer-review attestations
 for mathematical or external proofs remain deferred. Supplied external proof URLs
 are labelled as sources, without an assertion that their contents were reviewed.
+
+## Comment reactions
+
+`GET` and `POST /editor-api/objects/{entry_id}/comments/{encoded_comment_id}/reaction`
+read and toggle reactions on one comment. Encode the complete comment ID as a URL
+path segment. A write supplies `{ "emoji": "👍", "active": true }`; reactions are
+idempotent per actor and use the same session, bot scope and rate-limit checks as
+entry reactions. Discussion responses include each comment's reaction counts and
+the requesting actor's selection. These records remain separate from entry reactions.
+Hidden comments cannot receive reactions. The frontend enables these controls only
+when bootstrap advertises `comment-reactions`. No new AWS resources are required.

@@ -31,7 +31,7 @@ def build(data, bib, out, *, content=None, src=None, core_src=None, renames_dir=
     if out.exists():
         shutil.rmtree(out)
     out.mkdir(parents=True)
-    for asset in ['explore.css', 'explore.js', 'explore-search.js', 'cg-pilot.css', 'cg-pilot.js', 'collaboration.js', 'collaboration-config.json']:
+    for asset in ['explore.css', 'explore.js', 'explore-search.js', 'definition-previews.js', 'cg-pilot.css', 'cg-pilot.js', 'collaboration.js', 'collaboration-config.json']:
         shutil.copyfile(ROOT / 'web' / asset, out / asset)
     for directory in ['font', 'vendor']:
         shutil.copytree(SHARED / directory, out / directory)

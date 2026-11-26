@@ -3,6 +3,7 @@ import html
 import json
 from pathlib import Path
 import re
+import uuid
 from urllib.parse import urlsplit
 
 from rendering import safe_link
@@ -47,7 +48,7 @@ def references_panel(citations, registry, *, disclosure=True):
         record = registry.get(key) or citation
         label = citation_parts(record)
         rows.append('<li id="reference-' + html.escape(key, quote=True) + '" data-reference-id="' + html.escape(key, quote=True) + '">' + label +
-                    ' <a class="reference-bibtex" href="/explore/references/'+html.escape(key,quote=True)+'.bib">BibTeX</a>'+
+                    ' <a class="reference-bibtex" data-reference-object="' + str(uuid.uuid5(uuid.NAMESPACE_URL, 'https://nla-lib.org/editor/reference:'+key)) + '" href="/explore/references/'+html.escape(key,quote=True)+'.bib">BibTeX</a>'+
                     (' <span class="reference-locator">' + html.escape(locator) + '</span>' if locator else '') + '</li>')
     body = '<ol>' + ''.join(rows) + '</ol>' if rows else '<p>No references have been attached to this statement yet.</p>'
     if not disclosure:

@@ -148,3 +148,6 @@ body .katex { font-size: 1.13em; }
         font-size: 16px;
     }
 }
+
+/* About and the wordmark use navigation styling rather than prose-link underlines. */
+.site-footer a[href="/about/"],.site-footer a[href="/about/"]:hover,h1>a[href="/"],h1>a[href="/"]:hover{text-decoration:none}

@@ -1,5 +1,5 @@
-"""Every menu on nla-lib.org lists the same pages in the same order: the homepage's and the design
-page's (the `menu:` front matter of ../index.md and ../design/index.md) and the explorer's
+"""Every menu on nla-lib.org lists the same pages in the same order: the About page's and the design
+page's (the `menu:` front matter of ../about/index.md and ../design/index.md) and the explorer's
 (web/template.html), so the halves of the site cannot drift apart."""
 import posixpath
 import re
@@ -32,10 +32,10 @@ def explorer_menu():
             for href, label in re.findall(r'<a href="([^"]+)"[^>]*>([^<]+)</a>', nav)]
 
 
-@unittest.skipUnless((SITE / 'index.md').exists(), 'the homepage is not checked out around the explorer')
+@unittest.skipUnless((SITE / 'about/index.md').exists(), 'the About page is not checked out around the explorer')
 class MenuTests(unittest.TestCase):
     def test_every_menu_lists_the_same_pages(self):
-        home = markdown_menu(SITE / 'index.md', '.')
+        home = markdown_menu(SITE / 'about/index.md', 'about')
         self.assertEqual(home, explorer_menu())
         self.assertEqual(home, markdown_menu(SITE / 'design' / 'index.md', 'design'))
 

@@ -55,6 +55,7 @@ def sign_in_return(value):
     except ValueError:
         return default
     if parsed.scheme or parsed.netloc or not parsed.path.startswith('/explore/'):
+        if not parsed.scheme and not parsed.netloc and parsed.path=='/':return value
         return default
     if not (posixpath.normpath(unquote(parsed.path))+'/').startswith('/explore/'):
         return default
@@ -97,7 +98,7 @@ class Application:
             **(headers or {})}, 'cookies': list(cookies), 'body': body}
 
     def page(self, title, content, status=200, cookies=()):
-        body = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(title)+' · NLA-lib</title><link rel="stylesheet" href="/assets/account.css"></head><body><main><a class="brand" href="'+self.frontend+'/explore/">NLA-lib</a>'+content+'</main></body></html>'
+        body = '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>'+html.escape(title)+' · NLA-lib</title><link rel="stylesheet" href="/assets/account.css"></head><body><main><a class="brand" href="'+self.frontend+'/">NLA-lib</a>'+content+'</main></body></html>'
         return self.response(status, body, cookies, content_type='text/html; charset=utf-8')
 
     def handle(self, event):
@@ -176,7 +177,7 @@ class Application:
                     # Do not echo malformed input or parser snippets containing user text.
                     raise HttpError(400, 'Invalid content or request fields. Check the source, entry IDs and required fields.') from None
             if method == 'GET' and path == '/health':
-                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles', 'signin-return'] + (['editing', 'discussions', 'reactions'] if self.collaboration else []) + (['external-proof-required'] if getattr(self.collaboration,'proof_policy',None) else []) + (['bibliography-editing'] if getattr(self.collaboration,'bibliography_editing',False) else [])})
+                return self.response(200, {'ok': True, 'service': 'nla-lib-auth', 'features': ['orcid-sign-in', 'profiles', 'signin-return'] + (['editing', 'discussions', 'reactions'] if self.collaboration else []) + (['external-proof-required'] if getattr(self.collaboration,'proof_policy',None) else []) + (['bibliography-editing'] if getattr(self.collaboration,'bibliography_editing',False) else []) + (['comment-reactions'] if getattr(self.collaboration,'comment_reactions_enabled',False) else [])})
             if method == 'GET' and path == '/auth/login':
                 self.store.login_limit(context.get('http', {}).get('sourceIp', 'unknown'), self.daily_limit)
                 state, browser = secrets.token_urlsafe(32), secrets.token_urlsafe(32)

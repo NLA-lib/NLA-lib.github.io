@@ -80,6 +80,11 @@ class AuthTests(unittest.TestCase):
         self.assertEqual(callback['headers']['Location'],'https://nla-lib.org'+target)
         self.assertEqual(self.request('/auth/callback',cookies=[browser],query=urlencode({'state':state,'code':'x'}))['statusCode'],400)
 
+    def test_signin_accepts_the_canonical_homepage_with_query_and_fragment(self):
+        from app import sign_in_return
+        self.assertEqual(sign_in_return('/?q=Chebyshev#results'),'/?q=Chebyshev#results')
+        self.assertEqual(sign_in_return('/'),'/')
+
     def test_signin_rejects_external_and_malformed_return_destinations(self):
         from app import sign_in_return
         for target in ['https://evil.test/explore/','//evil.test/explore/','/explore/../../evil','/explore/\\evil','/explore/%0d%0aLocation:evil','/account','/explore/%2e%2e/outside']:

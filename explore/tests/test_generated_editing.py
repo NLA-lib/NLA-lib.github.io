@@ -26,6 +26,14 @@ class GeneratedEditingTests(unittest.TestCase):
         self.oid=identity('result:bound')
         self.state=json.loads((self.fixture.api/'editor/generated'/(self.oid[:2]+'.json')).read_text())[self.oid]
 
+    def test_root_homepage_preserves_editor_identity_and_canonical_url(self):
+        uid='bc117344-f726-5771-8e84-b7ef33ef8972'
+        (self.fixture.content/'index.md').write_text('---\nkind: home\nid: home\nuid: '+uid+'\ntitle: Explore mathematics\n---\nA canonical homepage.\n')
+        Explorer(self.fixture.site,self.fixture.content).build();export(self.fixture.site,self.fixture.content)
+        state=json.loads((self.fixture.api/'editor/objects'/(uid+'.json')).read_text())
+        self.assertEqual(state['url'],'/')
+        self.assertIn('data-editor-page="'+uid+'"',(self.fixture.site/'index.html').read_text())
+
     def test_generated_edit_is_a_new_file_with_the_same_formal_link_and_uid(self):
         self.assertTrue(self.state['editable']);self.assertIsNone(self.state['source_sha'])
         self.assertNotIn('\n',self.state['object']['title'])
@@ -73,4 +81,4 @@ class GeneratedEditingTests(unittest.TestCase):
         markup=explorer.detail_layout('Bound','<p>Readable statement.</p>','Theorem','test',declaration)
         self.assertIn('</section><details class="theorem-formal"',markup)
         self.assertNotIn('verification-status',markup)
-        self.assertLess(markup.index('id="formalization"'),markup.index('theorem-reaction-slot'))
+        self.assertLess(markup.index('theorem-reaction-slot'),markup.index('id="formalization"'))

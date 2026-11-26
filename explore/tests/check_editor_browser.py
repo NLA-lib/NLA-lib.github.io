@@ -20,14 +20,14 @@ with tempfile.TemporaryDirectory() as tmp:
    expect(page.get_by_role('navigation',name='Primary')).to_have_count(1);expect(page.get_by_role('navigation',name='Primary').get_by_role('link')).to_have_count(4)
    expect(page.locator('.explorer-navigation')).to_have_count(0);expect(page.locator('.editor-workspace')).to_have_count(0)
    overview=page.locator('.statement-overview').first
-   expect(overview.get_by_role('button',name='Add reaction',exact=True)).to_have_count(0)
+   expect(overview.get_by_role('button',name='Add reaction',exact=True)).not_to_be_visible()
    count=overview.locator('[data-discussion-count]');expect(count).to_be_visible();assert count.bounding_box()['x']+count.bounding_box()['width']<=overview.locator('.statement-expand').bounding_box()['x'];
    span_box=overview.locator('.statement-expand span').bounding_box();summary_box=overview.locator('summary').bounding_box();assert abs(span_box['y']+span_box['height']/2-summary_box['y']-summary_box['height']/2)<2, 'Collapsed arrow must be vertically centered'
    before=overview.evaluate('e=>getComputedStyle(e).backgroundColor');overview.hover();assert overview.evaluate('e=>getComputedStyle(e).backgroundColor')!=before;overview.locator('summary a').hover();expect(overview.locator('summary a')).to_have_css('background-color','rgba(0, 0, 0, 0)');expect(overview.locator('.statement-expand')).to_have_css('border-top-width','0px');
    click(overview,'Expand statement');expect(overview.locator('.explorer-disclosure-body')).to_be_visible()
    expect(overview.locator('a[href$="#discussion"]')).to_have_count(0)
    toggle=overview.get_by_role('button',name='Collapse statement',exact=True);expect(toggle).to_have_text('↑');card_box=overview.bounding_box();hit_box=toggle.bounding_box();assert abs(hit_box['y']-card_box['y'])<2;assert abs(hit_box['height']-card_box['height'])<2;assert abs(hit_box['x']+hit_box['width']-card_box['x']-card_box['width'])<2;toggle.click(position={'x':hit_box['width']/2,'y':hit_box['height']-5});expect(overview.locator('.explorer-disclosure-body')).not_to_be_visible();click(overview,'Expand statement');page.screenshot(path=str(args.screenshots/'overview.png'),full_page=False)
-   overview.locator('.explorer-disclosure-body p').first.click();expect(page.locator('main[data-statement-detail]')).to_be_visible();detail_url=page.url;expect(page.locator('.theorem-reaction-slot + #discussion')).to_have_count(1)
+   overview.locator('.explorer-disclosure-body p').first.click();expect(page.locator('main[data-statement-detail]')).to_be_visible();detail_url=page.url;expect(page.locator('.theorem-formal + #discussion, .theorem-no-lean + #discussion')).to_have_count(1)
    expect(page.locator('.theorem-statement')).to_be_visible();expect(page.locator('main .theorem-statement.explorer-card')).to_have_count(1)
    expect(page.locator('.theorem-formal')).to_be_visible();expect(page.locator('.theorem-formal')).not_to_have_attribute('open','');expect(page.locator('.theorem-formal pre code')).not_to_be_visible();page.locator('.theorem-formal>summary').click();expect(page.locator('.theorem-formal pre code')).to_be_visible();expect(page.locator('.theorem-formal pre .lean-definition-link').first).to_be_visible();expect(page.locator('.statement-context').filter(has=page.get_by_role('heading',name='Related results',exact=True))).to_be_visible();expect(page.locator('.statement-context')).not_to_have_attribute('open','');expect(page.locator('.theorem-formal details.cg-evidence')).to_have_count(0)
    expect(page.locator('main a[href$="#discussion"]')).to_have_count(0)
@@ -48,8 +48,8 @@ with tempfile.TemporaryDirectory() as tmp:
    page.locator('.page-heading').scroll_into_view_if_needed();page.screenshot(path=str(args.screenshots/'theorem-detail.png'),full_page=False)
    page.reload(wait_until='domcontentloaded');expect(page.locator('#discussion .comment-message')).to_have_count(2)
    assert page.goto(route,wait_until='domcontentloaded').status==200
-   overview=page.locator('.statement-overview').first;expect(overview.locator('[data-discussion-count]')).to_have_attribute('aria-label','Discussion, 2 messages')
-   expect(overview.locator('.editor-reaction-readonly')).to_contain_text('1');expect(overview.locator('.editor-reactions button')).to_have_count(0)
+   overview=page.locator('.statement-overview').first;expect(overview.locator('.statement-activity-total')).to_have_attribute('aria-label','1 reactions, 2 comments')
+   expect(overview.locator('.editor-reaction-chip')).to_contain_text('1');expect(overview.get_by_role('button',name='Add reaction',exact=True)).not_to_be_visible()
    tools('Edit page');source=dialog().get_by_label('Page Markdown',exact=True);assert source.input_value().startswith('---\n');assert '{{ statement:cg-optimality }}' in source.input_value();source.fill(source.input_value()+'\n\nBrowser page exposition.\n');dialog().get_by_label('Explanation of this change',exact=True).fill('Improve the connecting exposition.');click(dialog(),'Save local revision');expect(dialog().locator('.editor-message')).to_contain_text('Revision saved locally')
    with page.expect_navigation(wait_until='domcontentloaded'):close()
    expect(page.locator('main')).to_contain_text('Browser page exposition');general=page.locator('#discussion');general.get_by_label('Message · Markdown and LaTeX',exact=True).fill('A page-level discussion.');click(general,'Comment');expect(general.locator('.comment-message')).to_have_count(1)

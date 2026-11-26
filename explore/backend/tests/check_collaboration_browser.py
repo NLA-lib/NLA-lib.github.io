@@ -78,12 +78,16 @@ with sync_playwright() as pw:
  click(dialog(),'Clarify notation for the transpose.');click(dialog(),'Approve');expect(dialog()).to_contain_text('approved');expect(dialog()).to_contain_text('GitHub App is connected')
  assert next(v for (pk,sk),v in documents.rows.items() if pk.startswith('PROPOSAL#'))['status']=='approved'
  page.goto(url,wait_until='domcontentloaded');card=page.locator('.statement-overview').first
- expect(card.locator('[data-discussion-count]')).to_be_visible();expect(card.get_by_role('button',name='Add reaction',exact=True)).to_have_count(0)
+ expect(card.locator('.statement-activity-total')).to_be_visible();expect(card.get_by_role('button',name='Add reaction',exact=True)).not_to_be_visible()
  card.locator('summary a').first.click();expect(page.locator('.theorem-statement')).to_be_visible()
  reactions=page.locator('.theorem-reaction-slot');click(reactions,'Add reaction');click(dialog(),'React with 👍 · Helpful');expect(reactions.get_by_role('button',name='👍 Helpful, 1 reaction',exact=True)).to_be_visible()
  discussion=page.locator('#discussion');expect(discussion.locator('.primer-discussion')).to_be_visible()
  discussion.get_by_label('Message · Markdown and LaTeX',exact=True).fill('Could we cite a source for $\\mathbf{A}$?');click(discussion,'Comment')
  expect(discussion.locator('.comment-message')).to_have_count(1);expect(discussion.locator('.katex-error')).to_have_count(0)
+ comment=discussion.locator('.comment-message').first;click(comment,'Add reaction');click(dialog(),'React with 💡 · Idea')
+ expect(comment.get_by_role('button',name='💡 Idea, 1 reaction',exact=True)).to_have_attribute('aria-pressed','true')
+ expect(reactions.get_by_role('button',name='💡 Idea, 1 reaction',exact=True)).to_have_count(0)
+ page.reload(wait_until='domcontentloaded');expect(discussion.locator('.comment-message').first.get_by_role('button',name='💡 Idea, 1 reaction',exact=True)).to_have_attribute('aria-pressed','true')
  page.screenshot(path='/tmp/nlalib-platform-theorem.png',full_page=False)
  # Generated Lean prose is editable while its formal statement remains fixed.
  records=Snapshot().index();editable={x['id'] for x in records if x.get('statement_id')}
@@ -131,9 +135,8 @@ with sync_playwright() as pw:
  context.grant_permissions(['clipboard-read','clipboard-write']);click(dialog(),'Copy BibTeX')
  expect(dialog().locator('.editor-message')).to_contain_text('BibTeX copied.')
  assert page.evaluate('navigator.clipboard.readText()')==citation.input_value()
- click(dialog(),'Close')
- page.screenshot(path='/tmp/nlalib-bibliography-formatted.png',full_page=False)
- click(row,'Edit');citation=dialog().get_by_label('BibTeX',exact=True)
+ expect(row.get_by_role('button',name='Edit',exact=True)).to_have_count(0)
+ click(dialog(),'Edit');citation=dialog().get_by_label('BibTeX',exact=True)
  citation.fill(citation.input_value().replace('Matrix Analysis','Matrix Analysis (browser edit)'))
  expect(dialog().get_by_label('Live preview',exact=True)).to_contain_text('browser edit')
  click(dialog(),'Save draft');expect(dialog().locator('.editor-message')).to_contain_text('Private draft saved')

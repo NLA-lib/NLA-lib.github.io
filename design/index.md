@@ -5,8 +5,6 @@ tab-title: NLA-lib · Design
 menu:
   - Algorithms: /explore/algorithms/
   - Theory: /explore/theory/
-  - References: /explore/references/
-  - Lean reference: /explore/library/
 ---
 
 NLA-lib aims to serve as a foundation for the formalization of new and existing numerical linear algebra results.

@@ -1,9 +1,11 @@
 'use strict';
 (async () => {
   const assetVersion = document.currentScript ? new URL(document.currentScript.src).searchParams.get('v') || '' : '';
-  const hosted = !['127.0.0.1', 'localhost'].includes(location.hostname);
+  const localPreview=['127.0.0.1','localhost'].includes(location.hostname) && document.currentScript?.dataset.localPreview==='true';
+  const hosted = localPreview || !['127.0.0.1', 'localhost'].includes(location.hostname);
+  let bibliographyEditing=false,commentReactions=false;
   let apiRoot = '/explore/editor-api/', role = null, publishing = false;
-  if (hosted) {
+  if (hosted && !localPreview) {
     try {
       const response = await fetch('/explore/collaboration-config.json', {cache:'no-cache'});
       const config = await response.json();
@@ -102,6 +104,10 @@
         try{await navigator.clipboard.writeText(source);view.status.textContent='BibTeX copied.';}
         catch{text.focus();text.select();view.status.textContent='Select and copy the BibTeX text above.';}
       },actions);
+      if(bibliographyEditing && link.dataset.referenceObject){
+        button('Edit',()=>{view.dialog.close();openReferenceEditor(link.dataset.referenceObject).catch(error=>{const problem=modal('Reference editor');problem.status.textContent=error.message;});},actions);
+        button('History',()=>{view.dialog.close();openHistory(link.dataset.referenceObject);},actions);
+      }
       text.focus();text.select();
     }catch(error){view.status.textContent=error.message;}
   });
@@ -365,10 +371,12 @@
     }
     view.content.append(node('p', hosted ? 'Published revisions remain in Git. Proposed revisions are visible to their contributor and editors. Restore an earlier version by submitting it as a new change.' : 'Revision links require this local database. Published Git history will be connected in the publication phase.', 'editor-notice'));
   }
-  function reactionBar(id, readOnly = false) {
+  function reactionBar(id, readOnly = false, commentId = null, initialReactions = null) {
     const bar = node('span', undefined, 'editor-reactions');
     bar.setAttribute('role', 'group'); bar.setAttribute('aria-label', 'Reactions');
-    let reactions = [];
+    let reactions = initialReactions || [];
+    const reactionPath='objects/'+id+(commentId?'/comments/'+encodeURIComponent(commentId):'')+'/reaction';
+    const reactionEvent=commentId?'editor-comment-reactions-changed':'editor-reactions-changed';
     const emojiImage = emoji => {
       const icon = node('img'); icon.alt = ''; icon.width = 20; icon.height = 20; icon.draggable = false;
       const code = [...emoji].filter(char => char.codePointAt(0) !== 0xfe0f).map(char => char.codePointAt(0).toString(16)).join('-');
@@ -377,8 +385,8 @@
     const report = message => {const status = node('span', message, 'editor-reaction-error'); status.setAttribute('role', 'status'); bar.append(status);};
     const toggle = async emoji => {
       const selected = reactions.some(reaction => reaction.emoji === emoji && reaction.reacted);
-      const result = await api('objects/' + id + '/reaction', {emoji, active: !selected});
-      document.dispatchEvent(new CustomEvent('editor-reactions-changed', {detail: {id, reactions: result.reactions}}));
+      const result = await api(reactionPath, {emoji, active: !selected});
+      document.dispatchEvent(new CustomEvent(reactionEvent, {detail: {id, commentId, reactions: result.reactions}}));
     };
     const draw = () => {
       bar.replaceChildren();
@@ -409,26 +417,31 @@
         }
       }, bar, 'editor-reaction-add');
       add.setAttribute('aria-label', 'Add reaction'); add.title = 'Add a reaction';
-      add.replaceChildren(emojiImage('🙂'), node('span', '+'));
+      add.replaceChildren(node('span', '+'));
     };
     const changed = event => {
-      if (!bar.isConnected) {document.removeEventListener('editor-reactions-changed', changed); return;}
-      if (event.detail.id === id) {reactions = event.detail.reactions; draw();}
+      if (!bar.isConnected) {document.removeEventListener(reactionEvent, changed); return;}
+      if (event.detail.id === id && (event.detail.commentId || null)===commentId) {reactions = event.detail.reactions; draw();}
     };
-    document.addEventListener('editor-reactions-changed', changed);
+    document.addEventListener(reactionEvent, changed);
+    bar.dispose=()=>document.removeEventListener(reactionEvent,changed);
     draw();
-    (pageActivity.get(id) || api('objects/' + id + '/reaction')).then(result => {reactions = result.reactions; draw();}).catch(error => report(error.message));
+    if(initialReactions===null)(!commentId && pageActivity.get(id) || api(reactionPath)).then(result => {reactions = result.reactions; draw();}).catch(error => report(error.message));
     return bar;
   }
   const discussionPanels = new Map();
-  function discussionIcon(count) {
-    const wrapper = node('span', undefined, 'discussion-icon-label');
+  function activityIcon(count, kind = 'chat') {
+    const wrapper = node('span', undefined, 'discussion-icon-label activity-counter');
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('width', '18'); svg.setAttribute('height', '18'); svg.setAttribute('aria-hidden', 'true');
-    const path = document.createElementNS(svg.namespaceURI, 'path'); path.setAttribute('d', 'M4 4h16v12H9l-5 4V4Z');
-    path.setAttribute('fill', 'none'); path.setAttribute('stroke', 'currentColor'); path.setAttribute('stroke-width', '1.6'); svg.append(path);
+    svg.setAttribute('viewBox', '0 0 24 24'); svg.setAttribute('width', '14'); svg.setAttribute('height', '14'); svg.setAttribute('aria-hidden', 'true');
+    const path = document.createElementNS(svg.namespaceURI, 'path');
+    path.setAttribute('d',kind==='heart'
+      ? 'M12 21.35 10.55 20.03C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.98 5.98 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54Z'
+      : 'M4 3h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7l-5 4V5a2 2 0 0 1 2-2Z');
+    path.setAttribute('fill','currentColor');svg.append(path);
     wrapper.append(svg, node('span', String(count))); return wrapper;
   }
+  function discussionIcon(count) {return activityIcon(count);}
   function updateDiscussionCount(control, id, count) {
     control.replaceChildren(discussionIcon(count));
     control.setAttribute('aria-label', 'Discussion, ' + count + (count === 1 ? ' message' : ' messages'));
@@ -440,13 +453,14 @@
     if (discussionPanels.has(id)) return discussionPanels.get(id);
     const host = node('section', undefined, 'editor-discussion'); host.id = 'discussion';
     host.dataset.discussionFor = id; discussionPanels.set(id, host);
-    const main=document.querySelector('main');const reactions=main.querySelector('.theorem-reaction-slot') || (main.dataset.editorStatement?main.querySelector('.page-reactions'):null);
-    if(reactions)reactions.after(host);else main.append(host);
+    const main=document.querySelector('main');
+    const anchor=main.querySelector('.theorem-formal') || main.querySelector('.theorem-no-lean') || main.querySelector('.theorem-statement');
+    if(anchor)anchor.after(host);else main.append(host);
     host.textContent = 'Loading discussion…';
     try {
       discussionModule ||= import('/explore/editor-assets/discussion.js?v='+assetVersion);
       const {mountDiscussion} = await discussionModule; host.textContent = '';
-      await mountDiscussion(host, {id, api, typeset, assetVersion, onReport: hosted ? commentId => reportContent(id,commentId) : null, onCount: count => document.dispatchEvent(new CustomEvent('editor-discussion-changed', {detail: {id, count}}))});
+      await mountDiscussion(host, {id, api, typeset, assetVersion, mountReactions:commentReactions?((container,item)=>{if(item.hidden)return;const bar=reactionBar(id,false,item.id,item.reactions||[]);container.append(bar);return()=>{bar.dispose();bar.remove();};}):null, onReport: hosted ? commentId => reportContent(id,commentId) : null, onCount: count => document.dispatchEvent(new CustomEvent('editor-discussion-changed', {detail: {id, count}}))});
     } catch (error) {const message=node('p','Discussion could not load. '+error.message);(host.shadowRoot||host).replaceChildren(message);}
     if (options.scroll || location.hash === '#discussion') host.scrollIntoView({block: 'start'});
     return host;
@@ -512,6 +526,8 @@
   }
   try {
     const bootstrap = await api('bootstrap'); session = bootstrap.session; currentPerson = bootstrap.person; reactionOptions = bootstrap.reaction_options;role=bootstrap.role;publishing=bootstrap.publishing;
+    bibliographyEditing=!!bootstrap.features?.includes('bibliography-editing');
+    commentReactions=!!bootstrap.features?.includes('comment-reactions');
     const main = document.querySelector('main'); if (!main) return; readOnlyLibrary = !!main.dataset.editorReadonly;
     const addStatement=async()=>{
       if(hosted && !currentPerson){const view=modal('Sign in to add a statement');view.content.append(signInLink('Sign in with ORCID'));return;}
@@ -523,15 +539,16 @@
         const me = profileLink(currentPerson); me.textContent='My profile'; footer.append(me);
         const notifications=button('Notifications', showNotifications, footer, 'editor-footer-link');
         api('notifications').then(data=>{notifications.textContent='Notifications'+(data.unread?' ('+data.unread+')':'');}).catch(()=>{});
-        if (hosted) {
+        if (hosted && !localPreview) {
           button('Sign out',async()=>{const response=await fetch('https://api.nla-lib.org/auth/logout',{method:'POST',credentials:'include',headers:{'Content-Type':'application/json','X-CSRF-Token':session},body:'{}'});if(response.ok)location.reload();},footer,'editor-footer-link');
           if(['moderator','admin'].includes(role))button('Moderation reports',moderation,footer,'editor-footer-link');
           button('My contributions', () => contributions(false), footer, 'editor-footer-link');
           if (['trusted_editor','admin'].includes(role)) button('Review contributions', () => contributions(true), footer, 'editor-footer-link');
-        } else button('Research feedback', queue, footer, 'editor-footer-link');
+        } else if(!hosted) button('Research feedback', queue, footer, 'editor-footer-link');
       } else if (hosted) {
         const signin=signInLink('Sign in with ORCID');footer.append(signin);
       }
+      if(localPreview)footer.parentElement.append(node('p','Local design preview · sample identity and local data · nothing is published','editor-preview-status'));
       if (!hosted) footer.parentElement.append(node('p', 'Local preview · changes are saved on this computer', 'editor-preview-status'));
     }
     if(hosted && main.dataset.community !== undefined) {
@@ -540,10 +557,6 @@
       else document.getElementById('profile-content').textContent='Sign in with ORCID to manage your profile, drafts, contributions and bots.';
     }
     if(hosted && bootstrap.features?.includes('bibliography-editing') && location.pathname.replace(/\/$/,'')==='/explore/references'){
-      const registry=await api('objects?type=reference&limit=100');let entries=[...registry.objects],cursor=registry.next_cursor;
-      while(cursor){const next=await api('objects?type=reference&limit=100&cursor='+encodeURIComponent(cursor));entries.push(...next.objects);cursor=next.next_cursor;}
-      const byKey=new Map(entries.map(item=>[item.reference_key,item.id]));
-      for(const row of main.querySelectorAll('[data-reference-id]')){const id=byKey.get(row.dataset.referenceId);if(!id)continue;const tools=node('span',undefined,'reference-actions');button('Edit',()=>openReferenceEditor(id).catch(error=>{const view=modal('Reference editor');view.status.textContent=error.message;}),tools,'editor-footer-link');button('History',()=>openHistory(id),tools,'editor-footer-link');row.append(tools);}
       const heading=main.querySelector('.page-heading');if(heading)button('Add reference',()=>openReferenceEditor(null),heading,'editor-footer-link');
     }
     if(main.dataset.profileId) await renderProfile(main.dataset.profileId);
@@ -572,13 +585,27 @@
     const ids=[...new Set([...main.querySelectorAll('[data-statement-id]')].map(card=>card.dataset.statementId).concat(objectId?[objectId]:[]))];
     for(let offset=0;offset<ids.length;offset+=150){const group=ids.slice(offset,offset+150),batch=api('activity?ids='+group.join(','));for(const id of group)pageActivity.set(id,batch.then(data=>data.objects[id]));}
     for (const overview of main.querySelectorAll('[data-statement-id]')) {
-      const meta = overview.querySelector('.statement-overview-meta');
-      if (meta) meta.prepend(reactionBar(overview.dataset.statementId, true));
+      const id=overview.dataset.statementId,meta=overview.querySelector('.statement-overview-meta');
+      meta?.replaceChildren();
+      const compact=node('span',undefined,'statement-activity-total');meta?.append(compact);
+      const expanded=node('div',undefined,'statement-expanded-activity');
+      expanded.append(reactionBar(id));
+      const comments=node('a');comments.href='/explore/statements/'+id+'/#discussion';expanded.append(comments);
+      overview.append(expanded);
+      let commentsCount=0,reactions=[];
+      const draw=()=>{
+        const reactionCount=reactions.reduce((sum,item)=>sum+item.count,0);
+        compact.replaceChildren(activityIcon(reactionCount,'heart'),activityIcon(commentsCount));
+        compact.setAttribute('aria-label',reactionCount+' reactions, '+commentsCount+' comments');
+        compact.title=reactionCount+' reactions · '+commentsCount+' comments';
+        updateDiscussionCount(comments,id,commentsCount);
+      };
+      (pageActivity.get(id) || api('objects/'+id+'/feedback?summary=1')).then(data=>{commentsCount=data.count||0;reactions=data.reactions||[];draw();}).catch(()=>{});
+      document.addEventListener('editor-reactions-changed',event=>{if(event.detail.id===id){reactions=event.detail.reactions;draw();}});
+      document.addEventListener('editor-discussion-changed',event=>{if(event.detail.id===id){commentsCount=event.detail.count;draw();}});
+      draw();
     }
     for (const slot of main.querySelectorAll('[data-reaction-object]')) slot.append(reactionBar(slot.dataset.reactionObject));
-    if (objectId && !main.querySelector('[data-reaction-object]') && heading) {
-      const reactions = node('div', undefined, 'page-reactions'); reactions.append(reactionBar(objectId)); heading.after(reactions);
-    }
     for (const count of main.querySelectorAll('[data-discussion-count]')) {
       const sid = count.dataset.discussionCount;
       (pageActivity.get(sid) || api('objects/' + sid + '/feedback?summary=1')).then(data => {updateDiscussionCount(count, sid, data.count); count.hidden = false;}).catch(() => {});

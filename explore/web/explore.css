@@ -1,5 +1,5 @@
 /* Shared-site typography plus the Markdown explorer's shell and search. */
-:root { --ink: #1d1d1d; --faint: #6b6b6b; --rule: #d6d6d6; --mono: 'DejaVu Sans Mono', Menlo, Consolas, monospace; }
+:root { --ink: #1d1d1d; --faint: #6b6b6b; --rule: #d6d6d6; --corner-radius: 5px; --mono: 'DejaVu Sans Mono', Menlo, Consolas, monospace; }
 html { font-size: 17px; }
 body { hyphens: manual; }
 h2 { padding-top: 1em; font-size: 24px; font-style: italic; }
@@ -9,7 +9,7 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .explore-pages main { margin-top: 1.5rem; }
 .explore-pages :is(h1, h2, h3, code) { overflow-wrap: anywhere; }
 .explore-pages p { max-width: 78ch; }
-.explore-pages input, .explore-pages select, .explore-pages button { font: inherit; padding: .4rem .6rem; border: 1px solid var(--rule); border-radius: 0; background: white; color: var(--ink); }
+.explore-pages input, .explore-pages select, .explore-pages button { font: inherit; padding: .4rem .6rem; border: 1px solid var(--rule); border-radius: var(--corner-radius); background: white; color: var(--ink); }
 .explore-pages button { cursor: pointer; }
 .explore-pages input { min-width: 0; max-width: 100%; box-sizing: border-box; }
 .search-line { display: flex; gap: .5rem; margin-top: .35rem; }
@@ -17,7 +17,7 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .explore-pages label { display: block; }
 .entry-list li, .quick-search li, #search-results li { overflow-wrap: anywhere; }
 .entry-list, .quick-search ul, #search-results { list-style: none; padding-left: 0; }
-.explore-pages pre { white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #f6f6f4; border-left: 2px solid var(--rule); font-size: .8rem; line-height: 1.5; }
+.explore-pages pre { border-radius:var(--corner-radius); white-space: pre-wrap; overflow-wrap: anywhere; padding: 1rem; background: #f6f6f4; border-left: 2px solid var(--rule); font-size: .8rem; line-height: 1.5; }
 .explore-pages pre.definition { max-height: 30rem; overflow: auto; }
 .muted, .eyebrow, .record-link, .explore-pages footer { color: var(--faint); font-size: .85rem; }
 #library-search { display: flex; flex-wrap: wrap; gap: .7rem; align-items: end; }
@@ -62,15 +62,14 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .theorem-statement > :last-child {margin-bottom:0;}
 .theorem-reaction-slot {margin:1.2rem 0 2.3rem;}
 .theorem-formal,.statement-references,.proof-sources {margin-top:2.4rem;}
-.theorem-formal h2,.statement-references h2,.proof-sources h2 {font-size:1.2rem; font-style:normal; padding:0; margin-bottom:1rem;}
-.theorem-formal pre {background:transparent; border:0; padding:0; font-size:.82rem; color:#3c4149;}
+.theorem-formal h2,.statement-references h2,.proof-sources h2 {font-size:1.2rem; font-style:normal; font-weight:600; line-height:1.3; padding:0; margin-bottom:1rem;}
 .reference-directory {font-size:.85rem; color:var(--faint);}
-.statement-overview .explorer-result-details > summary a {text-decoration:underline; text-underline-offset:3px;}
+.statement-overview .explorer-result-details > summary a{text-decoration:none}
+.statement-overview .explorer-result-details > summary a:hover{text-decoration:none}
 .statement-overview-meta {display:flex; align-items:center; justify-content:flex-start; gap:.85rem; margin-top:.75rem; color:var(--faint); font-size:.85rem;}
 .site-footer-links {display:flex; flex-wrap:wrap; gap:1rem; align-items:center;}
-.build-information {font-size:.8rem; color:var(--faint); max-width:22rem;}
-.build-information > summary {justify-content:flex-start;}
-.build-information > summary::after {margin-left:.4rem;}
+.build-information {font-size:.8rem;color:var(--faint);margin-top:.7rem}
+.build-information p{margin:0}
 @media(max-width:650px){.site-header-row{align-items:flex-start;flex-direction:column;gap:.8rem}.site-header .menu{gap:.7rem 1rem;font-size:.88rem}.site-header{padding-top:.5rem;margin-bottom:1.7rem}.explore-pages h1.page-title{font-size:1.6rem}.explore-pages .page-heading{margin-top:1.5rem}.theorem-statement{font-size:1rem}}
 
 /* The disclosure button is the only expansion target; the card opens its result. */
@@ -87,11 +86,11 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .statement-overview a:hover{background:transparent;color:inherit}
 .theorem-statement.explorer-card{font-size:1.05rem;padding:1.1rem 1.25rem}
 .theorem-statement .theorem-kind{font-size:1em;font-weight:600;color:inherit;margin:0 0 .6rem}
-.theorem-formal pre{padding:1rem;background:#f6f6f6;border:1px solid #e0e0e0;overflow:auto;border-radius:3px;line-height:1.65}
+.theorem-formal pre{padding:1.1rem 1.25rem;background:#f4f4f4;border:0;border-left:5px solid #71869b;overflow:auto;border-radius:var(--corner-radius);font-size:.82rem;color:#3c4149;line-height:1.65}
 
 .statement-context{overflow-wrap:anywhere}.theorem-formal pre{box-sizing:border-box;max-width:100%}
 
-.theorem-formal>summary h2,.statement-context>summary h2{margin:0;padding:0;font-size:1.15rem;font-style:normal}
+.theorem-formal>summary h2,.statement-context>summary h2{margin:0;padding:0;font-size:1.2rem;font-style:normal;font-weight:600;line-height:1.3}
 .theorem-formal-body,.statement-context-body{padding-top:1rem}
 .lean-definition-link{color:inherit;text-decoration:underline;text-decoration-color:#aaa;text-underline-offset:3px}
 .lean-definition-link:hover{color:#111;text-decoration-color:#111}
@@ -109,3 +108,21 @@ code, pre { font-family: var(--mono); font-size: 82%; }
 .explore-pages .statement-overview details:not([open]) .statement-expand{align-items:center;padding:0}
 
 .reference-authors,.reference-publisher,.reference-year,.reference-publication{font-style:normal}.reference-title{font-weight:400}cite.reference-title,.reference-journal{font-style:italic}span.reference-title{font-style:normal}.reference-volume{font-weight:600}.reference-identifiers,.reference-bibtex,.reference-actions{font-size:.85rem}.reference-identifiers{overflow-wrap:anywhere}.reference-bibtex{margin-left:.5rem}.reference-actions{display:inline-flex;gap:.7rem;margin-left:.7rem}.reference-actions button,.page-heading>.editor-footer-link{border:0;background:none;padding:0;font:inherit;color:inherit;text-decoration:underline;cursor:pointer}.statement-references li{margin-bottom:1.2rem;line-height:1.6}.reference-locator{white-space:normal}
+
+.explore-pages .explorer-card{border-radius:var(--corner-radius);border-left-width:5px}
+
+.explore-pages a:hover{background:transparent;color:inherit;text-decoration:underline}
+.explore-pages .search-line button:hover,.explore-pages .search-line button:focus-visible,.explore-pages .page-tools>summary:hover,.explore-pages .page-tools>summary:focus-visible{background:#e9e9e9}
+.explore-pages .search-line input:hover{border-color:#a6a6a6}
+
+.explore-pages .explorer-link-card:hover,.explore-pages .explorer-link-card:focus-visible{background:#e9e9e9;text-decoration:none}
+.explore-pages .statement-overview .explorer-statement-label a:hover,.explore-pages .explorer-link-card:hover :is(a,.explorer-card-title){text-decoration:none}
+.definition-preview{position:fixed;z-index:100;width:min(29rem,calc(100vw - 24px));max-height:min(28rem,70vh);overflow:auto;box-sizing:border-box;padding:1rem 1.1rem;background:#fff;border:1px solid var(--rule);border-radius:var(--corner-radius);box-shadow:0 5px 22px #0002;font-size:.9rem;line-height:1.55}
+.definition-preview-heading{display:flex;justify-content:space-between;align-items:start;gap:1rem;margin-bottom:.65rem}
+.definition-preview-heading h3{font-size:1rem;font-style:normal;font-weight:600;margin:0;overflow-wrap:anywhere}
+.explore-pages .definition-preview-close{border:0;background:none;padding:0 .2rem;font-size:1.1rem;line-height:1;cursor:pointer}
+.definition-preview-close:hover{background:#e9e9e9}
+.definition-preview-content>:first-child{margin-top:0}.definition-preview-content>:last-child{margin-bottom:0}
+.definition-preview-content pre{padding:.65rem .8rem;background:#f4f4f4;border:0;border-left:5px solid #71869b;border-radius:var(--corner-radius);white-space:pre-wrap;overflow-wrap:anywhere}
+.definition-preview-content .math.display{display:block;overflow:auto}
+.definition-preview-footer{margin:.8rem 0 0;font-size:.85rem}.definition-preview a:hover{background:transparent;text-decoration:underline}

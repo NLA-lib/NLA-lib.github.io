@@ -37,7 +37,7 @@ RELATIONS = {'tasks': 'task', 'theory': 'theory', 'prerequisites': 'theory',
 MARKER = re.compile(r'^\{\{\s*generated:([a-z-]+)\s*\}\}\s*$', re.M)
 MODEL_BLOCK = re.compile(r'^::: model ([a-z0-9][a-z0-9-]*)[ \t]*\n(.*?)^::: end-model[ \t]*$', re.M | re.S)
 MD = MarkdownIt('commonmark', {'html': False}).enable('table')
-NAVIGATION = [('algorithms', 'Algorithms'), ('theory', 'Theory'), ('references', 'References'), ('library', 'Lean reference')]
+NAVIGATION = [('algorithms', 'Algorithms'), ('theory', 'Theory')]
 
 
 def navigation(active=''):
@@ -134,7 +134,7 @@ class Page:
 
     @property
     def url(self):
-        return BASE + (self.path + '/' if self.path else '')
+        return BASE + self.path + '/' if self.path else '/'
 
 
 def load_pages(directory, overrides=None):
@@ -554,9 +554,9 @@ class Explorer:
 
     def detail_layout(self, title, body, kind, uid, declaration=None, citations=(), proofs=(), notice=''):
         content = '<section class="theorem-statement explorer-card" data-editor-object="' + uid + '"><p class="theorem-kind">' + html.escape(kind) + '.</p>'
-        content += body + '</section>'
+        content += body + '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div></section>'
         if declaration:
-            content += '<details class="theorem-formal" id="formalization"><summary><h2>Lean statement</h2></summary><div class="theorem-formal-body"><p class="source-label">Linked names open their definitions.</p>'
+            content += '<details class="theorem-formal" id="formalization"><summary><h2>Lean statement</h2></summary><div class="theorem-formal-body">'
             if declaration.get('admission_reported'):
                 content += '<p class="content-status">The extraction reports an admission for this statement.</p>'
             content += self.badges(declaration, headline=False) + self.evidence(declaration)
@@ -568,7 +568,6 @@ class Explorer:
             content += '<p class="source-label theorem-no-lean">No linked Lean statement.</p>'
         if notice:
             content += '<p class="editor-status">' + html.escape(notice) + '</p>'
-        content += '<div class="theorem-reaction-slot" data-reaction-object="' + uid + '"></div>'
         if citations:
             content += references_panel(citations, self.references, disclosure=False)
         if proofs:
@@ -1053,7 +1052,7 @@ class Explorer:
         for item in load_statements(self.content).values():
             self.statement(STATEMENT.fullmatch(item.block))
         rendered = {p.key: self.render_body(p) for p in self.pages.values()}
-        for asset in ['cg-pilot.css', 'cg-pilot.js', 'explore.css', 'explore.js', 'explore-search.js']:
+        for asset in ['cg-pilot.css', 'cg-pilot.js', 'explore.css', 'explore.js', 'explore-search.js', 'definition-previews.js']:
             shutil.copyfile(Path(__file__).parent / 'web' / asset, self.site / asset)
             digest = hashlib.sha256((self.site / asset).read_bytes()).hexdigest()[:12]
             self.template = re.sub(r'((?:href|src)="(?:/explore/)?' + re.escape(asset) + r')(?:\?[^\"]*)?"',

@@ -47,7 +47,7 @@ def apply(root,deploy=True):
     print('Editor and sign-in code updated. The original package was preserved.',flush=True)
     if deploy:
         subprocess.run(['bash',str(root/'deploy.sh')],check=True)
-        print('Deployment complete. Reload the Explorer; proof requirements and sign-in navigation are active.',flush=True)
+        print('Deployment complete. Reload NLA-lib; the updated editor, bibliography, comment reactions and sign-in navigation are active.',flush=True)
 
 if __name__=='__main__':
     apply(Path.home()/'nla-lib-collaboration-setup')

@@ -1,0 +1,31 @@
+---
+title: About NLA-lib
+description: NLA-lib: a lean 4 library for numerical linear algebra
+keywords: NLA-lib,  lean, lean4, formal verification
+menu:
+  - Algorithms: /explore/algorithms/
+  - Theory: /explore/theory/
+---
+
+We are building NLA-lib, an open source Lean 4 library covering numerical linear algebra.
+The aim of this library is to serve as a foundation for the formalization of new and existing numerical linear algebra results, including research performed autonomously by agents.
+
+The project is hosted on [Github](https://github.com/NLA-lib/nlalib).
+You can view the results through our [online explorer](/).
+This is a work in progress.
+
+## Highlights
+
+Here are some highlights of the project so far:
+
+- **Coverage.** We have formalized a lot of [theorems](/explore/theory/) in matrix analysis, polynomial approximation, random matrices and concentration, Krylov methods, sketching, least squares, low-rank approximation, trace estimation, and lower bounds.
+- **Low-rank approximation.** We proved that [truncated generalized Nyström](/explore/algorithms/late-truncated-generalized-nystrom/) is an [optimal](/explore/tasks/low-rank-approximation/#theorem-one-pass-low-rank-lower-bound) single-pass method for Frobenius low-rank approximation.
+- **Finite-precision Krylov methods.** We proved several new results about the [standard implementation of conjugate gradient in finite precision](/explore/algorithms/conjugate-gradient/implementations/ordinary/?model=relative) (most past results were about Lanczos).
+- **Eigensolvers.** We formalized bounds for Shah's randomized [spectral bisection algorithm](/explore/algorithms/spectral-bisection/implementations/shah/#precision) for Hermitian diagonalization.
+
+
+## Contributing
+
+If you are interested in getting involved, please send an email to: [tyler.chen@nyu.edu](mailto:tyler.chen@nyu.edu) or open an issue or pull request on Github.
+
+
